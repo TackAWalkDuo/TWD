@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>산책해듀오 - 로그인</title>
+    <th:block th:replace="~{fragments/head :: common}"></th:block>
+    <link rel="stylesheet" th:href="@{/member/resources/stylesheets/login.css}">
+    <script defer th:src="@{/member/resources/scripts/login.js}"></script>
+</head>
+<body>
+<div class="xButton" id="xButton">
+        <span class="xButton">
+            <i class="icon fa-solid fa-x"></i>
+        </span>
+</div>
+
+<main class="--main main">
+    <form name="form" id="loginForm">
+        <div class="title">
+            <h1 class="title">로그인하기</h1>
+        </div>
+        <span class="register" id="registerButton" name="register"
+              type="submit" value="회원가입">이 사이트가 처음이신가요?&nbsp
+            <a th:href="@{/member/register}">회원가입</a> </span>
+        <table class="table">
+            <tbody>
+            <!--이메일 입력창-->
+            <tr>
+                <th rowspan="1" id="email"></th>
+                <td>
+                    <label class="label email">
+                        <span>이메일</span>
+                        <input autofocus class="--object-input input" maxlength="50" name="email"
+                               type="email">
+                    </label>
+                </td>
+            </tr>
+            <!-- 비밀번호 입력창-->
+            <tr>
+                <th rowspan="1" id="password"></th>
+                <td>
+                    <label class="label password">
+                        <span>비밀번호</span>
+                        <input autofocus class="--object-input input" maxlength="50" name="password"
+                               type="password">
+                    </label>
+                </td>
+            </tr>
+            <!--경고창 - 이메일 or 비밀번호를 입력해주세요-->
+            <tr class="warning-row" rel="warningRow">
+                <th></th>
+                <td>
+                    <span class="warning">
+                     <i class="icon fa-solid fa-circle-exclamation"></i>
+                        <span class="warningText" name="warningText">이메일을 입력해 주세요.</span>
+                    </span>
+                </td>
+            </tr>
+            <!-- 로봇 인식 -->
+            <tr>
+                <th id="robot"></th>
+                <td>
+                    <label>
+                        <form class="code" action="" method="post" accept-charset="UTF-8" role="form">
+                            <div class="alert alert-danger" role="alert">
+                            </div>
+                            <fieldset>
+                                <div class="form-group">
+                                </div>
+                                <div class="form-group">
+                                </div>
+                                <div class="form-group">
+                                    <script src='https://www.google.com/recaptcha/api.js'></script>
+                                    <div class="g-recaptcha"
+                                         data-sitekey="공개 사이트 키값"></div>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                    </label>
+                                </div>
+                                <input type="hidden" name="next" value="{{ next }}"/>
+                            </fieldset>
+                        </form>
+                    </label>
+                </td>
+            </tr>
+            <!--로그인 버튼-->
+            <tr>
+                <th id="login"></th>
+                <td>
+                    <label class="login">
+                        <input class="login-button" id="login-button" name="loginButton"
+                               type="submit" value="로그인" href="#">
+                    </label>
+                </td>
+            </tr>
+
+            <!-- 아직 계정이 없으신가요?-->
+            <tr>
+                <th id="register"></th>
+                <td>
+                    <label class="register">
+                        <span class="EmlPswd" id="EmlPswd" name="forgetEmlPswd">
+                            <span class="forgetEml" id="forgetEml" name="forgetEml"
+                                  type="submit" value="이메일 찾기"><a th:href="@{/member/recoverEmail}">이메일 찾기</a></span>
+                        <span class="forgetPswd" id="forgetPswd" name="forgetPswd"
+                              type="submit" value="비밀번호 재설정하기"><a
+                                th:href="@{/member/recoverPassword}">비밀번호 찾기</a> </span>
+                        </span>
+                    </label>
+                    <!-- 카카오 로그인 -->
+            <tr>
+                <th id="kakao"></th>
+                <td>
+                    <div class="kakao">
+                        <i class="icon fa-brands fa-kickstarter"></i>
+                        <input class="kakao-button" id="kakao-button" name="kakaoButton"
+                               type="submit" value="카카오로 로그인하기" href="#">
+                        <div></div>
+                    </div>
+                </td>
+            </tr>
+            <!-- 네이버 로그인 -->
+            <tr>
+                <th id="naver"></th>
+                <td>
+                    <div class="naver">
+                        <i class="icon fa-solid fa-n"></i>
+                        <input class="naver-button" id="naver-button" name="kakaoButton"
+                               type="submit" value="네이버로 로그인하기" href="#">
+                        <div></div>
+                    </div>
+                </td>
+            </tr>
+
+            </label>
+            </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</main>
+</body>
+</html>

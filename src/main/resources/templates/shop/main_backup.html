@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Take a walk duo</title>
+    <th:block th:replace="~{fragments/head}"></th:block>
+    <link rel="stylesheet" th:href="@{/shop/resources/stylesheets/main_backup.css}">
+</head>
+<body>
+<th:block th:replace="~{fragments/body :: header}"></th:block>
+<main class="--main main">
+    <div class="img"></div>
+    <div>
+        <ul class="title-select">
+            <li><a>사료</a></li>
+            <li><a>간식</a></li>
+            <li><a>옷</a></li>
+            <li><a>장난감</a></li>
+            <li><a>기타 용품</a></li>
+        </ul>
+    </div>
+    <section class="box collection">
+        <h2 class="title">머릿글</h2>
+        <ul class="item-container">
+            <li class="item">
+                <a class="link" href="#">
+                    <img alt="제품1" class="image" src="/resources/images/item1.jpg">
+                    <span class="text">제품1</span>
+                    <span class="charge-price">56,000원</span>
+                </a>
+            </li>
+            <li class="item">
+                <a class="link" href="#">
+                    <img alt="제품2" class="image" src="/resources/images/item2.jpg">
+                    <span class="text">제품2</span>
+                    <span class="charge-price">78,500원</span>
+                </a>
+            </li>
+            <li class="item">
+                <a class="link" href="#">
+                    <img alt="제품3" class="image" src="/resources/images/item3.jpg">
+                    <span class="text">제품3</span>
+                    <span class="charge-price">131,000원</span>
+                </a>
+            </li>
+            <li class="item">
+                <a class="link" href="#">
+                    <img alt="제품4" class="image" src="/resources/images/item4.jpg">
+                    <span class="text">제품4</span>
+                    <span class="charge-price">78,000원</span>
+                </a>
+            </li>
+            <li class="item">
+                <a class="link" href="#">
+                    <img alt="제품1" class="image" src="/resources/images/item1.jpg">
+                    <span class="text">제품1</span>
+                    <span class="charge-price">56,000원</span>
+                </a>
+            </li>
+            <li class="item">
+                <a class="link" href="#">
+                    <img alt="제품2" class="image" src="/resources/images/item2.jpg">
+                    <span class="text">제품2</span>
+                    <span class="charge-price">78,500원</span>
+                </a>
+            </li>
+            <li class="item">
+                <a class="link" href="#">
+                    <img alt="제품3" class="image" src="/resources/images/item3.jpg">
+                    <span class="text">제품3</span>
+                    <span class="charge-price">131,000원</span>
+                </a>
+            </li>
+            <li class="item">
+                <a class="link" href="#">
+                    <img alt="제품4" class="image" src="/resources/images/item4.jpg">
+                    <span class="text">제품4</span>
+                    <span class="charge-price">78,000원</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+    <section class="box scarf">
+        <h2 class="title">머릿글</h2>
+        <ul class="item-container emple">
+            <li class="item big">
+                <a class="link">
+                    <img alt="" class="image" src="/resources/images/item5.jpg">
+                    <span class="text"></span>
+                </a>
+            </li>
+            <div class="item-description">
+                <div class="description-header">더 편안하고, 더 따뜻한 겨울을 보내기 위한 필수템!</div>
+                <span class="description-body">나날이 발전하는 반려견 아우터- 사이즈도 다양하고 스타일도 다양하게!</span>
+
+                <div class="side-image">
+                    <img alt="제품1" class="image side" src="/resources/images/item2.jpg">
+                    <div class="side-description">
+                        <div class="side header">Dog coat Alaska Olive</div>
+                        <div class="side text">클라우드7 Cloud7</div>
+                        <div class="side charge-price">37,500원</div>
+                    </div>
+                </div>
+                <div class="side-image">
+                    <img alt="제품1" class="image side" src="/resources/images/item3.jpg">
+                    <div class="side-description">
+                        <div class="side header">뮤니쿤트 Better Together Padding - Khaki</div>
+                        <div class="side text">뮤니쿤트 munikund</div>
+                        <div class="side charge-price">97,00원</div>
+                    </div>
+                </div>
+            </div>
+        </ul>
+    </section>
+
+<!--    <li class="item">-->
+<!--        <a class="link" href="#">-->
+<!--            <img alt="제품1" class="image" src="/resources/image/item1.jpg">-->
+<!--            <span class="text">제품1</span>-->
+<!--            <span class="price">25,000원</span>-->
+<!--        </a>-->
+<!--    </li>-->
+<!--    <li class="item">-->
+<!--        <a class="link" href="#">-->
+<!--            <img alt="제품2" class="image" src="/resources/image/item2.jpg">-->
+<!--            <span class="text">제품2</span>-->
+<!--            <span class="price">37,500원</span>-->
+<!--        </a>-->
+<!--    </li>-->
+
+
+
+
+    <!--            <li class="item">-->
+    <!--                <a class="link" href="#">-->
+    <!--                    <img alt="제품3" class="image" src="/resources/image/item3.jpg">-->
+    <!--                    <span class="text">제품3</span>-->
+    <!--                    <span class="price">53,000</span>-->
+    <!--                </a>-->
+    <!--            </li>-->
+    <!--            <li class="item">-->
+    <!--                <a class="link" href="#">-->
+    <!--                    <img alt="제품4" class="image" src="/resources/image/item4.jpg">-->
+    <!--                    <span class="text">제품4</span>-->
+    <!--                    <span class="price">43,000</span>-->
+    <!--                </a>-->
+    <!--            </li>-->
+    </ul>
+    </section>
+    <form class="search-form" id="searchForm" method="get">
+        <label class="label">
+            <span hidden>검색 기준</span>
+            <select class="--object-input" name="criterion">
+                <option value="all">제목 + 내용</option>
+                <option value="title">제목</option>
+                <option value="nickname">작성자</option>
+            </select>
+        </label>
+        <label class="label">
+            <span hidden>검색어</span>
+            <!--주소창에서 키값이 keyword인 값을 value로 넣는다-->
+            <input class="--object-input" maxlength="50" name="keyword" placeholder="검색어를 입력해 주세요." type="text">
+        </label>
+        <!--검색 결과에 bid 필요해서 넣음-->
+        <input name="bid" type="hidden">
+        <input class="--object-button" type="submit" value="검색">
+    </form>
+</main>
+<!-- cover -->
+<th:block th:replace="~{fragments/body :: cover}"></th:block>
+<th:block th:replace="~{fragments/body :: footer}"></th:block>
+</body>
+</html>

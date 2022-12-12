@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dev.test.take_a_walk_duo.mappers.IMapMapper">
+
+
+    <insert id="insertWalkArticle"
+            useGeneratedKeys="true"
+            keyProperty="index"
+            keyColumn="index"
+            parameterType="dev.test.take_a_walk_duo.entities.bbs.ArticleEntity">
+        INSERT INTO `twd_bbs`.`articles`
+        (`user_email`, `board_id`, `title`, `content`, `thumbnail`, `thumbnail_type`, `view`, `written_on`,
+         `modified_on`)
+        VALUES (#{userEmail}, #{boardId}, #{title}, #{content}, #{thumbnail}, #{thumbnailType}, #{view},
+                IFNULL(#{writtenOn}, DEFAULT(`written_on`)),
+                IFNULL(#{modifiedOn}, DEFAULT(`modified_on`)))
+    </insert>
+
+    <insert id="insertLocation"
+            useGeneratedKeys="true"
+            keyProperty="index"
+            keyColumn="index"
+            parameterType="dev.test.take_a_walk_duo.entities.bbs.map.LocationEntity">
+        INSERT INTO `twd_bbs`.`location` (`article_index`, `address`, `latitude`, `longitude`)
+        VALUES (#{articleIndex}, #{address}, #{latitude}, #{longitude});
+    </insert>
+
+    <select id="selectArticleByIndex"
+    resultType="dev.test.take_a_walk_duo.entities.bbs.ArticleEntity">
+        SELECT `index`          AS 'index',
+               `user_email`     AS 'userEmail',
+               `board_id`       AS 'boardId',
+               `title`          AS 'title',
+               `content`        AS 'content',
+               `thumbnail`      AS 'thumbnail',
+               `thumbnail_type` AS 'thumbnailType',
+               `view`           AS 'view',
+               `written_on`     AS 'writtenOn',
+               `modified_on`    AS 'modifiedOn'
+        FROM `twd_bbs`.`articles` AS `article`
+        WHERE `article`.`index` = #{index}
+
+    </select>
+</mapper>

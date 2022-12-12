@@ -1,0 +1,124 @@
+@charset "UTF-8";
+
+.--main > .img {
+    display: table;
+    width: 100%;
+    height: 15rem;
+    margin: 2rem 2rem;
+    background: url(/resources/images/dogplay.jpg) no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+
+body > .--main {
+    display: flex;
+    padding: 0 8rem;
+    flex-direction: column;
+    align-items: center;
+}
+
+body > .--main > .--content > .write-container > .label > .--object-input {
+    width: 7rem;
+    border: 0.12rem solid rgb(120, 120, 128);
+    border-radius: 0.8rem;
+    color: rgb(255, 255, 255);
+    padding: 0.5rem 0.875rem;
+    text-align: center;
+    background-color: rgb(120, 120, 128);
+}
+
+/*여기까지 list css같음*/
+
+.--main > .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.--main > .content > .title {
+    font-size: 22px;
+    border: 0.1rem solid rgb(128, 139, 150);
+    padding: 1rem 3rem;
+    margin-bottom: 3rem;
+}
+
+
+.--main > .content > .write-container > .label {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.table {
+    border-spacing: 0.05rem 0.5rem;
+}
+
+.table th {
+    background-color: rgb(169, 175, 126);
+    border: 0.1rem solid rgb(169, 175, 126);
+    border-radius: 0.4rem;
+    color: rgb(234, 236, 238);
+    font-weight: inherit;
+    padding: 0.1rem 1rem;
+}
+
+.table > tbody > .nameLine {
+    height: 3rem;
+}
+
+.table > tbody > .nameLine > td {
+    border: 0.01rem solid #c4c4c4;
+}
+
+.table > tbody > .nameLine > td > .label > .--object-input {
+    width: 100%;
+}
+
+.table > tfoot > tr > td {
+    border: 0.01rem solid #c4c4c4;
+    max-width: 100%;
+}
+
+.table > tfoot > tr > th {
+    background-color: #c4c4c4;
+    border: unset;
+}
+
+.table > tfoot > tr > th > .image-select-button {
+    text-decoration: none;
+    border: 0.01rem solid rgb(255, 255, 255);
+    border-radius: 1rem;
+    color: inherit;
+    white-space: nowrap;
+    padding: 1rem;
+
+}
+
+.table > tfoot > tr > td > .image-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.table > tfoot > tr > td > .image-container > .image {
+    width: 12rem;
+    height: 12rem;
+    margin-right: 1rem;
+
+}
+
+.table > thead {
+    border-collapse: collapse;
+}
+
+/*.ck.ck-editor{'width'}*/
+.ck-editor__editable {
+    min-height: 100%;
+}
+
+.ck.ck-editor__main > .ck-editor__editable.ck-focused {
+    border: 0.01rem solid #c4c4c4;
+}

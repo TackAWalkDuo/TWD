@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>산책 게시판 - 글쓰기</title>
+    <th:block th:replace="~{fragments/head}"></th:block>
+    <script src="https://kit.fontawesome.com/5c01421323.js" crossorigin="anonymous"></script>
+    <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3dd5def9cc8bbac0d245f16beaca36c9"></script>
+
+    <script defer th:src="@{/map/resources/scripts/walkRead.js}"></script>
+    <link rel="stylesheet" th:href="@{/map/resources/stylesheets/walkRead.css}">
+
+
+</head>
+
+<body>
+<th:block th:replace="~{fragments/body :: header}"></th:block>
+
+<section class="map-container" id="mapContainer">
+    <div class="map" id="map"></div>
+    <div class="container" id="container">
+        <div class="list-container" id="listContainer">
+            <div class="search-container" id="searchContainer">
+                <input class="keyword" placeholder="배경색은 프로젝트 베이스 컬러.">
+            </div>
+
+            <ul class="list" id="list">
+                <li class="item" rel="item">
+                    <span class="top">
+                        <span class="info">
+                            <span class="name" rel="name">장소 이름</span>
+                            <span class="interest-container">
+                                <span class="view-container">
+                                    <i class="fa-solid fa-eye"></i>
+                                    <span class="view">20</span>
+                                </span>
+                                <span class="review-container">
+                                    <i class="fa-solid fa-comment"></i>
+                                    <span class="review-counter">20</span>
+                                </span>
+                                <span class="like-container">
+                                    <i class="icon fa-solid fa-heart"></i>
+                                    <span class="like-counter">33</span>
+                                </span>
+                            </span>
+                        </span>
+                        <img alt="" class="image" src="/resources/images/Ninave2.jpg">
+                    </span>
+                    <span class="address bottom">대구 중구 동인동1가 238-1</span>
+                </li>
+                <li class="item" rel="item">
+                    <span class="top">
+                        <span class="info">
+                            <span class="name" rel="name">장소 이름</span>
+                            <span class="interest-container">
+                                <span class="view-container">
+                                    <i class="fa-solid fa-eye"></i>
+                                    <span class="view">20</span>
+                                </span>
+                                <span class="review-container">
+                                    <i class="fa-solid fa-comment"></i>
+                                    <span class="review-counter">20</span>
+                                </span>
+                                <span class="like-container">
+                                    <i class="icon fa-solid fa-heart"></i>
+                                    <span class="like-counter">33</span>
+                                </span>
+                            </span>
+                        </span>
+                        <img alt="" class="image" src="/resources/images/Ninave2.jpg">
+                    </span>
+                    <span class="address bottom">대구 중구 동인동1가 238-1</span>
+                </li>
+                <li class="item" rel="item">
+                    <span class="top">
+                        <span class="info">
+                            <span class="name" rel="name">장소 이름</span>
+                            <span class="interest-container">
+                                <span class="view-container">
+                                    <i class="fa-solid fa-eye"></i>
+                                    <span class="view">20</span>
+                                </span>
+                                <span class="review-container">
+                                    <i class="fa-solid fa-comment"></i>
+                                    <span class="review-counter">20</span>
+                                </span>
+                                <span class="like-container">
+                                    <i class="icon fa-solid fa-heart"></i>
+                                    <span class="like-counter">33</span>
+                                </span>
+                            </span>
+                        </span>
+                        <img alt="" class="image" src="/resources/images/Ninave2.jpg">
+                    </span>
+                    <span class="address bottom">대구 중구 동인동1가 238-1</span>
+                </li>
+
+            </ul>
+        </div>
+
+        <div class="detail-container" id="detailContainer">
+            <div class="title-container">
+                <span class="title" rel="title">아크리시아</span>
+                <a href="#" class="close-button" rel="closeButton">
+                    <i class="fa-solid fa-xmark"></i>
+                </a>
+            </div>
+            <div class="image-container" rel="imagecontainer">
+                <div class="no-image">
+                    <i class="icon fa-solid fa-circle-exclamation"></i>
+                    <span class="text">아직 등록된 이미지가 없어요!</span>
+                </div>
+                <img src="https://blog.kakaocdn.net/dn/bTDsmH/btq8ojyIgMX/cYkB7gcHPhMTS53inkz0Kk/img.jpg" alt=""
+                     class="image">
+            </div>
+
+            <ul class="info-container">
+                <li class="item">
+                    <i class="icon fa-solid fa-location-pin"></i>
+                    <span class="text" rel="addressText">대구 중구 달구벌대로 2109-32</span>
+                </li>
+
+                <li class="item">
+                    <i class="icon fa-solid fa-file-invoice"></i>
+                    <span class="text" rel="descriptionText"> 점심 나가먹을것 같다....으어닝라너이ㅏㄹ </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+<th:block th:replace="~{fragments/body :: footer}"></th:block>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

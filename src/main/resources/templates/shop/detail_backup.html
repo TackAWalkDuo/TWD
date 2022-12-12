@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Take a walk duo</title>
+    <th:block th:replace="~{fragments/head}"></th:block>
+    <link rel="stylesheet" th:href="@{/shop/resources/stylesheets/detail_backup.css}">
+</head>
+<body>
+<th:block th:replace="~{fragments/body :: header}"></th:block>
+<main class="--main main">
+    <div class="detail-main">
+        <div>
+            <img class="detail-img" alt="" src="/resources/images/item1.jpg">
+        </div>
+        <div class="detail-info">
+            <div class="detail-title">수의사 새끼강아지 영양제 인챈트 베베 어린 동물 영양제 70g</div>
+            <div class="detail-stock">
+                <i class="detail-icon fa-solid fa-circle-exclamation"></i>
+                재고 : 10
+            </div>
+            <div class="detail-price">30,000원</div>
+            <div class="detail-sale-price">
+                <span class="sale">30%</span>
+                <span>22,700원</span>
+            </div>
+            <p class="detail-text">수의사 새끼강아지 영양제 새끼고양이 영양제 인챈트 베베 어린 동물 영양제 70g</p>
+            <p class="detail-text">어린 반려동물의 성장을 촉진, 특허받은 신물질로 반려동물을 바이러스로부터 보호, 칼슘 단백질 각종 비타민 아미노산 유산균 미네랄 등 영양공급 면역력을
+                강화</p>
+            <div class="detail-notice">
+                배송 방법
+                <span class="text">택배</span>
+            </div>
+            <div class="detail-notice">
+                배송비
+                <span class="text">3,000원</span>
+            </div>
+            <form class="order-form" id="orderForm">
+                <div class="select-container">
+                    <select class="select" name="product-select">
+                        <option value="1" selected>옵션을 선택해 주세요.</option>
+                        <option value="2">1번</option>
+                        <option value="3">2번</option>
+                    </select>
+                </div>
+                <div class="detail-order-container">
+                    <p class="order-text">수의사 새끼강아지 영양제 인챈트 베베 어린 동물 영양제 70g</p>
+                    <div class="detail-info-container">
+                        <div class="info-quantity-box">
+                            <button class="info-button">-</button>
+                            <input class="info-number" value="1" type="number">
+                            <button class="info-button">+</button>
+                            <div class="info-price">22,700원</div>
+                        </div>
+                    </div>
+                    <div class="detail-charge-container">
+                        <span class="charge-info">
+                        총 상품 금액
+                            <i class="tooltip fa-regular fa-circle-question">
+<!--                            <span class="tooltiptext tooltip-bottom">총 상품 금액에 <b>배송비는 포함되어 있지 않습니다.</b> <br> 결제시 배송비가 추가될 수 있습니다.</span>-->
+                            </i>
+                        </span>
+                        <span class="charge-quantity">총 수량 0개</span>
+                        <span class="charge-price">22,700원</span>
+                    </div>
+                    <div class="product-button">
+                        <input class="buy --object-button" value="구매하기" type="submit">
+                        <input class="cart --object-button" value="장바구니" type="submit">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div>
+        <ul class="title-select">
+            <li><a>상세정보</a></li>
+            <li><a>리뷰(0)</a></li>
+            <li><a>Q&A(0)</a></li>
+            <li><a>반품/교환정보</a></li>
+        </ul>
+    </div>
+
+
+    <form class="search-form" id="searchForm" method="get">
+        <label class="label">
+            <span hidden>검색 기준</span>
+            <select class="--object-input" name="criterion">
+                <option value="all">제목 + 내용</option>
+                <option value="title">제목</option>
+                <option value="nickname">작성자</option>
+            </select>
+        </label>
+        <label class="label">
+            <span hidden>검색어</span>
+            <!--주소창에서 키값이 keyword인 값을 value로 넣는다-->
+            <input class="--object-input" maxlength="50" name="keyword" placeholder="검색어를 입력해 주세요." type="text">
+        </label>
+        <!--검색 결과에 bid 필요해서 넣음-->
+        <input name="bid" type="hidden">
+        <input class="--object-button" type="submit" value="검색">
+    </form>
+</main>
+<!-- cover -->
+<th:block th:replace="~{fragments/body :: cover}"></th:block>
+<th:block th:replace="~{fragments/body :: footer}"></th:block>
+</body>
+</html>

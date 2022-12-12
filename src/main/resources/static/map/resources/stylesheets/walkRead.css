@@ -1,0 +1,190 @@
+body > .--header {
+    position: sticky;
+    top: 0;
+}
+
+#mapContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 0;
+    height: 90vh;
+}
+
+#map {
+    height: 100%;
+    width: 70%;
+    z-index: 0;
+}
+
+#container {
+    position: absolute;
+    width: 36%;
+    height: 60%;
+    z-index: 0;
+
+    top: 20%;
+    left: 18%;
+
+    overflow: hidden;
+
+    align-items: start;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+
+#listContainer {
+    min-width: 50%;
+    height: 100%;
+    background-color: white;
+
+}
+
+#searchContainer {
+    overflow: hidden auto;
+    background-color: white;
+    border: 0.0625rem solid rgb(169, 169, 169);
+}
+
+#searchContainer > .keyword {
+    margin: 0.5rem 0;
+}
+
+#list {
+    max-height: 100vh;
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: hidden auto;
+
+    list-style-type: none;
+    margin-block: unset;
+    margin-inline: unset;
+    padding-block: unset;
+    padding-inline: unset;
+}
+
+#list > .item {
+    padding: 1rem 1.5rem;
+    border-bottom: 0.0625rem solid rgb(234, 236, 238);
+    cursor: pointer;
+
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#list > .item.visible {
+    display: flex;
+}
+
+#list > .item > .top {
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#list > .item > .top > .image {
+    width: 4.5rem;
+    aspect-ratio: 1 / 1;
+    border-radius: 0.5rem;
+    margin-left: 0.5rem;
+    object-fit: cover;
+    object-position: center;
+}
+
+#list > .item > .top > .info {
+    flex: 1;
+
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#list > .item > .top > .info > .name {
+    font-size: 1.25rem;
+    color: rgb(52, 152, 219);
+    margin-bottom: 0.5rem;
+    white-space: nowrap;
+}
+
+
+#list > .item > .top > .info > .interest-container {
+    margin-bottom: 0.25rem;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#list > .item > .top > .info > .interest-container > * {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#list > .item > .top > .info > .interest-container > * + * {
+    margin-left: 0.5rem;
+}
+
+
+
+
+#detailContainer {
+    background-color: white;
+    flex-basis: 22.5rem;
+
+    height: 100%;
+    z-index: 50;
+    overflow: hidden auto;
+    transition-duration: 250ms;
+    transition-property: max-width;
+    transition-timing-function: ease-in-out;
+
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#detailContainer.visible {
+    max-width: 22.5rem;
+}
+
+#detailContainer > .image-container > .image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+#detailContainer > .info-container {
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    list-style-type: none;
+    margin-block: unset;
+    margin-inline: unset;
+    padding-block: unset;
+    padding-inline: unset;
+}
+
+
+
+
+
+
+
+
+
+
+
+

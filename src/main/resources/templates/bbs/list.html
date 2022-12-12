@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Take a walk duo-list</title>
+    <th:block th:replace="~{fragments/head}"></th:block>
+    <link rel="stylesheet" th:href="@{/bbs/resources/stylesheets/list.css}">
+</head>
+<body>
+<th:block th:replace="~{fragments/body :: header}"></th:block>
+<main class="--main main">
+    <div class="img">
+        <!--        <img class="dog-play" th:src="@{/resources/image/dogplay.jpg}" alt="갱얼쥐">-->
+    </div>
+    <form class="search-form" id="searchForm" method="get">
+        <label class="label">
+            <span hidden>검색기준</span>
+            <select name="criterion" class="--object-input">
+                <option value="all">제목 + 내용</option>
+                <option value="title">제목</option>
+                <option value="nickname">작성자</option>
+            </select>
+        </label>
+        <label class="label">
+            <span hidden>검색어</span>
+            <input type="text" class="--object-input"
+                   maxlength="50" name="keyword" th:value="${#request.getParameter('keyword')}"
+                   placeholder="검색어를 입력해주세요">
+        </label>
+        <!--            <input name="bid" type="hidden" th:value="${board.getId()}">-->
+        <input type="submit" class="--object-button" value="검색">
+    </form>
+    <div class="--form">
+        <div class="--content content">
+            <nav>
+                <ul class="title--select">
+                    <li class="menu"><a>자유게시판</a>
+                        <ul class="free-select visible">
+                            <li class="scroll-menu"><a>전체</a></li>
+                            <li class="scroll-menu"><a>일상</a></li>
+                            <li class="scroll-menu"><a>꿀Tip</a></li>
+                            <li class="scroll-menu"><a>유머</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu"><a>모임후기</a>
+                        <ul class="free-select">
+                            <li class="scroll-menu"><a>전체</a></li>
+                            <li class="scroll-menu"><a>일상</a></li>
+                            <li class="scroll-menu"><a>꿀Tip</a></li>
+                            <li class="scroll-menu"><a>유머</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu"><a>공지사항</a>
+                        <ul class="free-select visible">
+                            <li class="scroll-menu"><a>전체</a></li>
+                            <li class="scroll-menu"><a>일상</a></li>
+                            <li class="scroll-menu"><a>꿀Tip</a></li>
+                            <li class="scroll-menu"><a>유머</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu"><a>QNA</a>
+                        <ul class="free-select">
+                            <li class="scroll-menu"><a>전체</a></li>
+                            <li class="scroll-menu"><a>일상</a></li>
+                            <li class="scroll-menu"><a>꿀Tip</a></li>
+                            <li class="scroll-menu"><a>유머</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu"><a>거래문의</a>
+                        <ul class="free-select">
+                            <li class="scroll-menu"><a>전체</a></li>
+                            <li class="scroll-menu"><a>일상</a></li>
+                            <li class="scroll-menu"><a>꿀Tip</a></li>
+                            <li class="scroll-menu"><a>유머</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="title--select">
+                    <li class="side-menu connect"><a>전체</a></li>
+                    <li class="side-menu connect"><a>일상</a></li>
+                    <li class="side-menu connect"><a>꿀Tip</a></li>
+                    <li class="side-menu connect"><a>유머</a></li>
+                </ul>
+            </nav>
+            <table class="table" id="table">
+                <thead>
+                <tr class="list">
+                    <th>소형견||대형견</th>
+                    <th>번호</th>
+                    <th class="title-column">제목</th>
+                    <th>작성자</th>
+                    <th>조회수</th>
+                    <th>추천수</th>
+                    <th>작성 일시</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="notice-userArticle">
+                    <td>갱얼쥐</td>
+                    <td>3</td>
+                    <td>
+                        <a class="title">
+                            <span class="text">세번째 게시글</span>
+                            <span class="comment">[3]</span>
+                        </a>
+                    </td>
+                    <td>레너드</td>
+                    <td>17</td>
+                    <td>추천수</td>
+                    <td>2022-01-03 00:00:00</td>
+                </tr>
+                <tr class="hot-userArticle">
+                    <td>갱얼쥐</td>
+                    <td>3</td>
+                    <td>
+                        <a class="title">
+                            <span class="text">세번째 게시글</span>
+                            <span class="comment">[3]</span>
+                        </a>
+                    </td>
+                    <td>레너드</td>
+                    <td>17</td>
+                    <td>추천수</td>
+                    <td>2022-01-03 00:00:00</td>
+                </tr>
+                <tr class="hot-userArticle">
+                    <td>갱얼쥐</td>
+                    <td>3</td>
+                    <td>
+                        <a class="title">
+                            <span class="text">세번째 게시글</span>
+                            <span class="comment">[3]</span>
+                        </a>
+                    </td>
+                    <td>레너드</td>
+                    <td>17</td>
+                    <td>추천수</td>
+                    <td>2022-01-03 00:00:00</td>
+                </tr>
+                <tr class="hot-userArticle">
+                    <td>갱얼쥐</td>
+                    <td>3</td>
+                    <td>
+                        <a class="title">
+                            <span class="text">세번째 게시글</span>
+                            <span class="comment">[3]</span>
+                        </a>
+                    </td>
+                    <td>레너드</td>
+                    <td>17</td>
+                    <td>추천수</td>
+                    <td>2022-01-03 00:00:00</td>
+                </tr>
+                <tr class="userArticle">
+                    <td>갱얼쥐</td>
+                    <td>3</td>
+                    <td>
+                        <a class="title">
+                            <span class="text">세번째 게시글</span>
+                            <span class="comment">[3]</span>
+                        </a>
+                    </td>
+                    <td>레너드</td>
+                    <td>17</td>
+                    <td>추천수</td>
+                    <td>2022-01-03 00:00:00</td>
+                </tr>
+                <tr class="userArticle">
+                    <td>갱얼쥐</td>
+                    <td>3</td>
+                    <td>
+                        <a class="title">
+                            <span class="text">세번째 게시글</span>
+                            <span class="comment">[3]</span>
+                        </a>
+                    </td>
+                    <td>레너드</td>
+                    <td>17</td>
+                    <td>추천수</td>
+                    <td>2022-01-03 00:00:00</td>
+                </tr>
+                <tr>
+                    <td>갱얼쥐</td>
+                    <td>3</td>
+                    <td>
+                        <a class="title">
+                            <span class="text">세번째 게시글</span>
+                            <span class="comment">[3]</span>
+                        </a>
+                    </td>
+                    <td>레너드</td>
+                    <td>17</td>
+                    <td>추천수</td>
+                    <td>2022-01-03 00:00:00</td>
+                </tr>
+                <tr>
+                    <td>갱얼쥐</td>
+                    <td>3</td>
+                    <td>
+                        <a class="title">
+                            <span class="text">세번째 게시글</span>
+                            <span class="comment">[3]</span>
+                        </a>
+                    </td>
+                    <td>레너드</td>
+                    <td>17</td>
+                    <td>추천수</td>
+                    <td>2022-01-03 00:00:00</td>
+                </tr>
+                <tr>
+                    <td>갱얼쥐</td>
+                    <td>3</td>
+                    <td>
+                        <a class="title">
+                            <span class="text">세번째 게시글</span>
+                            <span class="comment">[3]</span>
+                        </a>
+                    </td>
+                    <td>레너드</td>
+                    <td>17</td>
+                    <td>추천수</td>
+                    <td>2022-01-03 00:00:00</td>
+                </tr>
+                <tr>
+                    <td>갱얼쥐</td>
+                    <td>3</td>
+                    <td>
+                        <a class="title">
+                            <span class="text">세번째 게시글</span>
+                            <span class="comment">[3]</span>
+                        </a>
+                    </td>
+                    <td>레너드</td>
+                    <td>17</td>
+                    <td>추천수</td>
+                    <td>2022-01-03 00:00:00</td>
+                </tr>
+                <tr>
+                    <td>갱얼쥐</td>
+                    <td>3</td>
+                    <td>
+                        <a class="title">
+                            <span class="text">세번째 게시글</span>
+                            <span class="comment">[3]</span>
+                        </a>
+                    </td>
+                    <td>레너드</td>
+                    <td>17</td>
+                    <td>추천수</td>
+                    <td>2022-01-03 00:00:00</td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="7">
+                        <div class="page-container">
+                            <a class="page">
+                                <i class="fa-solid fa-angles-left"></i>
+                            </a>
+                            <a class="page">
+                                <i class="fa-solid fa-angle-left"></i>
+                            </a>
+
+                            <a class="page number">1 2 3 4 5</a>
+                            <a class="page">
+
+                                <i class="fa-solid fa-angle-right"></i>
+                            </a>
+                            <a class="page">
+
+                                <i class="fa-solid fa-angles-right"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</main>
+<!-- cover -->
+<th:block th:replace="~{fragments/body :: cover}"></th:block>
+<th:block th:replace="~{fragments/body :: footer}"></th:block>
+</body>
+</html>

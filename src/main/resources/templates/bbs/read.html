@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Take a walk duo-list</title>
+    <th:block th:replace="~{fragments/head}"></th:block>
+    <link rel="stylesheet" th:href="@{/bbs/resources/stylesheets/read.css}">
+</head>
+<body>
+<th:block th:replace="~{fragments/body :: header}"></th:block>
+<main class="--main main">
+    <div class="img">
+        <!--        <img class="dog-play" th:src="@{/resources/image/dogplay.jpg}" alt="갱얼쥐">-->
+    </div>
+    <div class="--form">
+        <div class="--content content">
+            <nav>
+                <ul class="title--select">
+                    <li class="menu"><a>자유게시판</a>
+                        <ul class="free-select visible">
+                            <li class="scroll-menu"><a>전체</a></li>
+                            <li class="scroll-menu"><a>일상</a></li>
+                            <li class="scroll-menu"><a>꿀Tip</a></li>
+                            <li class="scroll-menu"><a>유머</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu"><a>모임후기</a>
+                        <ul class="free-select">
+                            <li class="scroll-menu"><a>전체</a></li>
+                            <li class="scroll-menu"><a>일상</a></li>
+                            <li class="scroll-menu"><a>꿀Tip</a></li>
+                            <li class="scroll-menu"><a>유머</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu"><a>공지사항</a>
+                        <ul class="free-select visible">
+                            <li class="scroll-menu"><a>전체</a></li>
+                            <li class="scroll-menu"><a>일상</a></li>
+                            <li class="scroll-menu"><a>꿀Tip</a></li>
+                            <li class="scroll-menu"><a>유머</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu"><a>QNA</a>
+                        <ul class="free-select">
+                            <li class="scroll-menu"><a>전체</a></li>
+                            <li class="scroll-menu"><a>일상</a></li>
+                            <li class="scroll-menu"><a>꿀Tip</a></li>
+                            <li class="scroll-menu"><a>유머</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu"><a>거래문의</a>
+                        <ul class="free-select">
+                            <li class="scroll-menu"><a>전체</a></li>
+                            <li class="scroll-menu"><a>일상</a></li>
+                            <li class="scroll-menu"><a>꿀Tip</a></li>
+                            <li class="scroll-menu"><a>유머</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="title--select">
+                    <li class="side-menu connect"><a>전체</a></li>
+                    <li class="side-menu connect"><a>일상</a></li>
+                    <li class="side-menu connect"><a>꿀Tip</a></li>
+                    <li class="side-menu connect"><a>유머</a></li>
+                </ul>
+            </nav>
+            <form class="read-form">
+                <table class="table">
+                    <thead>
+                    <tr class="title-table">
+                        <th hidden>번호</th>
+                        <td>17</td>
+                        <th hidden>분류</th>
+                        <td>분류</td>
+                        <th hidden>제목</th>
+                        <td colspan="4" class="content">자유게시판 첫 글</td>
+                    </tr>
+                    <tr>
+                        <th hidden>견종분류</th>
+                        <td>대형견||소형견</td>
+                        <th hidden>관리자</th>
+                        <td>회원ID</td> <!-- 놀랍게도 이메일이 아니라 닉네임이 찍혀야함 -->
+                        <td></td>
+                        <td></td>
+                        <th hidden>추천수</th>
+                        <td rowspan="2">하트하트
+                        <span>1</span></td>
+                    </tr>
+                    <tr>
+                        <th hidden>작성 일시</th>
+                        <td>2000-01-01 00:00:00</td>
+                        <th class="view">조회수</th>
+                        <td>1</td>
+                        <td>
+                            <a class="modify-article">수정하기</a>
+                            <a class="delete-article">삭제하기</a>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td colspan="8">
+                        <div>
+                            <img class="detail-img" alt="" src="/resources/images/item1.jpg">
+                        </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <div class="content-container">
+                                <p>강아지 조아</p>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <th>댓글 넣을껴</th>
+                    </tfoot>
+                </table>
+            </form>
+        </div>
+    </div>
+</main>
+<th:block th:replace="~{fragments/body :: cover}"></th:block>
+<th:block th:replace="~{fragments/body :: footer}"></th:block>
+</body>
+</html>

@@ -1,0 +1,25 @@
+CREATE TABLE `twd_bbs`.`sale_product`
+(
+    `index`          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `article_index`  INT UNSIGNED NOT NULL,
+    `quantity`       INT UNSIGNED NOT NULL,           # -- 수량
+    `cost`           INT UNSIGNED NOT NULL,           # -- 원가
+    `discount`       INT UNSIGNED NOT NULL DEFAULT 0, # --할인가.
+    `price`          INT UNSIGNED NOT NULL,           # -- 판매가
+    `profit`         INT UNSIGNED NOT NULL,           #  -- 이익
+    `category_index` INT UNSIGNED NOT NULL,           #   -- 상품 분류 1.사료 2.간식 3.옷 4.기타
+    CONSTRAINT PRIMARY KEY (`index`),
+    CONSTRAINT FOREIGN KEY (`article_index`) REFERENCES `twd_bbs`.`articles` (`index`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT FOREIGN KEY (`category_index`) REFERENCES `twd_bbs`.`articles` (`index`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE `twd_bbs`.`product_categories`
+(
+    `index` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `text`  VARCHAR(10)  NOT NULL,
+    CONSTRAINT PRIMARY KEY (`index`)
+);

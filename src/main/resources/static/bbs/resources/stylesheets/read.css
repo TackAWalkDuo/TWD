@@ -1,0 +1,175 @@
+@charset "UTF-8";
+
+
+body > .--main {
+    display: flex;
+    padding: 0 8rem;
+    flex-direction: column;
+    align-items: center;
+}
+
+/*중간으로 셋팅*/
+.--main > .--form {
+    display: flex;
+    justify-content: space-around;
+}
+.--main > .img {
+    display: table;
+    width: 100%;
+    height: 15rem;
+    margin: 2rem 2rem;
+
+    background: url("/resources/images/dogplay.jpg") no-repeat; /* 배경이미지X */
+    background-size: cover; /* 요소를 비율에 맞게 커버 */
+    background-position: center; /* 이미지를 요소의 정가운데로 처리 */
+    background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라다님 */
+}
+
+.--main > .img > .dog-play {
+    object-fit: cover;
+    width: 70rem;
+    height: 26rem;
+}
+
+
+.title-select {
+    list-style: none;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 1rem;
+
+}
+
+
+.title-select > li {
+    border: 0.0625rem solid rgb(180, 180, 188);
+    padding: 0.625rem 1.5rem;
+    color: rgb(180, 180, 188);
+    margin: 1rem;
+}
+
+.title-select > li:hover {
+    border: 0.0625rem solid rgb(169, 175, 126);
+    color: rgb(169, 175, 126);
+}
+
+.title--select {
+    align-items: baseline;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: relative;
+    height: 5rem;
+    min-width: 90%;
+}
+
+.title--select > .menu > .free-select{
+    position: absolute;
+    justify-content: center;
+    /*display: flex;*/
+    flex-direction: column;
+    top: 5.7rem;
+}
+
+.title--select > li {
+    border-radius: 0.3rem;
+    color: rgb(180, 180, 188);
+    margin: 1.75rem;
+    list-style: none;
+}
+
+.title--select > li.menu {
+    display: flex;
+    justify-content: center;
+}
+
+.title--select > li.menu > a {
+    width: 8rem;
+    border: 0.0625rem solid rgb(180, 180, 188);
+    border-radius: 0.3rem;
+    color: rgb(180, 180, 188);
+    margin: 1rem;
+    list-style: none;
+    text-align: center;
+}
+
+.title--select > li > .free-select {
+    text-align: center;
+    padding: unset;
+    list-style: unset;
+    display: none;
+}
+.title--select > li > .free-select.visible{
+    display: flex;
+    z-index: 3;
+}
+.title--select > li > .free-select > * {
+    width: 8rem;
+    color: rgb(180, 180, 188);
+    background-color: rgb(255,255,255);
+    display: none;
+}
+.title--select > li > .free-select > *:hover {
+    background-color: rgba(180, 180, 188);
+    color: rgb(255,255,255);
+}
+
+.menu {
+    line-height: 2.8rem;
+}
+
+.read-form{
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+/*read sumNail*/
+body > .--main > .--form > .--content > .read-form  .detail-img {
+    /*display: table;*/
+    object-fit: cover;
+    height: 20rem;
+    width: 20rem;
+    border-radius: 0.5rem;
+}
+/*read 테이블*/
+.read-form{
+    border: 0.2rem solid rgb(139, 145, 126);
+    border-radius: 0.7rem;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.read-form > div{
+    border-right: 0.3rem solid rgb(139, 145, 126);
+}
+.table{
+    white-space: nowrap;
+    width: 100%;
+    border-collapse : collapse;
+}
+.title-table > th,
+.title-table > td{
+    border-bottom: 0.1rem solid rgb(139, 145, 126);
+    height: 2rem;
+    font-size: 1.25rem;
+}
+
+.table > .content{
+    width: 100%;
+}
+.table > thead > tr > th,
+.table > thead > .title-table > td:nth-of-type(1)
+{
+    width: 3.5rem;
+}
+
+.table > thead > tr:nth-of-type(2) >th,
+.table > thead > tr:nth-of-type(2) >td,
+.table > thead > tr:nth-of-type(3) >th,
+.table > thead > tr:nth-of-type(3) >td{
+
+    font-size: 1rem;
+}

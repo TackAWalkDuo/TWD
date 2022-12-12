@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dev.test.take_a_walk_duo.mappers.IShopMapper">
+    <select id="selectArticleCountByBoardId"
+            resultType="int">
+<!--        SELECT COUNT(0)-->
+<!--        FROM `study_bbs`.`articles`-->
+<!--        <if test="criterion != null and criterion.equals('nickname')">-->
+<!--            LEFT JOIN `study`.`users` AS `user` ON `articles`.`user_email` = `user`.`email`-->
+<!--        </if>-->
+<!--        WHERE `board_id` = #{boardId}-->
+<!--        <if test="criterion != null and criterion.equals('title')">-->
+<!--            AND REPLACE(`article`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')-->
+<!--        </if>-->
+<!--        <if test="criterion != null and criterion.equals('all')">-->
+<!--            AND (REPLACE(`article`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')-->
+<!--            OR REPLACE(`article`.`content`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%'))-->
+<!--        </if>-->
+<!--        <if test="criterion != null and criterion.equals('nickname')">-->
+<!--            AND BINARY `user`.`nickname` = #{keyword}-->
+<!--        </if>-->
+    </select>
+</mapper>

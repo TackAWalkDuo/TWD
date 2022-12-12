@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<header class="--header" th:fragment="header">
+    <div class="--content -top">
+        <a class="--logo-container" th:href="@{/}">
+            TAKE A WALK <span class="duo">DUO</span>
+        </a>
+        <ul class="--menu --main">
+            <li class="--item">
+                <a class="--link small" href="#">공지사항</a>
+            </li>
+            <li class="--item">
+                <a class="--link small" href="#">자유게시판</a>
+            </li>
+            <li class="--item">
+                <a class="--link small" href="#">쇼핑</a>
+            </li>
+            <li class="--item">
+                <a class="--link small" href="#">Q&A</a>
+            </li>
+            <li class="--item">
+                <a class="--link border" th:href="@{/member/login}">로그인</a>
+            </li>
+            <li class="--item">
+                <a class="--link border" th:href="@{/member/register}">회원가입</a>
+            </li>
+            <li class="--item">
+                <a class="--link border" th:href="@{#}">장바구니</a>
+            </li>
+        </ul>
+    </div>
+</header>
+<footer class="--footer" th:fragment="footer">
+    <div class="--content">
+        footer 입니다.
+    </div>
+</footer>
+
+
+<div class="--cover" id="cover" th:fragment="cover">
+    <img alt="" class="--icon" th:src="@{/resources/images/TAWD_logo.png}">
+    <span class="--text" rel="text">무언가를 불러오고 있습니다. 잠시만 기다려 주세요.</span>
+</div>
+
+</html>
+
+
+<!--<ul class="&#45;&#45;menu &#45;&#45;main">-->
+<!--    <li class="&#45;&#45;item">-->
+<!--        <a class="&#45;&#45;link" href="#">공지사항</a>-->
+<!--    </li>-->
+<!--    <li class="&#45;&#45;item">-->
+<!--        <a class="&#45;&#45;link" href="#">자유게시판</a>-->
+<!--    </li>-->
+<!--    <li class="&#45;&#45;item">-->
+<!--        <a class="&#45;&#45;link" href="#">Q&A</a>-->
+<!--    </li>-->
+<!--</ul>-->
+
+
+<!--<div class="&#45;&#45;content -top">-->
+<!--    <a class="&#45;&#45;logo-container" th:href="@{/member/register}">-->
+<!--        <img class="&#45;&#45;logo" th:src="@{/resources/image/TAWD_logo.png}">-->
+<!--    </a>-->
+<!--    <span class="&#45;&#45;space"></span>-->
+<!--    <span class="&#45;&#45;search">-->
+<!--                <input class="&#45;&#45;search-bar" type="text" name="search">-->
+<!--        </span>-->
+<!--    <span class="&#45;&#45;space"></span>-->
+<!--    <ul class="&#45;&#45;menu">-->
+<!--        <li class="&#45;&#45;item">-->
+<!--            <a class="&#45;&#45;link" th:href="@{#}">로그인</a>-->
+<!--        </li>-->
+<!--        <li class="&#45;&#45;item">-->
+<!--            <a class="&#45;&#45;link" th:href="@{/member/register}">회원가입</a>-->
+<!--        </li>-->
+<!--    </ul>-->
+<!--</div>-->

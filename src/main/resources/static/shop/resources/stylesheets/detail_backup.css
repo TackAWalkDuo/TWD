@@ -1,0 +1,498 @@
+@charset "UTF-8";
+body > .--main {
+    display: flex;
+    padding: 0 8rem;
+    flex-direction: column;
+    align-items: center;
+}
+
+/*중간으로 셋팅*/
+.--main > .--form {
+    display: flex;
+    justify-content: space-around;
+}
+
+body > .--main > .detail-main {
+    width: 100%;
+    height: 100%;
+
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    margin-top: 2rem;
+}
+
+body > .--main > .detail-main > div > .detail-img {
+    /*display: table;*/
+    object-fit: cover;
+    height: 40rem;
+    margin: 2rem 0 0 0;
+    width: 35rem;
+}
+
+body > .--main > .detail-main > .detail-info {
+    width: inherit;
+    height: 40rem;
+    margin: 2rem 0 0 0;
+    padding-left: 5rem;
+}
+
+body > .--main > .detail-main > .detail-info > .detail-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    padding-bottom: 0.75rem;
+}
+
+body > .--main > .detail-main > .detail-info > .detail-stock {
+    text-indent: 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: rgb(240, 178, 122);
+}
+
+body > .--main > .detail-main > .detail-info > .detail-stock > .detail-icon {
+    text-indent: 0;
+    margin: unset;
+    padding: unset;
+}
+
+body > .--main > .detail-main > .detail-info > .detail-price {
+    border: none;
+    padding: 0 0 0.25rem 0;
+    font-size: 0.9rem;
+    color: rgb(171, 178, 185);
+    text-decoration: line-through;
+    text-indent: 20px;
+}
+
+body > .--main > .detail-main > .detail-info > .detail-sale-price {
+    font-size: 1.25rem;
+    text-indent: 20px;
+    padding-bottom: 0.5rem;
+    border-bottom: 0.0625rem solid rgb(234, 236, 238);
+}
+
+body > .--main > .detail-main > .detail-info > .detail-sale-price > .sale {
+    color: rgb(254, 83, 86);
+}
+
+body > .--main > .detail-main > .detail-info > .detail-text {
+    font-size: 0.9rem;
+}
+
+body > .--main > .detail-main > .detail-info > .detail-notice {
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding-bottom: 0.25rem;
+}
+
+body > .--main > .detail-main > .detail-info > .detail-notice > .text {
+    font-weight: 300;
+    padding-left: 0.25rem;
+}
+
+#orderForm > .select-container {
+    border-top: 0.0625rem solid rgb(234, 236, 238);
+    border-bottom: 0.0625rem solid rgb(234, 236, 238);
+    padding: 0.5rem 0;
+    margin-top: 0.75rem;
+}
+
+#orderForm > .select-container > .select {
+    appearance: auto;
+    font-weight: 300;
+    outline: 0.0625rem solid rgb(171, 178, 185);
+}
+
+#orderForm > .select-container > .select:focus {
+    font-weight: 500;
+}
+
+#orderForm > .detail-order-container > .order-text{
+    font-size: 0.9rem;
+}
+
+#orderForm > .detail-order-container > .detail-info-container {
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+#orderForm > .detail-order-container > .detail-info-container > .info-quantity-box {
+    height: 34px;
+    width: 100%;
+
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#orderForm > .detail-order-container > .detail-info-container > .info-quantity-box > .info-number {
+    border-top: 0.0625rem solid rgb(171, 178, 185);;
+    border-bottom: 0.0625rem solid rgb(171, 178, 185);
+    height: inherit;
+    width: 3.5rem;
+    text-align: center;
+}
+
+#orderForm > .detail-order-container > .detail-info-container > .info-quantity-box > .info-number::-webkit-outer-spin-button,
+#orderForm > .detail-order-container > .detail-info-container > .info-quantity-box > .info-number::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+#orderForm > .detail-order-container > .detail-info-container > .info-quantity-box > .info-button {
+    outline: 0.0625rem solid rgb(171, 178, 185);
+    border: none;
+    height: inherit;
+    width: 34px;
+    font-size: 1.25rem;
+}
+
+#orderForm > .detail-order-container > .detail-info-container > .info-quantity-box > .info-button:hover{
+    cursor: pointer;
+}
+
+
+#orderForm > .detail-order-container > .detail-info-container > .info-quantity-box > .info-price {
+    position: absolute;
+    right: 8rem;
+}
+
+#orderForm > .detail-order-container > .detail-charge-container{
+    align-items : center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#orderForm > .detail-order-container > .detail-charge-container > .charge-info{
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+#orderForm > .detail-order-container > .detail-charge-container > .charge-quantity{
+    margin-left: 15rem;
+    font-size: 0.9rem;
+    color: rgb(171,178,185);
+}
+
+#orderForm > .detail-order-container > .detail-charge-container > .charge-price{
+    color: rgb(133, 193, 233);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/*#orderForm > .detail-order-container > .detail-charge-container > .charge-info > .tooltip .tooltiptext {*/
+/*    visibility: hidden;*/
+/*    width: 120px;*/
+/*    background-color: white;*/
+/*    border: 0.0625rem solid rgb(234,236,238);*/
+/*    color: black;*/
+/*    text-align: center;*/
+/*    border-radius: 6px;*/
+/*    padding: 5px 0;*/
+/*    white-space: nowrap;*/
+/*    position: absolute;*/
+/*    z-index: 1;*/
+/*}*/
+
+/*#orderForm > .detail-order-container > .detail-charge-container > .charge-info > .tooltip:hover .tooltiptext {*/
+/*    visibility: visible;*/
+/*}*/
+/*#orderForm > .detail-order-container > .detail-charge-container > .charge-info > .tooltip:hover .tooltiptext b{*/
+/*    color: rgb(133, 193, 233);*/
+/*}*/
+
+/*#orderForm > .detail-order-container > .detail-charge-container > .charge-info > .tooltip .tooltip-bottom {*/
+/*    width: 19.5rem;*/
+/*    top: 61%;*/
+/*    left: 53.5%;*/
+/*}*/
+
+#orderForm > .detail-order-container > .product-button{
+    padding: 3rem 0;
+
+    align-items : center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+#orderForm > .detail-order-container > .product-button > .--object-button{
+    /*background-color: rgba(169, 175, 126,30%);*/
+    border: rgba(169, 175, 126,30%) 0.0625rem solid;
+    border-radius: 5px;
+    width: 10rem;
+    height: 3rem;
+    font-weight: 500;
+    font-size: 1.25rem;
+    color: rgb(255,255,255);
+}
+
+#orderForm > .detail-order-container > .product-button > .--object-button:hover{
+    cursor: pointer;
+    filter: brightness(125%);
+}
+
+body > .main > .search-form {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+/*공통css 조정*/
+.--object-input {
+    border: 0.12rem solid rgb(169, 175, 126);
+    border-radius: 0.8rem;
+    color: rgb(120, 120, 128);
+    padding: 0.5rem 0.875rem;
+}
+
+.--object-button {
+    background-color: rgb(169, 175, 126);
+    box-sizing: border-box;
+    border-radius: 0.375rem;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    padding: 0.5rem 2rem;
+}
+
+.--object-button:hover {
+    background-color: rgb(139, 145, 126);
+}
+
+body > .main > .search-form > .label {
+    margin-right: 1rem;
+}
+
+
+.title-select {
+    list-style: none;
+
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    margin: unset;
+    padding: unset;
+}
+
+.title-select > li {
+    border: 0.0625rem solid rgb(180, 180, 188);
+    border-radius: 99rem;
+    padding: 0.625rem 1.5rem;
+    color: rgb(180, 180, 188);
+    margin: 1rem;
+}
+
+.title-select > li:hover {
+    border: 0.0625rem solid rgb(169, 175, 126);
+    color: rgb(169, 175, 126);
+    cursor: pointer;
+}
+
+.title--select {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.title--select > li {
+    border: 0.0625rem solid rgb(180, 180, 188);
+    padding: 0.625rem 1.5rem;
+    border-radius: 0.3rem;
+    color: rgb(180, 180, 188);
+    margin: 1rem;
+}
+
+
+/*게시판 윗부분 css*/
+
+#table td {
+    background-color: rgb(255, 255, 255);
+    padding: 0.5rem 1rem;
+}
+
+#table th {
+    background-color: rgb(120, 110, 110);
+    color: rgb(234, 236, 238);
+    font-weight: inherit;
+    padding: 0.1rem 1rem;
+}
+
+#table td,
+#table th {
+    white-space: nowrap;
+}
+
+#table td:nth-of-type(3),
+#table th:nth-of-type(3) {
+    width: 100%;
+    white-space: normal;
+}
+
+#table > tbody > tr:not(:last-of-type) > td {
+    border-bottom: 0.0625rem solid rgb(234, 236, 238);
+}
+
+#table > tbody > tr > td > .title {
+    color: inherit;
+    text-decoration: none;
+
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#searchForm {
+    margin-top: 1.5rem;
+
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#searchForm > * + * {
+    margin-left: 0.5rem;
+}
+
+/*그리드 부분임*/
+body > main > .box {
+    width: 92.5%;
+    padding: 0 8rem;
+    margin: 1rem 0 4rem 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+body > main > .box > .title {
+    font-size: 2.25rem;
+    font-weight: 300;
+    margin-bottom: 2rem;
+}
+
+body > main > .box > .item-container {
+    display: grid;
+    gap: 2rem 2.5rem;
+    grid-template-columns: repeat(4, 1fr);
+    list-style-type: none;
+    margin: unset;
+    padding: unset;
+}
+
+body > main > .box > .item-container.emple {
+    gap: 2.5rem 5rem;
+}
+
+body > main > .box > .item-container > .item {
+    filter: brightness(95%);
+    transition-duration: 250ms;
+    transition-property: filter, transform;
+    transition-timing-function: ease;
+}
+
+body > main > .box > .item-container > .item:hover {
+    filter: brightness(100%);
+    transform: scale(105%);
+}
+
+body > main > .box > .item-container > .item > .link {
+    align-items: stretch;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.15rem;
+    font-weight: 300;
+    justify-content: flex-start;
+    text-decoration: none;
+}
+
+body > main > .box > .item-container > .item > .link > .image {
+    width: 100%;
+    margin-bottom: 0.75rem;
+}
+
+body > main > .box > .item-container > .item > .link > .charge-price {
+    font-size: 0.85rem;
+    margin-top: 0.325rem;
+}
+
+/*그리드 부분임*/
+
+/*그리드 컬럼,로우 부분임*/
+body > main > .box > .item-container > .item.big {
+    user-select: none;
+    grid-column: 1/3;
+    grid-row: 1/3;
+}
+
+body > main > .box > .item-container > .item.big:hover {
+    cursor: default;
+    transform: scale(100%);
+}
+
+/*그리드 컬럼,로우 부분임*/
+
+/*옆으로 빠지는 이미지*/
+body > main > .box > .item-container > .item-description {
+    grid-column: 3/5;
+}
+
+body > main > .box > .item-container > .item-description > .description-header {
+    margin-bottom: 1rem;
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+
+body > main > .box > .item-container > .item-description > .description-body {
+    padding-bottom: 1rem;
+    border-bottom: 0.0625rem solid rgb(216, 218, 220);
+}
+
+body > main > .box > .item-container > .item-description > .side-image {
+    margin-top: 3.15rem;
+
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+body > main > .box > .item-container > .item-description > .side-image > .image.side {
+    width: 33.3%;
+    height: 33.3%;
+}
+
+body > main > .box > .item-container > .item-description > .side-image > .side-description {
+    padding-left: 1rem;
+}
+
+body > main > .box > .item-container > .item-description > .side-image > .side-description > .side.header {
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+body > main > .box > .item-container > .item-description > .side-image > .side-description > .side.text {
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+
+body > main > .box > .item-container > .item-description > .side-image > .side-description > .side.charge-price {
+    margin-top: 0.25rem;
+    font-size: 0.9rem;
+}
+
+/*옆으로 빠지는 이미지*/
+
+
+
+
+

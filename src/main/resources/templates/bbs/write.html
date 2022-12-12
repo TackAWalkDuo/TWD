@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Take a walk duo</title>
+    <th:block th:replace="~{fragments/head}"></th:block>
+    <script defer th:src="@{/resources/libraries/ckeditor/ckeditor.js}"></script>
+    <script defer th:src="@{/bbs/resources/scripts/write.js}"></script>
+    <link rel="stylesheet" th:href="@{/bbs/resources/stylesheets/write.css}">
+</head>
+<body>
+<th:block th:replace="~{fragments/body :: header}"></th:block>
+<main class="--main main">
+    <div class="img"></div>
+    <form class="content --content" id="form">
+        <h1 class="title">자유 게시판-글쓰기</h1>
+        <div class="write-container">
+            <label class="label">
+                <span hidden>검색기준</span>
+                <select name="criterion" class="--object-input">
+                    <option value="menu" selected disabled>분류</option>
+                    <option value="all">일상</option>
+                    <option value="title">꿀TIP</option>
+                    <option value="nickname">유머</option>
+                </select>
+                <div class="writeButton-container">
+                    <input class="--object-button" type="button" name="back" value="돌아가기">
+                    <input class="--object-button" type="submit" name="submit" value="작성하기">
+                </div>
+            </label>
+        </div>
+        <!--    ck-color-base-active:#2977ff;-->
+        <table class="table" id="table">
+            <tbody>
+            <tr class="nameLine">
+                <th>제목</th>
+                <td>
+                    <label class="label">
+                        <span hidden>제목</span>
+                        <input class="--object-input input" maxlength="100" name="title" placeholder="제목을 입력해주세요"
+                               type="text">
+                    </label>
+                </td>
+            </tr>
+            <tr class="contentLine">
+                <th>내용</th>
+                <td>
+                    <label class="label">
+                        <span hidden>내용</span>
+                        <textarea class="--object-input input" maxlength="10000" name="content"
+                                  placeholder="내용을 입력해주세요"
+                                  type="text"></textarea>
+                    </label>
+                </td>
+            </tr>
+            <!--      <tr class="warning-row" rel="warningRow">-->
+            <!--        <th></th>-->
+            <!--        <td>-->
+            <!--                <span class="warning">-->
+            <!--                        <i class="icon fa-solid fa-triangle-exclamation"></i>-->
+            <!--                        <span class="text">제목을 입력해주세요.</span>-->
+            <!--                </span>-->
+            <!--        </td>-->
+            <!--      </tr>-->
+            </tbody>
+            <!--    <input name="bid" type="hidden" th:value="${board.getId()}">-->
+            <tfoot>
+            <tr>
+                <th>
+                    <a class="image-select-button" href="#" rel="imageSelectButton">이미지 선택...</a>
+                </th>
+                <td>
+                    <div class="image-container" rel="imageContainer">
+                            <div class="no-image" rel="noImage">선택된 이미지가 없습니다.</div>
+                        <img alt="" class="image"
+                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Supreme_pizza.jpg/800px-Supreme_pizza.jpg">
+                        <img alt="" class="image"
+                             src="https://cdn.dominos.co.kr/admin/upload/goods/20200311_x8StB1t3.jpg">
+                        <img alt="" class="image"
+                             src="https://cdn.dominos.co.kr/admin/upload/goods/20200311_x8StB1t3.jpg">
+                    </div>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+</main>
+<!-- cover -->
+<th:block th:replace="~{fragments/body :: cover}"></th:block>
+<th:block th:replace="~{fragments/body :: footer}"></th:block>
+</body>
+</html>
