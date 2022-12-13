@@ -8,6 +8,7 @@ import dev.test.take_a_walk_duo.mappers.IMapMapper;
 import dev.test.take_a_walk_duo.vos.PlaceVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -28,6 +29,7 @@ public class MapService {
     }
 
     //TODO user 업데이트 후 제약조건 및 데이터 set 변경.
+    @Transactional
     public Enum<? extends IResult> addWalkArticle(ArticleEntity article,
                                                   LocationEntity location,
                                                   MultipartFile[] images) throws IOException {
@@ -57,17 +59,10 @@ public class MapService {
 
             article.setThumbnail(imageInByte);
             article.setThumbnailType("image/png");
-
             baos.close();
         }
 
         if (this.mapMapper.insertWalkArticle(article) == 0) return CommonResult.FAILURE;
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         // article 에 저장 한 뒤 해당 index 로 Location 에 남은 내용 저장.
         location.setArticleIndex(article.getIndex());
@@ -83,5 +78,7 @@ public class MapService {
         System.out.println("map service check");
         return this.mapMapper.selectPlaces(minLat, minLng, maxLat, maxLng);
     }
+
+
 
 }

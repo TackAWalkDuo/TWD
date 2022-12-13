@@ -17,6 +17,4 @@ public interface IMapMapper {
                            @Param(value = "minLng") double minLng,
                            @Param(value = "maxLat") double maxLat,
                            @Param(value = "maxLng") double maxLng);
-
-    ;
 }

@@ -36,7 +36,9 @@ const loadPlaces = (ne, sw) => {
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status >= 200 && xhr.status < 300) {
-                const placeArray = JSON.parse(xhr.responseText);
+                // const placeArray = JSON.parse(xhr.responseText);
+                const responseObject = JSON.parse(xhr.responseText);
+                const placeArray = responseObject['place'];
                 console.log("check js")
                 places = placeArray;
                 for (const placeObject of placeArray) {
