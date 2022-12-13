@@ -41,7 +41,7 @@ public class MapService {
             }
         } else {
             byte[] imageInByte;
-            File defaultImage = new File("src/main/resources/static/resources/images/TAWD_logo.png");
+            File defaultImage = new File("src/main/resources/static/resources/images/Ninave2.jpg");
             defaultImage.setReadable(true, false);
 
             System.out.println("file 권한  : " + defaultImage.canRead() );
@@ -49,13 +49,13 @@ public class MapService {
 
             BufferedImage originalImage = ImageIO.read(defaultImage);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(originalImage, "png", baos);
+            ImageIO.write(originalImage, "jpg", baos);
             baos.flush();
 
             imageInByte = baos.toByteArray();
 
             article.setThumbnail(imageInByte);
-            article.setThumbnailType("image/png");
+            article.setThumbnailType("image/jpeg");
 
             baos.close();
         }
