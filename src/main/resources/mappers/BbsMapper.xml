@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dev.test.take_a_walk_duo.mappers.IBbsMapper">
+    <select id="selectBoards" resultType="dev.test.take_a_walk_duo.entities.bbs.BoardEntity">
+        SELECT `id`    AS `id`,
+               `text`  AS `text`,
+               `order` AS `order`
+        FROM `twd_bbs`.`boards`
+        ORDER BY `order`
+        LIMIT 4;
+    </select>
+
+    <select id="selectBoardById" resultType="dev.test.take_a_walk_duo.entities.bbs.BoardEntity">
+        SELECT `id`   AS `id`,
+               `text` As `text`
+        FROM `twd_bbs`.`boards`
+        WHERE BINARY `id` = #{bid}
+        LIMIT 1;
+    </select>
+    <insert id="insertArticle"
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index"
+            parameterType="dev.test.take_a_walk_duo.entities.bbs.ArticleEntity">
+        INSERT INTO `twd_bbs`.`articles`
+        (`user_email`, `board_id`, `title`, `content`, `thumbnail`, `thumbnail_type`,
+         `view`, `written_on`, `modified_on`)
+        VALUES (#{userEmail}, #{boardId}, #{title}, #{content}, #{thumbnail}, #{thumbnailType}, #{view},
+                IFNULL(#{writtenOn}, DEFAULT(`written_on`)), IFNULL(#{modifiedOn}, DEFAULT(`modified_on`)));
+    </insert>
+</mapper>
