@@ -25,5 +25,42 @@ form['images'].addEventListener('input', () => {
     }
 });
 
+form.onsubmit = e => {
+    e.preventDefault();
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+    // ArticleEntity
+    formData.append("title", form['title'].value);
+    formData.append("content", form['content'].value);
+    // SaleProductEntity
+    formData.append("quantity", form['quantity'].value);
+    // formData.append("cost", form['cost'].value);
+    // formData.append("discount", form['discount'].value);
+    formData.append("price", form['price'].value);
+    // formData.append("profit", form['profit'].value);
+    formData.append("categoryIndex", form['category'].value);
+    // image
+    for (let file of form['images'].files) {
+        formData.append("images", file);
+    }
 
+    xhr.open('POST', './write');
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                const responseObject = JSON.parse(xhr.responseText);
+                switch (responseObject['result']) {
+                    case 'success' :
+                        alert('굳 잡');
+                        break;
 
+                    default :
+                        alert('돌아가');
+                }
+            } else {
+                alert('연결 실패');
+            }
+        }
+    };
+    xhr.send(formData);
+}

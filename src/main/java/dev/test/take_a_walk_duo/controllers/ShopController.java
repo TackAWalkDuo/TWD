@@ -2,6 +2,8 @@ package dev.test.take_a_walk_duo.controllers;
 
 import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.test.take_a_walk_duo.entities.bbs.sale.SaleProductEntity;
+import dev.test.take_a_walk_duo.entities.member.UserEntity;
+import dev.test.take_a_walk_duo.services.MemberService;
 import dev.test.take_a_walk_duo.services.ShopService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +19,13 @@ import java.io.IOException;
 @RequestMapping(value = "/shop")
 public class ShopController {
     private final ShopService shopService;
+    private final MemberService memberService;
+
 
     @Autowired
-    public ShopController(ShopService shopService) {
+    public ShopController(ShopService shopService, MemberService memberService) {
         this.shopService = shopService;
+        this.memberService = memberService;
     }
 
     @RequestMapping(value = "/main",
@@ -67,19 +72,15 @@ public class ShopController {
         return modelAndView;
     }
 
-//    @PostMapping(value = "write", produces = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseBody
-//    public String postImage(ArticleEntity article,
-//                            SaleProductEntity product,
-//                            @RequestParam(value = "images", required = false)MultipartFile images)throws IOException{
-//        Enum<?> result = this.shopService
-//    }
-
     @PostMapping(value = "write",produces = MediaType.APPLICATION_JSON_VALUE)
-    public String postWrite(SaleProductEntity product){
+    @ResponseBody
+    public String postWrite(ArticleEntity article,
+                            SaleProductEntity product,
+                            @RequestParam(value = "images", required = false) MultipartFile[] images,
+                            @SessionAttribute(value = "user", required = false) UserEntity user)throws IOException{
         Enum<?> result;
         JSONObject responseObject = new JSONObject();
-        result = this.shopService.write(product);
+        result = this.shopService.write(article, product, images, user);
         responseObject.put("result",result.name().toLowerCase());
 
         return responseObject.toString();

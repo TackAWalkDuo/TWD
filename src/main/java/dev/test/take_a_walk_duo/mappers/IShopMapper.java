@@ -1,5 +1,6 @@
 package dev.test.take_a_walk_duo.mappers;
 
+import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.test.take_a_walk_duo.entities.bbs.sale.SaleProductEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -11,5 +12,6 @@ public interface IShopMapper {
                                     @Param(value = "criterion")String criterion);
 
     int insertProduct(SaleProductEntity product);
-//    SaleProductEntity productEntity();
+
+    int insertShopArticle(ArticleEntity article);
 }

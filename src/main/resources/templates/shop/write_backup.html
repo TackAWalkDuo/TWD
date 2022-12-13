@@ -38,16 +38,16 @@
             </tr>
             <tr class="categoryLine">
                 <th>상품 카테고리</th>
-                <td class="aassdd">
+                <td>
                     <label class="label">
                         <span hidden>상품 카테고리</span>
-                        <select class="">
+                        <select name="category" class="">
                             <option selected disabled>카테고리를 선택해 주세요.</option>
-                            <option value="사료">사료</option>
-                            <option value="간식">간식</option>
-                            <option value="옷">옷</option>
-                            <option value="장난감">장난감</option>
-                            <option value="기타 용품">기타 용품</option>
+                            <option value="1">사료</option>
+                            <option value="2">간식</option>
+                            <option value="3">옷</option>
+                            <option value="4">장난감</option>
+                            <option value="5">기타 용품</option>
                         </select>
                         <!--            <input class="&#45;&#45;object-input input" maxlength="100" name="title" placeholder="상품 이름을 입력해주세요"-->
                         <!--                   type="text">-->
@@ -80,7 +80,7 @@
                 <td>
                     <label class="label">
                         <span hidden>상품 가격</span>
-                        <input class="--object-input input" min="1" max="999999" name="quantity"
+                        <input class="--object-input input" min="1" max="999999" name="price"
                                placeholder="상품 가격을 입력해주세요. (1 ~ 999999)" type="number">
                     </label>
                 </td>
@@ -102,7 +102,7 @@
                 <td>
                     <label class="label">
                         <span hidden>상품 배송비</span>
-                        <input class="--object-input input" min="3000" max="5000" value="3000" name="quantity"
+                        <input class="--object-input input" min="3000" max="5000" value="3000" name="delivery"
                                placeholder="상품 배송비를 입력해주세요. (3000 ~ 5000)"
                                type="number">
                     </label>
