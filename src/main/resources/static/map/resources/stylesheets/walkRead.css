@@ -39,7 +39,7 @@ body > .--header {
     min-width: 50%;
     height: 100%;
     background-color: white;
-
+    overflow: hidden auto;
 }
 
 #searchContainer {
@@ -135,8 +135,6 @@ body > .--header {
 }
 
 
-
-
 #detailContainer {
     background-color: white;
     flex-basis: 22.5rem;
@@ -152,10 +150,19 @@ body > .--header {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+
 }
 
 #detailContainer.visible {
     max-width: 22.5rem;
+}
+
+#detailContainer > .title-container {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.3rem 0.5rem;
 }
 
 #detailContainer > .image-container > .image {
@@ -163,6 +170,19 @@ body > .--header {
     aspect-ratio: 1 / 1;
     object-fit: cover;
 }
+
+#detailContainer > .interest-container {
+    padding: 0.3rem 0.5rem;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#detailContainer > .interest-container > * + *{
+    margin-left: 0.8rem;
+}
+
 
 #detailContainer > .info-container {
     align-items: stretch;
@@ -177,8 +197,13 @@ body > .--header {
     padding-inline: unset;
 }
 
+#detailContainer > .info-container > .address {
+    padding-bottom: 1rem;
+}
 
-
+#detailContainer > .info-container > .content {
+    padding-bottom: 2rem;
+}
 
 
 
