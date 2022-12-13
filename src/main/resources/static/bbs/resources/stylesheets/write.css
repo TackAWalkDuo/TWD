@@ -38,10 +38,10 @@ body > .--main > .--content > .write-container > .label > .--object-input {
 }
 
 .--main > .content > .title {
-    font-size: 22px;
-    border: 0.1rem solid rgb(128, 139, 150);
+    border-bottom: 0.5rem solid rgb(128, 139, 150);
     padding: 1rem 3rem;
     margin-bottom: 3rem;
+    font-size: 2.5rem;
 }
 
 
@@ -56,12 +56,13 @@ body > .--main > .--content > .write-container > .label > .--object-input {
 }
 
 .table th {
-    background-color: rgb(169, 175, 126);
-    border: 0.1rem solid rgb(169, 175, 126);
-    border-radius: 0.4rem;
-    color: rgb(234, 236, 238);
+    border-bottom: 0.5rem solid rgb(169, 175, 126);
+    color: rgb(120, 120, 128);
     font-weight: inherit;
     padding: 0.1rem 1rem;
+    max-width: 12rem;
+    height: 0;
+    width: 12rem;
 }
 
 .table > tbody > .nameLine {
@@ -69,14 +70,20 @@ body > .--main > .--content > .write-container > .label > .--object-input {
 }
 
 .table > tbody > .nameLine > td {
-    border: 0.01rem solid #c4c4c4;
+    border-bottom: 0.5rem solid rgb(169, 175, 126);
 }
 
 .table > tbody > .nameLine > td > .label > .--object-input {
     width: 100%;
 }
 
-.table > tfoot > tr > td {
+.table > tbody >.contentLine > td{
+    border-bottom: 0.5rem solid rgb(169, 175, 126);
+}
+.table> tbody > .contentLine{
+    height: 100%;
+}
+.table > tbody > tr > td > div {
     border: 0.01rem solid #c4c4c4;
     max-width: 100%;
 }
@@ -86,27 +93,29 @@ body > .--main > .--content > .write-container > .label > .--object-input {
     border: unset;
 }
 
-.table > tfoot > tr > th > .image-select-button {
+.table > tbody > tr > th >.contentImage-container{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.table > tbody > tr > th >.contentImage-container > .image-select-button {
     text-decoration: none;
-    border: 0.01rem solid rgb(255, 255, 255);
+    border: 0.11rem solid rgb(120,120,128);
     border-radius: 1rem;
     color: inherit;
     white-space: nowrap;
     padding: 1rem;
 
 }
-
-.table > tfoot > tr > td > .image-container {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
+.table > tbody > tr > th > .image-container {
+    height: 12rem;
 }
 
-.table > tfoot > tr > td > .image-container > .image {
+.table > tbody > tr > th > .contentImage-container> .image-container > .image {
     width: 12rem;
     height: 12rem;
-    margin-right: 1rem;
 
 }
 
@@ -116,7 +125,7 @@ body > .--main > .--content > .write-container > .label > .--object-input {
 
 /*.ck.ck-editor{'width'}*/
 .ck-editor__editable {
-    min-height: 100%;
+    min-height: 20rem;
 }
 
 .ck.ck-editor__main > .ck-editor__editable.ck-focused {
