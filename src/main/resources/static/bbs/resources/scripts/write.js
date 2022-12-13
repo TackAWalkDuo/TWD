@@ -5,14 +5,61 @@ ClassicEditor
     .create(form['content'])
     .then( e => editor = e );
 
-const form = window.document.getElementById('form');
+form.querySelector('[rel="contentImageContainer"]').addEventListener('click', e => {
+    e.preventDefault();
+    form['images'].click();
+});
+
+
+form.addEventListener('input', () => {
+    const imageContainerElement = form.querySelector('[rel="contentImageContainer"]');
+    imageContainerElement.querySelectorAll('img.image').forEach(x => x.remove());
+    if (form['images'].files.length > 0) {
+        form.querySelector('[rel="imageSelectButton"]').setAttribute('hidden','hidden');
+        form.querySelector('[rel="noImage"]').setAttribute('hidden','hidden');
+    } else {
+        form.querySelector('[rel="noImage"]').classList.remove('hidden')
+    }
+    for (let file of form['images'].files) {
+        const imageSrc = URL.createObjectURL(file);
+        const imgElement = document.createElement('img');
+        imgElement.classList.add('image');
+        imgElement.setAttribute('src', imageSrc);
+        imageContainerElement.append(imgElement);
+    }
+});
+
+form.querySelector('[rel="contentImageContainer"]').addEventListener('click', e => {
+    e.preventDefault();
+    form['images'].click();
+});
+
+
+form.addEventListener('input', () => {
+    const imageContainerElement = form.querySelector('[rel="contentImageContainer"]');
+    imageContainerElement.querySelectorAll('img.image').forEach(x => x.remove());
+    if (form['images'].files.length > 0) {
+        form.querySelector('[rel="imageSelectButton"]').setAttribute('hidden','hidden');
+        form.querySelector('[rel="noImage"]').setAttribute('hidden','hidden');
+    } else {
+        form.querySelector('[rel="noImage"]').classList.remove('hidden')
+    }
+    for (let file of form['images'].files) {
+        const imageSrc = URL.createObjectURL(file);
+        const imgElement = document.createElement('img');
+        imgElement.classList.add('image');
+        imgElement.setAttribute('src', imageSrc);
+        imageContainerElement.append(imgElement);
+    }
+});
+
 
 form.onsubmit = e => {
     e.preventDefault();
     Warning.hide();
 
     if (form['title'].value === '') {
-        alert('제목을 입력해주세요.');
+        alert('제목을 입력해주세요!!!');
         form['title'].focus();
         return false;
     }
@@ -21,18 +68,19 @@ form.onsubmit = e => {
         editor.focus();
         return false;
     }
+
+
     // Cover.show('게시글을 작성하는 중입니다.')
     const xhr = new XMLHttpRequest();
     const formData = new FormData;
     formData.append('bid', form['bid'].value);
     formData.append('title', form['title'].value);
     formData.append('content', editor.getData());
-    // formData.append('boardId',form['id'].value);
     xhr.open('POST', './write');
     // './write?bid=' + form['id'].value);
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
-            Cover.hide();
+            // Cover.hide();
             if (xhr.status >= 200 && xhr.status < 300) {
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
