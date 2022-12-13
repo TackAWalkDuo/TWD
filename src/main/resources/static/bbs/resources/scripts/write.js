@@ -29,6 +29,30 @@ form.addEventListener('input', () => {
     }
 });
 
+form.querySelector('[rel="contentImageContainer"]').addEventListener('click', e => {
+    e.preventDefault();
+    form['images'].click();
+});
+
+
+form.addEventListener('input', () => {
+    const imageContainerElement = form.querySelector('[rel="contentImageContainer"]');
+    imageContainerElement.querySelectorAll('img.image').forEach(x => x.remove());
+    if (form['images'].files.length > 0) {
+        form.querySelector('[rel="imageSelectButton"]').setAttribute('hidden','hidden');
+        form.querySelector('[rel="noImage"]').setAttribute('hidden','hidden');
+    } else {
+        form.querySelector('[rel="noImage"]').classList.remove('hidden')
+    }
+    for (let file of form['images'].files) {
+        const imageSrc = URL.createObjectURL(file);
+        const imgElement = document.createElement('img');
+        imgElement.classList.add('image');
+        imgElement.setAttribute('src', imageSrc);
+        imageContainerElement.append(imgElement);
+    }
+});
+
 
 form.onsubmit = e => {
     e.preventDefault();
