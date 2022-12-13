@@ -16,7 +16,7 @@ public class UserEntity {
     private String addressPrimary;
     private String addressSecondary;
     private Date registeredOn;
-    private Boolean adminFlag;
+    private Boolean isAdmin;
 
     public String getEmail() {
         return email;
@@ -115,12 +115,12 @@ public class UserEntity {
         this.registeredOn = registeredOn;
     }
 
-    public Boolean getAdminFlag() {
-        return adminFlag;
+    public Boolean getAdmin() {
+        return isAdmin;
     }
 
-    public void setAdminFlag(Boolean adminFlag) {
-        this.adminFlag = adminFlag;
+    public void setAdmin(Boolean admin) {
+        isAdmin = admin;
     }
 
     @Override
