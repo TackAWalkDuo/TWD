@@ -5,6 +5,7 @@ import dev.test.take_a_walk_duo.entities.bbs.map.LocationEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
 import dev.test.take_a_walk_duo.interfaces.IResult;
 import dev.test.take_a_walk_duo.mappers.IMapMapper;
+import dev.test.take_a_walk_duo.vos.PlaceVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -78,7 +79,9 @@ public class MapService {
     }
 
 
-    public ArticleEntity getArticle(int index){
-        return this.mapMapper.selectArticleByIndex(index);
+    public PlaceVo[] getPlaces(double minLat, double minLng, double maxLat, double maxLng){
+        System.out.println("map service check");
+        return this.mapMapper.selectPlaces(minLat, minLng, maxLat, maxLng);
     }
+
 }
