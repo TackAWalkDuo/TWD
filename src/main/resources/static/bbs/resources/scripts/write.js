@@ -59,7 +59,7 @@ form.onsubmit = e => {
     Warning.hide();
 
     if (form['title'].value === '') {
-        alert('제목을 입력해주세요.');
+        alert('제목을 입력해주세요!!!');
         form['title'].focus();
         return false;
     }
