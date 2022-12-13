@@ -42,10 +42,10 @@ body > .--main {
 }
 
 .table th {
-    background-color: rgb(120, 110, 11);
-    border: 0.1rem solid rgb(120, 110, 11);
-    color: rgb(234, 236, 238);
-    font-weight: inherit;
+    background-color: rgba(169, 175, 126,90%);
+    /*border: 0.1rem solid rgb(128, 139, 150);*/
+    color: rgb(0,0,0);
+    font-weight: 400;
     padding: 0.1rem 1rem;
 }
 th{
@@ -120,6 +120,15 @@ th{
     text-decoration: underline;
 }
 
+#table > tbody > .imageLine > td > label > .image-container > .image {
+    width: 100%;
+    cursor: pointer;
+    object-fit: cover;
+    object-position: center;
+    aspect-ratio: 1/1;
+}
+
+
 /*#table {*/
 /*    max-width: 100%;*/
 /*}*/
@@ -128,13 +137,15 @@ th{
 /*    box-sizing: border-box !important;*/
 /*}*/
 
-.ck.ck-editor{
-    width: 50%;
-}
+
 
 .ck.ck-toolbar,
 .ck.ck-content{
     padding: unset;
+}
+
+.ck.ck-content{
+    height: 290px;
 }
 
 .ck.ck-editor{

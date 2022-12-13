@@ -1,5 +1,6 @@
 package dev.test.take_a_walk_duo.controllers;
 
+import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.test.take_a_walk_duo.entities.bbs.sale.SaleProductEntity;
 import dev.test.take_a_walk_duo.services.ShopService;
 import org.json.JSONObject;
@@ -7,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.io.IOException;
 
 @Controller(value = "dev.test.take_a_walk_duo.controllers.ShopController")
 @RequestMapping(value = "/shop")
@@ -62,6 +66,14 @@ public class ShopController {
         modelAndView = new ModelAndView("shop/write_backup");
         return modelAndView;
     }
+
+//    @PostMapping(value = "write", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseBody
+//    public String postImage(ArticleEntity article,
+//                            SaleProductEntity product,
+//                            @RequestParam(value = "images", required = false)MultipartFile images)throws IOException{
+//        Enum<?> result = this.shopService
+//    }
 
     @PostMapping(value = "write",produces = MediaType.APPLICATION_JSON_VALUE)
     public String postWrite(SaleProductEntity product){

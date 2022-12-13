@@ -14,29 +14,14 @@
 <body>
 <th:block th:replace="~{fragments/body :: header}"></th:block>
 <main class="--main main">
-    <div class="img"></div>
+<!--    <div class="img"></div>-->
     <form class="content --content" id="form">
+        <input hidden multiple accept="image/*" name="images" type="file">
         <h1 class="title">상품 등록</h1>
         <div class="button-container">
             <input class="--object-button" type="button" name="back" value="돌아가기">
             <input class="--object-button" type="submit" name="submit" value="등록하기">
         </div>
-        <!--    ck-color-base-active:#2977ff;-->
-        <!--    <table class="table first">-->
-        <!--      <tbody>-->
-        <!--      <tr class="imageLine">-->
-        <!--        <th>상품 이미지</th>-->
-        <!--        <td>-->
-        <!--          <label class="label">-->
-        <!--            <span hidden>상품 이미지</span>-->
-        <!--            <input hidden class="&#45;&#45;object-input input" accept="image/*" maxlength="100" name="image" placeholder="상품 이미지를 등록해주세요"-->
-        <!--                   type="file">-->
-        <!--            <a class="image-select-button" href="#" rel="imageSelectButton">상품 이미지 선택...</a>-->
-        <!--          </label>-->
-        <!--        </td>-->
-        <!--      </tr>-->
-        <!--      </tbody>-->
-        <!--    </table>-->
         <table class="table" id="table">
             <tbody>
             <tr class="imageLine">
@@ -44,9 +29,9 @@
                 <td rowspan="8" class="image">
                     <label class="label">
                         <span hidden>상품 이미지</span>
-                        <input hidden class="--object-input input" accept="image/*" maxlength="100" name="image"
-                               placeholder="상품 이미지를 등록해주세요"
-                               type="file">
+                        <div class="image-container" rel="imageContainer">
+                        <!--이미지 들어오는 곳-->
+                        </div>
                         <a class="image-select-button" href="#" rel="imageSelectButton">상품 이미지 선택...</a>
                     </label>
                 </td>
