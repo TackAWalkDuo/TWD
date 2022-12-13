@@ -1,13 +1,12 @@
 package dev.test.take_a_walk_duo.controllers;
 
+import dev.test.take_a_walk_duo.entities.bbs.sale.SaleProductEntity;
 import dev.test.take_a_walk_duo.services.ShopService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller(value = "dev.test.take_a_walk_duo.controllers.ShopController")
@@ -60,8 +59,18 @@ public class ShopController {
             produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getWrite() {
         ModelAndView modelAndView;
-        modelAndView = new ModelAndView("shop/write");
+        modelAndView = new ModelAndView("shop/write_backup");
         return modelAndView;
+    }
+
+    @PostMapping(value = "write",produces = MediaType.APPLICATION_JSON_VALUE)
+    public String postWrite(SaleProductEntity product){
+        Enum<?> result;
+        JSONObject responseObject = new JSONObject();
+        result = this.shopService.write(product);
+        responseObject.put("result",result.name().toLowerCase());
+
+        return responseObject.toString();
     }
 
 }

@@ -22,4 +22,15 @@
 <!--            AND BINARY `user`.`nickname` = #{keyword}-->
 <!--        </if>-->
     </select>
+    <insert id="insertProduct"
+            parameterType="dev.test.take_a_walk_duo.entities.bbs.sale.SaleProductEntity"
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index">
+        INSERT INTO `twd_bbs`.`sale_product` (`article_index`, `quantity`, `cost`,
+                                              `discount`, `price`, `profit`, `category_index`)
+        VALUES (#{articleIndex}, #{thumbnail}, #{thumbnailType}#{quantity}, #{cost}, #{discount}, #{price}, #{profit},
+                #{categoryIndex})
+
+    </insert>
 </mapper>

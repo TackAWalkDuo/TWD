@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Take a walk duo</title>
+    <th:block th:replace="~{fragments/head}"></th:block>
+    <script defer th:src="@{/resources/libraries/ckeditor/ckeditor.js}"></script>
+    <script defer th:src="@{/shop/resources/scripts/write_backup.js}"></script>
+    <link rel="stylesheet" th:href="@{/shop/resources/stylesheets/write_backup.css}">
+</head>
+<body>
+<th:block th:replace="~{fragments/body :: header}"></th:block>
+<main class="--main main">
+    <div class="img"></div>
+    <form class="content --content" id="form">
+        <h1 class="title">상품 등록</h1>
+        <div class="button-container">
+            <input class="--object-button" type="button" name="back" value="돌아가기">
+            <input class="--object-button" type="submit" name="submit" value="등록하기">
+        </div>
+        <!--    ck-color-base-active:#2977ff;-->
+        <!--    <table class="table first">-->
+        <!--      <tbody>-->
+        <!--      <tr class="imageLine">-->
+        <!--        <th>상품 이미지</th>-->
+        <!--        <td>-->
+        <!--          <label class="label">-->
+        <!--            <span hidden>상품 이미지</span>-->
+        <!--            <input hidden class="&#45;&#45;object-input input" accept="image/*" maxlength="100" name="image" placeholder="상품 이미지를 등록해주세요"-->
+        <!--                   type="file">-->
+        <!--            <a class="image-select-button" href="#" rel="imageSelectButton">상품 이미지 선택...</a>-->
+        <!--          </label>-->
+        <!--        </td>-->
+        <!--      </tr>-->
+        <!--      </tbody>-->
+        <!--    </table>-->
+        <table class="table" id="table">
+            <tbody>
+            <tr class="imageLine">
+                <th rowspan="8">상품 이미지</th>
+                <td rowspan="8" class="image">
+                    <label class="label">
+                        <span hidden>상품 이미지</span>
+                        <input hidden class="--object-input input" accept="image/*" maxlength="100" name="image"
+                               placeholder="상품 이미지를 등록해주세요"
+                               type="file">
+                        <a class="image-select-button" href="#" rel="imageSelectButton">상품 이미지 선택...</a>
+                    </label>
+                </td>
+            </tr>
+            <tr class="categoryLine">
+                <th>상품 카테고리</th>
+                <td class="aassdd">
+                    <label class="label">
+                        <span hidden>상품 카테고리</span>
+                        <select class="">
+                            <option selected disabled>카테고리를 선택해 주세요.</option>
+                            <option value="사료">사료</option>
+                            <option value="간식">간식</option>
+                            <option value="옷">옷</option>
+                            <option value="장난감">장난감</option>
+                            <option value="기타 용품">기타 용품</option>
+                        </select>
+                        <!--            <input class="&#45;&#45;object-input input" maxlength="100" name="title" placeholder="상품 이름을 입력해주세요"-->
+                        <!--                   type="text">-->
+                    </label>
+                </td>
+            </tr>
+            <tr class="nameLine">
+                <th>상품 이름</th>
+                <td>
+                    <label class="label">
+                        <span hidden>상품 이름</span>
+                        <input class="--object-input input" maxlength="100" name="title" placeholder="상품 이름을 입력해주세요"
+                               type="text">
+                    </label>
+                </td>
+            </tr>
+            <tr class="quantityLine">
+                <th>상품 수량</th>
+                <td>
+                    <label class="label">
+                        <span hidden>상품 수량</span>
+                        <input class="--object-input input" min="1" max="999" name="quantity"
+                               placeholder="상품 수량을 입력해주세요. (1 ~ 999)"
+                               type="number">
+                    </label>
+                </td>
+            </tr>
+            <tr class="priceLine">
+                <th>상품 가격</th>
+                <td>
+                    <label class="label">
+                        <span hidden>상품 가격</span>
+                        <input class="--object-input input" min="1" max="999999" name="quantity"
+                               placeholder="상품 가격을 입력해주세요. (1 ~ 999999)" type="number">
+                    </label>
+                </td>
+            </tr>
+            <tr class="textLine">
+                <th>상품 소개</th>
+                <td>
+                    <label class="label">
+                        <span hidden>상품 소개</span>
+                        <textarea style="resize: none" class="--object-input input" placeholder="상품 소개를 입력해주세요"
+                                  name="text" maxlength="500"></textarea>
+                        <!--            <input class="&#45;&#45;object-input input" maxlength="200" name="text" placeholder="상품 소개를 입력해주세요"-->
+                        <!--                   type="text">-->
+                    </label>
+                </td>
+            </tr>
+            <tr class="deliveryLine">
+                <th>상품 배송비</th>
+                <td>
+                    <label class="label">
+                        <span hidden>상품 배송비</span>
+                        <input class="--object-input input" min="3000" max="5000" value="3000" name="quantity"
+                               placeholder="상품 배송비를 입력해주세요. (3000 ~ 5000)"
+                               type="number">
+                    </label>
+                </td>
+            </tr>
+            <tr class="contentLine">
+                <th>상품 상세 정보</th>
+                <td>
+                    <label class="label">
+                        <span hidden>상품 상세 정보</span>
+                        <textarea class="--object-input input" maxlength="10000" name="content"
+                                  placeholder="상품 상세 정보를 입력해주세요"
+                                  type="text"></textarea>
+                    </label>
+                </td>
+            </tr>
+            <!--            <tr class="warning-row" rel="warningRow">-->
+            <!--              <th></th>-->
+            <!--              <td>-->
+            <!--                      <span class="warning">-->
+            <!--                              <i class="icon fa-solid fa-triangle-exclamation"></i>-->
+            <!--                              <span class="text">제목을 입력해주세요.</span>-->
+            <!--                      </span>-->
+            <!--              </td>-->
+            <!--            </tr>-->
+            </tbody>
+        </table>
+        <!--    <input name="bid" type="hidden" th:value="${board.getId()}">-->
+    </form>
+</main>
+<!-- cover -->
+<th:block th:replace="~{fragments/body :: cover}"></th:block>
+<th:block th:replace="~{fragments/body :: footer}"></th:block>
+</body>
+</html>
