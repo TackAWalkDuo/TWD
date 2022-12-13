@@ -47,8 +47,8 @@ public class MapService {
             File defaultImage = new File("src/main/resources/static/resources/images/TAWD_logo.png");
             defaultImage.setReadable(true, false);
 
-            System.out.println("file 권한  : " + defaultImage.canRead() );
-            System.out.println("file exit  : " + defaultImage.exists() );
+            System.out.println("file 권한  : " + defaultImage.canRead());
+            System.out.println("file exit  : " + defaultImage.exists());
 
             BufferedImage originalImage = ImageIO.read(defaultImage);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -74,11 +74,10 @@ public class MapService {
     }
 
 
-    public PlaceVo[] getPlaces(double minLat, double minLng, double maxLat, double maxLng){
+    public PlaceVo[] getPlaces(double minLat, double minLng, double maxLat, double maxLng) {
         System.out.println("map service check");
         return this.mapMapper.selectPlaces(minLat, minLng, maxLat, maxLng);
     }
-
 
 
 }

@@ -60,28 +60,11 @@ public class MapController {
 
     @GetMapping(value = "place", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String getPlace(@RequestParam(value = "minLat") double minLat,
+    public PlaceVo[] getPlace(@RequestParam(value = "minLat") double minLat,
                            @RequestParam(value = "minLng") double minLng,
                            @RequestParam(value = "maxLat") double maxLat,
-                           @RequestParam(value = "maxLng") double maxLng,
-                           @RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
-        PlaceVo[] returnPlaces = this.mapService.getPlaces(minLat, minLng, maxLat, maxLng);
-        JSONArray placeArray = new JSONArray();
-//        int totalCount = returnPlaces.length;
-//        PagingModel pagingModel = new PagingModel(3, totalCount, page);
-
-        JSONObject responseObject = new JSONObject();
-//        for (PlaceVo place : returnPlaces) {
-//            JSONObject placeObject = new JSONObject();
-//            placeObject.put("place", place);
-//
-//            placeArray.put(placeObject);
-//        }
-//        responseObject.append("result", returnPlaces);
-
-        responseObject.put("place", returnPlaces);
-//        System.out.println("map controller check");
-        return responseObject.toString();
+                           @RequestParam(value = "maxLng") double maxLng) {
+        return this.mapService.getPlaces(minLat, minLng, maxLat, maxLng);
     }
 
 }

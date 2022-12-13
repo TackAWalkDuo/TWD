@@ -36,9 +36,7 @@ const loadPlaces = (ne, sw) => {
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status >= 200 && xhr.status < 300) {
-                // const placeArray = JSON.parse(xhr.responseText);
-                const responseObject = JSON.parse(xhr.responseText);
-                const placeArray = responseObject['place'];
+                const placeArray = JSON.parse(xhr.responseText);
                 console.log("check js")
                 places = placeArray;
                 for (const placeObject of placeArray) {
@@ -49,11 +47,6 @@ const loadPlaces = (ne, sw) => {
                         position: position,
                         clickable: true,
                     });
-                    // kakao.maps.event.addListener(marker, 'click', () => {
-                    //     detailContainer.show(placeObject);
-                    // });
-
-                    marker.setMap(mapObject);
 
                     const placeHtml = `
                     <li class="item" rel="item">
@@ -85,8 +78,14 @@ const loadPlaces = (ne, sw) => {
                         .parseFromString(placeHtml, `text/html`)
                         .querySelector('[rel="item"]');
 
+                    const latLng = new kakao.maps.LatLng(placeObject['latitude'], placeObject['longitude']);
+                    kakao.maps.event.addListener(marker, 'click', () => {
+                        mapObject.setCenter(latLng);
+                    });
+
+                    marker.setMap(mapObject);
+
                     placeElement.addEventListener('click', () => {
-                        const latLng = new kakao.maps.LatLng(placeObject['latitude'], placeObject['longitude']);
                         mapObject.setCenter(latLng);
                     });
 
