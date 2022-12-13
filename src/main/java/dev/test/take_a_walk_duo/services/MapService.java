@@ -5,6 +5,7 @@ import dev.test.take_a_walk_duo.entities.bbs.map.LocationEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
 import dev.test.take_a_walk_duo.interfaces.IResult;
 import dev.test.take_a_walk_duo.mappers.IMapMapper;
+import dev.test.take_a_walk_duo.vos.PlaceVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,7 +42,7 @@ public class MapService {
             }
         } else {
             byte[] imageInByte;
-            File defaultImage = new File("src/main/resources/static/resources/images/TAWD_logo.png");
+            File defaultImage = new File("src/main/resources/static/resources/images/Ninave2.jpg");
             defaultImage.setReadable(true, false);
 
             System.out.println("file 권한  : " + defaultImage.canRead() );
@@ -49,13 +50,13 @@ public class MapService {
 
             BufferedImage originalImage = ImageIO.read(defaultImage);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(originalImage, "png", baos);
+            ImageIO.write(originalImage, "jpg", baos);
             baos.flush();
 
             imageInByte = baos.toByteArray();
 
             article.setThumbnail(imageInByte);
-            article.setThumbnailType("image/png");
+            article.setThumbnailType("image/jpeg");
 
             baos.close();
         }
@@ -78,7 +79,9 @@ public class MapService {
     }
 
 
-    public ArticleEntity getArticle(int index){
-        return this.mapMapper.selectArticleByIndex(index);
+    public PlaceVo[] getPlaces(double minLat, double minLng, double maxLat, double maxLng){
+        System.out.println("map service check");
+        return this.mapMapper.selectPlaces(minLat, minLng, maxLat, maxLng);
     }
+
 }
