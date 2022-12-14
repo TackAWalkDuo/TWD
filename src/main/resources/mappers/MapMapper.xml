@@ -34,8 +34,6 @@
                `article`.`board_id`               AS 'boardId',
                `article`.`title`                  AS 'title',
                `article`.`content`                AS 'content',
-               `article`.`thumbnail`              AS 'thumbnail',
-               `article`.`thumbnail_type`         AS 'thumbnailType',
                `article`.`view`                   AS 'view',
                `article`.`written_on`             AS 'writtenOn',
                `article`.`modified_on`            AS 'modifiedOn',
