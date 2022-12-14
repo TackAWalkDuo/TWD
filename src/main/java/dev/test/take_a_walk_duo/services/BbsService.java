@@ -2,10 +2,12 @@ package dev.test.take_a_walk_duo.services;
 
 import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.test.take_a_walk_duo.entities.bbs.BoardEntity;
+import dev.test.take_a_walk_duo.entities.member.UserEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
 import dev.test.take_a_walk_duo.enums.bbs.WriteResult;
 import dev.test.take_a_walk_duo.interfaces.IResult;
 import dev.test.take_a_walk_duo.mappers.IBbsMapper;
+import dev.test.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

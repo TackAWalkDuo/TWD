@@ -2,6 +2,7 @@ package dev.test.take_a_walk_duo.mappers;
 
 import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.test.take_a_walk_duo.entities.bbs.BoardEntity;
+import dev.test.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
