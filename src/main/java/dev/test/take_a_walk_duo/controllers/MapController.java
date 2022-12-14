@@ -3,7 +3,7 @@ package dev.test.take_a_walk_duo.controllers;
 import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.test.take_a_walk_duo.entities.bbs.map.LocationEntity;
 import dev.test.take_a_walk_duo.services.MapService;
-import dev.test.take_a_walk_duo.vos.PlaceVo;
+import dev.test.take_a_walk_duo.vos.map.PlaceVo;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -59,11 +59,9 @@ public class MapController {
     @GetMapping(value = "place", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public PlaceVo[] getPlace(@RequestParam(value = "minLat") double minLat,
-                              @RequestParam(value = "minLng") double minLng,
-                              @RequestParam(value = "maxLat") double maxLat,
-                              @RequestParam(value = "maxLng") double maxLng){
-
-        System.out.println("map controller check");
+                           @RequestParam(value = "minLng") double minLng,
+                           @RequestParam(value = "maxLat") double maxLat,
+                           @RequestParam(value = "maxLng") double maxLng) {
         return this.mapService.getPlaces(minLat, minLng, maxLat, maxLng);
     }
 

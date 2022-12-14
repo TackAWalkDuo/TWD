@@ -47,11 +47,6 @@ const loadPlaces = (ne, sw) => {
                         position: position,
                         clickable: true,
                     });
-                    // kakao.maps.event.addListener(marker, 'click', () => {
-                    //     detailContainer.show(placeObject);
-                    // });
-
-                    marker.setMap(mapObject);
 
                     const placeHtml = `
                     <li class="item" rel="item">
@@ -75,16 +70,29 @@ const loadPlaces = (ne, sw) => {
                                    </span>
                                </span>
                            </span>
-                           <img alt="" class="image" src="/resources/images/Ninave2.jpg">
+                           <img alt="" rel="image" class="image" src="/resources/images/Ninave2.jpg">
                         </span>
                         <span class="address bottom">${placeObject['address']}</span>
                     <\li>`;
                     const placeElement = new DOMParser()
                         .parseFromString(placeHtml, `text/html`)
                         .querySelector('[rel="item"]');
+                    const imageElement = placeElement.querySelector('[rel="image"]');
+
+                    for (const imageIndex of placeObject['thumbnail']) {
+                        imageElement.setAttribute('alt', '');
+                        imageElement.setAttribute('src', `/bbs/thumbnail?index=${placeObject['index']}`);
+                    }
+
+
+                    const latLng = new kakao.maps.LatLng(placeObject['latitude'], placeObject['longitude']);
+                    kakao.maps.event.addListener(marker, 'click', () => {
+                        mapObject.setCenter(latLng);
+                    });
+
+                    marker.setMap(mapObject);
 
                     placeElement.addEventListener('click', () => {
-                        const latLng = new kakao.maps.LatLng(placeObject['latitude'], placeObject['longitude']);
                         mapObject.setCenter(latLng);
                     });
 
