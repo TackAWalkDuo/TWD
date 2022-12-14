@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 
 @Service(value = "dev.test.take_a_walk_duo.services.ShopService")
@@ -51,10 +55,26 @@ public class ShopService {
         }
         article.setUserEmail(user.getEmail());
         article.setBoardId("shop"); // BoardId shop 하나라서 고정.
+        if (images != null) {
+            for (MultipartFile image : images) {
+                article.setThumbnail(image.getBytes());
+                article.setThumbnailType(image.getContentType());
+            }
+        }else {
+            byte[] imageInByte;
+            File defaultImage = new File("src/main/resources/static/resources/images/ingImage.jpeg");
+            defaultImage.setReadable(true, false);
 
-        for (MultipartFile image : images) {
-            article.setThumbnail(image.getBytes());
-            article.setThumbnailType(image.getContentType());
+            BufferedImage originalImage = ImageIO.read(defaultImage);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(originalImage, "png", baos);
+            baos.flush();
+
+            imageInByte = baos.toByteArray();
+
+            article.setThumbnail(imageInByte);
+            article.setThumbnailType("image/png");
+            baos.close();
         }
 
         if (this.shopMapper.insertShopArticle(article) == 0) {
