@@ -1,4 +1,4 @@
-package dev.test.take_a_walk_duo.entities.bbs.sale;
+package dev.test.take_a_walk_duo.entities.shop;
 
 import java.util.Objects;
 
@@ -11,6 +11,7 @@ public class SaleProductEntity {
     private int price;          // 판매가
     private int profit;         // 이익
     private int categoryIndex;  //상품 분류.
+    private int deliveryFee;
 
     public int getIndex() {
         return index;
@@ -74,6 +75,15 @@ public class SaleProductEntity {
 
     public void setCategoryIndex(int categoryIndex) {
         this.categoryIndex = categoryIndex;
+    }
+
+    public int getDeliveryFee() {
+        return deliveryFee;
+    }
+
+    public SaleProductEntity setDeliveryFee(int deliveryFee) {
+        this.deliveryFee = deliveryFee;
+        return this;
     }
 
     @Override

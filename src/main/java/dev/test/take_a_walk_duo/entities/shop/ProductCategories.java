@@ -1,4 +1,4 @@
-package dev.test.take_a_walk_duo.entities.bbs.sale;
+package dev.test.take_a_walk_duo.entities.shop;
 
 import java.util.Objects;
 

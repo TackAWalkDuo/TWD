@@ -5,21 +5,73 @@
 <mapper namespace="dev.test.take_a_walk_duo.mappers.IShopMapper">
     <select id="selectArticleCountByBoardId"
             resultType="int">
-<!--        SELECT COUNT(0)-->
-<!--        FROM `study_bbs`.`articles`-->
-<!--        <if test="criterion != null and criterion.equals('nickname')">-->
-<!--            LEFT JOIN `study`.`users` AS `user` ON `articles`.`user_email` = `user`.`email`-->
-<!--        </if>-->
-<!--        WHERE `board_id` = #{boardId}-->
-<!--        <if test="criterion != null and criterion.equals('title')">-->
-<!--            AND REPLACE(`article`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')-->
-<!--        </if>-->
-<!--        <if test="criterion != null and criterion.equals('all')">-->
-<!--            AND (REPLACE(`article`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')-->
-<!--            OR REPLACE(`article`.`content`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%'))-->
-<!--        </if>-->
-<!--        <if test="criterion != null and criterion.equals('nickname')">-->
-<!--            AND BINARY `user`.`nickname` = #{keyword}-->
-<!--        </if>-->
+        <!--        SELECT COUNT(0)-->
+        <!--        FROM `study_bbs`.`articles`-->
+        <!--        <if test="criterion != null and criterion.equals('nickname')">-->
+        <!--            LEFT JOIN `study`.`users` AS `user` ON `articles`.`user_email` = `user`.`email`-->
+        <!--        </if>-->
+        <!--        WHERE `board_id` = #{boardId}-->
+        <!--        <if test="criterion != null and criterion.equals('title')">-->
+        <!--            AND REPLACE(`article`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')-->
+        <!--        </if>-->
+        <!--        <if test="criterion != null and criterion.equals('all')">-->
+        <!--            AND (REPLACE(`article`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')-->
+        <!--            OR REPLACE(`article`.`content`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%'))-->
+        <!--        </if>-->
+        <!--        <if test="criterion != null and criterion.equals('nickname')">-->
+        <!--            AND BINARY `user`.`nickname` = #{keyword}-->
+        <!--        </if>-->
     </select>
+    <insert id="insertProduct"
+            parameterType="dev.test.take_a_walk_duo.entities.shop.SaleProductEntity"
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index">
+        INSERT INTO `twd_shop`.`sale_product`
+        (`article_index`, `quantity`, `cost`, `discount`, `price`, `profit`, `category_index`,`delivery_fee`)
+        VALUES (#{articleIndex}, #{quantity}, #{cost}, #{discount}, #{price}, #{profit}, #{categoryIndex},#{deliveryFee});
+    </insert>
+
+    <insert id="insertShopArticle"
+            useGeneratedKeys="true"
+            keyProperty="index"
+            keyColumn="index"
+            parameterType="dev.test.take_a_walk_duo.entities.bbs.ArticleEntity">
+        INSERT INTO `twd_bbs`.`articles`
+        (`user_email`, `board_id`, `title`, `content`, `thumbnail`, `thumbnail_type`, `view`, `written_on`,
+         `modified_on`)
+        VALUES (#{userEmail}, #{boardId}, #{title}, #{content}, #{thumbnail}, #{thumbnailType}, #{view},
+                IFNULL(#{writtenOn}, DEFAULT(`written_on`)),
+                IFNULL(#{modifiedOn}, DEFAULT(`modified_on`)));
+    </insert>
+
+    <select id="selectBoardById"
+            resultType="dev.test.take_a_walk_duo.entities.bbs.BoardEntity">
+        SELECT `id`       AS `id`,
+               `text`     AS `text`,
+               `board_id` AS `boardId`,
+               `order`    AS `order`
+        FROM `twd_bbs`.`boards`
+        WHERE BINARY `id` = #{id}
+        LIMIT 1;
+    </select>
+
+    <select id="selectImageByIndex"
+            resultType="dev.test.take_a_walk_duo.entities.bbs.ImageEntity">
+        SELECT `index`     AS `index`,
+               `file_name` AS `fileName`,
+               `file_mime` AS `fileMime`,
+               `data`      AS `data`
+        FROM `twd_bbs`.`images`
+        WHERE `index` = #{index}
+        LIMIT 1
+    </select>
+
+    <insert id="insertImage"
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index">
+        INSERT INTO `twd_bbs`.`images`(`file_name`, `file_mime`, `data`)
+        VALUES (#{fileName}, #{fileMime}, #{data})
+    </insert>
 </mapper>

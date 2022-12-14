@@ -5,6 +5,7 @@ import java.util.Objects;
 public class BoardEntity {
     private String id;
     private String text;
+    private String boardId;
     private int order;
 
     public String getId() {
@@ -29,6 +30,15 @@ public class BoardEntity {
 
     public void setOrder(int order) {
         this.order = order;
+    }
+
+    public String getBoardId() {
+        return boardId;
+    }
+
+    public BoardEntity setBoardId(String boardId) {
+        this.boardId = boardId;
+        return this;
     }
 
     @Override
