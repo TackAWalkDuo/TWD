@@ -39,4 +39,46 @@
         FROM `twd_bbs`.`articles`
         WHERE `index` = #{index}
     </select>
+    <select id="selectArticleByIndex"
+            resultType="dev.test.take_a_walk_duo.vos.bbs.ArticleReadVo">
+        SELECT `articles`.`index`                       AS `index`,
+               `articles`.`user_email`                  AS `userEmail`,
+               `articles`.`board_id`                    AS `boardId`,
+               `articles`.`title`                       AS `title`,
+               `articles`.`content`                     AS `content`,
+               `articles`.`thumbnail`                   AS `thumbnail`,
+               `articles`.`thumbnail_type`              AS `thumbnailType`,
+               `articles`.`view`                        AS `view`,
+               `articles`.`written_on`                  AS `writtenOn`,
+               `articles`.`modified_on`                 AS `modifiedOn`,
+               `user`.`nickname`                        AS `userNickname`,
+               `user`.`species`                         AS `userSpecies`,
+               COUNT(`aLikedCount`.`article_index`)     AS `articleLikedCount`,
+               COUNT(`articleLike`.`article_index`) > 0 AS `articleLiked`
+        FROM `twd_bbs`.`articles`
+                 LEFT JOIN `twd_member`.`user` on articles.user_email = user.email
+                 LEFT JOIN `twd_bbs`.`article_likes` AS `aLikedCount`
+                           on `articles`.`index` = `aLikedCount`.`article_index`
+                 LEFT JOIN `twd_bbs`.`article_likes` AS `articleLike`
+                           on `articles`.`index` = `articleLike`.`article_index`
+                               AND `articleLike`.`user_email` = IFNULL(#{email}, '')
+        WHERE `articles`.`index` = #{index}
+        GROUP BY `articles`.`index`
+        LIMIT 1;
+    </select>
+    <update id="updateArticle"
+            parameterType="dev.test.take_a_walk_duo.entities.bbs.ArticleEntity">
+        UPDATE `twd_bbs`.`articles`
+        SET `user_email`     = #{userEmail},
+            `board_id`       = #{boardId},
+            `title`          = #{title},
+            `content`        = #{content},
+            `thumbnail`      = #{thumbnail},
+            `thumbnail_type` = #{thumbnailType},
+            `view`           = #{view},
+            `written_on`     = #{writtenOn},
+            `modified_on`    = #{modifiedOn}
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
 </mapper>

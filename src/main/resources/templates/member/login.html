@@ -9,6 +9,19 @@
     <th:block th:replace="~{fragments/head :: common}"></th:block>
     <link rel="stylesheet" th:href="@{/member/resources/stylesheets/login.css}">
     <script defer th:src="@{/member/resources/scripts/login.js}"></script>
+    <!-- Google reCAPTCHA js -->
+    <script defer src="https://www.google.com/recaptcha/api.js?render=6LeKrXYjAAAAALbh_mG9TSjDKMCLOsyaUsytqFBI"></script>
+    <script src="https://kit.fontawesome.com/12a5ab0618.js" crossorigin="anonymous"></script>
+    <script>
+        function reCapt() {
+            grecaptcha.ready(function () {
+                grcaptcha.execute('6LeKrXYjAAAAAPlA9vL7y3IfUvVE6WdoSTwqaZ3K', {action: 'submit'}).then(function (token) {
+                    $('#token').val(token);
+                });
+            });
+        }
+    </script>
+
 </head>
 <body>
 <div class="xButton" id="xButton">
@@ -59,30 +72,17 @@
                     </span>
                 </td>
             </tr>
-            <!-- 로봇 인식 -->
+            <!-- reCAPTCHA 등록 -->
             <tr>
                 <th id="robot"></th>
                 <td>
                     <label>
-                        <form class="code" action="" method="post" accept-charset="UTF-8" role="form">
-                            <div class="alert alert-danger" role="alert">
-                            </div>
-                            <fieldset>
-                                <div class="form-group">
-                                </div>
-                                <div class="form-group">
-                                </div>
-                                <div class="form-group">
-                                    <script src='https://www.google.com/recaptcha/api.js'></script>
-                                    <div class="g-recaptcha"
-                                         data-sitekey="공개 사이트 키값"></div>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                    </label>
-                                </div>
-                                <input type="hidden" name="next" value="{{ next }}"/>
-                            </fieldset>
+                        <form action="/validation" method="post">
+                            <button type="button" class="g-recaptcha" onclick="reCapt()">토큰받아옴</button>
+                            <br>
+                            <textarea type="text" name="token" id="token" value=""></textarea>
+                            <br>
+                            <button type="submit">제출</button>
                         </form>
                     </label>
                 </td>
@@ -117,12 +117,12 @@
                 <td>
                     <div class="kakao">
                         <i class="icon fa-brands fa-kickstarter"></i>
-                        <input class="kakao-button" id="kakao-button" name="kakaoButton"
-                               type="submit" value="카카오로 로그인하기" href="#">
-                        <div></div>
+                        <a class="kakaoButton" id="kakaoLoginButton" href="https://kauth.kakao.com/oauth/authorize?client_id=c46b378a1086f25e2d518ef34b37a493&redirect_uri=http://localhost:8080/member/kakao&response_type=code" target="_blank" th:if="${session.user == null}">카카오로 로그인하기</a>
+                        <a class="kakaoButton" id="kakaoLogoutButton" th:href="@{'./member/logout'}" th:if="${session.user != null}">카카오 로그아웃</a>
                     </div>
                 </td>
             </tr>
+
             <!-- 네이버 로그인 -->
             <tr>
                 <th id="naver"></th>

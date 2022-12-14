@@ -6,6 +6,7 @@ import dev.test.take_a_walk_duo.entities.member.UserEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
 import dev.test.take_a_walk_duo.enums.bbs.WriteResult;
 import dev.test.take_a_walk_duo.services.BbsService;
+import dev.test.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -29,7 +30,7 @@ public class BbsController {
         this.bbsService = bbsService;
     }
 
-    //Mr.g
+    //Mr.m
     //글쓰기 Get(창띄우기)
     @RequestMapping(value = "write",
             method = RequestMethod.GET,
@@ -50,7 +51,7 @@ public class BbsController {
         return modelAndView;
     }
 
-    //Mr.g
+    //Mr.m
     //글쓰기 post(글작업하기)
     @RequestMapping(value = "write", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -75,18 +76,26 @@ public class BbsController {
         return responseObject.toString();
     }
 
-    //Mr.g
+    //Mr.m
+    //게시글 읽기 구현
     @RequestMapping(value = "read",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getRead(@SessionAttribute(value = "user", required = false) UserEntity user,
                                 @RequestParam(value = "aid", required = false) int aid) {
         ModelAndView modelAndView = new ModelAndView("bbs/read");
+        ArticleReadVo article = this.bbsService.readArticle(aid,user);
+        modelAndView.addObject("article", article);
+        System.out.println(article.getIndex());
+        if (article != null) {
+            BoardEntity board = this.bbsService.getBoard(article.getBoardId());
+            modelAndView.addObject("board", board);
+            modelAndView.addObject("liked", article.isArticleLiked());
+        }
         return modelAndView;
     }
 
-
-    //Mr.g
+    //Mr.m
     @RequestMapping(value = "list",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)

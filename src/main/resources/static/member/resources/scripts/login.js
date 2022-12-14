@@ -1,5 +1,8 @@
 const form = window.document.getElementById('loginForm');
 
+const loginButton = document.getElementById('kakaoLoginButton');
+// 카카오 로그인하기 버튼
+
 const Warning = {
     getElement: () => form.querySelector('[rel="warningRow"]'),
     show: (text) => {
@@ -9,6 +12,15 @@ const Warning = {
     },
     hide: () => Warning.getElement().classList.remove('visible')
 };
+
+// xButton 눌렀을 때
+window.document.getElementById('xButton').addEventListener('click', () => {
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        window.location.href = '/member';
+    }
+});
 
 // 로그인 버튼 눌렀을 때
 form.onsubmit = (e) => {
@@ -52,13 +64,21 @@ form.onsubmit = (e) => {
     xhr.send(formData);
 }
 
-// xButton 눌렀을 때
-window.document.getElementById('xButton').addEventListener('click', () => {
-    if (window.history.length > 1) {
-        window.history.back();
-    } else {
-        window.location.href = '/member';
-    }
-});
+// 카카오로 로그인하기 눌렀을 때
+loginButton?.addEventListener('click', e => {
+    e.preventDefault();
+    window.location.href = 'kauth.kakao.com/oauth/authorize?client_id=ecccd1725ed813810c3752e8582735fe&redirect_uri=http://localhost:8080/member/kakao&response_type=code';
+    window.open();
+})
+
+// // google recaptcha
+// function reCapt() {
+//     grecaptcha.ready(function () {
+//         grcaptcha.execute('6Lcd-HUjAAAAAK-ayQ6FbLyCGu1Yv6-H-6Oxhj3A', {action: 'submit'}).then(function (token) {
+//             $('#token').val(token);
+//         });
+//     });
+// }
+
 
 

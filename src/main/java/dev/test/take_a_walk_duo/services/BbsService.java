@@ -2,10 +2,12 @@ package dev.test.take_a_walk_duo.services;
 
 import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.test.take_a_walk_duo.entities.bbs.BoardEntity;
+import dev.test.take_a_walk_duo.entities.member.UserEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
 import dev.test.take_a_walk_duo.enums.bbs.WriteResult;
 import dev.test.take_a_walk_duo.interfaces.IResult;
 import dev.test.take_a_walk_duo.mappers.IBbsMapper;
+import dev.test.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -70,6 +72,37 @@ public class BbsService {
         }
         return this.bbsMapper.insertArticle(article) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
+
+//        Mr.m
+//        게시글 읽기 구현 (게시글 aid값으로 불러오기) + 조회수 구현
+    public ArticleReadVo readArticle(int index, UserEntity user) {
+        ArticleReadVo existingArticleReadVo = this.bbsMapper.selectArticleByIndex(index, user == null ? null : user.getEmail());
+        if (existingArticleReadVo != null) {
+//            for (MultipartFile image : images) {
+//                existingArticleReadVo.setThumbnail(image.getBytes());
+//                existingArticleReadVo.setThumbnailType(image.getContentType());
+//            }
+            existingArticleReadVo.setView(existingArticleReadVo.getView() + 1);
+            this.bbsMapper.updateArticle(existingArticleReadVo);
+            System.out.println("existingArticleReadVo check1");
+        }else {
+            System.out.println("existingArticleReadVo check2");
+        }
+        return existingArticleReadVo;
+    }
+
+    //    Mr.m
+    //    게시글 좋아요 구현
+//    public Enum<? extends IResult> likedArticle(ArticleLikeEntity articleLikeEntity, UserEntity user) {
+//        ArticleReadVo existingArticleLiked = this.bbsMapper.selectArticleByIndex(articleLikeEntity.getArticleIndex());
+//        if(existingArticleLiked == null)
+//            return CommonResult.FAILURE;
+//        articleLikeEntity.setUserEmail(user.getEmail());
+//        articleLikeEntity.setCreatedOn(new Date());
+//        return this.bbsMapper.insertArticleLike(articleLikeEntity) > 0
+//                ? CommonResult.SUCCESS
+//                : CommonResult.FAILURE;
+//    }
 
     public ArticleEntity getThumbnail(int index){
         return this.bbsMapper.selectThumbnailByIndex(index);
