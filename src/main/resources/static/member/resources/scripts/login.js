@@ -64,6 +64,11 @@ form.onsubmit = (e) => {
     xhr.send(formData);
 }
 
+
+// ajax 이용해서 리캡챠 서버로 사이트키 보내기
+function doValidRecaptcha() {
+}
+
 // 카카오로 로그인하기 눌렀을 때
 loginButton?.addEventListener('click', e => {
     e.preventDefault();
