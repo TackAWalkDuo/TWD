@@ -65,4 +65,7 @@ public class MapController {
         return this.mapService.getPlaces(minLat, minLng, maxLat, maxLng);
     }
 
+
+
+
 }

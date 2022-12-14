@@ -1,6 +1,7 @@
 const map = window.document.getElementById("map");
 const list = window.document.getElementById("list");
 const detailContainer = window.document.getElementById("detailContainer");
+const reviewForm = window.document.getElementById("reviewForm");
 
 let mapObject;
 let places = [];        // db 에서 list 를 가져와서 담아줄 변수.
@@ -14,6 +15,7 @@ detailContainer.show = (placeObject) => {
     detailContainer.querySelector('[rel="likeCounter"]').innerText = placeObject['likeCount'];
     detailContainer.querySelector('[rel="addressText"]').innerText = placeObject['address'];
     detailContainer.querySelector('[rel="descriptionText"]').innerText = placeObject['content'];
+    reviewForm['articleIndex'].innerText = placeObject['index'];
 }
 detailContainer.hide = () => {
     detailContainer.classList.remove("visible");
@@ -136,12 +138,75 @@ const loadPlaces = (ne, sw) => {
 };
 
 
+
+
 //ip를 통해서 현재 위치 확인 권한 설정후 현재 위치를 중심으로 지도 표시
 navigator.geolocation.getCurrentPosition(e => {
     loadMap(e['coords']['latitude'], e['coords']['longitude']);
 }, () => {
     loadMap();
 });
+
+//이미지 찾기 버튼을 누를 경우 파일 검색창 활성화.
+reviewForm.querySelector('[rel="imageSelectButton"]').addEventListener('click', e => {
+    e.preventDefault();
+    reviewForm['images'].click();
+});
+
+
+//이미지 찾기에서 이미지를 선택할 경우.
+reviewForm['images'].addEventListener('input', () => {
+    const imageContainerElement = reviewForm.querySelector('[rel="imageContainer"]');
+    imageContainerElement.querySelectorAll('img.image').forEach(x => x.remove());
+    if (reviewForm['images'].files.length > 0) {
+        reviewForm.querySelector('[rel="noImage"]').classList.add('hidden')
+    } else {
+        reviewForm.querySelector('[rel="noImage"]').classList.remove('hidden')
+    }
+    for (let file of reviewForm['images'].files) {
+        const imageSrc = URL.createObjectURL(file);
+        const imgElement = document.createElement('img');
+        imgElement.classList.add('image');
+        imgElement.setAttribute('src', imageSrc);
+        imageContainerElement.append(imgElement);
+    }
+});
+
+//리뷰 저장
+reviewForm.onsubmit = e => {
+    e.preventDefault()
+    if(reviewForm['content'] === null) {
+        alert("리뷰 내용을 입력해주세요.")
+        return false;
+    }
+
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+    formData.append('content', reviewForm['content'].value);
+    formData.append('articleIndex', reviewForm['articleIndex'].value);
+    for (let file of reviewForm['images'].files) {
+        formData.append('images', file);
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

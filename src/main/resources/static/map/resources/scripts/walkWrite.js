@@ -125,10 +125,25 @@ walkArticle['images'].addEventListener('input', () => {
     }
 });
 
+
+// walk 게시글 작성 버튼.
 walkArticle.onsubmit = e => {
     e.preventDefault();
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
+
+    if(walkArticle['lat'].value === null || walkArticle['address'].value === null) {
+        alert("추천할 좌표를 지도에서 선택해주세요.");
+        return false;
+    }
+    if(walkArticle['place_title'].value === '') {
+        alert("추천할 장소를 작성해주세요.");
+        return false;
+    }
+    if(walkArticle['content'].value === '') {
+        alert("어떤 이유로 추천하는 작성해주세요.");
+        return false;
+    }
 
     //ArticleEntity 로 받을 정보
     formData.append("title", walkArticle['place_title'].value);
@@ -151,7 +166,7 @@ walkArticle.onsubmit = e => {
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
                     case 'success':
-                        alert("GG~");
+                        window.location.href = './walk-read';
                         break;
                     default:
                         alert("응 실패");
