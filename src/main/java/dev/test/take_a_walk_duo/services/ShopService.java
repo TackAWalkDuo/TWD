@@ -67,13 +67,13 @@ public class ShopService {
 
             BufferedImage originalImage = ImageIO.read(defaultImage);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(originalImage, "png", baos);
+            ImageIO.write(originalImage, "jpeg", baos);
             baos.flush();
 
             imageInByte = baos.toByteArray();
 
             article.setThumbnail(imageInByte);
-            article.setThumbnailType("image/png");
+            article.setThumbnailType("image/jpeg");
             baos.close();
         }
 
