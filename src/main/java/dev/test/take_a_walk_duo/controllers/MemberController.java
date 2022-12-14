@@ -28,7 +28,7 @@ public class MemberController {
 
     /**
      * 카카오 로그인
-     * @rootgo
+     * rootgo
      */
     // 카카오 로그인
     @GetMapping(value = "kakao", produces = MediaType.TEXT_PLAIN_VALUE)
