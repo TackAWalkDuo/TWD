@@ -6,17 +6,19 @@
             TAKE A WALK <span class="duo">DUO</span>
         </a>
         <ul class="--menu --main">
-            <li class="--item">
-                <a class="--link small" href="#">공지사항</a>
-            </li>
-            <li class="--item">
-                <a class="--link small" href="#">자유게시판</a>
-            </li>
-            <li class="--item">
-                <a class="--link small" href="#">쇼핑</a>
-            </li>
-            <li class="--item">
-                <a class="--link small" href="#">Q&A</a>
+            <!--/*@thymesVar id="boards" type="dev.test.take_a_walk_duo.entities.bbs.BoardEntity[]"*/-->
+            <li class="--item" th:if="${board.getBoardId() == null}" th:each="board : ${boards}">
+                <a class="--link small"
+                   th:text="${board.getText()}"
+                   th:if="${board.getId()} == 'walk'" th:href="@{/map/walk-read}"></a>
+                <a class="--link small"
+                   th:text="${board.getText()}"
+                   th:if="${board.getId()} == 'shop'" th:href="@{/shop/main}">
+                </a>
+                <a class="--link small"
+                   th:text="${board.getText()}"
+                   th:if="${board.getId()} != 'walk' and ${board.getId()} != 'shop'"
+                   th:href="@{/bbs/list(bid=${board.getId()})}">공지사항</a>
             </li>
             <li class="--item">
                 <a class="--link border" th:href="@{/member/login}">로그인</a>

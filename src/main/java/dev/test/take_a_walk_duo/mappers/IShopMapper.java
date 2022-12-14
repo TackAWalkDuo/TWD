@@ -4,6 +4,7 @@ import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.test.take_a_walk_duo.entities.bbs.BoardEntity;
 import dev.test.take_a_walk_duo.entities.bbs.ImageEntity;
 import dev.test.take_a_walk_duo.entities.shop.SaleProductEntity;
+import dev.test.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,7 +14,15 @@ public interface IShopMapper {
                                     @Param(value = "keyword") String keyword,
                                     @Param(value = "criterion")String criterion);
 
+    ArticleReadVo[] selectArticlesByBoardId(@Param(value = "boardId") String boardId,
+                                          @Param(value = "limit") int limit,
+                                          @Param(value = "offset") int offset,
+                                          @Param(value = "criterion") String criterion,
+                                          @Param(value = "keyword") String keyword);
+
     BoardEntity selectBoardById(@Param(value = "id") String id);
+
+    BoardEntity[] selectBoards();
 
     // SaleProductEntity 등록용
     int insertProduct(SaleProductEntity product);
