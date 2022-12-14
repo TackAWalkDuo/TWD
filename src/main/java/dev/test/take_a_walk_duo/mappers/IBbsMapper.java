@@ -15,4 +15,13 @@ public interface IBbsMapper {
     int insertArticle(ArticleEntity articleEntity);
 
     ArticleEntity selectThumbnailByIndex(@Param(value = "index") int index);
+
+    //Mr.m
+    //ArticleIndex로 ArticleEntity불러오기
+    ArticleReadVo selectArticleByIndex(@Param(value = "index")int index,
+                                       @Param(value = "email") String email);
+
+    //Mr.m
+    //ArticleEntity(수정)조회수 만들기
+    int updateArticle(ArticleEntity articleEntity);
 }

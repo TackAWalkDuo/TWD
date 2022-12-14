@@ -6,6 +6,7 @@ import dev.test.take_a_walk_duo.entities.member.UserEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
 import dev.test.take_a_walk_duo.enums.bbs.WriteResult;
 import dev.test.take_a_walk_duo.services.BbsService;
+import dev.test.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -29,12 +30,13 @@ public class BbsController {
         this.bbsService = bbsService;
     }
 
-    //Mr.g
+    //Mr.m
     //글쓰기 Get(창띄우기)
     @RequestMapping(value = "write",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getWrite(@SessionAttribute(value = "user", required = false) UserEntity user, @RequestParam(value = "bid", required = false) String bid) {
+    public ModelAndView getWrite(@SessionAttribute(value = "user", required = false) UserEntity user,
+                                 @RequestParam(value = "bid", required = false) String bid) {
         ModelAndView modelAndView;
         if (user == null) {
             modelAndView = new ModelAndView("redirect:/member/login");
@@ -49,43 +51,56 @@ public class BbsController {
         return modelAndView;
     }
 
-    //Mr.g
+    //Mr.m
     //글쓰기 post(글작업하기)
-    @RequestMapping(value = "wirte", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String postWrite(@SessionAttribute(value = "user", required = false) UserEntity user, @RequestParam(value = "bid", required = false) String bid, ArticleEntity article, @RequestParam(value = "images", required = false) MultipartFile[] images) throws IOException {
+    @RequestMapping(value = "write", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postWrite(@SessionAttribute(value = "user", required = false) UserEntity user,
+                            ArticleEntity article,
+                            @RequestParam(value = "images", required = false) MultipartFile[] images) throws IOException {
         Enum<?> result;
         JSONObject responseObject = new JSONObject();
         if (user == null) {
             result = WriteResult.NOT_ALLOWED;
-        } else if (bid == null) {
+        } else if (article.getBoardId() == null) {
             result = WriteResult.NO_SUCH_BOARD;
+        } else {
+            article.setUserEmail(user.getEmail());
+            result = this.bbsService.RegisterArticle(article, images);
         }
-        article.setUserEmail(user.getEmail());
-        article.setBoardId(bid);
-        result = this.bbsService.RegisterArticle(article, images);
         if (result == CommonResult.SUCCESS) {
             responseObject.put("aid", article.getIndex());
         }
         responseObject.put("result", result.name().toLowerCase());
+        System.out.println("controller check" + article.getBoardId());
         return responseObject.toString();
     }
 
+    //Mr.m
+    //게시글 읽기 구현
+    @RequestMapping(value = "read",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getRead(@SessionAttribute(value = "user", required = false) UserEntity user,
+                                @RequestParam(value = "aid", required = false) int aid) {
+        ModelAndView modelAndView = new ModelAndView("bbs/read");
+        ArticleReadVo article = this.bbsService.readArticle(aid,user);
+        modelAndView.addObject("article", article);
+        System.out.println(article.getIndex());
+        if (article != null) {
+            BoardEntity board = this.bbsService.getBoard(article.getBoardId());
+            modelAndView.addObject("board", board);
+            modelAndView.addObject("liked", article.isArticleLiked());
+        }
+        return modelAndView;
+    }
 
-    //Mr.g
+    //Mr.m
     @RequestMapping(value = "list",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getList() {
         ModelAndView modelAndView = new ModelAndView("bbs/list");
-        return modelAndView;
-    }
-
-    //Mr.g
-    @RequestMapping(value = "read",
-            method = RequestMethod.GET,
-            produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getRead() {
-        ModelAndView modelAndView = new ModelAndView("bbs/read");
         return modelAndView;
     }
 
