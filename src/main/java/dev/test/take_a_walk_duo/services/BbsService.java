@@ -1,7 +1,6 @@
 package dev.test.take_a_walk_duo.services;
 
 import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
-import dev.test.take_a_walk_duo.entities.bbs.ArticleLikeEntity;
 import dev.test.take_a_walk_duo.entities.bbs.BoardEntity;
 import dev.test.take_a_walk_duo.entities.member.UserEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
@@ -10,10 +9,6 @@ import dev.test.take_a_walk_duo.interfaces.IResult;
 import dev.test.take_a_walk_duo.mappers.IBbsMapper;
 import dev.test.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,7 +17,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 
 @Service(value = "dev.test.take_a_walk_duo.services.BbsService")
 public class BbsService {
@@ -35,7 +29,7 @@ public class BbsService {
     }
 
     //1.write boardId 값 끌고오기
-    //mr.m
+    //mr.s
     public BoardEntity getBoard(String id) {
         BoardEntity boardEntity = this.bbsMapper.selectBoardById(id);
         System.out.println(boardEntity.getId());
@@ -43,8 +37,8 @@ public class BbsService {
     }
 
 
-    //1.write boardId 값 끌고오기 + 이미지 등록(설정하기)
-    //mr.m
+    //1.write boardId 값 끌고오기
+    //mr.s
     public Enum<? extends IResult> RegisterArticle(ArticleEntity article, MultipartFile[] images) throws IOException {
         BoardEntity board = this.bbsMapper.selectBoardById(article.getBoardId());
         if (board == null) {
@@ -109,4 +103,8 @@ public class BbsService {
 //                ? CommonResult.SUCCESS
 //                : CommonResult.FAILURE;
 //    }
+
+    public ArticleEntity getThumbnail(int index){
+        return this.bbsMapper.selectThumbnailByIndex(index);
+    }
 }

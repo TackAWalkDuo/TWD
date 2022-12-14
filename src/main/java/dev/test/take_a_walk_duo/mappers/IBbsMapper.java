@@ -11,9 +11,11 @@ public interface IBbsMapper {
 
     BoardEntity selectBoardById(@Param(value = "bid") String id);
 
-    //Mr.m
-    //글쓰기 insert
+    //Mr.g
+    //    글쓰기
     int insertArticle(ArticleEntity articleEntity);
+
+    ArticleEntity selectThumbnailByIndex(@Param(value = "index") int index);
 
     //Mr.m
     //ArticleIndex로 ArticleEntity불러오기
