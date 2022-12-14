@@ -8,25 +8,41 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
-import javax.print.attribute.standard.Media;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 @Controller(value = "dev.test.study_member_bbs.controllers.MemberController")
-@RequestMapping(value = "/member")
+@RequestMapping(value = "member")
 public class MemberController {
     private final MemberService memberService;
 
     @Autowired
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
+    }
+
+    // 카카오 로그인
+    @GetMapping(value = "kakao", produces = MediaType.TEXT_PLAIN_VALUE)
+    public ModelAndView getKakaoLogin(@RequestParam(value = "code") String code,
+                                 @RequestParam(value = "error", required = false) String error,
+                                 @RequestParam(value = "error_description", required = false) String errorDescription, HttpSession session) throws IOException {
+        String accessToken = this.memberService.getKakaoAccessToken(code);
+        UserEntity user = this.memberService.getKakaoUserInfo(accessToken);
+        session.setAttribute("user", user);
+        return new ModelAndView("memeber/kakao");
+    }
+
+    // 카카오 로그아웃
+    @GetMapping(value = "logout")
+    public ModelAndView getKakaoLogout(HttpSession session) {
+        session.setAttribute("user", null);
+        session.invalidate();
+        return new ModelAndView("redirect:/");
     }
 
     // 로그인 GET
