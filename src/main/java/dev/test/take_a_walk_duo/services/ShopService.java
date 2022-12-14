@@ -1,6 +1,7 @@
 package dev.test.take_a_walk_duo.services;
 
 import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
+import dev.test.take_a_walk_duo.entities.bbs.BoardEntity;
 import dev.test.take_a_walk_duo.entities.bbs.ImageEntity;
 import dev.test.take_a_walk_duo.entities.bbs.sale.SaleProductEntity;
 import dev.test.take_a_walk_duo.entities.member.UserEntity;
@@ -31,6 +32,13 @@ public class ShopService {
 //    public int getArticleCount(BoardEntity board, String criterion, String keyword) {
 //        return this.shopMapper.selectArticleCountByBoardId(board.getId(), criterion, keyword);
 //    }
+
+    // list
+    public BoardEntity getBoard(String id)
+    // id 는 게시판의 id임 notice 등
+    {
+        return this.shopMapper.selectBoardById(id);
+    }
 
     // 상품 등록
     public Enum<? extends IResult> write(ArticleEntity article,
@@ -75,5 +83,6 @@ public class ShopService {
     public ImageEntity getImage(int index){
         return this.shopMapper.selectImageByIndex(index);
     }
+
 }
 

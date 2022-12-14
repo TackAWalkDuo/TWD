@@ -45,6 +45,17 @@
                 IFNULL(#{modifiedOn}, DEFAULT(`modified_on`)));
     </insert>
 
+    <select id="selectBoardById"
+            resultType="dev.test.take_a_walk_duo.entities.bbs.BoardEntity">
+        SELECT `id`       AS `id`,
+               `text`     AS `text`,
+               `board_id` AS `boardId`,
+               `order`    AS `order`
+        FROM `twd_bbs`.`boards`
+        WHERE BINARY `id` = #{id}
+        LIMIT 1;
+    </select>
+
     <select id="selectImageByIndex"
             resultType="dev.test.take_a_walk_duo.entities.bbs.ImageEntity">
         SELECT `index`     AS `index`,
@@ -57,9 +68,10 @@
     </select>
 
     <insert id="insertImage"
-    useGeneratedKeys="true"
-    keyColumn="index"
-    keyProperty="index">
-    INSERT INTO `twd_bbs`.`images`(`file_name`, `file_mime`, `data`) VALUES (#{fileName}, #{fileMime}, #{data})
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index">
+        INSERT INTO `twd_bbs`.`images`(`file_name`, `file_mime`, `data`)
+        VALUES (#{fileName}, #{fileMime}, #{data})
     </insert>
 </mapper>
