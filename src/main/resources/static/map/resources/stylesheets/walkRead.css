@@ -19,12 +19,12 @@ body > .--header {
 
 #container {
     position: absolute;
-    width: 33%;
+    /*width: 33%;*/
     height: 60%;
     z-index: 0;
 
     top: 20%;
-    left: 15%;
+    left: 17%;
 
     overflow: hidden;
 
@@ -140,7 +140,7 @@ body > .--header {
     flex-basis: 22.5rem;
     max-width: 0;
     height: 100%;
-    z-index: 50;
+    z-index: 3;
     overflow: hidden auto;
     transition-duration: 250ms;
     transition-property: max-width;
@@ -151,10 +151,14 @@ body > .--header {
     flex-direction: column;
     justify-content: flex-start;
 
+    pointer-events: none;
+
 }
 
 #detailContainer.visible {
     max-width: 22.5rem;
+
+    pointer-events: all;
 }
 
 #detailContainer > .title-container {

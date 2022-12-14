@@ -108,7 +108,7 @@
             <div class="title-container">
                 <span class="title" rel="title">아크리시아</span>
                 <a href="#" class="close-button" rel="closeButton">
-                    <i class="fa-solid fa-xmark"></i>
+                    <i class="fa-solid fa-xmark" rel="closeDetail"></i>
                 </a>
             </div>
             <div class="image-container" rel="imagecontainer">
@@ -148,6 +148,11 @@
                     </span>
                 </li>
             </ul>
+            <div class="review-unsigned" th:if="${session.user == null}"> 로그인 후 리뷰를 작성할 수 있어요.</div>
+
+
+
+
         </div>
     </div>
 </section>

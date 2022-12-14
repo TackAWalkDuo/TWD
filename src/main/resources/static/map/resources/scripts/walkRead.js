@@ -8,7 +8,7 @@ let places = [];        // db 에서 list 를 가져와서 담아줄 변수.
 detailContainer.show = (placeObject) => {
     detailContainer.classList.add("visible");
     detailContainer.querySelector('[rel="title"]').innerText = placeObject['title'];
-    detailContainer.querySelector('[rel="placeImage"]').setAttribute("src",`/bbs/thumbnail?index=${placeObject['index']}`);
+    detailContainer.querySelector('[rel="placeImage"]').setAttribute("src", `/bbs/thumbnail?index=${placeObject['index']}`);
     detailContainer.querySelector('[rel="view"]').innerText = placeObject['view'];
     detailContainer.querySelector('[rel="commentCounter"]').innerText = placeObject['commentCount'];
     detailContainer.querySelector('[rel="likeCounter"]').innerText = placeObject['likeCount'];
@@ -19,6 +19,10 @@ detailContainer.hide = () => {
     detailContainer.classList.remove("visible");
     detailContainer.querySelector('[rel="addressText"]').innerText = '';  // address 를 기준으로 하기때문에 기준점만 초기화
 }
+
+detailContainer.querySelector('[rel="closeDetail"]').addEventListener('click', () => {
+    detailContainer.hide();
+})
 
 //지도 활성화.
 const loadMap = (lat, lng) => {
@@ -101,20 +105,25 @@ const loadPlaces = (ne, sw) => {
                     const latLng = new kakao.maps.LatLng(placeObject['latitude'], placeObject['longitude']);
                     kakao.maps.event.addListener(marker, 'click', () => {
                         mapObject.setCenter(latLng);
-                        if(detailContainer.querySelector('[rel="addressText"]').innerText === (placeObject['address'])) {
+                        loadPlaces();
+                        if (detailContainer.querySelector('[rel="addressText"]').innerText === (placeObject['address'])) {
                             detailContainer.hide();
-                        }else {
+                        } else {
                             detailContainer.show(placeObject);
                         }
+
                     });
                     marker.setMap(mapObject);
 
                     placeElement.addEventListener('click', () => {
-                        if(detailContainer.querySelector('[rel="addressText"]').innerText === (placeObject['address'])) {
+                        mapObject.setCenter(latLng);
+                        loadPlaces();
+                        if (detailContainer.querySelector('[rel="addressText"]').innerText === (placeObject['address'])) {
                             detailContainer.hide();
-                        }else {
+                        } else {
                             detailContainer.show(placeObject);
                         }
+
                     });
 
                     list.append(placeElement);
