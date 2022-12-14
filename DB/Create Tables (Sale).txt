@@ -28,12 +28,13 @@ CREATE TABLE `twd_shop`.`product_categories`
 
 CREATE TABLE `twd_shop`.`shopping_cart`
 (
+    `index` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `user_email`      VARCHAR(50)  NOT NULL,
     `product_index`   INT UNSIGNED NOT NULL,
     `sale_price`      INT UNSIGNED NOT NULL,
     `quantity`        INT UNSIGNED NOT NULL,
     `registration_on` DATE         NOT NULL DEFAULT NOW(),
-    CONSTRAINT PRIMARY KEY (`user_email`),
+    CONSTRAINT PRIMARY KEY (`index`),
     CONSTRAINT FOREIGN KEY (`user_email`) REFERENCES `twd_member`.`user` (`email`)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
@@ -41,6 +42,7 @@ CREATE TABLE `twd_shop`.`shopping_cart`
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
+
 
 CREATE TABLE `twd_shop`.`payment`
 (
