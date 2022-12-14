@@ -56,7 +56,7 @@
                COUNT(`aLikedCount`.`article_index`)     AS `articleLikedCount`,
                COUNT(`articleLike`.`article_index`) > 0 AS `articleLiked`
         FROM `twd_bbs`.`articles`
-                 LEFT JOIN `twd_member`.`user` on articles.user_email = user.email
+                 LEFT JOIN `twd_member`.`users` AS `user`on articles.user_email = user.email
                  LEFT JOIN `twd_bbs`.`article_likes` AS `aLikedCount`
                            on `articles`.`index` = `aLikedCount`.`article_index`
                  LEFT JOIN `twd_bbs`.`article_likes` AS `articleLike`

@@ -8,7 +8,7 @@
             keyColumn="email"
             keyProperty="email"
             parameterType="dev.test.take_a_walk_duo.entities.member.UserEntity">
-        INSERT INTO `twd_member`.`user`(`email`, `password`, `nickname`, `name`, `contact`, `gender`, `haveDog`,
+        INSERT INTO `twd_member`.`users`(`email`, `password`, `nickname`, `name`, `contact`, `gender`, `haveDog`,
                                         `address_postal`, `address_primary`, `address_secondary`)
         VALUES (#{email}, #{password}, #{nickname}, #{name}, #{contact}, #{gender}, #{haveDog}, #{addressPostal},
                 #{addressPrimary}, #{addressSecondary})
@@ -38,7 +38,7 @@
                `address_secondary` AS `addressSecondary`,
                `registered_on`     AS `registeredOn`,
                `admin_flag`        AS `isAdmin`
-        FROM `twd_member`.`user`
+        FROM `twd_member`.`users`
         WHERE BINARY `email` = #{email}
         LIMIT 1
 
@@ -58,7 +58,7 @@
                `address_primary`   AS `addressPrimary`,
                `address_secondary` AS `addressSecondary`,
                `registered_on`     AS `registeredOn`
-        FROM `twd_member`.`user`
+        FROM `twd_member`.`users`
         WHERE BINARY `name` = #{name}
           AND BINARY `contact` = #{contact}
         LIMIT 1
@@ -96,7 +96,7 @@
 
     <update id="updateUser"
             parameterType="dev.test.take_a_walk_duo.entities.member.UserEntity">
-        UPDATE `twd_member`.`user`
+        UPDATE `twd_member`.`users`
         SET `password`          = #{password},
             `nickname`          = #{nickname},
             `name`              = #{name},
