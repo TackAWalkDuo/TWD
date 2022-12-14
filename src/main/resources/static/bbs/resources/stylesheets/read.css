@@ -135,9 +135,10 @@ body > .--main > .--form > .--content > .read-form  .detail-img {
     border-radius: 0.5rem;
 }
 /*read 테이블*/
-.read-form{
-    border: 0.2rem solid rgb(139, 145, 126);
-    border-radius: 0.7rem;
+
+.read-form {
+    border-top: 0.2rem solid rgb(139, 145, 126);
+    border-bottom: 0.2rem solid rgb(139, 145, 126);
     white-space: nowrap;
     width: 100%;
 }
@@ -152,9 +153,10 @@ body > .--main > .--form > .--content > .read-form  .detail-img {
 }
 .title-table > th,
 .title-table > td{
-    border-bottom: 0.1rem solid rgb(139, 145, 126);
-    height: 2rem;
+    border-bottom: 0.2rem solid rgb(139, 145, 126);
+    /* height: 2rem; */
     font-size: 1.25rem;
+    text-align: center;
 }
 
 .table > .content{
@@ -164,12 +166,30 @@ body > .--main > .--form > .--content > .read-form  .detail-img {
 .table > thead > .title-table > td:nth-of-type(1)
 {
     width: 3.5rem;
+    height: 6rem;
 }
-
+.table > thead{
+    border-bottom: 0.1rem solid rgb(139, 145, 126);
+}
 .table > thead > tr:nth-of-type(2) >th,
 .table > thead > tr:nth-of-type(2) >td,
 .table > thead > tr:nth-of-type(3) >th,
 .table > thead > tr:nth-of-type(3) >td{
-
     font-size: 1rem;
+    text-align: center;
+    height: 3rem;
+    text-decoration: none;
+    border-bottom: 0.0625rem inset rgb(120,120,120)
+}
+.table > thead > tr:nth-of-type(3) >td:nth-of-type(3){
+    text-align: unset;
+}
+.table > tbody{
+    border-bottom: 0.1rem solid rgb(139, 145, 126);
+}
+.table > thead > tr > td:nth-of-type(4){
+    border-left: 0.0625rem inset rgb(120,120,120);
+}
+.table > tbody > tr > td> div{
+    margin-top:1rem;
 }
