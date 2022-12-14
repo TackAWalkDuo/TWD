@@ -2,8 +2,12 @@ const form = window.document.getElementById('form');
 
 let editor;
 ClassicEditor
-    .create(form['content'])
-    .then( e => editor = e );
+    .create(form['content'], {
+        simpleUpload : {
+            uploadUrl : './image'
+        }
+    })
+    .then(e => editor = e);
 
 form.querySelector('[rel="contentImageContainer"]').addEventListener('click', e => {
     e.preventDefault();
@@ -11,7 +15,7 @@ form.querySelector('[rel="contentImageContainer"]').addEventListener('click', e 
 });
 
 
-form.addEventListener('input', () => {
+form['images'].addEventListener('input', () => {
     const imageContainerElement = form.querySelector('[rel="contentImageContainer"]');
     imageContainerElement.querySelectorAll('img.image').forEach(x => x.remove());
     if (form['images'].files.length > 0) {
