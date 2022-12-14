@@ -22,9 +22,9 @@
                 <span hidden>검색기준</span>
                 <select name="criterion" class="--object-input">
                     <option value="menu" selected disabled>분류</option>
-                    <option th:value="${board.getId() == daily}">일상</option>
-                    <option th:value="${board.getId() == tips}">꿀TIP</option>
-                    <option th:value="${board.getId() == humor}">>유머</option>
+                    <option value="daily">일상</option>
+                    <option value="tips">꿀TIP</option>
+                    <option value="humor">유머</option>
                 </select>
                 <div class="writeButton-container">
                     <input class="--object-button" type="button" name="back" value="돌아가기">
@@ -44,36 +44,29 @@
                     </label>
                 </td>
             </tr>
+            <input hidden accept="image/" name="images" type="file">
             <tr class="contentLine">
-                <th>내용</th>
+                <th>
+                    <div class="contentImage-container" rel="contentImageContainer">
+                        <div>내용</div>
+                        <a class="image-select-button" href="#" rel="imageSelectButton">대표 이미지 선택</a>
+                        <div class="image-container" rel="imageContainer">
+                            <div class="no-image" rel="noImage">선택된 이미지가 없습니다.</div>
+                            <img hidden alt="" class="image"
+                                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Supreme_pizza.jpg/800px-Supreme_pizza.jpg">
+                        </div>
+                    </div>
+                </th>
                 <td>
                     <label class="label">
-                        <span hidden>내용</span>
+                        <span hidde+n>내용</span>
                         <textarea class="--object-input input" maxlength="10000" name="content"
-                                  placeholder="내용을 입력해주세요"
+                                  placeholder="내용을 입력해주세요 마지막 커밋입니다."
                                   type="text"></textarea>
                     </label>
                 </td>
             </tr>
             </tbody>
-            <tfoot>
-            <tr>
-                <th>
-                    <a class="image-select-button" href="#" rel="imageSelectButton">이미지 선택...</a>
-                </th>
-                <td>
-                    <div class="image-container" rel="imageContainer">
-                        <div class="no-image" rel="noImage">선택된 이미지가 없습니다.</div>
-                        <img alt="" class="image"
-                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Supreme_pizza.jpg/800px-Supreme_pizza.jpg">
-                        <img alt="" class="image"
-                             src="https://cdn.dominos.co.kr/admin/upload/goods/20200311_x8StB1t3.jpg">
-                        <img alt="" class="image"
-                             src="https://cdn.dominos.co.kr/admin/upload/goods/20200311_x8StB1t3.jpg">
-                    </div>
-                </td>
-            </tr>
-            </tfoot>
         </table>
         <!--        <input name="bid" type="hidden" th:value="${board.getId()}">-->
     </form>

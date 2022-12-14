@@ -27,20 +27,38 @@
         VALUES (#{articleIndex}, #{address}, #{latitude}, #{longitude});
     </insert>
 
-    <select id="selectArticleByIndex"
-    resultType="dev.test.take_a_walk_duo.entities.bbs.ArticleEntity">
-        SELECT `index`          AS 'index',
-               `user_email`     AS 'userEmail',
-               `board_id`       AS 'boardId',
-               `title`          AS 'title',
-               `content`        AS 'content',
-               `thumbnail`      AS 'thumbnail',
-               `thumbnail_type` AS 'thumbnailType',
-               `view`           AS 'view',
-               `written_on`     AS 'writtenOn',
-               `modified_on`    AS 'modifiedOn'
+    <select id="selectPlacesExceptImage"
+    resultType="dev.test.take_a_walk_duo.vos.map.PlaceVo">
+        SELECT `article`.`index`                  AS 'index',
+               `article`.`user_email`             AS 'userEmail',
+               `article`.`board_id`               AS 'boardId',
+               `article`.`title`                  AS 'title',
+               `article`.`content`                AS 'content',
+               `article`.`view`                   AS 'view',
+               `article`.`written_on`             AS 'writtenOn',
+               `article`.`modified_on`            AS 'modifiedOn',
+               `location`.`latitude`              AS 'latitude',
+               `location`.`longitude`             AS 'longitude',
+               `location`.`address`               AS 'address',
+               COUNT(`likeCount`.`article_index`) AS 'likeCount',
+               COUNT(`commentCount`.`index`)      AS 'commentCount'
         FROM `twd_bbs`.`articles` AS `article`
-        WHERE `article`.`index` = #{index}
-
+                 LEFT JOIN `twd_bbs`.`location` AS `location` ON `article`.`index` = `location`.`article_index`
+                 LEFT JOIN `twd_bbs`.`article_likes` AS `likeCount` ON `article`.`index` = `likeCount`.`article_index`
+                 LEFT JOIN `twd_bbs`.`comments` AS `commentCount` ON `article`.`index` = `commentCount`.`article_index`
+        WHERE `location`.`latitude` BETWEEN ${minLat} AND ${maxLat}
+          AND `location`.`longitude` BETWEEN ${minLng} AND ${maxLng}
+        GROUP BY `article`.`index`
     </select>
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
