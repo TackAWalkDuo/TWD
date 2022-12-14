@@ -150,7 +150,22 @@
             </ul>
             <div class="review-unsigned" th:if="${session.user == null}"> 로그인 후 리뷰를 작성할 수 있어요.</div>
 
-
+            <form class="review-form" id="reviewForm">
+                <input hidden multiple accept="image/" name="images" type="file">
+                <input type="hidden" name="articleIndex">
+                <span class="comment_title">리뷰 작성</span>
+                <div class="content-container">
+                    <label class="label">
+                        <span hidden>리뷰 내용</span>
+                        <input type="text" class="input" maxlength="100" name="content" placeholder="리뷰를 작성해주세요.">
+                    </label>
+                    <input type="submit" value="작성" class="submit-button --object-button">
+                </div>
+                <div class="image-container" rel="imageContainer">
+                    <div class="no-image" rel="noImage">선택된 이미지가 없습니다.</div>
+                </div>
+                <a href="#" class="image-select-button" rel="imageSelectButton">이미지 선택...</a>
+            </form>
 
 
         </div>
