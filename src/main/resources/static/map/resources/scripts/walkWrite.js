@@ -108,7 +108,7 @@ walkArticle.querySelector('[rel="imageSelectButton"]').addEventListener('click',
 
 
 //이미지 찾기에서 이미지를 선택할 경우.
-walkArticle.addEventListener('input', () => {
+walkArticle['images'].addEventListener('input', () => {
     const imageContainerElement = walkArticle.querySelector('[rel="imageContainer"]');
     imageContainerElement.querySelectorAll('img.image').forEach(x => x.remove());
     if (walkArticle['images'].files.length > 0) {
