@@ -1,12 +1,16 @@
 package dev.test.take_a_walk_duo.controllers;
 
 import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
+import dev.test.take_a_walk_duo.entities.bbs.BoardEntity;
 import dev.test.take_a_walk_duo.entities.bbs.ImageEntity;
 import dev.test.take_a_walk_duo.entities.shop.SaleProductEntity;
 import dev.test.take_a_walk_duo.entities.member.UserEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
+import dev.test.take_a_walk_duo.models.PagingModel;
+import dev.test.take_a_walk_duo.services.BbsService;
 import dev.test.take_a_walk_duo.services.MemberService;
 import dev.test.take_a_walk_duo.services.ShopService;
+import dev.test.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -24,12 +28,15 @@ import java.io.IOException;
 @RequestMapping(value = "/shop")
 public class ShopController {
     private final ShopService shopService;
+
+    private final BbsService bbsService;
     private final MemberService memberService;
 
 
     @Autowired
-    public ShopController(ShopService shopService, MemberService memberService) {
+    public ShopController(ShopService shopService, BbsService bbsService, MemberService memberService) {
         this.shopService = shopService;
+        this.bbsService = bbsService;
         this.memberService = memberService;
     }
 
@@ -42,18 +49,48 @@ public class ShopController {
         return modelAndView;
     }
 
-    // 쇼핑 리스트 페이지 호출
-    @RequestMapping(value = "/list",
-            method = RequestMethod.GET,
+//     쇼핑 리스트 페이지 호출
+//    @RequestMapping(value = "/list",
+//            method = RequestMethod.GET,
+//            produces = MediaType.TEXT_HTML_VALUE)
+//    public ModelAndView getList(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
+//        page = Math.max(1, page);
+//        ModelAndView modelAndView = new ModelAndView("shop/list_backup");
+////        int totalCount = this.shopService.getboard, criterion, keyword);
+////        PagingModel paging = new PagingModel(totalCount, page);
+////        modelAndView.addObject("paging", paging);
+//        return modelAndView;
+//    }
+
+    // 키워드, 크리테리온 null이면 목록, 아니면 검색 결과 뜸
+    @GetMapping(value = "/list",
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getList(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
-        page = Math.max(1, page);
+    public ModelAndView getList(@RequestParam(value = "bid", required = false) String bid,
+                                @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+                                @RequestParam(value = "criterion", required = false) String criterion,
+                                @RequestParam(value = "keyword", required = false) String keyword) {
+
+        page = Math.max(1, page); // 1과 page값 중 더 큰 값 반환. 마이너스 값을 방지하기 위해 if문 대신 이렇게 작성했음
         ModelAndView modelAndView = new ModelAndView("shop/list_backup");
-//        int totalCount = this.shopService.getboard, criterion, keyword);
-//        PagingModel paging = new PagingModel(totalCount, page);
-//        modelAndView.addObject("paging", paging);
+        BoardEntity board = this.shopService.getBoard(bid);
+        modelAndView.addObject("board", board);
+        if (board != null) {
+            int totalCount = this.shopService.getArticleCount(board, criterion, keyword);
+
+            PagingModel paging = new PagingModel(totalCount, page);
+            modelAndView.addObject("paging", paging);
+
+            ArticleReadVo[] articles = this.shopService.getArticles(board, paging, criterion, keyword);
+            modelAndView.addObject("articles", articles);
+            System.out.printf("이동 가능한 최소 페이지 : %d\n", paging.minPage);
+            System.out.printf("이동 가능한 최대 페이지 : %d\n", paging.maxPage);
+            System.out.printf("표시 시작 페이지 : %d\n", paging.startPage);
+            System.out.printf("표시 끝 페이지 : %d\n", paging.endPage);
+
+        }
         return modelAndView;
     }
+
 
     //    @RequestParam(value = "aid", required = false) int aid
     // 쇼핑 상품 상세보기 페이지 호출
@@ -82,16 +119,16 @@ public class ShopController {
     }
 
     // 상품 등록
-    @PostMapping(value = "write",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "write", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postWrite(ArticleEntity article,
                             SaleProductEntity product,
                             @RequestParam(value = "images", required = false) MultipartFile[] images,
-                            @SessionAttribute(value = "user", required = false) UserEntity user)throws IOException{
+                            @SessionAttribute(value = "user", required = false) UserEntity user) throws IOException {
         Enum<?> result;
         JSONObject responseObject = new JSONObject();
         result = this.shopService.write(article, product, images, user);
-        responseObject.put("result",result.name().toLowerCase());
+        responseObject.put("result", result.name().toLowerCase());
 
         return responseObject.toString();
     }

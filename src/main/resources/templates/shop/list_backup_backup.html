@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Take a walk duo</title>
     <th:block th:replace="~{fragments/head}"></th:block>
-    <link rel="stylesheet" th:href="@{/shop/resources/stylesheets/main_backup.css}">
+    <link rel="stylesheet" th:href="@{/shop/resources/stylesheets/list_backup.css}">
 </head>
 <body>
 <th:block th:replace="~{fragments/body :: header}"></th:block>
@@ -81,75 +81,111 @@
                     <span class="charge-price">78,000원</span>
                 </a>
             </li>
-        </ul>
-    </section>
-    <section class="box scarf">
-        <h2 class="title">머릿글</h2>
-        <ul class="item-container emple">
-            <li class="item big">
-                <a class="link">
-                    <img alt="" class="image" src="/resources/images/item5.jpg">
-                    <span class="text"></span>
+            <li class="item">
+                <a class="link" href="#">
+                    <img alt="제품1" class="image" src="/resources/images/item1.jpg">
+                    <span class="text">제품1</span>
+                    <span class="charge-price">56,000원</span>
                 </a>
             </li>
-            <div class="item-description">
-                <div class="description-header">더 편안하고, 더 따뜻한 겨울을 보내기 위한 필수템!</div>
-                <span class="description-body">나날이 발전하는 반려견 아우터- 사이즈도 다양하고 스타일도 다양하게!</span>
-
-                <div class="side-image">
-                    <img alt="제품1" class="image-side" src="/resources/images/item2.jpg">
-                    <div class="side-description">
-                        <div class="side-header">Dog coat Alaska Olive</div>
-                        <div class="side-text">클라우드7 Cloud7</div>
-                        <div class="side-price">37,500원</div>
-                    </div>
-                </div>
-                <div class="side-image">
-                    <img alt="제품1" class="image-side" src="/resources/images/item3.jpg">
-                    <div class="side-description">
-                        <div class="side-header">뮤니쿤트 Better Together Padding - Khaki</div>
-                        <div class="side-text">뮤니쿤트 munikund</div>
-                        <div class="side-price">97,00원</div>
-                    </div>
-                </div>
-            </div>
+            <li class="item">
+                <a class="link" href="#">
+                    <img alt="제품2" class="image" src="/resources/images/item2.jpg">
+                    <span class="text">제품2</span>
+                    <span class="charge-price">78,500원</span>
+                </a>
+            </li>
+            <li class="item">
+                <a class="link" href="#">
+                    <img alt="제품3" class="image" src="/resources/images/item3.jpg">
+                    <span class="text">제품3</span>
+                    <span class="charge-price">131,000원</span>
+                </a>
+            </li>
+            <li class="item">
+                <a class="link" href="#">
+                    <img alt="제품4" class="image" src="/resources/images/item4.jpg">
+                    <span class="text">제품4</span>
+                    <span class="charge-price">78,000원</span>
+                </a>
+            </li>
+            <li class="item">
+                <a class="link" href="#">
+                    <img alt="제품1" class="image" src="/resources/images/item1.jpg">
+                    <span class="text">제품1</span>
+                    <span class="charge-price">56,000원</span>
+                </a>
+            </li>
+            <li class="item">
+                <a class="link" href="#">
+                    <img alt="제품2" class="image" src="/resources/images/item2.jpg">
+                    <span class="text">제품2</span>
+                    <span class="charge-price">78,500원</span>
+                </a>
+            </li>
+            <li class="item">
+                <a class="link" href="#">
+                    <img alt="제품3" class="image" src="/resources/images/item3.jpg">
+                    <span class="text">제품3</span>
+                    <span class="charge-price">131,000원</span>
+                </a>
+            </li>
+            <li class="item">
+                <a class="link" href="#">
+                    <img alt="제품4" class="image" src="/resources/images/item4.jpg">
+                    <span class="text">제품4</span>
+                    <span class="charge-price">78,000원</span>
+                </a>
+            </li>
         </ul>
     </section>
+    <div class="page-container">
+        <a class="page">
+            <i class="fa-solid fa-angles-left"></i>
+        </a>
+        <a class="page">
+            <i class="fa-solid fa-angle-left"></i>
+        </a>
 
-<!--    <li class="item">-->
-<!--        <a class="link" href="#">-->
-<!--            <img alt="제품1" class="image" src="/resources/image/item1.jpg">-->
-<!--            <span class="text">제품1</span>-->
-<!--            <span class="price">25,000원</span>-->
+        <a>1 2 3 4 5</a>
+        <a class="page">
+
+            <i class="fa-solid fa-angle-right"></i>
+        </a>
+        <a class="page">
+
+            <i class="fa-solid fa-angles-right"></i>
+        </a>
+    </div>
+<!--    <div class="page-container"-->
+<!--         th:with="urlBuilder = ${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">-->
+<!--        <a class="page"-->
+<!--           th:if="${paging.requestPage > 1}"-->
+<!--           th:href="@{${urlBuilder.replaceQueryParam('page',1).build().toUriString()}}">-->
+<!--            <i class="fa-solid fa-angles-left"></i>-->
 <!--        </a>-->
-<!--    </li>-->
-<!--    <li class="item">-->
-<!--        <a class="link" href="#">-->
-<!--            <img alt="제품2" class="image" src="/resources/image/item2.jpg">-->
-<!--            <span class="text">제품2</span>-->
-<!--            <span class="price">37,500원</span>-->
+<!--        <a class="page"-->
+<!--           th:if="${paging.requestPage > 1}"-->
+<!--           th:href="@{${urlBuilder.replaceQueryParam('page',paging.requestPage - 1).build().toUriString()}}">-->
+<!--            <i class="fa-solid fa-angle-left"></i>-->
 <!--        </a>-->
-<!--    </li>-->
 
+<!--        <a  th:each="page : ${#numbers.sequence(paging.startPage,paging.endPage)}"-->
+<!--            th:class="${'page ' + (page == paging.requestPage ? 'selected' : '')}"-->
+<!--            th:text="${page}"-->
+<!--            th:href="@{${urlBuilder.replaceQueryParam('page',page).build().toUriString()}}"></a>-->
 
-
-
-    <!--            <li class="item">-->
-    <!--                <a class="link" href="#">-->
-    <!--                    <img alt="제품3" class="image" src="/resources/image/item3.jpg">-->
-    <!--                    <span class="text">제품3</span>-->
-    <!--                    <span class="price">53,000</span>-->
-    <!--                </a>-->
-    <!--            </li>-->
-    <!--            <li class="item">-->
-    <!--                <a class="link" href="#">-->
-    <!--                    <img alt="제품4" class="image" src="/resources/image/item4.jpg">-->
-    <!--                    <span class="text">제품4</span>-->
-    <!--                    <span class="price">43,000</span>-->
-    <!--                </a>-->
-    <!--            </li>-->
-    </ul>
-    </section>
+<!--        <a class="page"-->
+<!--           th:if="${paging.requestPage < paging.maxPage}"-->
+<!--           th:href="@{${urlBuilder.replaceQueryParam('page',paging.requestPage + 1).build().toUriString()}}">-->
+<!--            <i class="fa-solid fa-angle-right"></i>-->
+<!--        </a>-->
+<!--        <a class="page"-->
+<!--           th:if="${paging.requestPage < paging.maxPage}"-->
+<!--           th:href="@{${urlBuilder.replaceQueryParam('page',paging.maxPage).build().toUriString()}}">-->
+<!--            <i class="fa-solid fa-angles-right"></i>-->
+<!--        </a>-->
+<!--    </div>-->
     <form class="search-form" id="searchForm" method="get">
         <label class="label">
             <span hidden>검색 기준</span>
@@ -174,36 +210,3 @@
 <th:block th:replace="~{fragments/body :: footer}"></th:block>
 </body>
 </html>
-
-<div class="page-container">
-    <!--with는 일종의 변수선언임-->
-    <!--sequence메서드는 숫자 배열로 값이 들어감-->
-    <!--아래의 url빌더는 'page'의 값을 가진 것을 뒤의 page값(반복하고 있는 값)으로 ~~-->
-    <!--                        <span th:if="${paging.startPage > 1}">-->
-    <!--                        <a th:href="@{${'/bbs/list?bid='+board.getId()+'&page='+paging.minPage}}"><<</a>-->
-    <!--                        <a th:href="@{${'/bbs/list?bid='+board.getId()+'&page='+(paging.startPage - 10)}}"> < </a>-->
-    <!--                        </span>-->
-
-    <a class="page">
-        <i class="fa-solid fa-angles-left"></i>
-    </a>
-    <a class="page">
-        <i class="fa-solid fa-angle-left"></i>
-    </a>
-
-    <a></a>
-
-    <a class="page">
-
-        <i class="fa-solid fa-angle-right"></i>
-    </a>
-    <a class="page">
-
-        <i class="fa-solid fa-angles-right"></i>
-    </a>
-
-    <!--                        <span th:if="${paging.endPage < paging.maxPage}">-->
-    <!--                        <a th:href="@{${'/bbs/list?bid='+board.getId()+'&page='+(paging.endPage + 1)}}"> > </a>-->
-    <!--                        <a th:href="@{${'/bbs/list?bid='+board.getId()+'&page='+paging.maxPage}}">>></a>-->
-    <!--                        </span>-->
-</div>
