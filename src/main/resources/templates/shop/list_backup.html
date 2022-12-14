@@ -22,12 +22,10 @@
 <main class="--main main">
     <div class="img"></div>
     <div>
-        <ul th:if="${board.getBoardId() == shop}" th:each="board : ${boards}" class="title-select">
-            <li><a>사료</a></li>
-            <li><a>간식</a></li>
-            <li><a>옷</a></li>
-            <li><a>장난감</a></li>
-            <li><a>기타 용품</a></li>
+        <ul class="title-select">
+            <li th:if="${board.getBoardId() == 'shop'}" th:each="board : ${boards}">
+                <a th:text="${board.getText()}" th:href="@{/shop/list(bid=${board.getId()})}"></a>
+            </li>
         </ul>
     </div>
     <section class="box collection">

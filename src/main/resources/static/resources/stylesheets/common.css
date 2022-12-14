@@ -239,7 +239,6 @@ body > .--header > .-top > .--logo-container {
 }
 
 .duo {
-    /*font-family: 'Gamja Flower', cursive;*/
     color: rgb(139, 145, 126);
     font-family: 'Permanent Marker', cursive;
 }
@@ -258,11 +257,11 @@ body > .--header > .--content > .--menu > .--item + .--item {
 }
 
 .--link.border {
-    font-family: 'Gaegu', cursive;
-    font-weight: 700;
+    font-family: 'Pretendard', cursive;
+    font-weight: 500;
 
-    font-size: 1.5rem;
-    border: rgb(171, 235, 198);
+    font-size: 1.25rem;
+    /*border: rgb(169, 175, 126);*/
     border-radius: 1.5rem;
     padding: 7px 3px;
     text-decoration: none;
@@ -271,14 +270,14 @@ body > .--header > .--content > .--menu > .--item + .--item {
 
 .--link.border:hover {
     color: rgb(0, 0, 0);
-    background-color: rgba(213, 245, 227, 30%);
+    background-color: rgba(169, 175, 126,20%);
 }
 
 
 .--link.small {
     text-decoration: none;
-    font-family: 'Gaegu', cursive;
-    font-weight: 300;
+    font-family: 'Pretendard', cursive;
+    font-weight: 500;
     font-size: 1.1rem;
 
     padding-left: 0.25rem;

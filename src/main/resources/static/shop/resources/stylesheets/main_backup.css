@@ -97,6 +97,15 @@ body > .main > .search-form > .label {
     margin: 1rem;
 }
 
+.title-select > li > a {
+    text-decoration: none;
+    color: rgb(180, 180, 188);
+}
+
+.title-select > li > a:hover{
+    color: rgba(0,0,0,70%);
+}
+
 
 /*게시판 윗부분 css*/
 

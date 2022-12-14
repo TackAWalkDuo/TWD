@@ -55,7 +55,6 @@ body > .main > .search-form > .label {
     margin-right: 1rem;
 }
 
-
 .title-select {
     list-style: none;
 
@@ -82,20 +81,29 @@ body > .main > .search-form > .label {
     cursor: pointer;
 }
 
-.title--select {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+.title-select > li > a {
+    text-decoration: none;
+    color: rgb(180, 180, 188);
 }
 
-.title--select > li {
-    border: 0.0625rem solid rgb(180, 180, 188);
-    padding: 0.625rem 1.5rem;
-    border-radius: 0.3rem;
-    color: rgb(180, 180, 188);
-    margin: 1rem;
+.title-select > li > a:hover{
+    color: rgba(0,0,0,70%);
 }
+
+/*.title--select {*/
+/*    align-items: center;*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    justify-content: space-around;*/
+/*}*/
+
+/*.title--select > li {*/
+/*    border: 0.0625rem solid rgb(180, 180, 188);*/
+/*    padding: 0.625rem 1.5rem;*/
+/*    border-radius: 0.3rem;*/
+/*    color: rgb(180, 180, 188);*/
+/*    margin: 1rem;*/
+/*}*/
 
 
 /*게시판 윗부분 css*/
