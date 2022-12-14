@@ -13,8 +13,7 @@
                    th:if="${board.getId()} == 'walk'" th:href="@{/map/walk-read}"></a>
                 <a class="--link small"
                    th:text="${board.getText()}"
-                   th:if="${board.getId()} == 'shop'" th:href="@{/shop/list(bid=${board.getId()})}">
-
+                   th:if="${board.getId()} == 'shop'" th:href="@{/shop/main}">
                 </a>
                 <a class="--link small"
                    th:text="${board.getText()}"
