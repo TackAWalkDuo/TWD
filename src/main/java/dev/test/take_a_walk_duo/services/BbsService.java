@@ -70,4 +70,8 @@ public class BbsService {
         }
         return this.bbsMapper.insertArticle(article) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
+
+    public ArticleEntity getThumbnail(int index){
+        return this.bbsMapper.selectThumbnailByIndex(index);
+    }
 }

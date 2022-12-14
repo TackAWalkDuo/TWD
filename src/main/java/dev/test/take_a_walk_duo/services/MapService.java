@@ -5,19 +5,17 @@ import dev.test.take_a_walk_duo.entities.bbs.map.LocationEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
 import dev.test.take_a_walk_duo.interfaces.IResult;
 import dev.test.take_a_walk_duo.mappers.IMapMapper;
-import dev.test.take_a_walk_duo.vos.PlaceVo;
+import dev.test.take_a_walk_duo.vos.map.PlaceVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 @Service(value = "dev.test.take_a_walk_duo.services.MapService")
 public class MapService {
@@ -75,9 +73,15 @@ public class MapService {
 
 
     public PlaceVo[] getPlaces(double minLat, double minLng, double maxLat, double maxLng) {
+        PlaceVo[] place= this.mapMapper.selectPlacesExceptImage(minLat, minLng, maxLat, maxLng);
+        for (int i = 0; i < place.length; i++) {
+            System.out.println("text " + i + place[i].getThumbnail());
+            System.out.println("text " + i + place[i].getThumbnailType());
+        }
         System.out.println("map service check");
-        return this.mapMapper.selectPlaces(minLat, minLng, maxLat, maxLng);
+        return this.mapMapper.selectPlacesExceptImage(minLat, minLng, maxLat, maxLng);
     }
+
 
 
 }

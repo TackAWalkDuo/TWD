@@ -27,8 +27,8 @@
         VALUES (#{articleIndex}, #{address}, #{latitude}, #{longitude});
     </insert>
 
-    <select id="selectPlaces"
-    resultType="dev.test.take_a_walk_duo.vos.PlaceVo">
+    <select id="selectPlacesExceptImage"
+    resultType="dev.test.take_a_walk_duo.vos.map.PlaceVo">
         SELECT `article`.`index`                  AS 'index',
                `article`.`user_email`             AS 'userEmail',
                `article`.`board_id`               AS 'boardId',

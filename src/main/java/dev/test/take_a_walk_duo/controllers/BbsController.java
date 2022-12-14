@@ -8,12 +8,12 @@ import dev.test.take_a_walk_duo.enums.bbs.WriteResult;
 import dev.test.take_a_walk_duo.services.BbsService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -89,5 +89,20 @@ public class BbsController {
         return modelAndView;
     }
 
+    @GetMapping(value = "thumbnail")
+    public ResponseEntity<byte[]> getReviewImage(@RequestParam(value = "index")int index) {
+        ResponseEntity<byte[]> responseEntity;
+        ArticleEntity articleThumbnail = this.bbsService.getThumbnail(index);
+        if( articleThumbnail == null ) {
+            responseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else{
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.valueOf(articleThumbnail.getThumbnailType()));
+            headers.setContentLength(articleThumbnail.getThumbnail().length);
+            responseEntity = new ResponseEntity<>(articleThumbnail.getThumbnail(), headers, HttpStatus.OK);
+        }
+        System.out.println("check thumbnail" + responseEntity);
+        return responseEntity;
+    }
 
 }

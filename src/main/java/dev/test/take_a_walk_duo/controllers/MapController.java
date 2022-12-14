@@ -2,10 +2,8 @@ package dev.test.take_a_walk_duo.controllers;
 
 import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.test.take_a_walk_duo.entities.bbs.map.LocationEntity;
-import dev.test.take_a_walk_duo.models.PagingModel;
 import dev.test.take_a_walk_duo.services.MapService;
-import dev.test.take_a_walk_duo.vos.PlaceVo;
-import org.json.JSONArray;
+import dev.test.take_a_walk_duo.vos.map.PlaceVo;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

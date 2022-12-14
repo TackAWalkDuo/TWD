@@ -13,4 +13,6 @@ public interface IBbsMapper {
     //Mr.g
     //    글쓰기
     int insertArticle(ArticleEntity articleEntity);
+
+    ArticleEntity selectThumbnailByIndex(@Param(value = "index") int index);
 }

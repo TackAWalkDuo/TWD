@@ -30,4 +30,13 @@
         VALUES (#{userEmail}, #{boardId}, #{title}, #{content}, #{thumbnail}, #{thumbnailType}, #{view},
                 IFNULL(#{writtenOn}, DEFAULT(`written_on`)), IFNULL(#{modifiedOn}, DEFAULT(`modified_on`)));
     </insert>
+
+    <select id="selectThumbnailByIndex"
+            resultType="dev.test.take_a_walk_duo.entities.bbs.ArticleEntity">
+        SELECT `index`          AS 'index',
+               `thumbnail`      AS 'thumbnail',
+               `thumbnail_type` AS 'thumbnailType'
+        FROM `twd_bbs`.`articles`
+        WHERE `index` = #{index}
+    </select>
 </mapper>
