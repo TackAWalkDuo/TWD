@@ -1,13 +1,18 @@
 package dev.test.take_a_walk_duo.controllers;
 
 import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
+import dev.test.take_a_walk_duo.entities.bbs.ImageEntity;
 import dev.test.take_a_walk_duo.entities.bbs.sale.SaleProductEntity;
 import dev.test.take_a_walk_duo.entities.member.UserEntity;
+import dev.test.take_a_walk_duo.enums.CommonResult;
 import dev.test.take_a_walk_duo.services.MemberService;
 import dev.test.take_a_walk_duo.services.ShopService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +33,7 @@ public class ShopController {
         this.memberService = memberService;
     }
 
+    // 쇼핑 메인 페이지 호출
     @RequestMapping(value = "/main",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
@@ -36,6 +42,7 @@ public class ShopController {
         return modelAndView;
     }
 
+    // 쇼핑 리스트 페이지 호출
     @RequestMapping(value = "/list",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
@@ -49,6 +56,7 @@ public class ShopController {
     }
 
     //    @RequestParam(value = "aid", required = false) int aid
+    // 쇼핑 상품 상세보기 페이지 호출
     @GetMapping(value = "detail", produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getDetail(
     ) {
@@ -63,6 +71,7 @@ public class ShopController {
         return modelAndView;
     }
 
+    // 상품 등록 페이지 호출
     @RequestMapping(value = "write",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
@@ -72,6 +81,7 @@ public class ShopController {
         return modelAndView;
     }
 
+    // 상품 등록
     @PostMapping(value = "write",produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postWrite(ArticleEntity article,
@@ -86,4 +96,40 @@ public class ShopController {
         return responseObject.toString();
     }
 
+    // 이미지 다운로드(화면에 보이게하는 매핑)
+    @GetMapping(value = "image")
+    public ResponseEntity<byte[]> getImage(@RequestParam(value = "index") int index) {
+        ResponseEntity<byte[]> responseEntity;
+        ImageEntity image = this.shopService.getImage(index);
+        if (image == null) {
+            responseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.valueOf(image.getFileMime()));
+            headers.setContentLength(image.getData().length);
+            responseEntity = new ResponseEntity<>(image.getData(), HttpStatus.OK);
+        }
+        return responseEntity;
+    }
+
+    // 이미지 업로드(ckEditor에 등록하는 매핑)
+    @PostMapping(value = "image",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    //upload는 ckeiditor에서 정해놓으거라서 따라해야함
+    // upload용 매핑임
+    public String postImage(@RequestParam(value = "upload") MultipartFile file) throws IOException {
+        ImageEntity image = new ImageEntity();
+        image.setFileName(file.getOriginalFilename());
+        image.setFileMime(file.getContentType());
+        image.setData(file.getBytes());
+
+        Enum<?> result = this.shopService.addImage(image);
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("result", result.name().toLowerCase());
+        if (result == CommonResult.SUCCESS) {
+            responseObject.put("url", "http://localhost:8080/shop/image?index=" + image.getIndex());
+        }
+        return responseObject.toString();
+    }
 }

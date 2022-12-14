@@ -38,9 +38,28 @@
             keyColumn="index"
             parameterType="dev.test.take_a_walk_duo.entities.bbs.ArticleEntity">
         INSERT INTO `twd_bbs`.`articles`
-        (`user_email`, `board_id`, `title`, `content`, `thumbnail`, `thumbnail_type`, `view`, `written_on`, `modified_on`)
+        (`user_email`, `board_id`, `title`, `content`, `thumbnail`, `thumbnail_type`, `view`, `written_on`,
+         `modified_on`)
         VALUES (#{userEmail}, #{boardId}, #{title}, #{content}, #{thumbnail}, #{thumbnailType}, #{view},
                 IFNULL(#{writtenOn}, DEFAULT(`written_on`)),
                 IFNULL(#{modifiedOn}, DEFAULT(`modified_on`)));
+    </insert>
+
+    <select id="selectImageByIndex"
+            resultType="dev.test.take_a_walk_duo.entities.bbs.ImageEntity">
+        SELECT `index`     AS `index`,
+               `file_name` AS `fileName`,
+               `file_mime` AS `fileMime`,
+               `data`      AS `data`
+        FROM `twd_bbs`.`images`
+        WHERE `index` = #{index}
+        LIMIT 1
+    </select>
+
+    <insert id="insertImage"
+    useGeneratedKeys="true"
+    keyColumn="index"
+    keyProperty="index">
+    INSERT INTO `twd_bbs`.`images`(`file_name`, `file_mime`, `data`) VALUES (#{fileName}, #{fileMime}, #{data})
     </insert>
 </mapper>

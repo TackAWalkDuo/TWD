@@ -1,6 +1,7 @@
 package dev.test.take_a_walk_duo.services;
 
 import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
+import dev.test.take_a_walk_duo.entities.bbs.ImageEntity;
 import dev.test.take_a_walk_duo.entities.bbs.sale.SaleProductEntity;
 import dev.test.take_a_walk_duo.entities.member.UserEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
@@ -20,7 +21,7 @@ public class ShopService {
     private final IShopMapper shopMapper;
     private final IMemberMapper memberMapper;
 
-
+    // memberMapper 서비스도 의존성 주입함.
     @Autowired
     public ShopService(IShopMapper shopMapper, IMemberMapper memberMapper) {
         this.shopMapper = shopMapper;
@@ -31,12 +32,13 @@ public class ShopService {
 //        return this.shopMapper.selectArticleCountByBoardId(board.getId(), criterion, keyword);
 //    }
 
+    // 상품 등록
     public Enum<? extends IResult> write(ArticleEntity article,
                                          SaleProductEntity product,
                                          @RequestParam(value = "images", required = false) MultipartFile[] images,
                                          @SessionAttribute(value = "user", required = false) UserEntity user) throws IOException {
-        UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
-        if (!existingUser.getAdmin()) {
+        UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail()); // 로그인한 userEmail과 DB에 있는 userEmail 대조(memberMapper의 쿼리 사용)
+        if (!existingUser.getAdmin()) { // 관리자 계정이 아니라면 등록 실패
             return CommonResult.FAILURE;
         }
         article.setUserEmail(user.getEmail());
@@ -63,5 +65,15 @@ public class ShopService {
         return CommonResult.SUCCESS;
     }
 
+
+    public Enum<? extends IResult> addImage(ImageEntity image) {
+        return this.shopMapper.insertImage(image) > 0
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
+    }
+
+    public ImageEntity getImage(int index){
+        return this.shopMapper.selectImageByIndex(index);
+    }
 }
 
