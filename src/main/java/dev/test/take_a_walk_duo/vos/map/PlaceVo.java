@@ -1,4 +1,4 @@
-package dev.test.take_a_walk_duo.vos;
+package dev.test.take_a_walk_duo.vos.map;
 
 import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
 

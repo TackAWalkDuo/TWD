@@ -104,5 +104,20 @@ public class BbsController {
         return modelAndView;
     }
 
+    @GetMapping(value = "thumbnail")
+    public ResponseEntity<byte[]> getReviewImage(@RequestParam(value = "index")int index) {
+        ResponseEntity<byte[]> responseEntity;
+        ArticleEntity articleThumbnail = this.bbsService.getThumbnail(index);
+        if( articleThumbnail == null ) {
+            responseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else{
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.valueOf(articleThumbnail.getThumbnailType()));
+            headers.setContentLength(articleThumbnail.getThumbnail().length);
+            responseEntity = new ResponseEntity<>(articleThumbnail.getThumbnail(), headers, HttpStatus.OK);
+        }
+        System.out.println("check thumbnail" + responseEntity);
+        return responseEntity;
+    }
 
 }
