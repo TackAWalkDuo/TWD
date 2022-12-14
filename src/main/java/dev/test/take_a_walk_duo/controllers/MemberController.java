@@ -26,6 +26,10 @@ public class MemberController {
         this.memberService = memberService;
     }
 
+    /**
+     * 카카오 로그인
+     * @rootgo
+     */
     // 카카오 로그인
     @GetMapping(value = "kakao", produces = MediaType.TEXT_PLAIN_VALUE)
     public ModelAndView getKakaoLogin(@RequestParam(value = "code") String code,
