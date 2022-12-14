@@ -3,7 +3,7 @@ package dev.test.take_a_walk_duo.mappers;
 import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.test.take_a_walk_duo.entities.bbs.BoardEntity;
 import dev.test.take_a_walk_duo.entities.bbs.ImageEntity;
-import dev.test.take_a_walk_duo.entities.bbs.sale.SaleProductEntity;
+import dev.test.take_a_walk_duo.entities.shop.SaleProductEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

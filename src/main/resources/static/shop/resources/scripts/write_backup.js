@@ -47,6 +47,7 @@ form.onsubmit = e => {
     formData.append("price", form['price'].value);
     // formData.append("profit", form['profit'].value);
     formData.append("categoryIndex", form['category'].value); // html select 태그의 option value 값으로 지정
+    formData.append("deliveryFee", form['delivery'].value);
 
     // image 등록
     for (let file of form['images'].files) {

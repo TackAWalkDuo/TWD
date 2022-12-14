@@ -2,7 +2,7 @@ package dev.test.take_a_walk_duo.controllers;
 
 import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.test.take_a_walk_duo.entities.bbs.ImageEntity;
-import dev.test.take_a_walk_duo.entities.bbs.sale.SaleProductEntity;
+import dev.test.take_a_walk_duo.entities.shop.SaleProductEntity;
 import dev.test.take_a_walk_duo.entities.member.UserEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
 import dev.test.take_a_walk_duo.services.MemberService;
