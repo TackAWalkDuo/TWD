@@ -4,6 +4,7 @@ import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
 
 public class ArticleReadVo extends ArticleEntity{
     private String userNickname;
+    private int userSpecies;
     private boolean articleLiked;
     private int articleLikedCount;
 
@@ -13,6 +14,15 @@ public class ArticleReadVo extends ArticleEntity{
 
     public ArticleReadVo setUserNickname(String userNickname) {
         this.userNickname = userNickname;
+        return this;
+    }
+
+    public int getUserSpecies() {
+        return userSpecies;
+    }
+
+    public ArticleReadVo setUserSpecies(int userSpecies) {
+        this.userSpecies = userSpecies;
         return this;
     }
 

@@ -10,12 +10,12 @@
     <link rel="stylesheet" th:href="@{/member/resources/stylesheets/login.css}">
     <script defer th:src="@{/member/resources/scripts/login.js}"></script>
     <!-- Google reCAPTCHA js -->
-    <script defer src="https://www.google.com/recaptcha/api.js?render=6LeKrXYjAAAAAPlA9vL7y3IfUvVE6WdoSTwqaZ3K"></script>
+    <script defer src="https://www.google.com/recaptcha/api.js?render=6LeKrXYjAAAAALbh_mG9TSjDKMCLOsyaUsytqFBI"></script>
     <script src="https://kit.fontawesome.com/12a5ab0618.js" crossorigin="anonymous"></script>
     <script>
         function reCapt() {
             grecaptcha.ready(function () {
-                grcaptcha.execute('6Lf5I3YjAAAAAMK413eECn9M2AlD02ORo7tARJeu', {action: 'submit'}).then(function (token) {
+                grcaptcha.execute('6LeKrXYjAAAAAPlA9vL7y3IfUvVE6WdoSTwqaZ3K', {action: 'submit'}).then(function (token) {
                     $('#token').val(token);
                 });
             });

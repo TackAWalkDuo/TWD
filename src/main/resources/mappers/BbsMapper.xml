@@ -43,6 +43,7 @@
                `articles`.`written_on`                  AS `writtenOn`,
                `articles`.`modified_on`                 AS `modifiedOn`,
                `user`.`nickname`                        AS `userNickname`,
+               `user`.`species`                         AS `userSpecies`,
                COUNT(`aLikedCount`.`article_index`)     AS `articleLikedCount`,
                COUNT(`articleLike`.`article_index`) > 0 AS `articleLiked`
         FROM `twd_bbs`.`articles`
