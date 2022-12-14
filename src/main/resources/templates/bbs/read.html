@@ -9,7 +9,7 @@
     <th:block th:replace="~{fragments/head}"></th:block>
     <link rel="stylesheet" th:href="@{/bbs/resources/stylesheets/read.css}">
 </head>
-<body>
+<body th:if="${article != null}">
 <th:block th:replace="~{fragments/body :: header}"></th:block>
 <main class="--main main">
     <div class="img">
@@ -72,28 +72,28 @@
                     <thead>
                     <tr class="title-table">
                         <th hidden>번호</th>
-                        <td>17</td>
+                        <td th:text="${article.getIndex()}">17</td>
                         <th hidden>분류</th>
-                        <td>분류</td>
+                        <td th:text="${article.getBoardId()}">분류</td>
                         <th hidden>제목</th>
-                        <td colspan="4" class="content">자유게시판 첫 글</td>
+                        <td colspan="4" class="content" th:text="${article.getTitle()}">자유게시판 첫 글</td>
                     </tr>
                     <tr>
                         <th hidden>견종분류</th>
-                        <td>대형견||소형견</td>
+                        <td th:text="${article.getTitle()}">대형견||소형견</td>
                         <th hidden>관리자</th>
-                        <td>회원ID</td> <!-- 놀랍게도 이메일이 아니라 닉네임이 찍혀야함 -->
+                        <td th:text="${article.getUserNickname()}">회원ID</td>
                         <td></td>
                         <td></td>
                         <th hidden>추천수</th>
                         <td rowspan="2">하트하트
-                        <span>1</span></td>
+                        <span th:text="${'['+article.getArticleLikedCount()+']'}">1</span></td>
                     </tr>
                     <tr>
                         <th hidden>작성 일시</th>
-                        <td>2000-01-01 00:00:00</td>
+                        <td th:text="${#dates.format(article.getWrittenOn(),'yyyy-MM-dd HH:mm:ss')}">2000-01-01 00:00:00</td>
                         <th class="view">조회수</th>
-                        <td>1</td>
+                        <td th:text="${article.getView()}">1</td>
                         <td>
                             <a class="modify-article">수정하기</a>
                             <a class="delete-article">삭제하기</a>
@@ -111,7 +111,7 @@
                     <tr>
                         <td colspan="8">
                             <div class="content-container">
-                                <p>강아지 조아</p>
+                                <p th:utext="${article.getContent()}">강아지 조아</p>
                             </div>
                         </td>
                     </tr>
@@ -120,6 +120,7 @@
                     <th>댓글 넣을껴</th>
                     </tfoot>
                 </table>
+                <input name="aid" type="hidden" th:value="${article.getIndex()}">
             </form>
         </div>
     </div>

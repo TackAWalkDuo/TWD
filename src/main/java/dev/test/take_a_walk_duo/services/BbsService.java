@@ -1,12 +1,19 @@
 package dev.test.take_a_walk_duo.services;
 
 import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
+import dev.test.take_a_walk_duo.entities.bbs.ArticleLikeEntity;
 import dev.test.take_a_walk_duo.entities.bbs.BoardEntity;
+import dev.test.take_a_walk_duo.entities.member.UserEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
 import dev.test.take_a_walk_duo.enums.bbs.WriteResult;
 import dev.test.take_a_walk_duo.interfaces.IResult;
 import dev.test.take_a_walk_duo.mappers.IBbsMapper;
+import dev.test.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +22,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 @Service(value = "dev.test.take_a_walk_duo.services.BbsService")
 public class BbsService {
@@ -27,7 +35,7 @@ public class BbsService {
     }
 
     //1.write boardId 값 끌고오기
-    //mr.s
+    //mr.m
     public BoardEntity getBoard(String id) {
         BoardEntity boardEntity = this.bbsMapper.selectBoardById(id);
         System.out.println(boardEntity.getId());
@@ -35,8 +43,8 @@ public class BbsService {
     }
 
 
-    //1.write boardId 값 끌고오기
-    //mr.s
+    //1.write boardId 값 끌고오기 + 이미지 등록(설정하기)
+    //mr.m
     public Enum<? extends IResult> RegisterArticle(ArticleEntity article, MultipartFile[] images) throws IOException {
         BoardEntity board = this.bbsMapper.selectBoardById(article.getBoardId());
         if (board == null) {
@@ -70,4 +78,35 @@ public class BbsService {
         }
         return this.bbsMapper.insertArticle(article) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
+
+//        Mr.m
+//        게시글 읽기 구현 (게시글 aid값으로 불러오기) + 조회수 구현
+    public ArticleReadVo readArticle(int index, UserEntity user) {
+        ArticleReadVo existingArticleReadVo = this.bbsMapper.selectArticleByIndex(index, user == null ? null : user.getEmail());
+        if (existingArticleReadVo != null) {
+//            for (MultipartFile image : images) {
+//                existingArticleReadVo.setThumbnail(image.getBytes());
+//                existingArticleReadVo.setThumbnailType(image.getContentType());
+//            }
+            existingArticleReadVo.setView(existingArticleReadVo.getView() + 1);
+            this.bbsMapper.updateArticle(existingArticleReadVo);
+            System.out.println("existingArticleReadVo check1");
+        }else {
+            System.out.println("existingArticleReadVo check2");
+        }
+        return existingArticleReadVo;
+    }
+
+    //    Mr.m
+    //    게시글 좋아요 구현
+//    public Enum<? extends IResult> likedArticle(ArticleLikeEntity articleLikeEntity, UserEntity user) {
+//        ArticleReadVo existingArticleLiked = this.bbsMapper.selectArticleByIndex(articleLikeEntity.getArticleIndex());
+//        if(existingArticleLiked == null)
+//            return CommonResult.FAILURE;
+//        articleLikeEntity.setUserEmail(user.getEmail());
+//        articleLikeEntity.setCreatedOn(new Date());
+//        return this.bbsMapper.insertArticleLike(articleLikeEntity) > 0
+//                ? CommonResult.SUCCESS
+//                : CommonResult.FAILURE;
+//    }
 }
