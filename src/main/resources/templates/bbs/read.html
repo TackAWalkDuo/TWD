@@ -76,13 +76,21 @@
                         <th hidden>분류</th>
                         <td th:text="${article.getBoardId()}">분류</td>
                         <th hidden>제목</th>
-                        <td colspan="4" class="content" th:text="${article.getTitle()}">자유게시판 첫 글</td>
+                        <td class="content" th:text="${article.getTitle()}">자유게시판 첫 글</td>
+                        <th hidden>썸네일이미지</th>
+                        <td class="image-tableData">
+                            <div>
+                                <img class="detail-img" th:src="@{/bbs/thumbnail (index=${article.getIndex()})}" alt="#"
+                                     src="/resources/images/item1.jpg">
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <th hidden>견종분류</th>
                         <td th:text="${article.getUserSpecies()}">대형견||소형견</td>
                         <th hidden>관리자</th>
                         <td th:text="${article.getUserNickname()}">회원ID</td>
+                        <th hidden></th>
                         <td></td>
                         <th hidden>추천수</th>
                         <td rowspan="2">
@@ -104,14 +112,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td colspan="8">
-                            <div>
-                                <img class="detail-img" th:src="@{/bbs/thumbnail (index=${article.getIndex()})}" alt="#"
-                                     src="/resources/images/item1.jpg">
-                            </div>
-                        </td>
-                    </tr>
                     <tr>
                         <td colspan="8">
                             <div class="content-container">

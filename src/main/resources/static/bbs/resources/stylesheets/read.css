@@ -130,6 +130,14 @@ body > .--main {
 body > .--main > .--form > .--content > .read-form  .detail-img {
     /*display: table;*/
     object-fit: cover;
+    height: 5rem;
+    width: 5rem;
+    border-radius: 0.5rem;
+}
+
+body > .--main > .--form > .--content > .read-form  .detail-img:hover {
+    display: unset;
+    object-fit: cover;
     height: 20rem;
     width: 20rem;
     border-radius: 0.5rem;
