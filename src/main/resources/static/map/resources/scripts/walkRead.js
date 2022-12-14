@@ -1,8 +1,24 @@
 const map = window.document.getElementById("map");
 const list = window.document.getElementById("list");
+const detailContainer = window.document.getElementById("detailContainer");
 
 let mapObject;
 let places = [];        // db 에서 list 를 가져와서 담아줄 변수.
+
+detailContainer.show = (placeObject) => {
+    detailContainer.classList.add("visible");
+    detailContainer.querySelector('[rel="title"]').innerText = placeObject['title'];
+    detailContainer.querySelector('[rel="placeImage"]').setAttribute("src",`/bbs/thumbnail?index=${placeObject['index']}`);
+    detailContainer.querySelector('[rel="view"]').innerText = placeObject['view'];
+    detailContainer.querySelector('[rel="commentCounter"]').innerText = placeObject['commentCount'];
+    detailContainer.querySelector('[rel="likeCounter"]').innerText = placeObject['likeCount'];
+    detailContainer.querySelector('[rel="addressText"]').innerText = placeObject['address'];
+    detailContainer.querySelector('[rel="descriptionText"]').innerText = placeObject['content'];
+}
+detailContainer.hide = () => {
+    detailContainer.classList.remove("visible");
+    detailContainer.querySelector('[rel="addressText"]').innerText = '';  // address 를 기준으로 하기때문에 기준점만 초기화
+}
 
 //지도 활성화.
 const loadMap = (lat, lng) => {
@@ -79,21 +95,26 @@ const loadPlaces = (ne, sw) => {
                         .querySelector('[rel="item"]');
                     const imageElement = placeElement.querySelector('[rel="image"]');
 
-                    for (const imageIndex of placeObject['thumbnail']) {
-                        imageElement.setAttribute('alt', '');
-                        imageElement.setAttribute('src', `/bbs/thumbnail?index=${placeObject['index']}`);
-                    }
-
+                    imageElement.setAttribute('alt', '');
+                    imageElement.setAttribute('src', `/bbs/thumbnail?index=${placeObject['index']}`);
 
                     const latLng = new kakao.maps.LatLng(placeObject['latitude'], placeObject['longitude']);
                     kakao.maps.event.addListener(marker, 'click', () => {
                         mapObject.setCenter(latLng);
+                        if(detailContainer.querySelector('[rel="addressText"]').innerText === (placeObject['address'])) {
+                            detailContainer.hide();
+                        }else {
+                            detailContainer.show(placeObject);
+                        }
                     });
-
                     marker.setMap(mapObject);
 
                     placeElement.addEventListener('click', () => {
-                        mapObject.setCenter(latLng);
+                        if(detailContainer.querySelector('[rel="addressText"]').innerText === (placeObject['address'])) {
+                            detailContainer.hide();
+                        }else {
+                            detailContainer.show(placeObject);
+                        }
                     });
 
                     list.append(placeElement);
