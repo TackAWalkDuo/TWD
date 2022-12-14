@@ -80,7 +80,7 @@
             <version>2.7.5</version>
         </dependency>
 
-        <!-- google recaptcha -->
+        <!-- 구글 recaptcha -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
