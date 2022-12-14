@@ -2,7 +2,7 @@ package dev.test.take_a_walk_duo.entities.shop;
 
 import java.util.Objects;
 
-public class ProductCategories {
+public class ProductCategoryEntity {
     private int index;
     private String text;
 
@@ -26,7 +26,7 @@ public class ProductCategories {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProductCategories that = (ProductCategories) o;
+        ProductCategoryEntity that = (ProductCategoryEntity) o;
         return index == that.index;
     }
 

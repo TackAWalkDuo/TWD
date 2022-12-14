@@ -213,66 +213,96 @@ body > main > .box > .item-container > .item > .link > .charge-price {
     font-size: 0.85rem;
     margin-top: 0.325rem;
 }
+
 /*그리드 부분임*/
 
 /*그리드 컬럼,로우 부분임*/
-body > main > .box > .item-container > .item.big{
-    user-select: none;
-    grid-column: 1/3;
-    grid-row: 1/3;
-}
+/*body > main > .box > .item-container > .item.big{*/
+/*    user-select: none;*/
+/*    grid-column: 1/3;*/
+/*    grid-row: 1/3;*/
+/*}*/
 
-body > main > .box > .item-container > .item.big:hover{
-    cursor: default;
-    transform: scale(100%);
-}
+/*body > main > .box > .item-container > .item.big:hover{*/
+/*    cursor: default;*/
+/*    transform: scale(100%);*/
+/*}*/
 /*그리드 컬럼,로우 부분임*/
 
 /*옆으로 빠지는 이미지*/
-body > main > .box > .item-container > .item-description{
+body > main > .box > .item-container > .item-description {
     grid-column: 3/5;
 }
 
-body > main > .box > .item-container > .item-description > .description-header{
+body > main > .box > .item-container > .item-description > .description-header {
     margin-bottom: 1rem;
     font-weight: 500;
     font-size: 1.5rem;
 }
 
-body > main > .box > .item-container > .item-description > .description-body{
+body > main > .box > .item-container > .item-description > .description-body {
     padding-bottom: 1rem;
-    border-bottom: 0.0625rem solid rgb(216,218,220);
+    border-bottom: 0.0625rem solid rgb(216, 218, 220);
 }
 
-body > main > .box > .item-container > .item-description > .side-image{
+body > main > .box > .item-container > .item-description > .side-image {
     margin-top: 3.15rem;
 
-    align-items : flex-start;
+    align-items: flex-start;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
 }
-body > main > .box > .item-container > .item-description > .side-image > .image.side{
+
+body > main > .box > .item-container > .item-description > .side-image > .image.side {
     width: 33.3%;
     height: 33.3%;
 }
 
-body > main > .box > .item-container > .item-description > .side-image > .side-description{
+body > main > .box > .item-container > .item-description > .side-image > .side-description {
     padding-left: 1rem;
 }
 
-body > main > .box > .item-container > .item-description > .side-image > .side-description > .side.header{
+body > main > .box > .item-container > .item-description > .side-image > .side-description > .side.header {
     font-size: 1.25rem;
     font-weight: 500;
 }
 
-body > main > .box > .item-container > .item-description > .side-image > .side-description > .side.text{
+body > main > .box > .item-container > .item-description > .side-image > .side-description > .side.text {
     margin-top: 1rem;
     font-size: 1rem;
 }
 
-body > main > .box > .item-container > .item-description > .side-image > .side-description > .side.charge-price{
+body > main > .box > .item-container > .item-description > .side-image > .side-description > .side.charge-price {
     margin-top: 0.25rem;
     font-size: 0.9rem;
 }
+
 /*옆으로 빠지는 이미지*/
+
+/*page*/
+#pageContainer {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#pageContainer .page {
+
+    background-color: rgba(229, 232, 232,50%);
+    padding: 0.5rem 0.75rem;
+    color: inherit;
+    text-decoration: none;
+
+}
+
+#pageContainer .page:last-of-type {
+    /*border-right: 0.0625rem solid rgb(76, 91, 105);*/
+}
+
+#pageContainer .page.selected,
+#pageContainer .page:hover {
+
+    background-color: rgba(229, 232, 232,90%);
+}

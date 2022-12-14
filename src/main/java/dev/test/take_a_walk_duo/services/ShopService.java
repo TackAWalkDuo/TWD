@@ -9,12 +9,18 @@ import dev.test.take_a_walk_duo.enums.CommonResult;
 import dev.test.take_a_walk_duo.interfaces.IResult;
 import dev.test.take_a_walk_duo.mappers.IMemberMapper;
 import dev.test.take_a_walk_duo.mappers.IShopMapper;
+import dev.test.take_a_walk_duo.models.PagingModel;
+import dev.test.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 
 @Service(value = "dev.test.take_a_walk_duo.services.ShopService")
@@ -29,16 +35,34 @@ public class ShopService {
         this.memberMapper = memberMapper;
     }
 
-//    public int getArticleCount(BoardEntity board, String criterion, String keyword) {
-//        return this.shopMapper.selectArticleCountByBoardId(board.getId(), criterion, keyword);
-//    }
 
-    // list
+
+    // list 부분
     public BoardEntity getBoard(String id)
     // id 는 게시판의 id임 notice 등
     {
         return this.shopMapper.selectBoardById(id);
     }
+
+    // 인터셉터용
+    public BoardEntity[] getBoards() {
+        return this.shopMapper.selectBoards();
+    }
+
+    public int getArticleCount(BoardEntity board, String criterion, String keyword) {
+        return this.shopMapper.selectArticleCountByBoardId(board.getId(), criterion, keyword);
+    }
+    public ArticleReadVo[] getArticles(BoardEntity board, PagingModel paging, String criterion, String keyword) {
+        return this.shopMapper.selectArticlesByBoardId(
+                board.getId(),
+                paging.countPerPage,
+                (paging.requestPage - 1) * paging.countPerPage,
+                criterion,
+                keyword);
+    }
+
+
+
 
     // 상품 등록
     public Enum<? extends IResult> write(ArticleEntity article,
@@ -51,10 +75,26 @@ public class ShopService {
         }
         article.setUserEmail(user.getEmail());
         article.setBoardId("shop"); // BoardId shop 하나라서 고정.
+        if (images != null) {
+            for (MultipartFile image : images) {
+                article.setThumbnail(image.getBytes());
+                article.setThumbnailType(image.getContentType());
+            }
+        }else {
+            byte[] imageInByte;
+            File defaultImage = new File("src/main/resources/static/resources/images/ingImage.jpeg");
+            defaultImage.setReadable(true, false);
 
-        for (MultipartFile image : images) {
-            article.setThumbnail(image.getBytes());
-            article.setThumbnailType(image.getContentType());
+            BufferedImage originalImage = ImageIO.read(defaultImage);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(originalImage, "jpeg", baos);
+            baos.flush();
+
+            imageInByte = baos.toByteArray();
+
+            article.setThumbnail(imageInByte);
+            article.setThumbnailType("image/jpeg");
+            baos.close();
         }
 
         if (this.shopMapper.insertShopArticle(article) == 0) {
@@ -83,6 +123,8 @@ public class ShopService {
     public ImageEntity getImage(int index){
         return this.shopMapper.selectImageByIndex(index);
     }
+
+
 
 }
 
