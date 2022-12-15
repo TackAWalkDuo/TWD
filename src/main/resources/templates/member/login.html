@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -12,11 +11,6 @@
     <script defer th:src="@{/member/resources/scripts/login.js}"></script>
     <!-- Google reCAPTCHA js -->
     <script src="https://www.google.com/recaptcha/api.js"></script>
-    <script>
-        function onSubmit(token) {
-            document.getElementById("loginForm").submit();
-        }
-    </script>
     <script src="https://kit.fontawesome.com/12a5ab0618.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -73,15 +67,9 @@
             <tr>
                 <th id="recaptcha"></th>
                 <td>
-                    <div class="form-row py-1">
-                        <form>
-                            <button class="login-button g-recaptcha"
-                                    th:attr="data-siteKey=${@reCaptchaKeys.getSite()}"
-                                    data-callback='onSubmit'
-                                    data-action='login'>로그인하기
-                            </button>
-                        </form>
-                    </div>
+                    <label class="label recaptcha">
+                        <div class="g-recaptcha" data-sitekey="6Ley2n4jAAAAAJsDkqp0w-6ZmNrQv9_90d5VeglL"></div>
+                    </label>
                 </td>
             </tr>
             <!--로그인 버튼-->

@@ -9,7 +9,6 @@ import dev.test.take_a_walk_duo.enums.member.VerifyEmailAuthResult;
 import dev.test.take_a_walk_duo.interfaces.IResult;
 import dev.test.take_a_walk_duo.mappers.IMemberMapper;
 import dev.test.take_a_walk_duo.utils.CryptoUtils;
-import dev.test.take_a_walk_duo.vos.recaptcha.CaptchaSettingsVO;
 import org.apache.catalina.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -22,12 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -49,51 +44,6 @@ public class MemberService {
         this.mailSender = mailSender;
         this.templateEngine = templateEngine;
         this.memberMapper = MemberMapper;
-    }
-
-    @Autowired
-    private CaptchaSettingsVO  captchaSettingsVO;
-
-    /**
-     * @param recaptcha
-     * @return
-     */
-    public boolean verifyRecaptcha(String recaptcha) {
-        final String SECRET_KEY = captchaSettingsVO.getSecret();
-                                // 비밀키 호출
-        final String RE_URL = captchaSettingsVO.getUrl();
-                                // 인증할 URL
-        try {
-            URL obj = new URL(RE_URL);
-            HttpsURLConnection conn = (HttpsURLConnection) obj.openConnection();
-            conn.setRequestMethod("POST");
-
-            String postParams = "secret=" + SECRET_KEY + "&response=" + recaptcha;
-            conn.setDoOutput(true);
-
-            DataOutputStream write = new DataOutputStream(conn.getOutputStream());
-            write.writeBytes(postParams);
-            write.flush();
-            write.close();
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
-
-            JsonReader jsonReader = Json.createReader(new StringReader(response.toString()));
-            JsonObject jsonObject = jsonReader.readObject();
-            jsonReader.close();
-            return jsonObject.getBoolean("success");
-            // 최종 return 값 : true or false
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 
     // 카카오 access token 발급 받는 getKakaoAccessToken

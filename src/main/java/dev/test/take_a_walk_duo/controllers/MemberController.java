@@ -3,6 +3,7 @@ package dev.test.take_a_walk_duo.controllers;
 import dev.test.take_a_walk_duo.entities.member.EmailAuthEntity;
 import dev.test.take_a_walk_duo.entities.member.UserEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
+import dev.test.take_a_walk_duo.recaptcha.ReCaptchaResponse;
 import dev.test.take_a_walk_duo.services.MemberService;
 import dev.test.take_a_walk_duo.services.ReCaptchaLoginService;
 import org.json.JSONObject;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,25 +27,10 @@ import java.security.NoSuchAlgorithmException;
 @RequestMapping(value = "member")
 public class MemberController {
     private final MemberService memberService;
-    private final ReCaptchaLoginService reCaptchaLoginService;
-    private static final Logger log = LoggerFactory.getLogger(MemberController.class);
 
     @Autowired
-    public MemberController(MemberService memberService, ReCaptchaLoginService reCaptchaLoginService) {
+    public MemberController(MemberService memberService) {
         this.memberService = memberService;
-        this.reCaptchaLoginService = reCaptchaLoginService;
-    }
-
-    /**
-     * recaptcha
-     * rootgo
-     */
-    @PostMapping(value = "login")
-    public String save(@RequestParam(name = "g-recaptcha-response") String response) {
-//        log.info(">>>>>>>>>>>> g-recaptcha-response: {}", response);
-        //TODO verify ReCaptcha response
-        reCaptchaLoginService.verify(response);
-        return response;
     }
 
     /**

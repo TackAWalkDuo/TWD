@@ -3,6 +3,7 @@ package dev.test.take_a_walk_duo.recaptcha;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ReCaptchaResponse {
     private boolean success;
@@ -66,6 +67,15 @@ public class ReCaptchaResponse {
     public ReCaptchaResponse setErrorCodes(List<String> errorCodes) {
         this.errorCodes = errorCodes;
         return this;
+    }
+
+    public List<String> getErrors(){
+        if (getErrorCodes() != null) {
+            return getErrorCodes().stream()
+                    .map(ReCaptchaErrorCodes.RECAPTCHA_ERROR_CODES::get)
+                    .collect(Collectors.toList());
+        }
+        return null;
     }
 
     @Override
