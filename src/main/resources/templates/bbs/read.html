@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Take a walk duo-list</title>
     <th:block th:replace="~{fragments/head}"></th:block>
+    <script defer th:src="@{/bbs/resources/scripts/read.js}"></script>
     <link rel="stylesheet" th:href="@{/bbs/resources/stylesheets/read.css}">
 </head>
 <body th:if="${article != null}">
@@ -67,20 +68,20 @@
                     <li class="side-menu connect"><a>유머</a></li>
                 </ul>
             </nav>
-            <form class="read-form">
+            <form class="read-form" id="form">
                 <table class="table">
                     <thead>
                     <tr class="title-table">
                         <th hidden>번호</th>
                         <td th:text="${article.getIndex()}">17</td>
                         <th hidden>분류</th>
-                        <td th:text="${article.getBoardId()}">분류</td>
+                        <td th:text="${board.getId()}">분류</td>
                         <th hidden>제목</th>
                         <td class="content" th:text="${article.getTitle()}">자유게시판 첫 글</td>
                         <th hidden>썸네일이미지</th>
                         <td class="image-tableData">
-                            <div>
-                                <img class="detail-img" th:src="@{/bbs/thumbnail (index=${article.getIndex()})}" alt="#"
+                            <div >
+                                <img rel="thumbnailImage" class="detail-img" th:src="@{/bbs/thumbnail (index=${article.getIndex()})}" alt="#"
                                      src="/resources/images/item1.jpg">
                             </div>
                         </td>
@@ -106,7 +107,7 @@
                         <th hidden class="view">조회수</th>
                         <td th:text="${'조회수 ['+article.getView() +']'}">1</td>
                         <td>
-                            <a class="modify-article">수정하기</a>
+                            <a class="modify-article" th:href="@{./modify (aid=${article.getIndex()})}">수정하기</a>
                             <a class="delete-article">삭제하기</a>
                         </td>
                     </tr>
@@ -121,7 +122,8 @@
                     </tr>
                     </tbody>
                     <tfoot>
-                    <th>댓글 넣을껴</th>
+                    <tr></tr>
+                    <th>댓글 고?</th>
                     </tfoot>
                 </table>
                 <input name="aid" type="hidden" th:value="${article.getIndex()}">
@@ -129,6 +131,10 @@
         </div>
     </div>
 </main>
+<div class="image-scale" id="imageScale">
+    <img class="detail-img" rel="scaleImage" th:src="@{/bbs/thumbnail (index=${article.getIndex()})}" alt="#"
+         src="/resources/images/item1.jpg">
+</div>
 <th:block th:replace="~{fragments/body :: cover}"></th:block>
 <th:block th:replace="~{fragments/body :: footer}"></th:block>
 </body>

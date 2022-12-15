@@ -2,8 +2,10 @@ package dev.test.take_a_walk_duo.services;
 
 import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.test.take_a_walk_duo.entities.bbs.BoardEntity;
+import dev.test.take_a_walk_duo.entities.bbs.ImageEntity;
 import dev.test.take_a_walk_duo.entities.member.UserEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
+import dev.test.take_a_walk_duo.enums.bbs.ModifyArticleResult;
 import dev.test.take_a_walk_duo.enums.bbs.WriteResult;
 import dev.test.take_a_walk_duo.interfaces.IResult;
 import dev.test.take_a_walk_duo.mappers.IBbsMapper;
@@ -17,6 +19,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 @Service(value = "dev.test.take_a_walk_duo.services.BbsService")
 public class BbsService {
@@ -73,7 +76,7 @@ public class BbsService {
         return this.bbsMapper.insertArticle(article) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
 
-//        Mr.m
+    //        Mr.m
 //        게시글 읽기 구현 (게시글 aid값으로 불러오기) + 조회수 구현
     public ArticleReadVo readArticle(int index, UserEntity user) {
         ArticleReadVo existingArticleReadVo = this.bbsMapper.selectArticleByIndex(index, user == null ? null : user.getEmail());
@@ -85,7 +88,7 @@ public class BbsService {
             existingArticleReadVo.setView(existingArticleReadVo.getView() + 1);
             this.bbsMapper.updateArticle(existingArticleReadVo);
             System.out.println("existingArticleReadVo check1");
-        }else {
+        } else {
             System.out.println("existingArticleReadVo check2");
         }
         return existingArticleReadVo;
@@ -104,7 +107,44 @@ public class BbsService {
 //                : CommonResult.FAILURE;
 //    }
 
-    public ArticleEntity getThumbnail(int index){
+    public ArticleEntity getThumbnail(int index) {
         return this.bbsMapper.selectThumbnailByIndex(index);
+    }
+
+    //이미지추가 서비스
+    public Enum<? extends IResult> addImage(ImageEntity image) {
+        return this.bbsMapper.insertImage(image) > 0
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
+    }
+
+    public ImageEntity getImage(int index) {
+        return this.bbsMapper.selectImageByIndex(index);
+    }
+
+    //Mr.m
+    //게시물 수정하기 (get)서비스
+
+    public ArticleReadVo getModifyArticles(int articleIndex,UserEntity user){
+        return this.bbsMapper.selectArticleByIndex(articleIndex);
+    }
+    public Enum<? extends IResult> modifyArticle(int articleIndex, UserEntity user, ArticleEntity articleEntity) {
+        ArticleEntity existingArticle = this.bbsMapper.selectArticleByIndex(articleIndex);
+        if (existingArticle == null) {
+            return CommonResult.FAILURE;
+        }
+        if (user == null || !user.getEmail().equals(existingArticle.getUserEmail())) {
+            return ModifyArticleResult.NOT_ALLOWED;
+        }
+        System.out.println(articleEntity.getIndex());
+        System.out.println(articleEntity.getTitle());
+        existingArticle.setIndex(articleIndex);
+        existingArticle.setTitle(articleEntity.getTitle());
+        existingArticle.setContent(articleEntity.getContent());
+        existingArticle.setModifiedOn(new Date());
+        if (this.bbsMapper.updateArticle(existingArticle) == 0) {
+            return CommonResult.FAILURE;
+        }
+        return CommonResult.SUCCESS;
     }
 }

@@ -2,9 +2,12 @@ package dev.test.take_a_walk_duo.controllers;
 
 import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.test.take_a_walk_duo.entities.bbs.BoardEntity;
+import dev.test.take_a_walk_duo.entities.bbs.ImageEntity;
 import dev.test.take_a_walk_duo.entities.member.UserEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
+import dev.test.take_a_walk_duo.enums.bbs.ModifyArticleResult;
 import dev.test.take_a_walk_duo.enums.bbs.WriteResult;
+import dev.test.take_a_walk_duo.interfaces.IResult;
 import dev.test.take_a_walk_duo.services.BbsService;
 import dev.test.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import org.json.JSONObject;
@@ -86,13 +89,54 @@ public class BbsController {
         ModelAndView modelAndView = new ModelAndView("bbs/read");
         ArticleReadVo article = this.bbsService.readArticle(aid,user);
         modelAndView.addObject("article", article);
-        System.out.println(article.getIndex());
         if (article != null) {
             BoardEntity board = this.bbsService.getBoard(article.getBoardId());
             modelAndView.addObject("board", board);
             modelAndView.addObject("liked", article.isArticleLiked());
         }
         return modelAndView;
+    }
+
+//    Mr.m
+//    게시글 수정하기 구현
+
+        @RequestMapping(value = "modify", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getModify(@SessionAttribute(value = "user", required = false) UserEntity user, @RequestParam(value = "aid") int articleIndex) {
+        ModelAndView modelAndView;
+        ArticleReadVo article = this.bbsService.getModifyArticles(articleIndex, user);
+        if (user == null) {
+            //↑로그인 확인 조건
+            modelAndView = new ModelAndView("redirect:/member/login");}
+        else if (!user.getEmail().equals(article.getUserEmail())) {
+            modelAndView = new ModelAndView("redirect:./read?aid=" + articleIndex);
+        } else {
+            modelAndView = new ModelAndView("bbs/modify");
+            modelAndView.addObject("article", article);
+            BoardEntity board = this.bbsService.getBoard(article.getBoardId());
+            modelAndView.addObject("board", board);
+            }
+        return modelAndView;
+    }
+
+//    게시물 수정하기(patch)
+    @RequestMapping(value = "modify", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String patchModify(@SessionAttribute(value = "user", required = false) UserEntity user,
+                              @RequestParam(value = "aid") int articleIndex, ArticleEntity articleEntity) {
+        Enum<?> result;//= this.bbsService.RegisterBoard(user,bid,articleEntity);
+        JSONObject responseObject = new JSONObject();
+        if (user == null) {
+            result = ModifyArticleResult.NOT_ALLOWED;
+        } else if (articleIndex == 0) {
+            result = ModifyArticleResult.NO_SUCH_ARTICLE;
+        }
+        result = this.bbsService.modifyArticle(articleIndex, user, articleEntity);
+
+        if (result == CommonResult.SUCCESS) {
+            responseObject.put("aid", articleIndex);
+        }
+        responseObject.put("result", result.name().toLowerCase());
+        return responseObject.toString();
     }
 
     //Mr.m
@@ -118,6 +162,43 @@ public class BbsController {
         }
         System.out.println("check thumbnail" + responseEntity);
         return responseEntity;
+    }
+
+    // 이미지 업로드(ckEditor에 등록하는 매핑)
+    @GetMapping(value = "image")
+    public ResponseEntity<byte[]> getImage(@RequestParam(value = "index") int index) {
+        ResponseEntity<byte[]> responseEntity;
+        ImageEntity image = this.bbsService.getImage(index);
+        if (image == null) {
+            responseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.valueOf(image.getFileMime()));
+            headers.setContentLength(image.getData().length);
+            responseEntity = new ResponseEntity<>(image.getData(), HttpStatus.OK);
+        }
+        return responseEntity;
+    }
+
+    // 이미지 다운로드(ckEditor에 등록하는 매핑)
+    @PostMapping(value = "image",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    //upload는 ckeiditor에서 정해놓으거라서 따라해야함
+    // upload용 매핑임
+    public String postImage(@RequestParam(value = "upload") MultipartFile file) throws IOException {
+        ImageEntity image = new ImageEntity();
+        image.setFileName(file.getOriginalFilename());
+        image.setFileMime(file.getContentType());
+        image.setData(file.getBytes());
+
+        Enum<?> result = this.bbsService.addImage(image);
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("result", result.name().toLowerCase());
+        if (result == CommonResult.SUCCESS) {
+            responseObject.put("url", "http://localhost:8080/shop/image?index=" + image.getIndex());
+        }
+        return responseObject.toString();
     }
 
 }

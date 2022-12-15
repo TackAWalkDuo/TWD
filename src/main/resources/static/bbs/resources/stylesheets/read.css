@@ -13,6 +13,7 @@ body > .--main {
     display: flex;
     justify-content: space-around;
 }
+
 .--main > .img {
     display: table;
     width: 100%;
@@ -65,7 +66,7 @@ body > .--main {
     min-width: 90%;
 }
 
-.title--select > .menu > .free-select{
+.title--select > .menu > .free-select {
     position: absolute;
     justify-content: center;
     /*display: flex;*/
@@ -101,33 +102,37 @@ body > .--main {
     list-style: unset;
     display: none;
 }
-.title--select > li > .free-select.visible{
+
+.title--select > li > .free-select.visible {
     display: flex;
     z-index: 3;
 }
+
 .title--select > li > .free-select > * {
     width: 8rem;
     color: rgb(180, 180, 188);
-    background-color: rgb(255,255,255);
+    background-color: rgb(255, 255, 255);
     display: none;
 }
+
 .title--select > li > .free-select > *:hover {
     background-color: rgba(180, 180, 188);
-    color: rgb(255,255,255);
+    color: rgb(255, 255, 255);
 }
 
 .menu {
     line-height: 2.8rem;
 }
 
-.read-form{
+.read-form {
     align-items: stretch;
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
+
 /*read sumNail*/
-body > .--main > .--form > .--content > .read-form  .detail-img {
+body > .--main > .--form > .--content > .read-form .detail-img {
     /*display: table;*/
     object-fit: cover;
     height: 5rem;
@@ -135,13 +140,6 @@ body > .--main > .--form > .--content > .read-form  .detail-img {
     border-radius: 0.5rem;
 }
 
-body > .--main > .--form > .--content > .read-form  .detail-img:hover {
-    display: unset;
-    object-fit: cover;
-    height: 20rem;
-    width: 20rem;
-    border-radius: 0.5rem;
-}
 /*read 테이블*/
 
 .read-form {
@@ -151,53 +149,89 @@ body > .--main > .--form > .--content > .read-form  .detail-img:hover {
     width: 100%;
 }
 
-.read-form > div{
+.read-form > div {
     border-right: 0.3rem solid rgb(139, 145, 126);
 }
-.table{
+
+.table {
     white-space: nowrap;
     width: 100%;
-    border-collapse : collapse;
+    border-collapse: collapse;
 }
+
 .title-table > th,
-.title-table > td{
+.title-table > td {
     border-bottom: 0.2rem solid rgb(139, 145, 126);
     /* height: 2rem; */
     font-size: 1.25rem;
     text-align: center;
 }
 
-.table > .content{
+.table > .content {
     width: 100%;
 }
+
 .table > thead > tr > th,
-.table > thead > .title-table > td:nth-of-type(1)
-{
+.table > thead > .title-table > td:nth-of-type(1) {
     width: 3.5rem;
     height: 6rem;
 }
-.table > thead{
+
+.table > thead {
     border-bottom: 0.1rem solid rgb(139, 145, 126);
 }
-.table > thead > tr:nth-of-type(2) >th,
-.table > thead > tr:nth-of-type(2) >td,
-.table > thead > tr:nth-of-type(3) >th,
-.table > thead > tr:nth-of-type(3) >td{
+
+.table > thead > tr:nth-of-type(2) > th,
+.table > thead > tr:nth-of-type(2) > td,
+.table > thead > tr:nth-of-type(3) > th,
+.table > thead > tr:nth-of-type(3) > td {
     font-size: 1rem;
     text-align: center;
     height: 3rem;
     text-decoration: none;
-    border-bottom: 0.0625rem inset rgb(120,120,120)
+    border-bottom: 0.0625rem inset rgb(120, 120, 120)
 }
-.table > thead > tr:nth-of-type(3) >td:nth-of-type(3){
+
+.table > thead > tr:nth-of-type(3) > td:nth-of-type(3) {
     text-align: unset;
 }
-.table > tbody{
+
+.table > tbody {
     border-bottom: 0.1rem solid rgb(139, 145, 126);
 }
-.table > thead > tr > td:nth-of-type(4){
-    border-left: 0.0625rem inset rgb(120,120,120);
+
+.table > thead > tr > td:nth-of-type(4) {
+    border-left: 0.0625rem inset rgb(120, 120, 120);
 }
-.table > tbody > tr > td> div{
-    margin-top:1rem;
+
+.table > tbody > tr > td > div {
+    margin-top: 1rem;
+}
+
+/*썸네일 이미지 클릭 해쓸때 창*/
+.image-scale {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 80%);
+    align-items: center;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 0;
+    color: rgb(255, 255, 255);
+    position: fixed;
+}
+
+.image-scale.visible {
+    display: flex;
+}
+
+.image-scale > .detail-img {
+    /*display: unset;*/
+    object-fit: cover;
+    height: 20rem;
+    width: 20rem;
+    border-radius: 0.5rem;
 }
