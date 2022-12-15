@@ -22,9 +22,9 @@
 <main class="--main main">
     <div class="img"></div>
     <div>
-        <ul class="title-select">
-            <li th:if="${board.getBoardId() == 'shop'}" th:each="board : ${boards}">
-                <a th:text="${board.getText()}" th:href="@{/shop/list(bid=${board.getId()})}"></a>
+        <ul class="title-select" id="list-selected">
+            <li th:class="${board.getId()}" th:if="${board.getBoardId() == 'shop'}" th:each="board : ${boards}">
+                <a class="a-select" th:text="${board.getText()}" th:href="@{/shop/list(bid=${board.getId()})}"></a>
             </li>
         </ul>
     </div>

@@ -285,8 +285,10 @@ body > .--header > .--content > .--menu > .--item + .--item {
     letter-spacing: 0px;
 }
 
-.--link.small.selected{
-    color: blue;
+/*보고 있는 페이지의 a태그 활성화*/
+.--link.small.selected,
+.title-select > li > a.selected{
+    color: rgb(40, 116, 166 );
 }
 
 .--link.small:hover {
