@@ -11,6 +11,7 @@ import dev.test.take_a_walk_duo.services.BbsService;
 import dev.test.take_a_walk_duo.services.MemberService;
 import dev.test.take_a_walk_duo.services.ShopService;
 import dev.test.take_a_walk_duo.vos.bbs.ArticleReadVo;
+import dev.test.take_a_walk_duo.vos.shop.ProductVo;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -80,7 +81,7 @@ public class ShopController {
             PagingModel paging = new PagingModel(totalCount, page);
             modelAndView.addObject("paging", paging);
 
-            ArticleReadVo[] articles = this.shopService.getArticles(board, paging, criterion, keyword);
+            ProductVo[] articles = this.shopService.getArticles(board, paging, criterion, keyword);
             modelAndView.addObject("articles", articles);
             System.out.println("test articles" + articles.length);
             System.out.printf("이동 가능한 최소 페이지 : %d\n", paging.minPage);
@@ -88,6 +89,10 @@ public class ShopController {
             System.out.printf("표시 시작 페이지 : %d\n", paging.startPage);
             System.out.printf("표시 끝 페이지 : %d\n", paging.endPage);
 
+
+            for (int i = 0; i < articles.length; i++) {
+                System.out.println("확인이다 이자식아" + articles[i].getCategoryText());
+            }
         }
         return modelAndView;
     }

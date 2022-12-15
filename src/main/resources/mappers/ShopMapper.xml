@@ -8,20 +8,6 @@
             resultType="int">
         SELECT COUNT(0)
         FROM `twd_bbs`.`articles`
-        <if test="criterion != null and criterion.equals('nickname')">
-            LEFT JOIN `study`.`users` AS `user` ON `articles`.`user_email` = `user`.`email`
-        </if>
-        WHERE `board_id` = #{boardId}
-        <if test="criterion != null and criterion.equals('title')">
-            AND REPLACE(`article`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
-        </if>
-        <if test="criterion != null and criterion.equals('all')">
-            AND (REPLACE(`article`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
-            OR REPLACE(`article`.`content`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%'))
-        </if>
-        <if test="criterion != null and criterion.equals('nickname')">
-            AND BINARY `user`.`nickname` = #{keyword}
-        </if>
     </select>
 
     <!--    <select id="selectArticlesByBoardId"-->
@@ -58,19 +44,19 @@
 
     <!--위에꺼 수정한거임-->
     <select id="selectArticlesByBoardId"
-            resultType="dev.test.take_a_walk_duo.vos.bbs.ArticleReadVo">
-        SELECT `article`.`index`       AS `index`,
-               `article`.`user_email`  AS `userEmail`,
-               `article`.`board_id`    AS `boardID`,
-               `article`.`title`       AS `title`,
-               `article`.`view`        AS `view`,
-               `article`.`written_on`  AS `writtenOn`,
-               `article`.`modified_on` AS `modifiedOn`
-
+            resultType="dev.test.take_a_walk_duo.vos.shop.ProductVo">
+        SELECT `article`.`index`         AS `index`,
+               `article`.`user_email`    AS `userEmail`,
+               `article`.`board_id`      AS `boardID`,
+               `article`.`title`         AS `title`,
+               `article`.`view`          AS `view`,
+               `article`.`written_on`    AS `writtenOn`,
+               `article`.`modified_on`   AS `modifiedOn`,
+               `product`.`category_text` AS 'categoryText'
         FROM `twd_bbs`.`articles` AS `article`
                  LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`
                  LEFT JOIN `twd_shop`.`sale_product` AS `product` ON `article`.`index` = `product`.`article_index`
-        WHERE `board_id` = 'shop'
+        WHERE `board_id` = 'shop' AND `product`.`category_text` = #{boardText}
         GROUP BY `index`
         ORDER BY `index` DESC
         LIMIT #{limit} OFFSET #{offset}

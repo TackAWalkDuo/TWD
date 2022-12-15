@@ -6,6 +6,8 @@ public class ProductCategoryEntity {
     private int index;
     private String text;
 
+    private String id;
+
     public int getIndex() {
         return index;
     }
@@ -20,6 +22,14 @@ public class ProductCategoryEntity {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override

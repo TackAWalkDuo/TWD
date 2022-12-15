@@ -7,7 +7,7 @@ import java.util.Objects;
 public class ProductVo extends ArticleEntity {
     private int quantity;
     private int price;
-    private int categoryIndex;
+    private String categoryText;
 
     public int getQuantity() {
         return quantity;
@@ -27,12 +27,11 @@ public class ProductVo extends ArticleEntity {
         return this;
     }
 
-    public int getCategoryIndex() {
-        return categoryIndex;
+    public String getCategoryText() {
+        return categoryText;
     }
 
-    public ProductVo setCategoryIndex(int categoryIndex) {
-        this.categoryIndex = categoryIndex;
-        return this;
+    public void setCategoryText(String categoryText) {
+        this.categoryText = categoryText;
     }
 }
