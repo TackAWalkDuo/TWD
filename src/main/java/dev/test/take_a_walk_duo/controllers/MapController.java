@@ -65,8 +65,12 @@ public class MapController {
                               @RequestParam(value = "minLng") double minLng,
                               @RequestParam(value = "maxLat") double maxLat,
                               @RequestParam(value = "maxLng") double maxLng,
-                              @SessionAttribute(value = "suer", required = false) UserEntity user) {
-        System.out.println(user);
+                              @SessionAttribute(value = "user", required = false) UserEntity user) {
+        System.out.println("login check"+user);
+        PlaceVo[] temp = this.mapService.getPlaces(minLat, minLng, maxLat, maxLng, user);
+        for (int i = 0; i < temp.length; i++) {
+            System.out.println("isSigned " + temp[i].isSigned());
+        }
         return this.mapService.getPlaces(minLat, minLng, maxLat, maxLng, user);
     }
 

@@ -195,6 +195,10 @@ body > .--header {
     margin-left: 0.8rem;
 }
 
+#detailContainer > .interest-container > .like-container > * {
+    cursor: auto;
+}
+
 #detailContainer > .interest-container > .like-container > .prohibited {
     cursor: not-allowed;
 }

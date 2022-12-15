@@ -15,9 +15,9 @@ detailContainer.show = (placeObject, placeElement) => {
     detailContainer.querySelector('[rel="likeCounter"]').innerText = placeObject['likeCount'];
     detailContainer.querySelector('[rel="addressText"]').innerText = placeObject['address'];
     detailContainer.querySelector('[rel="descriptionText"]').innerText = placeObject['content'];
-
+    // console.log( "isSinged   " + placeObject['signed']);
     //로그인이 안되있을 경우 좋아요를 누를 수 없도록 처리.
-    if(!placeObject['isSigned']) {
+    if(!placeObject['signed']) {
         detailContainer.querySelector('[rel="likeIcon"]').classList.add("prohibited");
     }
 
