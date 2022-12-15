@@ -199,6 +199,17 @@ reviewForm['images'].addEventListener('input', () => {
     }
 });
 
+detailContainer.querySelector('[rel="likeIcon"]').addEventListener('click', ()=>{
+   alert("like");
+});
+
+
+
+
+
+
+
+
 //리뷰 저장
 reviewForm.onsubmit = e => {
     e.preventDefault()
