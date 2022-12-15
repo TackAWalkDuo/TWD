@@ -76,24 +76,35 @@
                         <th hidden>분류</th>
                         <td th:text="${article.getBoardId()}">분류</td>
                         <th hidden>제목</th>
-                        <td colspan="4" class="content" th:text="${article.getTitle()}">자유게시판 첫 글</td>
+                        <td class="content" th:text="${article.getTitle()}">자유게시판 첫 글</td>
+                        <th hidden>썸네일이미지</th>
+                        <td class="image-tableData">
+                            <div>
+                                <img class="detail-img" th:src="@{/bbs/thumbnail (index=${article.getIndex()})}" alt="#"
+                                     src="/resources/images/item1.jpg">
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <th hidden>견종분류</th>
                         <td th:text="${article.getUserSpecies()}">대형견||소형견</td>
                         <th hidden>관리자</th>
                         <td th:text="${article.getUserNickname()}">회원ID</td>
-                        <td></td>
+                        <th hidden></th>
                         <td></td>
                         <th hidden>추천수</th>
-                        <td rowspan="2">하트하트
-                        <span th:text="${'['+article.getArticleLikedCount()+']'}">1</span></td>
+                        <td rowspan="2">
+                            <i class="fa-solid fa-heart"><span th:text="${'['+article.getArticleLikedCount()+']'}">1</span></i>
+
+                        </td>
                     </tr>
                     <tr>
                         <th hidden>작성 일시</th>
-                        <td th:text="${#dates.format(article.getWrittenOn(),'yyyy-MM-dd HH:mm:ss')}">2000-01-01 00:00:00</td>
-                        <th class="view">조회수</th>
-                        <td th:text="${article.getView()}">1</td>
+                        <td th:text="${#dates.format(article.getWrittenOn(),'yyyy-MM-dd HH:mm:ss')}">2000-01-01
+                            00:00:00
+                        </td>
+                        <th hidden class="view">조회수</th>
+                        <td th:text="${'조회수 ['+article.getView() +']'}">1</td>
                         <td>
                             <a class="modify-article">수정하기</a>
                             <a class="delete-article">삭제하기</a>
@@ -101,13 +112,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td colspan="8">
-                        <div>
-                            <img class="detail-img" alt="" src="/resources/images/item1.jpg">
-                        </div>
-                        </td>
-                    </tr>
                     <tr>
                         <td colspan="8">
                             <div class="content-container">

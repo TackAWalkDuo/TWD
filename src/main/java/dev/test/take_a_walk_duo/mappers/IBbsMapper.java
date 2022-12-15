@@ -18,7 +18,7 @@ public interface IBbsMapper {
     ArticleEntity selectThumbnailByIndex(@Param(value = "index") int index);
 
     //Mr.m
-    //ArticleIndex로 ArticleEntity불러오기
+    //ArticleIndex 로 ArticleEntity 불러오기
     ArticleReadVo selectArticleByIndex(@Param(value = "index")int index,
                                        @Param(value = "email") String email);
 
