@@ -288,7 +288,7 @@ body > .--header > .--content > .--menu > .--item + .--item {
 /*보고 있는 페이지의 a태그 활성화*/
 .--link.small.selected,
 .title-select > li > a.selected{
-    color: rgb(40, 116, 166 );
+    color: rgba(40, 116, 166,90%);
 }
 
 .--link.small:hover {
