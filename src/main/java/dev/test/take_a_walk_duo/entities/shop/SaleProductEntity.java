@@ -10,7 +10,7 @@ public class SaleProductEntity {
     private int discount;       // 할인율(0~100)
     private int price;          // 판매가
     private int profit;         // 이익
-    private int categoryIndex;  //상품 분류.
+    private int categoryText;  //상품 분류.
     private int deliveryFee;
 
     public int getIndex() {
@@ -69,12 +69,13 @@ public class SaleProductEntity {
         this.profit = profit;
     }
 
-    public int getCategoryIndex() {
-        return categoryIndex;
+    public int getCategoryText() {
+        return categoryText;
     }
 
-    public void setCategoryIndex(int categoryIndex) {
-        this.categoryIndex = categoryIndex;
+    public SaleProductEntity setCategoryText(int categoryText) {
+        this.categoryText = categoryText;
+        return this;
     }
 
     public int getDeliveryFee() {
