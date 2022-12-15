@@ -5,20 +5,23 @@
         <a class="--logo-container" th:href="@{/}">
             TAKE A WALK <span class="duo">DUO</span>
         </a>
-        <ul class="--menu --main">
+        <ul class="--menu --main" id="navbar">
             <!--/*@thymesVar id="boards" type="dev.test.take_a_walk_duo.entities.bbs.BoardEntity[]"*/-->
-            <li class="--item" th:if="${board.getBoardId() == null}" th:each="board : ${boards}">
+            <li th:class="${'--item ' + board.getId()}" th:if="${board.getBoardId() == null}" th:each="board : ${boards}">
                 <a class="--link small"
+                   th:id="${board.getId()}"
                    th:text="${board.getText()}"
                    th:if="${board.getId()} == 'walk'" th:href="@{/map/walk-read}"></a>
                 <a class="--link small"
+                   th:id="${board.getId()}"
                    th:text="${board.getText()}"
                    th:if="${board.getId()} == 'shop'" th:href="@{/shop/main}">
                 </a>
                 <a class="--link small"
+                   th:id="${board.getId()}"
                    th:text="${board.getText()}"
                    th:if="${board.getId()} != 'walk' and ${board.getId()} != 'shop'"
-                   th:href="@{/bbs/list(bid=${board.getId()})}">공지사항</a>
+                   th:href="@{/bbs/list(bid=${board.getId()})}"></a>
             </li>
             <li class="--item">
                 <a class="--link border" th:href="@{/member/login}">로그인</a>

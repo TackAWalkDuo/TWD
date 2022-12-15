@@ -285,6 +285,10 @@ body > .--header > .--content > .--menu > .--item + .--item {
     letter-spacing: 0px;
 }
 
+.--link.small.selected{
+    color: blue;
+}
+
 .--link.small:hover {
     color: rgb(0, 0, 0);
 }
