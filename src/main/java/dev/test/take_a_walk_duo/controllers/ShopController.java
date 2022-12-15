@@ -77,7 +77,7 @@ public class ShopController {
         if (board != null) {
             int totalCount = this.shopService.getArticleCount(board, criterion, keyword);
 
-            PagingModel paging = new PagingModel(totalCount, page);
+            PagingModel paging = new PagingModel(16 ,totalCount, page);
             modelAndView.addObject("paging", paging);
 
             ArticleReadVo[] articles = this.shopService.getArticles(board, paging, criterion, keyword);

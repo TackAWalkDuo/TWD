@@ -50,6 +50,7 @@
           AND `location`.`longitude` BETWEEN ${minLng} AND ${maxLng}
         GROUP BY `article`.`index`
     </select>
+    
 </mapper>
 
 

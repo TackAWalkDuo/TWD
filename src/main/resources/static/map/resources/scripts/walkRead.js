@@ -6,16 +6,37 @@ const reviewForm = window.document.getElementById("reviewForm");
 let mapObject;
 let places = [];        // db 에서 list 를 가져와서 담아줄 변수.
 
-detailContainer.show = (placeObject) => {
+detailContainer.show = (placeObject, placeElement) => {
     detailContainer.classList.add("visible");
     detailContainer.querySelector('[rel="title"]').innerText = placeObject['title'];
     detailContainer.querySelector('[rel="placeImage"]').setAttribute("src", `/bbs/thumbnail?index=${placeObject['index']}`);
-    detailContainer.querySelector('[rel="view"]').innerText = placeObject['view'];
+    // detailContainer.querySelector('[rel="view"]').innerText = placeObject['view'];
     detailContainer.querySelector('[rel="commentCounter"]').innerText = placeObject['commentCount'];
     detailContainer.querySelector('[rel="likeCounter"]').innerText = placeObject['likeCount'];
     detailContainer.querySelector('[rel="addressText"]').innerText = placeObject['address'];
     detailContainer.querySelector('[rel="descriptionText"]').innerText = placeObject['content'];
     reviewForm['articleIndex'].innerText = placeObject['index'];
+
+    //view count up
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+    formData.append("index", placeObject['index']);
+    xhr.open("POST", './view');
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                const responseObject = JSON.parse(xhr.responseText);
+                switch (responseObject['result']) {
+                    case 'success' :
+                        detailContainer.querySelector('[rel="view"]').innerText = responseObject['view'];
+                        placeElement.querySelector('[rel="view"]').innerText = responseObject['view'];
+                        console.log(placeElement.querySelector('[rel="view"]').innerText);
+                        break;
+                    default:
+                }
+            }
+        }
+    };xhr.send(formData);
 }
 detailContainer.hide = () => {
     detailContainer.classList.remove("visible");
@@ -59,7 +80,6 @@ const loadPlaces = (ne, sw) => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status >= 200 && xhr.status < 300) {
                 const placeArray = JSON.parse(xhr.responseText);
-                console.log("check js")
                 places = placeArray;
                 for (const placeObject of placeArray) {
                     const position = new kakao.maps.LatLng(
@@ -80,7 +100,7 @@ const loadPlaces = (ne, sw) => {
                                <span class="interest-container">
                                    <span class="view-container">
                                        <i class="fa-solid fa-eye"></i>
-                                       <span class="view">${placeObject['view']}</span>
+                                       <span class="view" rel="view">${placeObject['view']}</span>
                                    </span>
                                    <span class="review-container">
                                        <i class="fa-solid fa-comment"></i>
@@ -107,25 +127,23 @@ const loadPlaces = (ne, sw) => {
                     const latLng = new kakao.maps.LatLng(placeObject['latitude'], placeObject['longitude']);
                     kakao.maps.event.addListener(marker, 'click', () => {
                         mapObject.setCenter(latLng);
-                        loadPlaces();
+
                         if (detailContainer.querySelector('[rel="addressText"]').innerText === (placeObject['address'])) {
                             detailContainer.hide();
                         } else {
-                            detailContainer.show(placeObject);
+                            detailContainer.show(placeObject, placeElement);
                         }
-
                     });
                     marker.setMap(mapObject);
 
                     placeElement.addEventListener('click', () => {
                         mapObject.setCenter(latLng);
-                        loadPlaces();
+
                         if (detailContainer.querySelector('[rel="addressText"]').innerText === (placeObject['address'])) {
                             detailContainer.hide();
                         } else {
-                            detailContainer.show(placeObject);
+                            detailContainer.show(placeObject, placeElement);
                         }
-
                     });
 
                     list.append(placeElement);

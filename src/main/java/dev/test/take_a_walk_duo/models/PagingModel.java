@@ -18,8 +18,8 @@ public class PagingModel {
         this.totalCount = totalCount;
         this.requestPage = requestPage;     //기본값은 1
         this.minPage = 1;
-        this.maxPage = (totalCount / countPerPage) + ((totalCount % countPerPage) == 0 ? 0 : 1);
-        this.startPage = ((requestPage - 1) / countPerPage) * countPerPage + 1;
-        this.endPage = Math.min((this.startPage + countPerPage - 1), this.maxPage);
+        this.maxPage = (totalCount / countPerPage) + ((totalCount % countPerPage) == 0 ? 1 : 0);
+        this.startPage = ((requestPage - 1) / 10) * 10 + 1;     //10은 몇번 list 까지 클릭으로 갈수있는지?
+        this.endPage = Math.min((this.startPage + 9), this.maxPage);
     }
 }

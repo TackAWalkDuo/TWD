@@ -4,6 +4,7 @@ import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.test.take_a_walk_duo.entities.bbs.map.LocationEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
 import dev.test.take_a_walk_duo.interfaces.IResult;
+import dev.test.take_a_walk_duo.mappers.IBbsMapper;
 import dev.test.take_a_walk_duo.mappers.IMapMapper;
 import dev.test.take_a_walk_duo.vos.map.PlaceVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,12 @@ import java.io.IOException;
 @Service(value = "dev.test.take_a_walk_duo.services.MapService")
 public class MapService {
     private final IMapMapper mapMapper;
+    private final IBbsMapper bbsMapper;
 
     @Autowired
-    public MapService(IMapMapper mapMapper) {
+    public MapService(IMapMapper mapMapper, IBbsMapper bbsMapper) {
         this.mapMapper = mapMapper;
+        this.bbsMapper = bbsMapper;
     }
 
     //TODO user 업데이트 후 제약조건 및 데이터 set 변경.
@@ -73,7 +76,7 @@ public class MapService {
 
 
     public PlaceVo[] getPlaces(double minLat, double minLng, double maxLat, double maxLng) {
-        PlaceVo[] place= this.mapMapper.selectPlacesExceptImage(minLat, minLng, maxLat, maxLng);
+        PlaceVo[] place = this.mapMapper.selectPlacesExceptImage(minLat, minLng, maxLat, maxLng);
         for (int i = 0; i < place.length; i++) {
             System.out.println("text " + i + place[i].getThumbnail());
             System.out.println("text " + i + place[i].getThumbnailType());
@@ -82,6 +85,13 @@ public class MapService {
         return this.mapMapper.selectPlacesExceptImage(minLat, minLng, maxLat, maxLng);
     }
 
+    public ArticleEntity updateView(int index) {
+        ArticleEntity article = this.bbsMapper.selectArticleByIndex(index, null);
+        if (article == null) return null;
 
+        article.setView(article.getView() + 1);
+        return this.bbsMapper.updateArticle(article) > 0 ?
+                article : null;
+    }
 
 }

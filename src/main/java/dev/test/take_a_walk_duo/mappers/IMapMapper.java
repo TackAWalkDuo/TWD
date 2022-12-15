@@ -19,4 +19,7 @@ public interface IMapMapper {
                            @Param(value = "maxLng") double maxLng);
 
 
+    int updateArticleView(ArticleEntity article);
+
+
 }
