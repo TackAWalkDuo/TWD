@@ -189,6 +189,14 @@ body > .--main > #loginForm > .table > tbody > tr > td > label > #login-button:a
     background-color: rgb(189, 171, 230);
 }
 
+/* recaptcha */
+body > .--main > #loginForm > .table > tbody > tr > td > .recaptcha {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 
 
 body > .--main > #loginForm > .table > tbody > tr > td > .register {

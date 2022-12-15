@@ -5,22 +5,18 @@ import dev.test.take_a_walk_duo.entities.member.UserEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
 import dev.test.take_a_walk_duo.recaptcha.ReCaptchaResponse;
 import dev.test.take_a_walk_duo.services.MemberService;
-import dev.test.take_a_walk_duo.services.ReCaptchaLoginService;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.lang.reflect.Member;
 import java.security.NoSuchAlgorithmException;
 
 @Controller(value = "dev.test.study_member_bbs.controllers.MemberController")
@@ -38,14 +34,14 @@ public class MemberController {
      * rootgo
      */
     // 카카오 로그인
-    @GetMapping(value = "kakao", produces = MediaType.TEXT_PLAIN_VALUE)
+    @GetMapping(value = "login", produces = MediaType.TEXT_PLAIN_VALUE)
     public ModelAndView getKakaoLogin(@RequestParam(value = "code") String code,
                                       @RequestParam(value = "error", required = false) String error,
                                       @RequestParam(value = "error_description", required = false) String errorDescription, HttpSession session) throws IOException {
         String accessToken = this.memberService.getKakaoAccessToken(code);
         UserEntity user = this.memberService.getKakaoUserInfo(accessToken);
         session.setAttribute("user", user);
-        return new ModelAndView("memeber/kakao");
+        return new ModelAndView("memeber/login");
     }
 
     // 카카오 로그아웃
@@ -63,13 +59,15 @@ public class MemberController {
         ModelAndView modelAndView = new ModelAndView("member/login");
         return modelAndView;
     }
-
+    // TODO recaptcha 체크 안했을 때 로그인이 안되게 해야함.
     // 로그인 POST
     @RequestMapping(value = "login",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String postLogin(HttpSession session, UserEntity user) {
+    public String postLogin(
+            HttpSession session,
+            UserEntity user) {
         Enum<?> result = this.memberService.login(user);
         if (result == CommonResult.SUCCESS) {
             session.setAttribute("user", user);

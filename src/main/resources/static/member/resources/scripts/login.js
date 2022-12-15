@@ -22,6 +22,11 @@ window.document.getElementById('xButton').addEventListener('click', () => {
     }
 });
 
+// recaptcha
+window.document.getElementById('g-recaptcha').addEventListener('click', () => {
+    alert('눌름');
+});
+
 // 로그인 버튼 눌렀을 때
 form.onsubmit = (e) => {
     e.preventDefault();

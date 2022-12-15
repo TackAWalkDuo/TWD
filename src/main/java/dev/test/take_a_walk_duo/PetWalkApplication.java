@@ -11,14 +11,4 @@ public class PetWalkApplication {
     public static void main(String[] args) {
         SpringApplication.run(PetWalkApplication.class, args);
     }
-
-    /**
-     * recaptcha
-     * rootgo
-     */
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
-
 }
