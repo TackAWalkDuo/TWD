@@ -54,7 +54,7 @@ public class ShopService {
     }
     public ArticleReadVo[] getArticles(BoardEntity board, PagingModel paging, String criterion, String keyword) {
         return this.shopMapper.selectArticlesByBoardId(
-                board.getId(),
+                board.getText(),
                 paging.countPerPage,
                 (paging.requestPage - 1) * paging.countPerPage,
                 criterion,

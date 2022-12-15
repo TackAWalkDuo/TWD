@@ -82,6 +82,7 @@ public class ShopController {
 
             ArticleReadVo[] articles = this.shopService.getArticles(board, paging, criterion, keyword);
             modelAndView.addObject("articles", articles);
+            System.out.println("test articles" + articles.length);
             System.out.printf("이동 가능한 최소 페이지 : %d\n", paging.minPage);
             System.out.printf("이동 가능한 최대 페이지 : %d\n", paging.maxPage);
             System.out.printf("표시 시작 페이지 : %d\n", paging.startPage);

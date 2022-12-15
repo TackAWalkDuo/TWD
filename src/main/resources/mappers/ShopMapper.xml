@@ -24,33 +24,53 @@
         </if>
     </select>
 
+    <!--    <select id="selectArticlesByBoardId"-->
+    <!--            resultType="dev.test.take_a_walk_duo.vos.bbs.ArticleReadVo">-->
+    <!--        SELECT `article`.`index` AS `index`,-->
+    <!--        `article`.`user_email` AS `userEmail`,-->
+    <!--        `article`.`board_id` AS `boardID`,-->
+    <!--        `article`.`title` AS `title`,-->
+    <!--        `article`.`view` AS `view`,-->
+    <!--        `article`.`written_on` AS `writtenOn`,-->
+    <!--        `article`.`modified_on` AS `modifiedOn`,-->
+    <!--        `user`.`nickname` AS `userNickname`,-->
+    <!--        COUNT(`commentCount`.`index`) AS `commentCount`-->
+
+    <!--        FROM `twd_bbs`.`articles` AS `article`-->
+    <!--        LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`-->
+    <!--        LEFT JOIN `twd_bbs`.`comments` AS `commentCount`-->
+    <!--        ON `article`.`index` = `commentCount`.`article_index`-->
+    <!--        WHERE `board_id` = #{boardId}-->
+    <!--        <if test="criterion != null and criterion.equals('title')">-->
+    <!--            AND REPLACE(`article`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')-->
+    <!--        </if>-->
+    <!--        <if test="criterion != null and criterion.equals('all')">-->
+    <!--            AND (REPLACE(`article`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')-->
+    <!--            OR REPLACE(`article`.`content`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%'))-->
+    <!--        </if>-->
+    <!--        <if test="criterion != null and criterion.equals('nickname')">-->
+    <!--            AND BINARY `user`.`nickname` = #{keyword}-->
+    <!--        </if>-->
+    <!--        GROUP BY `index`-->
+    <!--        ORDER BY `index` DESC-->
+    <!--        LIMIT #{limit} OFFSET #{offset}-->
+    <!--    </select>-->
+
+    <!--위에꺼 수정한거임-->
     <select id="selectArticlesByBoardId"
             resultType="dev.test.take_a_walk_duo.vos.bbs.ArticleReadVo">
-        SELECT `article`.`index` AS `index`,
-        `article`.`user_email` AS `userEmail`,
-        `article`.`board_id` AS `boardID`,
-        `article`.`title` AS `title`,
-        `article`.`view` AS `view`,
-        `article`.`written_on` AS `writtenOn`,
-        `article`.`modified_on` AS `modifiedOn`,
-        `user`.`nickname` AS `userNickname`,
-        COUNT(`commentCount`.`index`) AS `commentCount`
+        SELECT `article`.`index`       AS `index`,
+               `article`.`user_email`  AS `userEmail`,
+               `article`.`board_id`    AS `boardID`,
+               `article`.`title`       AS `title`,
+               `article`.`view`        AS `view`,
+               `article`.`written_on`  AS `writtenOn`,
+               `article`.`modified_on` AS `modifiedOn`
 
         FROM `twd_bbs`.`articles` AS `article`
-        LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`
-        LEFT JOIN `twd_bbs`.`comments` AS `commentCount`
-        ON `article`.`index` = `commentCount`.`article_index`
-        WHERE `board_id` = #{boardId}
-        <if test="criterion != null and criterion.equals('title')">
-            AND REPLACE(`article`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
-        </if>
-        <if test="criterion != null and criterion.equals('all')">
-            AND (REPLACE(`article`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
-            OR REPLACE(`article`.`content`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%'))
-        </if>
-        <if test="criterion != null and criterion.equals('nickname')">
-            AND BINARY `user`.`nickname` = #{keyword}
-        </if>
+                 LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`
+                 LEFT JOIN `twd_shop`.`sale_product` AS `product` ON `article`.`index` = `product`.`article_index`
+        WHERE `board_id` = 'shop'
         GROUP BY `index`
         ORDER BY `index` DESC
         LIMIT #{limit} OFFSET #{offset}
@@ -63,8 +83,8 @@
             keyColumn="index"
             keyProperty="index">
         INSERT INTO `twd_shop`.`sale_product`
-        (`article_index`, `quantity`, `cost`, `discount`, `price`, `profit`, `category_index`, `delivery_fee`)
-        VALUES (#{articleIndex}, #{quantity}, #{cost}, #{discount}, #{price}, #{profit}, #{categoryIndex},
+        (`article_index`, `quantity`, `cost`, `discount`, `price`, `profit`, `category_text`, `delivery_fee`)
+        VALUES (#{articleIndex}, #{quantity}, #{cost}, #{discount}, #{price}, #{profit}, #{categoryText},
                 #{deliveryFee});
     </insert>
 

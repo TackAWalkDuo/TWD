@@ -14,7 +14,7 @@ public interface IShopMapper {
                                     @Param(value = "keyword") String keyword,
                                     @Param(value = "criterion")String criterion);
 
-    ArticleReadVo[] selectArticlesByBoardId(@Param(value = "boardId") String boardId,
+    ArticleReadVo[] selectArticlesByBoardId(@Param(value = "boardText") String boardText,
                                           @Param(value = "limit") int limit,
                                           @Param(value = "offset") int offset,
                                           @Param(value = "criterion") String criterion,
