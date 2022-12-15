@@ -2,6 +2,7 @@ const map = window.document.getElementById("map");
 const list = window.document.getElementById("list");
 const detailContainer = window.document.getElementById("detailContainer");
 const reviewForm = window.document.getElementById("reviewForm");
+const likeIcon = detailContainer.querySelector('[rel="likeIcon"]');
 
 let mapObject;
 let places = [];        // db 에서 list 를 가져와서 담아줄 변수.
@@ -17,7 +18,7 @@ detailContainer.show = (placeObject, placeElement) => {
     detailContainer.querySelector('[rel="descriptionText"]').innerText = placeObject['content'];
     // console.log( "isSinged   " + placeObject['signed']);
     //로그인이 안되있을 경우 좋아요를 누를 수 없도록 처리.
-    if(!placeObject['signed']) {
+    if (!placeObject['signed']) {
         detailContainer.querySelector('[rel="likeIcon"]').classList.add("prohibited");
     }
 
@@ -42,7 +43,8 @@ detailContainer.show = (placeObject, placeElement) => {
                 }
             }
         }
-    };xhr.send(formData);
+    };
+    xhr.send(formData);
 }
 detailContainer.hide = () => {
     detailContainer.classList.remove("visible");
@@ -199,21 +201,19 @@ reviewForm['images'].addEventListener('input', () => {
     }
 });
 
-detailContainer.querySelector('[rel="likeIcon"]').addEventListener('click', ()=>{
-   alert("like");
-});
 
-
-
-
-
-
+// 로그인 상태에서 좋아요 버튼 클릭시.
+if (!likeIcon.classList.contains("prohibited")) {
+    likeIcon.addEventListener('click', () => {
+        alert("like");
+    });
+}
 
 
 //리뷰 저장
 reviewForm.onsubmit = e => {
     e.preventDefault()
-    if(reviewForm['content'] === null) {
+    if (reviewForm['content'] === null) {
         alert("리뷰 내용을 입력해주세요.")
         return false;
     }

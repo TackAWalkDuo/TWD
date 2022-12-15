@@ -153,6 +153,7 @@
             <form class="review-form" id="reviewForm">
                 <input hidden multiple accept="image/" name="images" type="file">
                 <input type="hidden" name="articleIndex">
+                <input type="hidden" name="userEmail" th:if="${session.user != null}" th:text="${session.user.getEmail()}">
                 <span class="comment_title">리뷰 작성</span>
                 <div class="content-container">
                     <label class="label">

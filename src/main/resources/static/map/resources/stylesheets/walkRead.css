@@ -202,7 +202,9 @@ body > .--header {
 #detailContainer > .interest-container > .like-container > .prohibited {
     cursor: not-allowed;
 }
-
+#detailContainer > .interest-container > .like-container > :not(.prohibited){
+    cursor: pointer;
+}
 
 #detailContainer > .interest-container > .like-container > .mine {
     color: red;
