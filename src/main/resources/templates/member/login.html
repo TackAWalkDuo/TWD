@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -11,21 +10,11 @@
     <link rel="stylesheet" th:href="@{/member/resources/stylesheets/login.css}">
     <script defer th:src="@{/member/resources/scripts/login.js}"></script>
     <!-- Google reCAPTCHA js -->
-    <script async defer src="https://www.google.com/recaptcha/api.js?render=6LdAx3ojAAAAAC-_ZV88t5aiauQEC1jR_TfwuF6k"></script>
-    <!-- 사이트 키 -->
+    <script src="https://www.google.com/recaptcha/api.js"></script>
     <script src="https://kit.fontawesome.com/12a5ab0618.js" crossorigin="anonymous"></script>
-    <script>
-        function reCapt() {
-            grecaptcha.ready(function () {
-                grcaptcha.execute('6LdAx3ojAAAAAC-_ZV88t5aiauQEC1jR_TfwuF6k', {action: 'submit'}).then(function (token) {
-                                    // 사이트 키
-                    $('#token').val(token);
-                });
-            });
-        }
-    </script>
 </head>
 <body>
+
 <div class="xButton" id="xButton">
         <span class="xButton">
             <i class="icon fa-solid fa-x"></i>
@@ -78,14 +67,8 @@
             <tr>
                 <th id="recaptcha"></th>
                 <td>
-                    <label>
-                        <form action="/validation" method="post">
-                            <button type="button" class="g-recaptcha" onclick="reCapt()">토큰받아옴</button>
-                            <br>
-                            <textarea type="text" name="token" id="token" value=""></textarea>
-                            <br>
-                            <button type="submit">제출</button>
-                        </form>
+                    <label class="label recaptcha">
+                        <div class="g-recaptcha" data-sitekey="6Ley2n4jAAAAAJsDkqp0w-6ZmNrQv9_90d5VeglL"></div>
                     </label>
                 </td>
             </tr>
@@ -119,8 +102,11 @@
                 <td>
                     <div class="kakao">
                         <i class="icon fa-brands fa-kickstarter"></i>
-                        <a class="kakaoButton" id="kakaoLoginButton" href="https://kauth.kakao.com/oauth/authorize?client_id=c46b378a1086f25e2d518ef34b37a493&redirect_uri=http://localhost:8080/member/kakao&response_type=code" target="_blank" th:if="${session.user == null}">카카오로 로그인하기</a>
-                        <a class="kakaoButton" id="kakaoLogoutButton" th:href="@{'./member/logout'}" th:if="${session.user != null}">카카오 로그아웃</a>
+                        <a class="kakaoButton" id="kakaoLoginButton"
+                           href="https://kauth.kakao.com/oauth/authorize?client_id=c46b378a1086f25e2d518ef34b37a493&redirect_uri=http://localhost:8080/member/kakao&response_type=code"
+                           target="_blank" th:if="${session.user == null}">카카오로 로그인하기</a>
+                        <a class="kakaoButton" id="kakaoLogoutButton" th:href="@{'./member/logout'}"
+                           th:if="${session.user != null}">카카오 로그아웃</a>
                     </div>
                 </td>
             </tr>

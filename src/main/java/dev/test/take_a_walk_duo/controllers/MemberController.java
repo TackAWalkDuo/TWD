@@ -3,17 +3,24 @@ package dev.test.take_a_walk_duo.controllers;
 import dev.test.take_a_walk_duo.entities.member.EmailAuthEntity;
 import dev.test.take_a_walk_duo.entities.member.UserEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
+import dev.test.take_a_walk_duo.recaptcha.ReCaptchaResponse;
 import dev.test.take_a_walk_duo.services.MemberService;
+import dev.test.take_a_walk_duo.services.ReCaptchaLoginService;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.lang.reflect.Member;
 import java.security.NoSuchAlgorithmException;
 
 @Controller(value = "dev.test.study_member_bbs.controllers.MemberController")
@@ -28,13 +35,13 @@ public class MemberController {
 
     /**
      * 카카오 로그인
-     * @rootgo
+     * rootgo
      */
     // 카카오 로그인
     @GetMapping(value = "kakao", produces = MediaType.TEXT_PLAIN_VALUE)
     public ModelAndView getKakaoLogin(@RequestParam(value = "code") String code,
-                                 @RequestParam(value = "error", required = false) String error,
-                                 @RequestParam(value = "error_description", required = false) String errorDescription, HttpSession session) throws IOException {
+                                      @RequestParam(value = "error", required = false) String error,
+                                      @RequestParam(value = "error_description", required = false) String errorDescription, HttpSession session) throws IOException {
         String accessToken = this.memberService.getKakaoAccessToken(code);
         UserEntity user = this.memberService.getKakaoUserInfo(accessToken);
         session.setAttribute("user", user);
