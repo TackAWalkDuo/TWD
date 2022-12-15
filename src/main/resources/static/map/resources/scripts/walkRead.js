@@ -15,6 +15,12 @@ detailContainer.show = (placeObject, placeElement) => {
     detailContainer.querySelector('[rel="likeCounter"]').innerText = placeObject['likeCount'];
     detailContainer.querySelector('[rel="addressText"]').innerText = placeObject['address'];
     detailContainer.querySelector('[rel="descriptionText"]').innerText = placeObject['content'];
+
+    //로그인이 안되있을 경우 좋아요를 누를 수 없도록 처리.
+    if(!placeObject['isSigned']) {
+        detailContainer.querySelector('[rel="likeIcon"]').classList.add("prohibited");
+    }
+
     reviewForm['articleIndex'].innerText = placeObject['index'];
 
     //view count up
@@ -119,12 +125,16 @@ const loadPlaces = (ne, sw) => {
                     const placeElement = new DOMParser()
                         .parseFromString(placeHtml, `text/html`)
                         .querySelector('[rel="item"]');
-                    const imageElement = placeElement.querySelector('[rel="image"]');
 
+                    //현재 표시 되는 게시글읠 thumbnail
+                    const imageElement = placeElement.querySelector('[rel="image"]');
                     imageElement.setAttribute('alt', '');
                     imageElement.setAttribute('src', `/bbs/thumbnail?index=${placeObject['index']}`);
 
+                    // 현재 표시 되는 게시글의 자표.
                     const latLng = new kakao.maps.LatLng(placeObject['latitude'], placeObject['longitude']);
+
+                    //marker 클릭할 경우.
                     kakao.maps.event.addListener(marker, 'click', () => {
                         mapObject.setCenter(latLng);
 
@@ -136,6 +146,7 @@ const loadPlaces = (ne, sw) => {
                     });
                     marker.setMap(mapObject);
 
+                    // list 의 게시글을 클릭 했을 경우.
                     placeElement.addEventListener('click', () => {
                         mapObject.setCenter(latLng);
 
@@ -154,8 +165,6 @@ const loadPlaces = (ne, sw) => {
     };
     xhr.send();
 };
-
-
 
 
 //ip를 통해서 현재 위치 확인 권한 설정후 현재 위치를 중심으로 지도 표시

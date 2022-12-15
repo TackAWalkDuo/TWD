@@ -14,9 +14,10 @@ public interface IMapMapper {
     int insertLocation(LocationEntity location);
 
     PlaceVo[] selectPlacesExceptImage(@Param(value = "minLat") double minLat,
-                           @Param(value = "minLng") double minLng,
-                           @Param(value = "maxLat") double maxLat,
-                           @Param(value = "maxLng") double maxLng);
+                                      @Param(value = "minLng") double minLng,
+                                      @Param(value = "maxLat") double maxLat,
+                                      @Param(value = "maxLng") double maxLng,
+                                      @Param(value = "email") String email);
 
 
     int updateArticleView(ArticleEntity article);

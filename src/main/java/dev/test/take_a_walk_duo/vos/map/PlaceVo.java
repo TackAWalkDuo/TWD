@@ -8,6 +8,7 @@ public class PlaceVo extends ArticleEntity {
     private double longitude;
     private int likeCount;
     private int commentCount;
+    private boolean isSigned;
 
     public String getAddress() {
         return address;
@@ -47,5 +48,13 @@ public class PlaceVo extends ArticleEntity {
 
     public void setCommentCount(int commentCount) {
         this.commentCount = commentCount;
+    }
+
+    public boolean isSigned() {
+        return isSigned;
+    }
+
+    public void setSigned(boolean signed) {
+        isSigned = signed;
     }
 }

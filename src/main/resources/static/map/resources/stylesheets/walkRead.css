@@ -87,7 +87,7 @@ body > .--header {
     align-items: stretch;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
 }
 
 #list > .item > .top > .image {
@@ -182,7 +182,7 @@ body > .--header {
 }
 
 #detailContainer > .interest-container {
-    padding: 0.3rem 0.5rem;
+    padding: 0.3rem 0.7rem 0.5rem 0.5rem;
     font-size: 1.2rem;
 
     align-items: center;
@@ -194,6 +194,16 @@ body > .--header {
 #detailContainer > .interest-container > * + * {
     margin-left: 0.8rem;
 }
+
+#detailContainer > .interest-container > .like-container > .prohibited {
+    cursor: not-allowed;
+}
+
+
+#detailContainer > .interest-container > .like-container > .mine {
+    color: red;
+}
+
 
 #detailContainer > .info-container {
     align-items: stretch;
@@ -213,7 +223,7 @@ body > .--header {
 }
 
 #detailContainer > .info-container > .content {
-    padding-bottom: 2rem;
+    padding-bottom: 1.3rem;
 }
 
 #reviewForm {
@@ -245,7 +255,6 @@ body > .--header {
     justify-content: flex-start;
 
     flex: 1;
-    /*margin-right: 0.5rem;*/
 }
 
 #reviewForm > .content-container > .label > .input {

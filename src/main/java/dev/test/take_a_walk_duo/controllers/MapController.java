@@ -2,9 +2,11 @@ package dev.test.take_a_walk_duo.controllers;
 
 import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.test.take_a_walk_duo.entities.bbs.map.LocationEntity;
+import dev.test.take_a_walk_duo.entities.member.UserEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
 import dev.test.take_a_walk_duo.services.MapService;
 import dev.test.take_a_walk_duo.vos.map.PlaceVo;
+import org.apache.catalina.User;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -62,8 +64,10 @@ public class MapController {
     public PlaceVo[] getPlace(@RequestParam(value = "minLat") double minLat,
                               @RequestParam(value = "minLng") double minLng,
                               @RequestParam(value = "maxLat") double maxLat,
-                              @RequestParam(value = "maxLng") double maxLng) {
-        return this.mapService.getPlaces(minLat, minLng, maxLat, maxLng);
+                              @RequestParam(value = "maxLng") double maxLng,
+                              @SessionAttribute(value = "suer", required = false) UserEntity user) {
+        System.out.println(user);
+        return this.mapService.getPlaces(minLat, minLng, maxLat, maxLng, user);
     }
 
     @PostMapping(value = "view", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -71,8 +75,8 @@ public class MapController {
     public String postView(@RequestParam(value = "index") int index) {
         JSONObject responseObject = new JSONObject();
 
-        ArticleEntity article =  this.mapService.updateView(index);
-        if(article == null)
+        ArticleEntity article = this.mapService.updateView(index);
+        if (article == null)
             responseObject.put("result", CommonResult.FAILURE.name().toLowerCase());
         else {
             responseObject.put("result", CommonResult.SUCCESS.name().toLowerCase());

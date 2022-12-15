@@ -2,6 +2,7 @@ package dev.test.take_a_walk_duo.services;
 
 import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.test.take_a_walk_duo.entities.bbs.map.LocationEntity;
+import dev.test.take_a_walk_duo.entities.member.UserEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
 import dev.test.take_a_walk_duo.interfaces.IResult;
 import dev.test.take_a_walk_duo.mappers.IBbsMapper;
@@ -75,14 +76,9 @@ public class MapService {
     }
 
 
-    public PlaceVo[] getPlaces(double minLat, double minLng, double maxLat, double maxLng) {
-        PlaceVo[] place = this.mapMapper.selectPlacesExceptImage(minLat, minLng, maxLat, maxLng);
-        for (int i = 0; i < place.length; i++) {
-            System.out.println("text " + i + place[i].getThumbnail());
-            System.out.println("text " + i + place[i].getThumbnailType());
-        }
-        System.out.println("map service check");
-        return this.mapMapper.selectPlacesExceptImage(minLat, minLng, maxLat, maxLng);
+    public PlaceVo[] getPlaces(double minLat, double minLng, double maxLat, double maxLng,
+                               UserEntity user) {
+        return this.mapMapper.selectPlacesExceptImage(minLat, minLng, maxLat, maxLng, user==null ? null: user.getEmail());
     }
 
     public ArticleEntity updateView(int index) {
