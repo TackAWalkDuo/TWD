@@ -34,10 +34,10 @@
     </section>
     <section class="box scarf">
         <h2 class="title">머릿글</h2>
-        <ul class="item-container emple">
+        <ul class="item-container emple"  th:each="product : ${products}" th:if="${product.getCategoryText() == 'clothes'}">
             <li class="item big">
                 <a class="link big">
-                    <img alt="" class="image-big" src="/resources/images/item5.jpg">
+                    <img alt="" class="image-big" th:src="|/bbs/thumbnail?index=${product.getIndex()}|">
                     <span class="text"></span>
                 </a>
             </li>
@@ -46,7 +46,7 @@
                 <span class="description-body">나날이 발전하는 반려견 아우터- 사이즈도 다양하고 스타일도 다양하게!</span>
 
                 <div class="side-image">
-                    <img alt="제품1" class="image side" src="/resources/images/item2.jpg">
+                    <img alt="제품1" class="image side" th:src="|/bbs/thumbnail?index=${product.getIndex()}|">
                     <div class="side-description">
                         <div class="side header">Dog coat Alaska Olive</div>
                         <div class="side text">클라우드7 Cloud7</div>
@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <div class="side-image">
-                    <img alt="제품1" class="image side" src="/resources/images/item3.jpg">
+                    <img alt="제품1" class="image side" th:src="|/bbs/thumbnail?index=${product.getIndex()}|">
                     <div class="side-description">
                         <div class="side header">뮤니쿤트 Better Together Padding - Khaki</div>
                         <div class="side text">뮤니쿤트 munikund</div>

@@ -49,6 +49,7 @@ public class ShopController {
         ModelAndView modelAndView = new ModelAndView("shop/main_backup");
         ProductVo[] products = this.shopService.getAllArticles();
         modelAndView.addObject("products",products);
+
         return modelAndView;
     }
 
