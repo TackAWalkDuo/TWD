@@ -30,6 +30,15 @@
         VALUES (#{userEmail}, #{boardId}, #{title}, #{content}, #{thumbnail}, #{thumbnailType}, #{view},
                 IFNULL(#{writtenOn}, DEFAULT(`written_on`)), IFNULL(#{modifiedOn}, DEFAULT(`modified_on`)));
     </insert>
+    <insert id="insertImage"
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index"
+            parameterType="dev.test.take_a_walk_duo.entities.bbs.ImageEntity">
+        INSERT INTO `twd_bbs`.`images`
+            (`index`, `file_name`, `file_mime`, `data`)
+        VALUES (#{index}, #{fileName}, #{fileMime}, #{data})
+    </insert>
 
     <select id="selectThumbnailByIndex"
             resultType="dev.test.take_a_walk_duo.entities.bbs.ArticleEntity">
@@ -65,6 +74,14 @@
         WHERE `articles`.`index` = #{index}
         GROUP BY `articles`.`index`
         LIMIT 1;
+    </select>
+    <select id="selectImageByIndex"
+            resultType="dev.test.take_a_walk_duo.entities.bbs.ImageEntity">
+        SELECT `index`     AS `index`,
+               `file_name` AS `fileName`,
+               `file_mime` AS `fileMime`,
+               `data`      AS `data`
+        FROM `twd_bbs`.`images`
     </select>
     <update id="updateArticle"
             parameterType="dev.test.take_a_walk_duo.entities.bbs.ArticleEntity">

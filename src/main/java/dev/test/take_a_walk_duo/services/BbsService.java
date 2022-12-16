@@ -1,8 +1,13 @@
 package dev.test.take_a_walk_duo.services;
 
+import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
+import dev.test.take_a_walk_duo.entities.bbs.ArticleLikeEntity;
+import dev.test.take_a_walk_duo.entities.bbs.BoardEntity;
+import dev.test.take_a_walk_duo.entities.bbs.ImageEntity;
 import dev.test.take_a_walk_duo.entities.bbs.*;
 import dev.test.take_a_walk_duo.entities.member.UserEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
+import dev.test.take_a_walk_duo.enums.bbs.ModifyArticleResult;
 import dev.test.take_a_walk_duo.enums.bbs.WriteResult;
 import dev.test.take_a_walk_duo.interfaces.IResult;
 import dev.test.take_a_walk_duo.mappers.IBbsMapper;
@@ -12,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
-import javax.xml.crypto.Data;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -136,5 +140,42 @@ public class BbsService {
         return CommonResult.SUCCESS;
 
 
+    }
+
+    //이미지추가 서비스
+    public Enum<? extends IResult> addImage(ImageEntity image) {
+        return this.bbsMapper.insertImage(image) > 0
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
+    }
+
+    public ImageEntity getImage(int index) {
+        return this.bbsMapper.selectImageByIndex(index);
+    }
+
+    //Mr.m
+    //게시물 수정하기 (get)서비스
+
+    public ArticleReadVo getModifyArticles(int articleIndex,UserEntity user){
+        return this.bbsMapper.selectArticleByIndex(articleIndex);
+    }
+    public Enum<? extends IResult> modifyArticle(int articleIndex, UserEntity user, ArticleEntity articleEntity) {
+        ArticleEntity existingArticle = this.bbsMapper.selectArticleByIndex(articleIndex);
+        if (existingArticle == null) {
+            return CommonResult.FAILURE;
+        }
+        if (user == null || !user.getEmail().equals(existingArticle.getUserEmail())) {
+            return ModifyArticleResult.NOT_ALLOWED;
+        }
+        System.out.println(articleEntity.getIndex());
+        System.out.println(articleEntity.getTitle());
+        existingArticle.setIndex(articleIndex);
+        existingArticle.setTitle(articleEntity.getTitle());
+        existingArticle.setContent(articleEntity.getContent());
+        existingArticle.setModifiedOn(new Date());
+        if (this.bbsMapper.updateArticle(existingArticle) == 0) {
+            return CommonResult.FAILURE;
+        }
+        return CommonResult.SUCCESS;
     }
 }
