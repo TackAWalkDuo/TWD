@@ -47,6 +47,9 @@ public class ShopController {
             produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getShop() {
         ModelAndView modelAndView = new ModelAndView("shop/main_backup");
+        ProductVo[] products = this.shopService.getAllArticles();
+        modelAndView.addObject("products",products);
+
         return modelAndView;
     }
 

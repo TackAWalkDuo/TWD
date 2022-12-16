@@ -47,7 +47,7 @@ form.onsubmit = e => {
     // formData.append("discount", form['discount'].value);
     formData.append("price", form['price'].value);
     // formData.append("profit", form['profit'].value);
-    formData.append("categoryIndex", form['category'].value); // html select 태그의 option value 값으로 지정
+    formData.append("categoryText", form['category'].value); // html select 태그의 option value 값으로 지정
     formData.append("deliveryFee", form['delivery'].value);
 
     // image 등록
@@ -62,14 +62,19 @@ form.onsubmit = e => {
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
                     case 'success' :
-                        alert('굳 잡');
+                        if(confirm('상품이 등록되었습니다. \n\n확인 : 메인 페이지로 이동 \n취소 : 상품 등록 페이지로 이동')){
+                            window.location.href=`./main`
+                        }else {
+                            window.location.href=`./write`
+                        }
+                        // alert('상품 등록 성공. 확인 버튼 클릭시 상품 등록 페이지로 이동합니다.');
                         break;
 
                     default :
-                        alert('돌아가');
+                        alert('로그인 후 다시 시도해 주세요.');
                 }
             } else {
-                alert('연결 실패');
+                alert('알 수 없는 이유로 상품 등록에 실패했습니다. 잠시 후 다시 시도해 주세요.');
             }
         }
     };

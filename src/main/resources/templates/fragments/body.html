@@ -21,7 +21,9 @@
                    th:href="@{/bbs/list(bid=${board.getId()})}"></a>
             </li>
             <li class="--item">
-                <a class="--link border" th:href="@{/member/login}">로그인</a>
+                <a class="--link border" th:if="${session.user == null}" th:href="@{/member/login}">로그인</a>
+                <a class="--link border" th:if="${session.user != null}"
+                th:href="@{/member/logout}">로그아웃</a>
             </li>
             <li class="--item">
                 <a class="--link border" th:href="@{/member/register}">회원가입</a>

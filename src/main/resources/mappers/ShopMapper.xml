@@ -49,17 +49,43 @@
                `article`.`user_email`    AS `userEmail`,
                `article`.`board_id`      AS `boardID`,
                `article`.`title`         AS `title`,
+               `article`.`thumbnail`     AS `thumbnail`,
                `article`.`view`          AS `view`,
                `article`.`written_on`    AS `writtenOn`,
                `article`.`modified_on`   AS `modifiedOn`,
+               `product`.`quantity`      AS `qunantity`,
+               `product`.`price`         AS `price`,
                `product`.`category_text` AS 'categoryText'
         FROM `twd_bbs`.`articles` AS `article`
                  LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`
                  LEFT JOIN `twd_shop`.`sale_product` AS `product` ON `article`.`index` = `product`.`article_index`
-        WHERE `board_id` = 'shop' AND `product`.`category_text` = #{boardText}
+        WHERE `board_id` = 'shop'
+          AND `product`.`category_text` = #{boardText}
         GROUP BY `index`
         ORDER BY `index` DESC
         LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <!-- shop/main용-->
+    <select id="selectAllArticles"
+            resultType="dev.test.take_a_walk_duo.vos.shop.ProductVo">
+        SELECT `article`.`index`         AS `index`,
+               `article`.`user_email`    AS `userEmail`,
+               `article`.`board_id`      AS `boardID`,
+               `article`.`title`         AS `title`,
+               `article`.`thumbnail`     AS `thumbnail`,
+               `article`.`view`          AS `view`,
+               `article`.`written_on`    AS `writtenOn`,
+               `article`.`modified_on`   AS `modifiedOn`,
+               `product`.`quantity`      AS `qunantity`,
+               `product`.`price`         AS `price`,
+               `product`.`category_text` AS 'categoryText'
+        FROM `twd_bbs`.`articles` AS `article`
+                 LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`
+                 LEFT JOIN `twd_shop`.`sale_product` AS `product` ON `article`.`index` = `product`.`article_index`
+        WHERE `board_id` = 'shop'
+        GROUP BY `index`
+        ORDER BY `index` DESC
     </select>
 
     <!-- ㅇㅇ   -->
