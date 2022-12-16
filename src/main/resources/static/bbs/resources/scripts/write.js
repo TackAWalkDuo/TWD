@@ -46,7 +46,10 @@ form.onsubmit = e => {
         editor.focus();
         return false;
     }
-    if (form[''])
+    if (form['criterion'].value === 'menu'){
+        alert('목록을 선택해주세요');
+        return false;
+    }
 
 
     // Cover.show('게시글을 작성하는 중입니다.')

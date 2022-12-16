@@ -1,13 +1,13 @@
 package dev.test.take_a_walk_duo.controllers;
 
 import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
+import dev.test.take_a_walk_duo.entities.bbs.ArticleLikeEntity;
 import dev.test.take_a_walk_duo.entities.bbs.BoardEntity;
 import dev.test.take_a_walk_duo.entities.bbs.ImageEntity;
 import dev.test.take_a_walk_duo.entities.member.UserEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
 import dev.test.take_a_walk_duo.enums.bbs.ModifyArticleResult;
 import dev.test.take_a_walk_duo.enums.bbs.WriteResult;
-import dev.test.take_a_walk_duo.interfaces.IResult;
 import dev.test.take_a_walk_duo.services.BbsService;
 import dev.test.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import org.json.JSONObject;
@@ -129,11 +129,12 @@ public class BbsController {
             result = ModifyArticleResult.NOT_ALLOWED;
         } else if (articleIndex == 0) {
             result = ModifyArticleResult.NO_SUCH_ARTICLE;
-        }
-        result = this.bbsService.modifyArticle(articleIndex, user, articleEntity);
+        }else {
+            result = this.bbsService.modifyArticle(articleIndex, user, articleEntity);
 
-        if (result == CommonResult.SUCCESS) {
-            responseObject.put("aid", articleIndex);
+            if (result == CommonResult.SUCCESS) {
+                responseObject.put("aid", articleIndex);
+            }
         }
         responseObject.put("result", result.name().toLowerCase());
         return responseObject.toString();
@@ -198,6 +199,22 @@ public class BbsController {
         if (result == CommonResult.SUCCESS) {
             responseObject.put("url", "http://localhost:8080/shop/image?index=" + image.getIndex());
         }
+        return responseObject.toString();
+    }
+
+    @RequestMapping(value = "article-liked", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postArticleLike(@SessionAttribute(value = "user", required = false) UserEntity user, ArticleLikeEntity articleLikeEntity) {
+        Enum<?> result;
+        if (user == null) {
+            result = WriteResult.NOT_ALLOWED;
+        } else if (articleLikeEntity.getArticleIndex() == 0) {
+            result = WriteResult.NO_SUCH_BOARD;
+        } else {
+            result = this.bbsService.likedArticle(articleLikeEntity, user);
+        }
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("result", result.name().toLowerCase());
         return responseObject.toString();
     }
 

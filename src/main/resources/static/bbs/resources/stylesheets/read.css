@@ -208,6 +208,18 @@ body > .--main > .--form > .--content > .read-form .detail-img {
     margin-top: 1rem;
 }
 
+
+/*Article liked css구현부문*/
+.table > thead > tr > td > .toggle > i{
+    /*font-size: 1.2rem;*/
+    font-weight: 10;
+}
+.table > thead > tr > td > .toggle.visible > i{
+    font-size: 1.2rem;
+    color: rgb(205, 97, 85);
+    font-weight: 900;
+}
+
 /*썸네일 이미지 클릭 해쓸때 창*/
 .image-scale {
     top: 0;
@@ -230,8 +242,8 @@ body > .--main > .--form > .--content > .read-form .detail-img {
 
 .image-scale > .detail-img {
     /*display: unset;*/
-    object-fit: cover;
-    height: 20rem;
-    width: 20rem;
+    /*object-fit: cover;*/
+    /*height: 20rem;*/
+    /*width: 20rem;*/
     border-radius: 0.5rem;
 }

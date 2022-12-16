@@ -16,5 +16,4 @@ window.document.getElementById('imageScale').addEventListener('click', e => {
     // imageScale.classList.contains('visible') ?
     //     imageScale.classList.remove('visible')
     //     : imageScale.classList.add('visible');
-
 });

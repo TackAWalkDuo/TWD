@@ -80,8 +80,9 @@
                         <td class="content" th:text="${article.getTitle()}">자유게시판 첫 글</td>
                         <th hidden>썸네일이미지</th>
                         <td class="image-tableData">
-                            <div >
-                                <img rel="thumbnailImage" class="detail-img" th:src="@{/bbs/thumbnail (index=${article.getIndex()})}" alt="#"
+                            <div>
+                                <img rel="thumbnailImage" class="detail-img"
+                                     th:src="@{/bbs/thumbnail (index=${article.getIndex()})}" alt="#"
                                      src="/resources/images/item1.jpg">
                             </div>
                         </td>
@@ -95,8 +96,10 @@
                         <td></td>
                         <th hidden>추천수</th>
                         <td rowspan="2">
-                            <i class="fa-solid fa-heart"><span th:text="${'['+article.getArticleLikedCount()+']'}">1</span></i>
-
+                            <div class="like">
+                                <a href="#" class="toggle visible"><i class="fa-solid fa-heart"></i></a>
+                                <span th:text="${'['+article.getArticleLikedCount()+']'}">1</span>
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -122,8 +125,9 @@
                     </tr>
                     </tbody>
                     <tfoot>
-                    <tr></tr>
+                    <tr>
                     <th>댓글 고?</th>
+                    </tr>
                     </tfoot>
                 </table>
                 <input name="aid" type="hidden" th:value="${article.getIndex()}">
