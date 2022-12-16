@@ -63,7 +63,9 @@ public class ShopService {
                 keyword);
     }
 
-
+    public ProductVo[] getAllArticles(){
+        return this.shopMapper.selectAllArticles();
+    }
 
 
     // 상품 등록

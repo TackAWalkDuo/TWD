@@ -34,9 +34,9 @@
 <!--            th:each="article : ${articles}" th:if="${article.getBoardId() == 'shop'}"-->
             <li class="item" th:each="article : ${articles}">
                 <a class="link" href="#">
-                    <img alt="제품1" class="image">
+                    <img alt="제품1" class="image" th:src="|/bbs/thumbnail?index=${article.getIndex()}|">
                     <span th:text="${article.getTitle()}">제품1</span>
-                    <span class="charge-price">56,000원</span>
+                    <span th:text="${article.getPrice() + '원'}">56,000원</span>
                 </a>
             </li>
         </ul>
