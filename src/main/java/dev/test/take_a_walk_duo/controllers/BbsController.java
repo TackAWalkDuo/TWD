@@ -1,9 +1,9 @@
 package dev.test.take_a_walk_duo.controllers;
 
-import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
-import dev.test.take_a_walk_duo.entities.bbs.BoardEntity;
+import dev.test.take_a_walk_duo.entities.bbs.*;
 import dev.test.take_a_walk_duo.entities.member.UserEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
+import dev.test.take_a_walk_duo.enums.bbs.ModifyArticleResult;
 import dev.test.take_a_walk_duo.enums.bbs.WriteResult;
 import dev.test.take_a_walk_duo.services.BbsService;
 import dev.test.take_a_walk_duo.vos.bbs.ArticleReadVo;

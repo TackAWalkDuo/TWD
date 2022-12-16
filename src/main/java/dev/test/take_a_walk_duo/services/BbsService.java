@@ -98,16 +98,16 @@ public class BbsService {
 
     //    Mr.m
     //    게시글 좋아요 구현
-//    public Enum<? extends IResult> likedArticle(ArticleLikeEntity articleLikeEntity, UserEntity user) {
-//        ArticleReadVo existingArticleLiked = this.bbsMapper.selectArticleByIndex(articleLikeEntity.getArticleIndex());
-//        if(existingArticleLiked == null)
-//            return CommonResult.FAILURE;
-//        articleLikeEntity.setUserEmail(user.getEmail());
-//        articleLikeEntity.setCreatedOn(new Date());
-//        return this.bbsMapper.insertArticleLike(articleLikeEntity) > 0
-//                ? CommonResult.SUCCESS
-//                : CommonResult.FAILURE;
-//    }
+    public Enum<? extends IResult> likedArticle(ArticleLikeEntity articleLikeEntity, UserEntity user) {
+        ArticleReadVo existingArticleLiked = this.bbsMapper.selectArticleByIndex(articleLikeEntity.getArticleIndex());
+        if(existingArticleLiked == null)
+            return CommonResult.FAILURE;
+        articleLikeEntity.setUserEmail(user.getEmail());
+        articleLikeEntity.setCreatedOn(new Date());
+        return this.bbsMapper.insertArticleLike(articleLikeEntity) > 0
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
+    }
 
     public ArticleEntity getThumbnail(int index){
         return this.bbsMapper.selectThumbnailByIndex(index);
