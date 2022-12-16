@@ -4,5 +4,6 @@ import dev.test.take_a_walk_duo.interfaces.IResult;
 
 public enum CommonResult implements IResult {
     SUCCESS,
-    FAILURE
+    FAILURE,
+    NOT_SIGNED
 }

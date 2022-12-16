@@ -1,6 +1,6 @@
 package dev.test.take_a_walk_duo.entities.bbs;
 
-import javax.xml.crypto.Data;
+import java.util.Date;
 import java.util.Objects;
 
 public class CommentEntity {
@@ -9,7 +9,7 @@ public class CommentEntity {
     private String userEmail;
     private String content;
     private int articleIndex;
-    private Data writtenOn;
+    private Date writtenOn;
 
     public int getIndex() {
         return index;
@@ -51,12 +51,13 @@ public class CommentEntity {
         this.articleIndex = articleIndex;
     }
 
-    public Data getWrittenOn() {
+    public Date getWrittenOn() {
         return writtenOn;
     }
 
-    public void setWrittenOn(Data writtenOn) {
+    public CommentEntity setWrittenOn(Date writtenOn) {
         this.writtenOn = writtenOn;
+        return this;
     }
 
     @Override

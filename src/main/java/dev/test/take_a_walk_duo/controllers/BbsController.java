@@ -2,6 +2,7 @@ package dev.test.take_a_walk_duo.controllers;
 
 import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.test.take_a_walk_duo.entities.bbs.BoardEntity;
+import dev.test.take_a_walk_duo.entities.bbs.CommentEntity;
 import dev.test.take_a_walk_duo.entities.member.UserEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
 import dev.test.take_a_walk_duo.enums.bbs.WriteResult;
@@ -84,7 +85,7 @@ public class BbsController {
     public ModelAndView getRead(@SessionAttribute(value = "user", required = false) UserEntity user,
                                 @RequestParam(value = "aid", required = false) int aid) {
         ModelAndView modelAndView = new ModelAndView("bbs/read");
-        ArticleReadVo article = this.bbsService.readArticle(aid,user);
+        ArticleReadVo article = this.bbsService.readArticle(aid, user);
         modelAndView.addObject("article", article);
         System.out.println(article.getIndex());
         if (article != null) {
@@ -105,12 +106,12 @@ public class BbsController {
     }
 
     @GetMapping(value = "thumbnail")
-    public ResponseEntity<byte[]> getReviewImage(@RequestParam(value = "index")int index) {
+    public ResponseEntity<byte[]> getReviewImage(@RequestParam(value = "index") int index) {
         ResponseEntity<byte[]> responseEntity;
         ArticleEntity articleThumbnail = this.bbsService.getThumbnail(index);
-        if( articleThumbnail == null ) {
+        if (articleThumbnail == null) {
             responseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }else{
+        } else {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.valueOf(articleThumbnail.getThumbnailType()));
             headers.setContentLength(articleThumbnail.getThumbnail().length);
@@ -119,5 +120,21 @@ public class BbsController {
         System.out.println("check thumbnail" + responseEntity);
         return responseEntity;
     }
+
+    @PostMapping(value = "comment", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postComment(@SessionAttribute(value = "user", required = false) UserEntity user,
+                             @RequestParam(value = "images", required = false) MultipartFile[] images,
+                             CommentEntity comment) throws IOException {
+        JSONObject responseObject = new JSONObject();
+
+        System.out.println("comment check");
+        Enum<?> result =  this.bbsService.addComment(user, comment, images);
+
+        responseObject.put("result", result.name().toLowerCase());
+
+        return responseObject.toString();
+    }
+
 
 }

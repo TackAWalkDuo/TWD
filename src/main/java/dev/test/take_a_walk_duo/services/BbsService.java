@@ -1,7 +1,6 @@
 package dev.test.take_a_walk_duo.services;
 
-import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
-import dev.test.take_a_walk_duo.entities.bbs.BoardEntity;
+import dev.test.take_a_walk_duo.entities.bbs.*;
 import dev.test.take_a_walk_duo.entities.member.UserEntity;
 import dev.test.take_a_walk_duo.enums.CommonResult;
 import dev.test.take_a_walk_duo.enums.bbs.WriteResult;
@@ -13,10 +12,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
+import javax.xml.crypto.Data;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 @Service(value = "dev.test.take_a_walk_duo.services.BbsService")
 public class BbsService {
@@ -106,5 +107,34 @@ public class BbsService {
 
     public ArticleEntity getThumbnail(int index){
         return this.bbsMapper.selectThumbnailByIndex(index);
+    }
+
+    public Enum<? extends IResult> addComment(UserEntity user,
+                                              CommentEntity comment,
+                                              MultipartFile[] images) throws IOException {
+        if(user== null){
+            return CommonResult.NOT_SIGNED;
+        }
+
+        comment.setUserEmail(user.getEmail());
+        comment.setWrittenOn(new Date());
+        if(this.bbsMapper.insertComment(comment) == 0 ) {
+            return CommonResult.FAILURE;
+        }
+        if(images != null && images.length > 0) {
+            for(MultipartFile image : images){
+                CommentImageEntity commentImage = new CommentImageEntity();
+                commentImage.setCommentIndex(comment.getIndex());
+                commentImage.setData(image.getBytes());
+                commentImage.setType(image.getContentType());
+                if(this.bbsMapper.insertCommentImage(commentImage) == 0 ) {
+                    return CommonResult.FAILURE;
+                }
+            }
+        }
+
+        return CommonResult.SUCCESS;
+
+
     }
 }

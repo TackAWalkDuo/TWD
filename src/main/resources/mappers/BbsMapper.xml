@@ -56,7 +56,7 @@
                COUNT(`aLikedCount`.`article_index`)     AS `articleLikedCount`,
                COUNT(`articleLike`.`article_index`) > 0 AS `articleLiked`
         FROM `twd_bbs`.`articles`
-                 LEFT JOIN `twd_member`.`users` AS `user`on articles.user_email = user.email
+                 LEFT JOIN `twd_member`.`users` AS `user` on articles.user_email = user.email
                  LEFT JOIN `twd_bbs`.`article_likes` AS `aLikedCount`
                            on `articles`.`index` = `aLikedCount`.`article_index`
                  LEFT JOIN `twd_bbs`.`article_likes` AS `articleLike`
@@ -81,4 +81,24 @@
         WHERE `index` = #{index}
         LIMIT 1
     </update>
+
+    <insert id="insertComment"
+            useGeneratedKeys="true"
+            keyProperty="index"
+            keyColumn="index"
+            parameterType="dev.test.take_a_walk_duo.entities.bbs.CommentEntity">
+        INSERT INTO `twd_bbs`.`comments`(`comment_index`, `user_email`, `content`, `article_index`, `written_on`)
+        VALUES (#{commentIndex},  #{userEmail}, #{content}, #{articleIndex},
+                IFNULL(#{writtenOn}, DEFAULT(`written_on`)))
+    </insert>
+
+<insert id="insertCommentImage"
+        useGeneratedKeys="true"
+        keyProperty="index"
+        keyColumn="index"
+        parameterType="dev.test.take_a_walk_duo.entities.bbs.CommentImageEntity">
+    INSERT INTO `twd_bbs`.`comment_images` (`comment_index`, `data`, `type`)
+    VALUES (#{commentIndex}, #{data}, #{type})
+</insert>
+
 </mapper>

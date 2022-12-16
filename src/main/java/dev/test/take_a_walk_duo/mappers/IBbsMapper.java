@@ -2,6 +2,8 @@ package dev.test.take_a_walk_duo.mappers;
 
 import dev.test.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.test.take_a_walk_duo.entities.bbs.BoardEntity;
+import dev.test.take_a_walk_duo.entities.bbs.CommentEntity;
+import dev.test.take_a_walk_duo.entities.bbs.CommentImageEntity;
 import dev.test.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -25,4 +27,8 @@ public interface IBbsMapper {
     //Mr.m
     //ArticleEntity(수정)조회수 만들기
     int updateArticle(ArticleEntity articleEntity);
+
+    int insertComment(CommentEntity comment);
+    int insertCommentImage(CommentImageEntity commentImage);
+
 }

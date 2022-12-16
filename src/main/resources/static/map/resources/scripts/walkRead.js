@@ -22,7 +22,7 @@ detailContainer.show = (placeObject, placeElement) => {
         detailContainer.querySelector('[rel="likeIcon"]').classList.add("prohibited");
     }
 
-    reviewForm['articleIndex'].innerText = placeObject['index'];
+    reviewForm['articleIndex'].value = placeObject['index'];
 
     //view count up
     const xhr = new XMLHttpRequest();
@@ -226,7 +226,27 @@ reviewForm.onsubmit = e => {
         formData.append('images', file);
     }
 
-}
+    xhr.open('POST', '/bbs/comment');
+    xhr.onreadystatechange = () => {
+        if(xhr.readyState === XMLHttpRequest.DONE) {
+            if(xhr.status >= 200 && xhr.status < 300 ){
+                const responseObject = JSON.parse(xhr.responseText);
+                switch (responseObject['result']) {
+                    case 'success' :
+                        alert("저장성공.")
+                        break;
+                    case 'not_signed':
+                        alert("로그인 해주세요");
+                        break;
+                    default:
+                        alert("실패");
+                }
+            }else {
+                alert("알수없는 이유로 연결 실패..");
+            }
+        }
+    };xhr.send(formData);
+};
 
 
 
