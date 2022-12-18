@@ -11,6 +11,7 @@ import dev.test.take_a_walk_duo.enums.bbs.ModifyArticleResult;
 import dev.test.take_a_walk_duo.enums.bbs.WriteResult;
 import dev.test.take_a_walk_duo.interfaces.IResult;
 import dev.test.take_a_walk_duo.mappers.IBbsMapper;
+import dev.test.take_a_walk_duo.vos.bbs.ArticleReadByBoardID;
 import dev.test.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -89,11 +90,15 @@ public class BbsService {
 //            }
             existingArticleReadVo.setView(existingArticleReadVo.getView() + 1);
             this.bbsMapper.updateArticle(existingArticleReadVo);
-            System.out.println("existingArticleReadVo check1");
         }else {
-            System.out.println("existingArticleReadVo check2");
         }
         return existingArticleReadVo;
+    }
+
+    // Mr.m
+    // 게시글 읽기 (메뉴) 구성 (게시글 article.getBoarId()) 값으로 끌고오기
+    public BoardEntity[] chartBoardId(String bid){
+        return this.bbsMapper.selectBoardByBoardId(bid);
     }
 
     //    Mr.m
@@ -178,4 +183,5 @@ public class BbsService {
         }
         return CommonResult.SUCCESS;
     }
+
 }

@@ -84,13 +84,17 @@ public class BbsController {
     public ModelAndView getRead(@SessionAttribute(value = "user", required = false) UserEntity user,
                                 @RequestParam(value = "aid", required = false) int aid) {
         ModelAndView modelAndView = new ModelAndView("bbs/read");
+
+        System.out.println("췍1");
         ArticleReadVo article = this.bbsService.readArticle(aid,user);
         modelAndView.addObject("article", article);
-        System.out.println(article.getIndex());
         if (article != null) {
             BoardEntity board = this.bbsService.getBoard(article.getBoardId());
+            BoardEntity[] boardList = this.bbsService.chartBoardId(board.getBoardId());
             modelAndView.addObject("board", board);
             modelAndView.addObject("liked", article.isArticleLiked());
+            modelAndView.addObject("boardList",boardList);
+
         }
         return modelAndView;
     }

@@ -203,24 +203,28 @@ body > .--main > .--form > .--content > .read-form .detail-img {
 .table > thead > tr > td:nth-of-type(4) {
     border-left: 0.0625rem inset rgb(120, 120, 120);
 }
-
+#form > .table > thead > tr > td > a{
+    text-decoration: none;
+    color: rgb(169, 175, 126);
+}
 .table > tbody > tr > td > div {
     margin-top: 1rem;
 }
 
 
 /*Article liked css구현부문*/
-.table > thead > tr > td > .toggle > i{
+.table > thead > tr > td >.like> .toggle > i{
     /*font-size: 1.2rem;*/
     font-weight: 10;
 }
-.table > thead > tr > td > .toggle.visible > i{
+.table > thead > tr > td >.like> .toggle.visible > i{
     font-size: 1.2rem;
     color: rgb(205, 97, 85);
     font-weight: 900;
+    display: none;
 }
 
-/*썸네일 이미지 클릭 해쓸때 창*/
+/*썸네일 이미지 클릭 했을때 창*/
 .image-scale {
     top: 0;
     left: 0;

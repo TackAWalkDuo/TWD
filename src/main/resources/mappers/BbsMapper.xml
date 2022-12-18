@@ -8,16 +8,17 @@
                `text`  AS `text`,
                `order` AS `order`
         FROM `twd_bbs`.`boards`
-        ORDER BY `order`
-        LIMIT 4;
+        ORDER BY `order` LIMIT 4;
     </select>
 
     <select id="selectBoardById" resultType="dev.test.take_a_walk_duo.entities.bbs.BoardEntity">
-        SELECT `id`   AS `id`,
-               `text` As `text`
+        SELECT `id`       AS `id`,
+               `text`     AS `text`,
+               `board_id` AS `boardId`,
+               `order`    AS `order`
         FROM `twd_bbs`.`boards`
         WHERE BINARY `id` = #{bid}
-        LIMIT 1;
+            LIMIT 1;
     </select>
     <insert id="insertArticle"
             useGeneratedKeys="true"
@@ -42,9 +43,7 @@
 
     <select id="selectThumbnailByIndex"
             resultType="dev.test.take_a_walk_duo.entities.bbs.ArticleEntity">
-        SELECT `index`          AS 'index',
-               `thumbnail`      AS 'thumbnail',
-               `thumbnail_type` AS 'thumbnailType'
+        SELECT `index` AS 'index', `thumbnail` AS 'thumbnail', `thumbnail_type` AS 'thumbnailType'
         FROM `twd_bbs`.`articles`
         WHERE `index` = #{index}
     </select>
@@ -72,9 +71,20 @@
                            on `articles`.`index` = `articleLike`.`article_index`
                                AND `articleLike`.`user_email` = IFNULL(#{email}, '')
         WHERE `articles`.`index` = #{index}
-        GROUP BY `articles`.`index`
-        LIMIT 1;
+        GROUP BY `articles`.`index` LIMIT 1;
     </select>
+
+    <select id="selectBoardByBoardId"
+            resultType="dev.test.take_a_walk_duo.entities.bbs.BoardEntity">
+        SELECT `id` AS `id`,
+               `text` AS `text`,
+               `board_id` AS `boardId`,
+               `order` AS `order`
+        FROM `twd_bbs`.`boards` AS `board`
+        WHERE `board_id` = #{bid}
+        ORDER BY `order`;
+    </select>
+
     <select id="selectImageByIndex"
             resultType="dev.test.take_a_walk_duo.entities.bbs.ImageEntity">
         SELECT `index`     AS `index`,
@@ -95,8 +105,7 @@
             `view`           = #{view},
             `written_on`     = #{writtenOn},
             `modified_on`    = #{modifiedOn}
-        WHERE `index` = #{index}
-        LIMIT 1
+        WHERE `index` = #{index} LIMIT 1
     </update>
 
     <insert id="insertComment"
@@ -105,17 +114,17 @@
             keyColumn="index"
             parameterType="dev.test.take_a_walk_duo.entities.bbs.CommentEntity">
         INSERT INTO `twd_bbs`.`comments`(`comment_index`, `user_email`, `content`, `article_index`, `written_on`)
-        VALUES (#{commentIndex},  #{userEmail}, #{content}, #{articleIndex},
+        VALUES (#{commentIndex}, #{userEmail}, #{content}, #{articleIndex},
                 IFNULL(#{writtenOn}, DEFAULT(`written_on`)))
     </insert>
 
-<insert id="insertCommentImage"
-        useGeneratedKeys="true"
-        keyProperty="index"
-        keyColumn="index"
-        parameterType="dev.test.take_a_walk_duo.entities.bbs.CommentImageEntity">
-    INSERT INTO `twd_bbs`.`comment_images` (`comment_index`, `data`, `type`)
-    VALUES (#{commentIndex}, #{data}, #{type})
-</insert>
+    <insert id="insertCommentImage"
+            useGeneratedKeys="true"
+            keyProperty="index"
+            keyColumn="index"
+            parameterType="dev.test.take_a_walk_duo.entities.bbs.CommentImageEntity">
+        INSERT INTO `twd_bbs`.`comment_images` (`comment_index`, `data`, `type`)
+        VALUES (#{commentIndex}, #{data}, #{type})
+    </insert>
 
 </mapper>

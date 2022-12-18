@@ -45,4 +45,6 @@ public interface IBbsMapper {
 
     ImageEntity selectImageByIndex(@Param(value = "index") int index);
 
+    BoardEntity[] selectBoardByBoardId(@Param(value = "bid")String bid);
+
 }

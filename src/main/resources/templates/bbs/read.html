@@ -10,7 +10,7 @@
     <script defer th:src="@{/bbs/resources/scripts/read.js}"></script>
     <link rel="stylesheet" th:href="@{/bbs/resources/stylesheets/read.css}">
 </head>
-<body th:if="${article != null}">
+<body>
 <th:block th:replace="~{fragments/body :: header}"></th:block>
 <main class="--main main">
     <div class="img">
@@ -63,12 +63,12 @@
                 </ul>
                 <ul class="title--select">
                     <li class="side-menu connect"><a>전체</a></li>
-                    <li class="side-menu connect"><a>일상</a></li>
-                    <li class="side-menu connect"><a>꿀Tip</a></li>
-                    <li class="side-menu connect"><a>유머</a></li>
+                    <li class="side-menu connect" th:each="boards : ${boardList}">
+                    <a class="a-select" th:text="${boards.getText()}" th:href="@{/bbs/list(bid=${boards.getId()})}"></a>
+                    </li>
                 </ul>
             </nav>
-            <form class="read-form" id="form">
+            <form th:if="${article != null}" class="read-form" id="form">
                 <table class="table">
                     <thead>
                     <tr class="title-table">
@@ -97,7 +97,7 @@
                         <th hidden>추천수</th>
                         <td rowspan="2">
                             <div class="like">
-                                <a href="#" class="toggle visible"><i class="fa-solid fa-heart"></i></a>
+                                <a href="#" class="toggle"><i class="fa-solid fa-heart"></i></a>
                                 <span th:text="${'['+article.getArticleLikedCount()+']'}">1</span>
                             </div>
                         </td>
