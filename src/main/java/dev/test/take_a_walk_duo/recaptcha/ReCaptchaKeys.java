@@ -1,3 +1,4 @@
+/*
 package dev.test.take_a_walk_duo.recaptcha;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -37,3 +38,4 @@ public class ReCaptchaKeys {
         return this;
     }
 }
+*/
