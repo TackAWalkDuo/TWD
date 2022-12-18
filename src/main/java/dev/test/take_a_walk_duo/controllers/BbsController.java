@@ -91,9 +91,11 @@ public class BbsController {
         if (article != null) {
             BoardEntity board = this.bbsService.getBoard(article.getBoardId());
             BoardEntity[] boardList = this.bbsService.chartBoardId(board.getBoardId());
+            BoardEntity[] boardTitle = this.bbsService.getBoardEntities();
             modelAndView.addObject("board", board);
             modelAndView.addObject("liked", article.isArticleLiked());
             modelAndView.addObject("boardList",boardList);
+            modelAndView.addObject("boardTitles",boardTitle);
 
         }
         return modelAndView;

@@ -22,10 +22,9 @@
                 <ul class="title--select">
                     <li class="menu"><a>자유게시판</a>
                         <ul class="free-select visible">
-                            <li class="scroll-menu"><a>전체</a></li>
-                            <li class="scroll-menu"><a>일상</a></li>
-                            <li class="scroll-menu"><a>꿀Tip</a></li>
-                            <li class="scroll-menu"><a>유머</a></li>
+                            <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'free'}" th:each="boardTitle : ${boardTitles}">
+                                <a class="a-select" th:text="${boardTitle.getText()}" th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
+                            </li>
                         </ul>
                     </li>
                     <li class="menu"><a>모임후기</a>
@@ -96,7 +95,7 @@
                         <td></td>
                         <th hidden>추천수</th>
                         <td rowspan="2">
-                            <div class="like">
+                            <div th:class="${'like '+(liked == true ?'visible':'')}" id="likeA">
                                 <a href="#" class="toggle"><i class="fa-solid fa-heart"></i></a>
                                 <span th:text="${'['+article.getArticleLikedCount()+']'}">1</span>
                             </div>

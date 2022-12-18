@@ -113,7 +113,7 @@
             keyProperty="index"
             keyColumn="index"
             parameterType="dev.test.take_a_walk_duo.entities.bbs.CommentEntity">
-        INSERT INTO `twd_bbs`.`comments`(`comment_index`, `user_email`, `content`, `article_index`, `written_on`)
+        INSERT INTO `twd_bbs`.`comments`(`comment_index`, `user_email`, `content`, `article_index`, `written_on`)user_email
         VALUES (#{commentIndex}, #{userEmail}, #{content}, #{articleIndex},
                 IFNULL(#{writtenOn}, DEFAULT(`written_on`)))
     </insert>
@@ -125,6 +125,11 @@
             parameterType="dev.test.take_a_walk_duo.entities.bbs.CommentImageEntity">
         INSERT INTO `twd_bbs`.`comment_images` (`comment_index`, `data`, `type`)
         VALUES (#{commentIndex}, #{data}, #{type})
+    </insert>
+    <insert id="insertArticleLike"
+            parameterType="dev.test.take_a_walk_duo.entities.bbs.ArticleLikeEntity">
+        INSERT INTO `study_bbs`.`article_likes`(user_email, article_index, created_on)
+        VALUES (#{userEmail}, #{articleIndex}, IFNULL(#{createdOn}, DEFAULT(`created_on`)));
     </insert>
 
 </mapper>

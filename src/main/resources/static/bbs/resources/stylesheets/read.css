@@ -112,7 +112,7 @@ body > .--main {
     width: 8rem;
     color: rgb(180, 180, 188);
     background-color: rgb(255, 255, 255);
-    display: none;
+    /*display: none;*/
 }
 
 .title--select > li > .free-select > *:hover {
@@ -217,11 +217,10 @@ body > .--main > .--form > .--content > .read-form .detail-img {
     /*font-size: 1.2rem;*/
     font-weight: 10;
 }
-.table > thead > tr > td >.like> .toggle.visible > i{
+.table > thead > tr > td >.like.visible> .toggle> i{
     font-size: 1.2rem;
     color: rgb(205, 97, 85);
     font-weight: 900;
-    display: none;
 }
 
 /*썸네일 이미지 클릭 했을때 창*/
