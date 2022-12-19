@@ -111,6 +111,7 @@ body > .main > .search-form > .label {
     color: rgb(180, 180, 188);
     margin: 1.75rem;
     list-style: none;
+    /*여기 열고 닫기    */
 }
 
 .title--select > li.menu {

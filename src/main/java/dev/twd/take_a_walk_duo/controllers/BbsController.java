@@ -1,5 +1,12 @@
-package dev.twd.take_a_walk_duo.controllers;
+package dev.test.take_a_walk_duo.controllers;
 
+import dev.twd.take_a_walk_duo.entities.bbs.*;
+import dev.twd.take_a_walk_duo.entities.member.UserEntity;
+import dev.twd.take_a_walk_duo.enums.CommonResult;
+import dev.twd.take_a_walk_duo.enums.bbs.ModifyArticleResult;
+import dev.twd.take_a_walk_duo.enums.bbs.WriteResult;
+import dev.twd.take_a_walk_duo.services.BbsService;
+import dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import dev.twd.take_a_walk_duo.entities.bbs.*;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
@@ -91,8 +98,13 @@ public class BbsController {
         System.out.println(article.getIndex());
         if (article != null) {
             BoardEntity board = this.bbsService.getBoard(article.getBoardId());
+            BoardEntity[] boardList = this.bbsService.chartBoardId(board.getBoardId());
+            BoardEntity[] boardTitle = this.bbsService.getBoardEntities();
             modelAndView.addObject("board", board);
             modelAndView.addObject("liked", article.isArticleLiked());
+            modelAndView.addObject("boardList",boardList);
+            modelAndView.addObject("boardTitles",boardTitle);
+
         }
         return modelAndView;
     }

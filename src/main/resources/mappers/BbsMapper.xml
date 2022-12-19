@@ -75,6 +75,18 @@
         GROUP BY `articles`.`index`
         LIMIT 1;
     </select>
+
+    <select id="selectBoardByBoardId"
+            resultType="dev.twd.take_a_walk_duo.entities.bbs.BoardEntity">
+        SELECT `id`       AS `id`,
+               `text`     AS `text`,
+               `board_id` AS `boardId`,
+               `order`    AS `order`
+        FROM `twd_bbs`.`boards` AS `board`
+        WHERE `board_id` = #{bid}
+        ORDER BY `order`;
+    </select>
+
     <select id="selectImageByIndex"
             resultType="dev.twd.take_a_walk_duo.entities.bbs.ImageEntity">
         SELECT `index`     AS `index`,
@@ -151,4 +163,23 @@
         WHERE `comment_image`.`index` = #{index}
         LIMIT 1
     </select>
+    <select id="selectArticleLikeByIndex"
+            resultType="dev.twd.take_a_walk_duo.entities.bbs.ArticleLikeEntity">
+        SELECT `user_email`  AS `userEmail`,
+               article_index AS articleIndex,
+               created_on    AS createdOn
+        FROM `twd_bbs`.`article_likes`
+        WHERE `article_index` = #{articleIndex}
+    </select>
+    <insert id="insertArticleLike"
+            parameterType="dev.twd.take_a_walk_duo.entities.bbs.ArticleLikeEntity">
+        INSERT INTO `twd_bbs`.`article_likes`(user_email, article_index, created_on)
+        VALUES (#{userEmail}, #{articleIndex}, IFNULL(#{createdOn}, DEFAULT(`created_on`)));
+    </insert>
+    <delete id="deleteByArticleLiked">
+        DELETE
+        FROM `twd_bbs`.`article_likes`
+        WHERE (`twd_bbs`.`article_likes`.`article_index` = #{articleIndex})
+        LIMIT 1;
+    </delete>
 </mapper>

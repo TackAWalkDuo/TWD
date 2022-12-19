@@ -3,6 +3,7 @@ package dev.twd.take_a_walk_duo.controllers;
 import dev.twd.take_a_walk_duo.entities.member.EmailAuthEntity;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
+//import dev.test.take_a_walk_duo.recaptcha.ReCaptchaResponse;
 import dev.twd.take_a_walk_duo.services.MemberService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
