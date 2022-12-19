@@ -1,20 +1,8 @@
-package dev.test.take_a_walk_duo.mappers;
+package dev.twd.take_a_walk_duo.mappers;
 
-import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.ArticleLikeEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.CommentEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.CommentImageEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
+import dev.twd.take_a_walk_duo.entities.bbs.*;
 import dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import dev.twd.take_a_walk_duo.vos.bbs.CommentVo;
-import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.ArticleLikeEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.CommentEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.CommentImageEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
-import dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

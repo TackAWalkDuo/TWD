@@ -76,15 +76,15 @@
                         <td th:text="${board.getId()}">분류</td>
                         <th hidden>제목</th>
                         <td class="content" th:text="${article.getTitle()}">자유게시판 첫 글</td>
-                        <th hidden>썸네일이미지</th>twd_member
+                        <th hidden>썸네일이미지</th>
                         <td class="image-tableData">
                             <div>
                                 <img rel="thumbnailImage" class="detail-img"
-                                     th:src="@{/bbs/thumbnail (index=${article.getIndex()})}" alt="#"
-                                     src="/resources/images/item1.jpg">
+                                     th:src="@{/bbs/thumbnail (index=${article.getIndex()})}" alt="#">
                             </div>
                         </td>
                     </tr>
+
                     <tr>
                         <th hidden>견종분류</th>
                         <td th:text="${article.getUserSpecies()}">대형견||소형견</td>
@@ -100,6 +100,7 @@
                             </div>
                         </td>
                     </tr>
+
                     <tr>
                         <th hidden>작성 일시</th>
                         <td th:text="${#dates.format(article.getWrittenOn(),'yyyy-MM-dd HH:mm:ss')}">2000-01-01
