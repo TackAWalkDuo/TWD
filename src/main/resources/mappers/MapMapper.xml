@@ -2,14 +2,14 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="dev.test.take_a_walk_duo.mappers.IMapMapper">
+<mapper namespace="dev.twd.take_a_walk_duo.mappers.IMapMapper">
 
 
     <insert id="insertWalkArticle"
             useGeneratedKeys="true"
             keyProperty="index"
             keyColumn="index"
-            parameterType="dev.test.take_a_walk_duo.entities.bbs.ArticleEntity">
+            parameterType="dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity">
         INSERT INTO `twd_bbs`.`articles`
         (`user_email`, `board_id`, `title`, `content`, `thumbnail`, `thumbnail_type`, `view`, `written_on`,
          `modified_on`)
@@ -22,13 +22,13 @@
             useGeneratedKeys="true"
             keyProperty="index"
             keyColumn="index"
-            parameterType="dev.test.take_a_walk_duo.entities.bbs.map.LocationEntity">
+            parameterType="dev.twd.take_a_walk_duo.entities.bbs.map.LocationEntity">
         INSERT INTO `twd_bbs`.`location` (`article_index`, `address`, `latitude`, `longitude`)
         VALUES (#{articleIndex}, #{address}, #{latitude}, #{longitude});
     </insert>
 
     <select id="selectPlacesExceptImage"
-    resultType="dev.test.take_a_walk_duo.vos.map.PlaceVo">
+    resultType="dev.twd.take_a_walk_duo.vos.map.PlaceVo">
         SELECT `article`.`index`                  AS 'index',
                `article`.`user_email`             AS 'userEmail',
                `article`.`board_id`               AS 'boardId',
@@ -51,6 +51,8 @@
           AND `location`.`longitude` BETWEEN ${minLng} AND ${maxLng}
         GROUP BY `article`.`index`
     </select>
+
+
 
 </mapper>
 

@@ -24,9 +24,9 @@
     <div class="map" id="map"></div>
     <div class="container" id="container">
         <div class="list-container" id="listContainer">
-<!--            <div class="search-container" id="searchContainer">-->
-<!--                <input class="keyword" placeholder="배경색은 프로젝트 베이스 컬러.">-->
-<!--            </div>-->
+            <!--            <div class="search-container" id="searchContainer">-->
+            <!--                <input class="keyword" placeholder="배경색은 프로젝트 베이스 컬러.">-->
+            <!--            </div>-->
 
             <ul class="list" id="list">
                 <li class="item" rel="item">
@@ -153,7 +153,8 @@
             <form class="review-form" id="reviewForm">
                 <input hidden multiple accept="image/" name="images" type="file">
                 <input type="hidden" name="articleIndex">
-                <input type="hidden" name="userEmail" th:if="${session.user != null}" th:text="${session.user.getEmail()}">
+                <input type="hidden" name="userEmail" th:if="${session.user != null}"
+                       th:value="${session.user.getEmail()}">
                 <span class="comment_title">리뷰 작성</span>
                 <div class="content-container">
                     <label class="label">
@@ -166,6 +167,22 @@
                     <div class="no-image" rel="noImage">선택된 이미지가 없습니다.</div>
                 </div>
                 <a href="#" class="image-select-button" rel="imageSelectButton">이미지 선택...</a>
+
+
+                <ul class="review-container" rel="reviewContainer">
+                    <li class="item">
+                        <span class="nickname" rel="nickname">닉네임</span>
+                        <div class="image-container" rel="imageContainer">
+                            <img src="https://image.fmkorea.com/files/attach/new2/20210526/1378413927/1858448778/3629868690/7adace77c588d2cc2eb213e501e40913.png"
+                                 alt="" class="image">
+                            <img src="https://pbs.twimg.com/media/FjCZZybVIAAHv-F.png" alt="" class="image">
+                            <img src="https://pbs.twimg.com/media/FevC8cDVQAAjYxk.png" alt="" class="image">
+                        </div>
+                        <span class="content" rel="imageContainer">정신 나갈 것 같다</span>
+                        <sapn class="date" rel="date">2022-12-06</sapn>
+                    </li>
+                </ul>
+
             </form>
 
 
