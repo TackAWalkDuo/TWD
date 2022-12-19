@@ -293,7 +293,6 @@ reviewForm.onsubmit = e => {
 
 const loadReview = (articleIndex) => {
     reviewContainer.innerHTML = '';
-    console.log("check");
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
 
@@ -308,8 +307,13 @@ const loadReview = (articleIndex) => {
                     <li class="item" rel="item">
                         <div class="title">
                             <span class="nickname" rel="nickname">${reviewObject['nickname']}</span>
-                            <span class="time"></span>
+                            <span class="time">${reviewObject['writtenOn']}</span>
                         </div>
+                        <div class="modifyMenu">
+                         ${reviewObject['userEmail'] === reviewForm['userEmail'].value ?
+                            `<a>수정</a>
+                            <a>삭제</a>`    : ` `}
+                         </div>
                         <div class="image-container" rel="imageContainer"></div>
                         <span class="content" rel="imageContainer">${reviewObject['content']}</span>
                     </li> `;

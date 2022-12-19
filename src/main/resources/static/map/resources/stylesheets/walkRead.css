@@ -43,14 +43,25 @@ body > .--header {
     padding: 0 1rem;
 }
 
-#searchContainer {
-    overflow: hidden auto;
-    background-color: white;
-    border: 0.0625rem solid rgb(169, 169, 169);
+
+#listContainer::-webkit-scrollbar,
+#detailContainer::-webkit-scrollbar {
+    width: 0.7rem;
 }
 
-#searchContainer > .keyword {
-    margin: 0.5rem 0;
+
+#listContainer > .write-container {
+    margin-top: 0.5rem;
+    border: 0.0625rem solid rgb(169, 169, 169);
+    text-align: center;
+
+
+    font-size: 2rem;
+}
+
+#listContainer > .write-container > .text {
+    text-decoration: none;
+    color: white;
 }
 
 #list {
@@ -366,17 +377,35 @@ body > .--header {
     justify-content: flex-start;
 
     border-bottom: 0.0625rem solid rgb(234, 236, 238);
-    padding: 0.625rem 1rem;
+    padding: 0.625rem 0.625rem 1rem 0;
 }
 
 #reviewForm > .review-container > .item > .title {
-
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 #reviewForm > .review-container > .item > .title > .nickname {
     color: rgb(128, 139, 150);
     margin-bottom: 0.75rem;
 }
+
+
+#reviewForm > .review-container > .item > .modifyMenu {
+    align-items: end;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    padding-bottom: 0.5rem;
+}
+
+#reviewForm > .review-container > .item > .modifyMenu > * + * {
+    padding-left: 0.5rem;
+}
+
 
 #reviewForm > .review-container > .item > .image-container {
     align-items: stretch;
@@ -393,12 +422,16 @@ body > .--header {
     height: 0.5rem;
 }
 
-#reviewForm > .review-container > .item > .image-container::-webkit-scrollbar-track {
+#reviewForm > .review-container > .item > .image-container::-webkit-scrollbar-track,
+#listContainer::-webkit-scrollbar-track,
+#detailContainer::-webkit-scrollbar-track {
     background-color: transparent;
 }
 
-#reviewForm > .review-container > .item > .image-container::-webkit-scrollbar-thumb {
-    background-color: rgb(169, 175, 126);
+#reviewForm > .review-container > .item > .image-container::-webkit-scrollbar-thumb,
+#listContainer::-webkit-scrollbar-thumb,
+#detailContainer::-webkit-scrollbar-thumb {
+    background-color: rgb(211, 211, 211);
     border-radius: 999rem;
 }
 
