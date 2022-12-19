@@ -81,6 +81,7 @@ body > .main > .search-form > .label {
     padding: 0.625rem 1.5rem;
     color: rgb(180, 180, 188);
     margin: 1rem;
+    list-style: none;
 }
 
 .title-select > li:hover {
@@ -127,6 +128,7 @@ body > .main > .search-form > .label {
     margin: 1rem;
     list-style: none;
     text-align: center;
+    text-decoration: none;
 }
 
 .title--select > li > .free-select {
@@ -135,7 +137,7 @@ body > .main > .search-form > .label {
     list-style: unset;
     display: none;
 }
-.title--select > li > .free-select.visible{
+.title--select > li:hover > .free-select{
     display: flex;
     z-index: 3;
 }

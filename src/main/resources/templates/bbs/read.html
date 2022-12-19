@@ -106,7 +106,7 @@
                         <td th:text="${'조회수 ['+article.getView() +']'}">1</td>
                         <td>
                             <a class="modify-article" th:href="@{./modify (aid=${article.getIndex()})}">수정하기</a>
-                            <a class="delete-article">삭제하기</a>
+                            <a class="delete-article" id="deleteArticle">삭제하기</a>
                         </td>
                     </tr>
                     </thead>

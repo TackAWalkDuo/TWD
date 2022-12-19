@@ -45,6 +45,14 @@ public interface IBbsMapper {
 
     int insertCommentImage(CommentImageEntity commentImage);
 
+    int deleteArticle(int index);
+
+
+    //Mr.m
+    //게시판 만들기
+    ArticleReadVo[] selectArticlesByBoardId(@Param(value = "boardId") String boardId);
+
+
 
     //Mr.m
     //이미지추가 맵퍼

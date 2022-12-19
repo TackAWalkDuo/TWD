@@ -93,7 +93,6 @@ public class BbsService {
 //            }
             existingArticleReadVo.setView(existingArticleReadVo.getView() + 1);
             this.bbsMapper.updateArticle(existingArticleReadVo);
-        } else {
         }
         return existingArticleReadVo;
     }
@@ -174,7 +173,6 @@ public class BbsService {
 
     //Mr.m
     //게시물 수정하기 (get)서비스
-
     public ArticleReadVo getModifyArticles(int articleIndex, UserEntity user) {
         return this.bbsMapper.selectArticleByIndex(articleIndex);
     }
@@ -197,6 +195,26 @@ public class BbsService {
             return CommonResult.FAILURE;
         }
         return CommonResult.SUCCESS;
+    }
+
+    //Mr.m
+    //게시글 삭제구문
+    public Enum<? extends IResult> deleteArticle(ArticleEntity article, UserEntity user) {
+        ArticleEntity existingArticle = this.bbsMapper.selectArticleByIndex(article.getIndex());
+        if (existingArticle == null) {
+            return CommonResult.FAILURE;
+        }
+        if (user == null || !user.getEmail().equals(existingArticle.getUserEmail())) {
+            return CommonResult.FAILURE;
+        }
+        article.setBoardId(existingArticle.getBoardId());
+
+        return this.bbsMapper.deleteArticle(article.getIndex()) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
+    }
+
+    public ArticleReadVo[] getArticles(BoardEntity board) {
+        return this.bbsMapper.selectArticlesByBoardId(
+                board.getId());
     }
 
 }

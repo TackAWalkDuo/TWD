@@ -8,8 +8,7 @@
                `text`  AS `text`,
                `order` AS `order`
         FROM `twd_bbs`.`boards`
-        ORDER BY `order`
-        LIMIT 4;
+        ORDER BY `order` LIMIT 4;
     </select>
 
     <select id="selectBoardById" resultType="dev.twd.take_a_walk_duo.entities.bbs.BoardEntity">
@@ -19,7 +18,7 @@
                `order`    AS `order`
         FROM `twd_bbs`.`boards`
         WHERE BINARY `id` = #{bid}
-        LIMIT 1;
+            LIMIT 1;
     </select>
     <insert id="insertArticle"
             useGeneratedKeys="true"
@@ -72,8 +71,7 @@
                            on `articles`.`index` = `articleLike`.`article_index`
                                AND `articleLike`.`user_email` = IFNULL(#{email}, '')
         WHERE `articles`.`index` = #{index}
-        GROUP BY `articles`.`index`
-        LIMIT 1;
+        GROUP BY `articles`.`index` LIMIT 1;
     </select>
 
     <select id="selectBoardByBoardId"
@@ -107,8 +105,7 @@
             `view`           = #{view},
             `written_on`     = #{writtenOn},
             `modified_on`    = #{modifiedOn}
-        WHERE `index` = #{index}
-        LIMIT 1
+        WHERE `index` = #{index} LIMIT 1
     </update>
 
     <insert id="insertComment"
@@ -137,7 +134,28 @@
     <delete id="deleteByArticleLiked">
         DELETE
         FROM `twd_bbs`.`article_likes`
-        WHERE (`twd_bbs`.`article_likes`.`article_index` = #{articleIndex})
-        LIMIT 1;
+        WHERE (`twd_bbs`.`article_likes`.`article_index` = #{articleIndex}) LIMIT 1;
     </delete>
+
+    <delete id="deleteArticle">
+        DELETE
+        FROM `twd_bbs`.`articles`
+        WHERE (`study_bbs`.`articles`.`index` = #{index}) limit 1;
+    </delete>
+
+    <select id="selectArticlesByBoardId"
+            resultType="dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo">
+        SELECT `articles`.`index`       AS `index`,
+               `articles`.`user_email`  AS `userEmail`,
+               `articles`.`board_id`    AS `boardId`,
+               `articles`.`title`       AS `title`,
+               `articles`.`view`        AS `view`,
+               `articles`.`written_on`  AS `writtenOn`,
+               `articles`.`modified_on` AS `modifiedOn`,
+               `users`.`nickname`       AS `userNickname`
+        FROM `twd_bbs`.`articles`
+                 LEFT JOIN twd_member.users on articles.user_email = users.email
+        WHERE `board_id` = #{boardId}
+        ORDER BY `articles`.`index` DESC
+    </select>
 </mapper>

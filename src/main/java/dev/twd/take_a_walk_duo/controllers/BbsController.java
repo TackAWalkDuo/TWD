@@ -144,12 +144,36 @@ public class BbsController {
         return responseObject.toString();
     }
 
+//    Mr.m
+    //게시글 삭제
+    @RequestMapping(value = "read",method = RequestMethod.DELETE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String deleteArticle(@SessionAttribute(value = "user", required = false) UserEntity user, @RequestParam(value = "aid", required = false) int aid) {
+        ArticleEntity article = new ArticleEntity();
+        article.setIndex(aid);
+        Enum<?> result = this.bbsService.deleteArticle(article, user);
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("result", result.name().toLowerCase());
+        if (result == CommonResult.SUCCESS) {
+            responseObject.put("bid", article.getBoardId());
+        }
+        return responseObject.toString();
+    }
+
+
     //Mr.m
+    //리스트 구현
     @RequestMapping(value = "list",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getList() {
+    public ModelAndView getList(@RequestParam(value = "bid", required = false) String bid) {
         ModelAndView modelAndView = new ModelAndView("bbs/list");
+        BoardEntity board = bid == null ? null : this.bbsService.getBoard(bid);
+        modelAndView.addObject("board", board);
+        if (board != null) {
+            ArticleReadVo[] articles = this.bbsService.getArticles(board);
+            modelAndView.addObject("articles", articles);
+        }
         return modelAndView;
     }
 

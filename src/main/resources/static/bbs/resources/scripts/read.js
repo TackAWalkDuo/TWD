@@ -60,10 +60,10 @@ likeA.addEventListener('click', e => {
                             // form.querySelector("[rel='likeCount']").innerText = "fuckyou";
                         }
                         break;
-                    case 'NOT_ALLOWED':
+                    case 'not_allowed':
                         showDialog.show("로그인이 되어있지 않습니다.");
                         break;
-                    case 'NO_SUCH_BOARD':
+                    case 'no_such_board':
                         showDialog.show("게시글을 찾을수 없습니다.");
                         break;
                     default:
@@ -75,4 +75,33 @@ likeA.addEventListener('click', e => {
         }
     };
     xhr.send(formData);
+});
+
+const deleteArticle = window.document.getElementById('deleteArticle');
+deleteArticle.addEventListener('click',e => {
+    e.preventDefault();
+    if(!confirm('정말로 게시글을 삭제할까요')){
+        return;
+    }
+    const xhr = new XMLHttpRequest();
+    // const formData = new FormData();
+    xhr.open('DELETE',window.location.href);
+    xhr.onreadystatechange = () =>{
+        if(xhr.readyState === XMLHttpRequest.DONE){
+            if(xhr.status >= 200 && xhr.status<300){
+                const responseObject = JSON.parse(xhr.responseText);
+                switch (responseObject['result']) {
+                    case 'success':
+                        const bid = responseObject['bid'];
+                        window.location.href = `./list?bid=${bid}`;
+                        break;
+                    default:
+                        showDialog.show("알수없는 삭제하지 못하였습니다.\n 잠시후에 다시시도해 주세요.");
+                }
+            } else {
+                console.log('좋아요 실행을 실패했습니다(서버)');
+            }
+        }
+    };
+    xhr.send();
 });
