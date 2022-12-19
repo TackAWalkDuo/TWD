@@ -19,7 +19,7 @@ body > .--main {
     background-position: 0 -12.5rem;
     width: 70rem;
     height: 15rem;
-    margin: 2rem 2rem 0 2rem;
+    margin: 2.5rem 2rem 0 2rem;
 }
 
 
@@ -86,8 +86,8 @@ body > .main > .search-form > .label {
     color: rgb(180, 180, 188);
 }
 
-.title-select > li > a:hover{
-    color: rgba(0,0,0,70%);
+.title-select > li > a:hover {
+    color: rgba(0, 0, 0, 70%);
 }
 
 
@@ -161,7 +161,7 @@ body > .main > .search-form > .label {
 
 /*그리드 부분임*/
 body > main > .box {
-    width: 92.5%;
+    width: 100%;
     padding: 0 8rem;
     margin: 1rem 0 4rem 0;
 
@@ -179,7 +179,7 @@ body > main > .box > .title {
 
 body > main > .box > .item-container {
     display: grid;
-    gap: 2rem 2.5rem;
+    gap: 3rem 3.5rem;
     grid-template-columns: repeat(4, 1fr);
     list-style-type: none;
     margin: unset;
@@ -215,8 +215,15 @@ body > main > .box > .item-container > .item > .link {
 
 body > main > .box > .item-container > .item > .link > .image {
     width: 100%;
-    max-height: 15rem;
+    height: 15rem;
     margin-bottom: 0.75rem;
+}
+
+body > main > .box > .item-container > .item > .link > .text {
+    width: 15rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 body > main > .box > .item-container > .item > .link > .charge-price {
@@ -300,7 +307,7 @@ body > main > .box > .item-container > .item-description > .side-image > .side-d
 
 #pageContainer .page {
 
-    background-color: rgba(229, 232, 232,50%);
+    background-color: rgba(229, 232, 232, 50%);
     padding: 0.5rem 0.75rem;
     color: inherit;
     text-decoration: none;
@@ -313,5 +320,5 @@ body > main > .box > .item-container > .item-description > .side-image > .side-d
 
 #pageContainer .page.selected,
 #pageContainer .page:hover {
-    background-color: rgba(229, 232, 232,90%);
+    background-color: rgba(229, 232, 232, 90%);
 }

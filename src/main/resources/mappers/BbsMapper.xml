@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="dev.test.take_a_walk_duo.mappers.IBbsMapper">
-    <select id="selectBoards" resultType="dev.test.take_a_walk_duo.entities.bbs.BoardEntity">
+<mapper namespace="dev.twd.take_a_walk_duo.mappers.IBbsMapper">
+    <select id="selectBoards" resultType="dev.twd.take_a_walk_duo.entities.bbs.BoardEntity">
         SELECT `id`    AS `id`,
                `text`  AS `text`,
                `order` AS `order`
@@ -12,7 +12,7 @@
         LIMIT 4;
     </select>
 
-    <select id="selectBoardById" resultType="dev.test.take_a_walk_duo.entities.bbs.BoardEntity">
+    <select id="selectBoardById" resultType="dev.twd.take_a_walk_duo.entities.bbs.BoardEntity">
         SELECT `id`   AS `id`,
                `text` As `text`
         FROM `twd_bbs`.`boards`
@@ -23,7 +23,7 @@
             useGeneratedKeys="true"
             keyColumn="index"
             keyProperty="index"
-            parameterType="dev.test.take_a_walk_duo.entities.bbs.ArticleEntity">
+            parameterType="dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity">
         INSERT INTO `twd_bbs`.`articles`
         (`user_email`, `board_id`, `title`, `content`, `thumbnail`, `thumbnail_type`,
          `view`, `written_on`, `modified_on`)
@@ -34,14 +34,14 @@
             useGeneratedKeys="true"
             keyColumn="index"
             keyProperty="index"
-            parameterType="dev.test.take_a_walk_duo.entities.bbs.ImageEntity">
+            parameterType="dev.twd.take_a_walk_duo.entities.bbs.ImageEntity">
         INSERT INTO `twd_bbs`.`images`
             (`index`, `file_name`, `file_mime`, `data`)
         VALUES (#{index}, #{fileName}, #{fileMime}, #{data})
     </insert>
 
     <select id="selectThumbnailByIndex"
-            resultType="dev.test.take_a_walk_duo.entities.bbs.ArticleEntity">
+            resultType="dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity">
         SELECT `index`          AS 'index',
                `thumbnail`      AS 'thumbnail',
                `thumbnail_type` AS 'thumbnailType'
@@ -49,7 +49,7 @@
         WHERE `index` = #{index}
     </select>
     <select id="selectArticleByIndex"
-            resultType="dev.test.take_a_walk_duo.vos.bbs.ArticleReadVo">
+            resultType="dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo">
         SELECT `articles`.`index`                       AS `index`,
                `articles`.`user_email`                  AS `userEmail`,
                `articles`.`board_id`                    AS `boardId`,
@@ -76,7 +76,7 @@
         LIMIT 1;
     </select>
     <select id="selectImageByIndex"
-            resultType="dev.test.take_a_walk_duo.entities.bbs.ImageEntity">
+            resultType="dev.twd.take_a_walk_duo.entities.bbs.ImageEntity">
         SELECT `index`     AS `index`,
                `file_name` AS `fileName`,
                `file_mime` AS `fileMime`,
@@ -84,7 +84,7 @@
         FROM `twd_bbs`.`images`
     </select>
     <update id="updateArticle"
-            parameterType="dev.test.take_a_walk_duo.entities.bbs.ArticleEntity">
+            parameterType="dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity">
         UPDATE `twd_bbs`.`articles`
         SET `user_email`     = #{userEmail},
             `board_id`       = #{boardId},
@@ -103,7 +103,7 @@
             useGeneratedKeys="true"
             keyProperty="index"
             keyColumn="index"
-            parameterType="dev.test.take_a_walk_duo.entities.bbs.CommentEntity">
+            parameterType="dev.twd.take_a_walk_duo.entities.bbs.CommentEntity">
         INSERT INTO `twd_bbs`.`comments`(`comment_index`, `user_email`, `content`, `article_index`, `written_on`)
         VALUES (#{commentIndex},  #{userEmail}, #{content}, #{articleIndex},
                 IFNULL(#{writtenOn}, DEFAULT(`written_on`)))
@@ -113,7 +113,7 @@
         useGeneratedKeys="true"
         keyProperty="index"
         keyColumn="index"
-        parameterType="dev.test.take_a_walk_duo.entities.bbs.CommentImageEntity">
+        parameterType="dev.twd.take_a_walk_duo.entities.bbs.CommentImageEntity">
     INSERT INTO `twd_bbs`.`comment_images` (`comment_index`, `data`, `type`)
     VALUES (#{commentIndex}, #{data}, #{type})
 </insert>
