@@ -12,6 +12,8 @@ public class EmailAuthEntity {
     private Date expiresOn;
     private boolean isExpired;
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -11,7 +11,9 @@ public class SaleProductEntity {
     private int price;          // 판매가
     private int profit;         // 이익
     private String categoryText;  //상품 분류.
-    private int deliveryFee;
+
+    private String text; // 상품 소개
+    private int deliveryFee; // 배송비
 
     public int getIndex() {
         return index;
@@ -75,6 +77,15 @@ public class SaleProductEntity {
 
     public SaleProductEntity setCategoryText(String categoryText) {
         this.categoryText = categoryText;
+        return this;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public SaleProductEntity setText(String text) {
+        this.text = text;
         return this;
     }
 

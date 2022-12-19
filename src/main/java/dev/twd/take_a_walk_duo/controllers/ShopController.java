@@ -1,14 +1,14 @@
 package dev.twd.take_a_walk_duo.controllers;
 
 import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
 import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
-import dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity;
-import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
 import dev.twd.take_a_walk_duo.models.PagingModel;
-import dev.twd.take_a_walk_duo.services.BbsService;
 import dev.twd.take_a_walk_duo.services.MemberService;
+import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
+import dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity;
+import dev.twd.take_a_walk_duo.entities.member.UserEntity;
+import dev.twd.take_a_walk_duo.services.BbsService;
 import dev.twd.take_a_walk_duo.services.ShopService;
 import dev.twd.take_a_walk_duo.vos.shop.ProductVo;
 import org.json.JSONObject;
@@ -44,11 +44,14 @@ public class ShopController {
     @RequestMapping(value = "/main",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getShop() {
+    public ModelAndView getShop(UserEntity user) {
         ModelAndView modelAndView = new ModelAndView("shop/main_backup");
         ProductVo[] products = this.shopService.getAllArticles();
-        modelAndView.addObject("products",products);
+        modelAndView.addObject("products", products);
 
+//        UserEntity users = this.shopService.login(user);
+//        modelAndView.addObject("user",user);
+//        System.out.println("관리자냐 : " + user.getAdmin());
         return modelAndView;
     }
 
@@ -80,12 +83,12 @@ public class ShopController {
         if (board != null) {
             int totalCount = this.shopService.getArticleCount(board, criterion, keyword);
 
-            PagingModel paging = new PagingModel(16 ,totalCount, page);
+            PagingModel paging = new PagingModel(12, totalCount, page);
             modelAndView.addObject("paging", paging);
 
             ProductVo[] articles = this.shopService.getArticles(board, paging, criterion, keyword);
             modelAndView.addObject("articles", articles);
-            System.out.println("test articles" + articles.length);
+            System.out.println("twd articles" + articles.length);
             System.out.printf("이동 가능한 최소 페이지 : %d\n", paging.minPage);
             System.out.printf("이동 가능한 최대 페이지 : %d\n", paging.maxPage);
             System.out.printf("표시 시작 페이지 : %d\n", paging.startPage);

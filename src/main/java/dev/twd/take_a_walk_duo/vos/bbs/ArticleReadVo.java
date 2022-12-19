@@ -2,7 +2,7 @@ package dev.twd.take_a_walk_duo.vos.bbs;
 
 import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
 
-public class ArticleReadVo extends ArticleEntity{
+public class ArticleReadVo extends ArticleEntity {
     private String userNickname;
     private int userSpecies;
     private boolean articleLiked;

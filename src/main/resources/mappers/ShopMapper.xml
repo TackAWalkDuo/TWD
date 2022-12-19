@@ -11,7 +11,7 @@
     </select>
 
     <!--    <select id="selectArticlesByBoardId"-->
-    <!--            resultType="dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo">-->
+    <!--            resultType="dev.twdtake_a_walk_duo.vos.bbs.ArticleReadVo">-->
     <!--        SELECT `article`.`index` AS `index`,-->
     <!--        `article`.`user_email` AS `userEmail`,-->
     <!--        `article`.`board_id` AS `boardID`,-->
@@ -27,14 +27,14 @@
     <!--        LEFT JOIN `twd_bbs`.`comments` AS `commentCount`-->
     <!--        ON `article`.`index` = `commentCount`.`article_index`-->
     <!--        WHERE `board_id` = #{boardId}-->
-    <!--        <if test="criterion != null and criterion.equals('title')">-->
+    <!--        <if twd="criterion != null and criterion.equals('title')">-->
     <!--            AND REPLACE(`article`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')-->
     <!--        </if>-->
-    <!--        <if test="criterion != null and criterion.equals('all')">-->
+    <!--        <if twd="criterion != null and criterion.equals('all')">-->
     <!--            AND (REPLACE(`article`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')-->
     <!--            OR REPLACE(`article`.`content`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%'))-->
     <!--        </if>-->
-    <!--        <if test="criterion != null and criterion.equals('nickname')">-->
+    <!--        <if twd="criterion != null and criterion.equals('nickname')">-->
     <!--            AND BINARY `user`.`nickname` = #{keyword}-->
     <!--        </if>-->
     <!--        GROUP BY `index`-->
@@ -73,19 +73,22 @@
                `article`.`user_email`    AS `userEmail`,
                `article`.`board_id`      AS `boardID`,
                `article`.`title`         AS `title`,
+               `article`.`content`       AS `content`,
                `article`.`thumbnail`     AS `thumbnail`,
                `article`.`view`          AS `view`,
                `article`.`written_on`    AS `writtenOn`,
                `article`.`modified_on`   AS `modifiedOn`,
                `product`.`quantity`      AS `qunantity`,
                `product`.`price`         AS `price`,
-               `product`.`category_text` AS 'categoryText'
+               `product`.`category_text` AS 'categoryText',
+               `product`.`text`          AS `text`
         FROM `twd_bbs`.`articles` AS `article`
                  LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`
                  LEFT JOIN `twd_shop`.`sale_product` AS `product` ON `article`.`index` = `product`.`article_index`
         WHERE `board_id` = 'shop'
         GROUP BY `index`
         ORDER BY `index` DESC
+        LIMIT 8
     </select>
 
     <!-- ㅇㅇ   -->
