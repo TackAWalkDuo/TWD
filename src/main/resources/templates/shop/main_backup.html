@@ -8,6 +8,7 @@
     <title>Take a walk duo</title>
     <th:block th:replace="~{fragments/head}"></th:block>
     <link rel="stylesheet" th:href="@{/shop/resources/stylesheets/main_backup.css}">
+
 </head>
 <body>
 <th:block th:replace="~{fragments/body :: header}"></th:block>
@@ -22,8 +23,7 @@
     </div>
     <section class="box collection">
         <h2 class="title">머릿글</h2>
-<!--        th:if="${user.getAdmin() == true}"-->
-        <div class="button">
+        <div class="button" th:if="${user != null && user.getAdmin() == true}">
         <a th:href="@{write}">
         <input type="button" class="--object-button" value="상품 등록하기">
         </a>

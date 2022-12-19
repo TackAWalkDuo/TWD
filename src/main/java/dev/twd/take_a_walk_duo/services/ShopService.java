@@ -7,6 +7,7 @@ import dev.twd.take_a_walk_duo.enums.CommonResult;
 import dev.twd.take_a_walk_duo.interfaces.IResult;
 import dev.twd.take_a_walk_duo.mappers.IMemberMapper;
 import dev.twd.take_a_walk_duo.models.PagingModel;
+import dev.twd.take_a_walk_duo.utils.CryptoUtils;
 import dev.twd.take_a_walk_duo.vos.shop.ProductVo;
 import dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
@@ -126,11 +127,5 @@ public class ShopService {
     public ImageEntity getImage(int index){
         return this.shopMapper.selectImageByIndex(index);
     }
-
-//    public UserEntity login(UserEntity user){
-//        UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
-//        user.setAdmin(existingUser.getAdmin());
-//        return existingUser;
-//    }
 }
 

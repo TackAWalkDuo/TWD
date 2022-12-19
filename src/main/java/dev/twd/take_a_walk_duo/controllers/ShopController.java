@@ -3,6 +3,7 @@ package dev.twd.take_a_walk_duo.controllers;
 import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
+import dev.twd.take_a_walk_duo.interfaces.IResult;
 import dev.twd.take_a_walk_duo.models.PagingModel;
 import dev.twd.take_a_walk_duo.services.MemberService;
 import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @Controller(value = "dev.test.take_a_walk_duo.controllers.ShopController")
@@ -44,16 +46,16 @@ public class ShopController {
     @RequestMapping(value = "/main",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getShop(UserEntity user) {
+    public ModelAndView getShop(@SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView("shop/main_backup");
         ProductVo[] products = this.shopService.getAllArticles();
         modelAndView.addObject("products", products);
-
-//        UserEntity users = this.shopService.login(user);
-//        modelAndView.addObject("user",user);
-//        System.out.println("관리자냐 : " + user.getAdmin());
+        if (user != null){
+            modelAndView.addObject("user",user);
+        }
         return modelAndView;
     }
+
 
 //     쇼핑 리스트 페이지 호출
 //    @RequestMapping(value = "/list",

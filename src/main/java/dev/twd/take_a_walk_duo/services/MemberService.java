@@ -17,6 +17,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.ModelAndView;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -127,9 +128,9 @@ public class MemberService {
         if (!user.getPassword().equals(existingUser.getPassword())) {
             return CommonResult.FAILURE;
         }
+        user.setAdmin(existingUser.getAdmin());
         return CommonResult.SUCCESS;
     }
-
     // 회원가입
     // 1. 'emailAuth'가 가진 'email', 'code', 'salt' 값 기준으로 새로운 'EmailAuthEntity' SELECT 해서 가져옴
     // 2. <1>에서 가져온 새로운 객체가 null 이거나 이가 가진 inExpired() 호출 결과가 false 인 경우 'RegisterResult.EMAIL_NOT_VERIFIED'를 결과로 반환.
