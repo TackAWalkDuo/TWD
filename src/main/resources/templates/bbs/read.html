@@ -96,7 +96,7 @@
                         <td rowspan="2">
                             <div th:class="${'like '+(liked == true ?'visible':'')}" id="likeA">
                                 <a href="#" class="toggle"><i class="fa-solid fa-heart"></i></a>
-                                <span th:text="${'['+article.getArticleLikedCount()+']'}">1</span>
+                                <span rel="likeCount" name="count" th:text="${article.getArticleLikedCount()}">1</span>
                             </div>
                         </td>
                     </tr>
@@ -127,6 +127,16 @@
                     <th>댓글 고?</th>
                     </tr>
                     </tfoot>
+                    <div class="dialog" rel="dialog">
+                        <div class="dialog__inner">
+                            <h1>TAKEAWALKDUO</h1>
+                            <p class="text">Dialog 내용</p>
+                            <div class="dialog__btn__wrap">
+                                <button id="cancel">Cancel</button>
+                                <button id="ok">OK</button>
+                            </div>
+                        </div>
+                    </div>
                 </table>
                 <input name="aid" type="hidden" th:value="${article.getIndex()}">
             </form>

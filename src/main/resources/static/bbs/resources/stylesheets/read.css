@@ -149,9 +149,9 @@ body > .--main > .--form > .--content > .read-form .detail-img {
     width: 100%;
 }
 
-.read-form > div {
-    border-right: 0.3rem solid rgb(139, 145, 126);
-}
+/*.read-form > div {*/
+/*    border-right: 0.3rem solid rgb(139, 145, 126);*/
+/*}*/
 
 .table {
     white-space: nowrap;
