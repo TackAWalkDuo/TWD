@@ -6,7 +6,7 @@
             TAKE A WALK <span class="duo">DUO</span>
         </a>
         <ul class="--menu --main" id="selected">
-            <!--/*@thymesVar id="boards" type="dev.test.take_a_walk_duo.entities.bbs.BoardEntity[]"*/-->
+            <!--/*@thymesVar id="boards" type="dev.twd.take_a_walk_duo.entities.bbs.BoardEntity[]"*/-->
             <li th:class="${'--item ' + board.getId()}" th:if="${board.getBoardId() == null}" th:each="board : ${boards}">
                 <a class="--link small"
                    th:text="${board.getText()}"

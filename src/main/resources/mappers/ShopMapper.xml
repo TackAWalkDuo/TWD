@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="dev.test.take_a_walk_duo.mappers.IShopMapper">
+<mapper namespace="dev.twd.take_a_walk_duo.mappers.IShopMapper">
 
     <select id="selectArticleCountByBoardId"
             resultType="int">
@@ -11,7 +11,7 @@
     </select>
 
     <!--    <select id="selectArticlesByBoardId"-->
-    <!--            resultType="dev.test.take_a_walk_duo.vos.bbs.ArticleReadVo">-->
+    <!--            resultType="dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo">-->
     <!--        SELECT `article`.`index` AS `index`,-->
     <!--        `article`.`user_email` AS `userEmail`,-->
     <!--        `article`.`board_id` AS `boardID`,-->
@@ -44,7 +44,7 @@
 
     <!--위에꺼 수정한거임-->
     <select id="selectArticlesByBoardId"
-            resultType="dev.test.take_a_walk_duo.vos.shop.ProductVo">
+            resultType="dev.twd.take_a_walk_duo.vos.shop.ProductVo">
         SELECT `article`.`index`         AS `index`,
                `article`.`user_email`    AS `userEmail`,
                `article`.`board_id`      AS `boardID`,
@@ -68,7 +68,7 @@
 
     <!-- shop/main용-->
     <select id="selectAllArticles"
-            resultType="dev.test.take_a_walk_duo.vos.shop.ProductVo">
+            resultType="dev.twd.take_a_walk_duo.vos.shop.ProductVo">
         SELECT `article`.`index`         AS `index`,
                `article`.`user_email`    AS `userEmail`,
                `article`.`board_id`      AS `boardID`,
@@ -90,7 +90,7 @@
 
     <!-- ㅇㅇ   -->
     <insert id="insertProduct"
-            parameterType="dev.test.take_a_walk_duo.entities.shop.SaleProductEntity"
+            parameterType="dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity"
             useGeneratedKeys="true"
             keyColumn="index"
             keyProperty="index">
@@ -104,7 +104,7 @@
             useGeneratedKeys="true"
             keyProperty="index"
             keyColumn="index"
-            parameterType="dev.test.take_a_walk_duo.entities.bbs.ArticleEntity">
+            parameterType="dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity">
         INSERT INTO `twd_bbs`.`articles`
         (`user_email`, `board_id`, `title`, `content`, `thumbnail`, `thumbnail_type`, `view`, `written_on`,
          `modified_on`)
@@ -114,7 +114,7 @@
     </insert>
 
     <select id="selectBoardById"
-            resultType="dev.test.take_a_walk_duo.entities.bbs.BoardEntity">
+            resultType="dev.twd.take_a_walk_duo.entities.bbs.BoardEntity">
         SELECT `id`       AS `id`,
                `text`     AS `text`,
                `board_id` AS `boardId`,
@@ -125,7 +125,7 @@
     </select>
 
     <select id="selectBoards"
-            resultType="dev.test.take_a_walk_duo.entities.bbs.BoardEntity">
+            resultType="dev.twd.take_a_walk_duo.entities.bbs.BoardEntity">
         SELECT `id`       AS `id`,
                `text`     AS `text`,
                `board_id` AS `boardId`
@@ -134,7 +134,7 @@
     </select>
 
     <select id="selectImageByIndex"
-            resultType="dev.test.take_a_walk_duo.entities.bbs.ImageEntity">
+            resultType="dev.twd.take_a_walk_duo.entities.bbs.ImageEntity">
         SELECT `index`     AS `index`,
                `file_name` AS `fileName`,
                `file_mime` AS `fileMime`,
