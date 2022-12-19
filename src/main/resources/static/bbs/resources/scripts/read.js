@@ -1,5 +1,6 @@
 const form = window.document.getElementById('form');
 let imageScale = window.document.getElementById('imageScale');
+const freeSelect = window.document.querySelector("[rel='freeSelect']");
 
 const showDialog = {
     getElement: () => form.querySelector('[rel="dialog"]'),
@@ -63,11 +64,10 @@ likeA.addEventListener('click', e => {
                         showDialog.show("로그인이 되어있지 않습니다.");
                         break;
                     case 'NO_SUCH_BOARD':
-                        alert('게시글을 찾을수 없습니다.');
+                        showDialog.show("게시글을 찾을수 없습니다.");
                         break;
                     default:
-                        showDialog.show("하투르실패.");
-                        alert('하트 실패');
+                        showDialog.show("알수없는 이유로 실패하였습니다.");
                 }
             } else {
                 console.log('좋아요 실행을 실패했습니다(서버)');

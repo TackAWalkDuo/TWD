@@ -20,42 +20,39 @@
         <div class="--content content">
             <nav>
                 <ul class="title--select">
-                    <li class="menu"><a >자유게시판</a>
-                        <ul class="free-select visible">
+                    <li class="menu" rel="listMenu"><a>자유게시판</a>
+                        <ul class="free-select" rel="freeSelect">
                             <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'free'}" th:each="boardTitle : ${boardTitles}">
                                 <a class="a-select" th:text="${boardTitle.getText()}" th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
                             </li>
                         </ul>
                     </li>
-                    <li class="menu"><a>모임후기</a>
-                        <ul class="free-select">
-                            <li class="scroll-menu"><a>전체</a></li>
-                            <li class="scroll-menu"><a>일상</a></li>
-                            <li class="scroll-menu"><a>꿀Tip</a></li>
-                            <li class="scroll-menu"><a>유머</a></li>
+                    <li class="menu" rel="listMenu"><a>모임후기</a>
+                        <ul class="free-select" rel="freeSelect">
+                            <li class="scroll-menu"><a>모임추천</a></li>
+                            <li class="scroll-menu"><a>자랑하기</a></li>
+                            <li class="scroll-menu"><a>릴스</a></li>
                         </ul>
                     </li>
-                    <li class="menu"><a>공지사항</a>
-                        <ul class="free-select visible">
+                    <li class="menu" rel="listMenu"><a>공지사항</a>
+                        <ul class="free-select" rel="freeSelect">
                             <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'notice'}" th:each="boardTitle : ${boardTitles}">
                                 <a class="a-select" th:text="${boardTitle.getText()}" th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
                             </li>
                         </ul>
                     </li>
-                    <li class="menu"><a>QNA</a>
-                        <ul class="free-select">
-                            <li class="scroll-menu"><a>전체</a></li>
-                            <li class="scroll-menu"><a>일상</a></li>
-                            <li class="scroll-menu"><a>꿀Tip</a></li>
-                            <li class="scroll-menu"><a>유머</a></li>
+                    <li class="menu" rel="listMenu"><a>QNA</a>
+                        <ul class="free-select" rel="freeSelect">
+                            <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'qna'}" th:each="boardTitle : ${boardTitles}">
+                                <a class="a-select" th:text="${boardTitle.getText()}" th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
+                            </li>
                         </ul>
                     </li>
-                    <li class="menu"><a>거래문의</a>
-                        <ul class="free-select">
-                            <li class="scroll-menu"><a>전체</a></li>
-                            <li class="scroll-menu"><a>일상</a></li>
-                            <li class="scroll-menu"><a>꿀Tip</a></li>
-                            <li class="scroll-menu"><a>유머</a></li>
+                    <li class="menu" rel="listMenu"><a>거래문의</a>
+                        <ul class="free-select" rel="freeSelect">
+                            <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'query'}" th:each="boardTitle : ${boardTitles}">
+                                <a class="a-select" th:text="${boardTitle.getText()}" th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -132,7 +129,6 @@
                             <h1>TAKEAWALKDUO</h1>
                             <p class="text">Dialog 내용</p>
                             <div class="dialog__btn__wrap">
-                                <button id="cancel">Cancel</button>
                                 <button id="ok">OK</button>
                             </div>
                         </div>
