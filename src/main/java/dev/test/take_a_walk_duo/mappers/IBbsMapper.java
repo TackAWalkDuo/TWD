@@ -21,21 +21,28 @@ public interface IBbsMapper {
 
     int insertArticleLike(ArticleLikeEntity articleLikeEntity);
 
+    int deleteByArticleLiked(@Param(value = "articleIndex") int index);
+
     ArticleEntity selectThumbnailByIndex(@Param(value = "index") int index);
 
     //Mr.m
     //ArticleIndex 로 ArticleEntity 불러오기 + 수정
-    default ArticleReadVo selectArticleByIndex(@Param(value = "index") int index){
+    default ArticleReadVo selectArticleByIndex(@Param(value = "index") int index) {
         return this.selectArticleByIndex(index, null);
     }
+
     ArticleReadVo selectArticleByIndex(@Param(value = "index") int index,
                                        @Param(value = "email") String email);
+
+    ArticleLikeEntity selectArticleLikeByIndex(@Param(value = "articleIndex") int index,
+                                               @Param(value = "userEmail") String email);
 
     //Mr.m
     //ArticleEntity(수정)조회수 만들기
     int updateArticle(ArticleEntity articleEntity);
 
     int insertComment(CommentEntity comment);
+
     int insertCommentImage(CommentImageEntity commentImage);
 
 
@@ -45,6 +52,6 @@ public interface IBbsMapper {
 
     ImageEntity selectImageByIndex(@Param(value = "index") int index);
 
-    BoardEntity[] selectBoardByBoardId(@Param(value = "bid")String bid);
+    BoardEntity[] selectBoardByBoardId(@Param(value = "bid") String bid);
 
 }

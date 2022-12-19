@@ -20,7 +20,7 @@
         <div class="--content content">
             <nav>
                 <ul class="title--select">
-                    <li class="menu"><a>자유게시판</a>
+                    <li class="menu"><a >자유게시판</a>
                         <ul class="free-select visible">
                             <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'free'}" th:each="boardTitle : ${boardTitles}">
                                 <a class="a-select" th:text="${boardTitle.getText()}" th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
@@ -37,10 +37,9 @@
                     </li>
                     <li class="menu"><a>공지사항</a>
                         <ul class="free-select visible">
-                            <li class="scroll-menu"><a>전체</a></li>
-                            <li class="scroll-menu"><a>일상</a></li>
-                            <li class="scroll-menu"><a>꿀Tip</a></li>
-                            <li class="scroll-menu"><a>유머</a></li>
+                            <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'notice'}" th:each="boardTitle : ${boardTitles}">
+                                <a class="a-select" th:text="${boardTitle.getText()}" th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
+                            </li>
                         </ul>
                     </li>
                     <li class="menu"><a>QNA</a>

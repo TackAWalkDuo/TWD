@@ -104,7 +104,7 @@ public class BbsService {
         return this.bbsMapper.selectBoardByBoardId(bid);
     }
 
-//        Mr.m (2022 12 19 일 결합인인터셉터 구현 하는방법 공부하기)
+    //        Mr.m (2022 12 19 일 결합인인터셉터 구현 하는방법 공부하기)
 //    게시글 title구현(인터셉터용)
     public BoardEntity[] getBoardEntities() {
         return this.shopMapper.selectBoards();
@@ -116,6 +116,10 @@ public class BbsService {
         ArticleReadVo existingArticleLiked = this.bbsMapper.selectArticleByIndex(articleLikeEntity.getArticleIndex());
         if (existingArticleLiked == null) {
             return CommonResult.FAILURE;
+        } else if (this.bbsMapper.selectArticleLikeByIndex(articleLikeEntity.getArticleIndex(), user.getEmail()) != null) {
+            return this.bbsMapper.deleteByArticleLiked(articleLikeEntity.getArticleIndex()) > 0
+                    ? CommonResult.SUCCESS
+                    : CommonResult.FAILURE;
         }
         articleLikeEntity.setUserEmail(user.getEmail());
         articleLikeEntity.setCreatedOn(new Date());

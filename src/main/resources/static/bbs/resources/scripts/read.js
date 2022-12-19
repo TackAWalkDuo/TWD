@@ -21,10 +21,14 @@ window.document.getElementById('imageScale').addEventListener('click', e => {
 const likeA = window.document.getElementById('likeA');
 likeA.addEventListener('click', e => {
     e.preventDefault();
-    likeA.classList.add('visible');
-    alert('클릭됨');
+    if(likeA.classList.contains('liked')) {
+        likeA.classList.remove('visible');
+    }else{
+        likeA.classList.add('visible');
+    }
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
+    formData.append('articleIndex',form['aid'].value);
     xhr.open('POST', './article-liked');
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
