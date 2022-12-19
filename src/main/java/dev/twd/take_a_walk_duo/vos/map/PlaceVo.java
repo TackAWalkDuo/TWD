@@ -9,6 +9,7 @@ public class PlaceVo extends ArticleEntity {
     private int likeCount;
     private int commentCount;
     private boolean isSigned;
+    private boolean isMine;
 
     public String getAddress() {
         return address;
@@ -56,5 +57,13 @@ public class PlaceVo extends ArticleEntity {
 
     public void setSigned(boolean signed) {
         isSigned = signed;
+    }
+
+    public boolean isMine() {
+        return isMine;
+    }
+
+    public void setMine(boolean mine) {
+        isMine = mine;
     }
 }

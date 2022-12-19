@@ -25,6 +25,10 @@ detailContainer.show = (placeObject, placeElement) => {
         likeIcon.classList.add("prohibited");
     }
 
+    if (placeObject['mine']) {
+        likeIcon.classList.add("mine");
+    }
+
     reviewForm['articleIndex'].value = placeObject['index'];
 
     //view count up
@@ -50,8 +54,7 @@ detailContainer.show = (placeObject, placeElement) => {
     xhr.send(formData);
 
     loadReview(placeObject['index']);
-    console.log("detail check");
-    //댓글 셋팅
+
 
 }
 detailContainer.hide = () => {
@@ -209,14 +212,41 @@ reviewForm['images'].addEventListener('input', () => {
     }
 });
 
-
 // 로그인 상태에서 좋아요 버튼 클릭시.
-if (!likeIcon.classList.contains("prohibited")) {
-    console.log(likeIcon.classList.contains("prohibited"));
-    likeIcon.addEventListener('click', () => {
-        alert("like");
-    });
-}
+
+
+likeIcon.addEventListener('click', () => {
+    if (!likeIcon.classList.contains("prohibited")) {
+        const xhr = new XMLHttpRequest();
+        const formData = new FormData();
+        formData.append("articleIndex", reviewForm['articleIndex'].value);
+
+        xhr.open("POST", "/bbs/article-liked");
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    const responseObject = JSON.parse(xhr.responseText);
+                    switch (responseObject['result']) {
+                        case 'success' :
+                            if (likeIcon.classList.contains("mine")) {
+                                likeIcon.classList.remove("mine");
+                                detailContainer.querySelector("[rel='likeCounter']").innerText =
+                                    Number(detailContainer.querySelector("[rel='likeCounter']").innerText) - 1;
+                            } else {
+                                likeIcon.classList.add("mine");
+                                detailContainer.querySelector("[rel='likeCounter']").innerText =
+                                    Number(detailContainer.querySelector("[rel='likeCounter']").innerText) + 1;
+                            }
+                            break;
+                        default:
+                            alert("실패");
+                    }
+                }
+            }
+        };
+        xhr.send(formData);
+    }
+});
 
 
 //리뷰 저장
@@ -276,11 +306,13 @@ const loadReview = (articleIndex) => {
                 for (const reviewObject of responseArray) {
                     const itemHtml = `
                     <li class="item" rel="item">
-                        <span class="nickname" rel="nickname">${reviewObject['nickname']}</span>
+                        <div class="title">
+                            <span class="nickname" rel="nickname">${reviewObject['nickname']}</span>
+                            <span class="time"></span>
+                        </div>
                         <div class="image-container" rel="imageContainer"></div>
                         <span class="content" rel="imageContainer">${reviewObject['content']}</span>
-                        <sapn class="date" rel="date">데이터 없음</sapn>
-                    </li>`;
+                    </li> `;
                     const itemElement = new DOMParser().parseFromString(itemHtml, 'text/html').querySelector('[rel="item"]');
                     const imageContainerElement = itemElement.querySelector('[rel="imageContainer"]');
                     if (reviewObject['imageIndexes'].length > 0) {
@@ -296,7 +328,7 @@ const loadReview = (articleIndex) => {
                     }
                     reviewContainer.append(itemElement);
                 }
-            }else {
+            } else {
                 alert("알수없는 이유로 연결 실패..");
             }
         }

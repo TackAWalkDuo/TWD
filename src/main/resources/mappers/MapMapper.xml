@@ -29,24 +29,29 @@
 
     <select id="selectPlacesExceptImage"
     resultType="dev.twd.take_a_walk_duo.vos.map.PlaceVo">
-        SELECT `article`.`index`                  AS 'index',
-               `article`.`user_email`             AS 'userEmail',
-               `article`.`board_id`               AS 'boardId',
-               `article`.`title`                  AS 'title',
-               `article`.`content`                AS 'content',
-               `article`.`view`                   AS 'view',
-               `article`.`written_on`             AS 'writtenOn',
-               `article`.`modified_on`            AS 'modifiedOn',
-               `location`.`latitude`              AS 'latitude',
-               `location`.`longitude`             AS 'longitude',
-               `location`.`address`               AS 'address',
-               COUNT(`likeCount`.`article_index`) AS 'likeCount',
-               COUNT(`commentCount`.`index`)      AS 'commentCount',
-               (#{email} IS NOT NULL)             AS 'isSigned'
+        SELECT `article`.`index`                                         AS 'index',
+               `article`.`user_email`                                    AS 'userEmail',
+               `article`.`board_id`                                      AS 'boardId',
+               `article`.`title`                                         AS 'title',
+               `article`.`content`                                       AS 'content',
+               `article`.`view`                                          AS 'view',
+               `article`.`written_on`                                    AS 'writtenOn',
+               `article`.`modified_on`                                   AS 'modifiedOn',
+               `location`.`latitude`                                     AS 'latitude',
+               `location`.`longitude`                                    AS 'longitude',
+               `location`.`address`                                      AS 'address',
+               (SELECT COUNT(0)
+                FROM `twd_bbs`.`article_likes` AS `articleLike`
+                WHERE `articleLike`.`article_index` = `article`.`index`) AS 'likeCount',
+               (SELECT COUNT(0)
+                FROM `twd_bbs`.`comments` AS `comment`
+                WHERE `comment`.`article_index` = `article`.`index`)     AS 'commentCount',
+               (#{email} IS NOT NULL)                                    AS 'isSigned',
+               COUNT(`articleLikeMine`.`user_email`) > 0                 AS 'isMine'
         FROM `twd_bbs`.`articles` AS `article`
                  LEFT JOIN `twd_bbs`.`location` AS `location` ON `article`.`index` = `location`.`article_index`
-                 LEFT JOIN `twd_bbs`.`article_likes` AS `likeCount` ON `article`.`index` = `likeCount`.`article_index`
-                 LEFT JOIN `twd_bbs`.`comments` AS `commentCount` ON `article`.`index` = `commentCount`.`article_index`
+                 LEFT JOIN `twd_bbs`.`article_likes` AS `articleLikeMine` ON `articleLikeMine`.`user_email` = #{email}
+            AND `article`.`index` = `articleLikeMine`.`article_index`
         WHERE `location`.`latitude` BETWEEN ${minLat} AND ${maxLat}
           AND `location`.`longitude` BETWEEN ${minLng} AND ${maxLng}
         GROUP BY `article`.`index`

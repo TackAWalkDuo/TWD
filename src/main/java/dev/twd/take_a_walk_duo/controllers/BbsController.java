@@ -225,7 +225,8 @@ public class BbsController {
 
     @RequestMapping(value = "article-liked", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String postArticleLike(@SessionAttribute(value = "user", required = false) UserEntity user, ArticleLikeEntity articleLikeEntity) {
+    public String postArticleLike(@SessionAttribute(value = "user", required = false) UserEntity user,
+                                  ArticleLikeEntity articleLikeEntity) {
         Enum<?> result;
         if (user == null) {
             result = WriteResult.NOT_ALLOWED;

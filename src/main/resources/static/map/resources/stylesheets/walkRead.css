@@ -26,7 +26,7 @@ body > .--header {
     top: 20%;
     left: 15%;
 
-    overflow: hidden;
+    overflow: hidden auto;
 
     align-items: start;
     display: flex;
@@ -54,7 +54,6 @@ body > .--header {
 }
 
 #list {
-    max-height: 100vh;
     align-items: stretch;
     display: flex;
     flex-direction: column;
@@ -196,12 +195,11 @@ body > .--header {
 
 #detailContainer > .interest-container > .like-container > .prohibited {
     cursor: not-allowed;
-    pointer-events: none;
+    /*pointer-events: none;*/
 }
 
 #detailContainer > .interest-container > .like-container > :not(.prohibited) {
     cursor: pointer;
-
 }
 
 #detailContainer > .interest-container > .like-container > .mine {
@@ -352,7 +350,6 @@ body > .--header {
 }
 
 
-
 #reviewForm > .review-container {
     list-style-type: none;
     margin-block: unset;
@@ -372,7 +369,11 @@ body > .--header {
     padding: 0.625rem 1rem;
 }
 
-#reviewForm > .review-container > .item > .nickname {
+#reviewForm > .review-container > .item > .title {
+
+}
+
+#reviewForm > .review-container > .item > .title > .nickname {
     color: rgb(128, 139, 150);
     margin-bottom: 0.75rem;
 }
