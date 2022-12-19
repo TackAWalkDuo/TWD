@@ -314,3 +314,50 @@ body > .--footer {
     border-top: 0.0625rem solid rgb(213, 216, 220);
     box-shadow: 0 0 0.5rem 0.0625rem rgba(0, 0, 0, 10%);
 }
+
+/*dialogCss*/
+
+.dialog{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: rgba(0, 0, 0, 15%);
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+.dialog.visible {
+    display: flex;
+    z-index: 100;
+}
+.dialog__inner {
+    width: 30rem;
+    height: 13rem;
+    background: white;
+    padding: 10px 16px;
+}
+
+.dialog__inner h1 {
+    font-size: 2rem;
+    text-align: center;
+}
+
+.dialog__inner p {
+    text-align: center;
+    height: 50%;
+    line-height: 70px;
+}
+
+.dialog__btn__wrap {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.dialog__btn__wrap button {
+    width: 6rem;
+    height: 2rem;
+}

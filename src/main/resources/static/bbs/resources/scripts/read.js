@@ -1,6 +1,22 @@
 const form = window.document.getElementById('form');
 let imageScale = window.document.getElementById('imageScale');
 
+const showDialog = {
+    getElement: () => form.querySelector('[rel="dialog"]'),
+    show: (text) => {
+        const dialog = showDialog.getElement();
+        dialog.querySelector('.text').innerText = text;
+        dialog.classList.add('visible');
+        dialog.querySelector("#cancel").addEventListener("click", () => {
+            dialog.classList.remove('visible');
+        });
+        dialog.querySelector("#ok").addEventListener("click", () => {
+            dialog.classList.remove('visible');
+        });
+        console.log(text);
+    }
+};
+
 form.querySelector('[rel="thumbnailImage"]').addEventListener('click', e => {
     e.preventDefault();
     imageScale.classList.add('visible');
@@ -21,14 +37,10 @@ window.document.getElementById('imageScale').addEventListener('click', e => {
 const likeA = window.document.getElementById('likeA');
 likeA.addEventListener('click', e => {
     e.preventDefault();
-    if(likeA.classList.contains('liked')) {
-        likeA.classList.remove('visible');
-    }else{
-        likeA.classList.add('visible');
-    }
+
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
-    formData.append('articleIndex',form['aid'].value);
+    formData.append('articleIndex', form['aid'].value);
     xhr.open('POST', './article-liked');
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -37,14 +49,24 @@ likeA.addEventListener('click', e => {
                 switch (responseObject['result']) {
                     case 'success':
                         console.log('하트성공');
+                        if (likeA.classList.contains('visible')) {
+                            likeA.classList.remove('visible');
+                            form.querySelector("[rel='likeCount']").innerText = Number(form.querySelector("[rel='likeCount']").innerText) - 1;
+                        } else if (!likeA.classList.contains('visible')) {
+                            likeA.classList.add('visible');
+                            form.querySelector("[rel='likeCount']").innerText = Number(form.querySelector("[rel='likeCount']").innerText) + 1;
+
+                            // form.querySelector("[rel='likeCount']").innerText = "fuckyou";
+                        }
                         break;
                     case 'NOT_ALLOWED':
-                        alert('로그인하고 눌러주세요');
+                        showDialog.show("로그인이 되어있지 않습니다.");
                         break;
                     case 'NO_SUCH_BOARD':
                         alert('게시글을 찾을수 없습니다.');
                         break;
                     default:
+                        showDialog.show("하투르실패.");
                         alert('하트 실패');
                 }
             } else {
