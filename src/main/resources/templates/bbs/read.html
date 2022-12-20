@@ -20,7 +20,7 @@
         <div class="--content content">
             <nav>
                 <ul class="title--select">
-                    <li class="menu" rel="listMenu"><a>자유게시판</a>
+                    <li class="menu" rel="listMenu"><a th:href="@{/bbs/list(bid='free')}">자유게시판</a>
                         <ul class="free-select" rel="freeSelect">
                             <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'free'}" th:each="boardTitle : ${boardTitles}">
                                 <a class="a-select" th:text="${boardTitle.getText()}" th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
@@ -34,21 +34,21 @@
                             <li class="scroll-menu"><a>릴스</a></li>
                         </ul>
                     </li>
-                    <li class="menu" rel="listMenu"><a>공지사항</a>
+                    <li class="menu" rel="listMenu"><a th:href="@{/bbs/list(bid='notice')}">공지사항</a>
                         <ul class="free-select" rel="freeSelect">
                             <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'notice'}" th:each="boardTitle : ${boardTitles}">
                                 <a class="a-select" th:text="${boardTitle.getText()}" th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
                             </li>
                         </ul>
                     </li>
-                    <li class="menu" rel="listMenu"><a>QNA</a>
+                    <li class="menu" rel="listMenu"><a th:href="@{/bbs/list(bid='qna')}">QNA</a>
                         <ul class="free-select" rel="freeSelect">
                             <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'qna'}" th:each="boardTitle : ${boardTitles}">
                                 <a class="a-select" th:text="${boardTitle.getText()}" th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
                             </li>
                         </ul>
                     </li>
-                    <li class="menu" rel="listMenu"><a>거래문의</a>
+                    <li class="menu" rel="listMenu"><a th:href="@{/bbs/list(bid='query')}">거래문의</a>
                         <ul class="free-select" rel="freeSelect">
                             <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'query'}" th:each="boardTitle : ${boardTitles}">
                                 <a class="a-select" th:text="${boardTitle.getText()}" th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>

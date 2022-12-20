@@ -81,7 +81,7 @@
                `board_id` AS `boardId`,
                `order`    AS `order`
         FROM `twd_bbs`.`boards` AS `board`
-        WHERE `board_id` = #{bid}
+        WHERE `board_id` = #{bid} OR `id` = #{bid}
         ORDER BY `order`;
     </select>
 
@@ -140,7 +140,7 @@
     <delete id="deleteArticle">
         DELETE
         FROM `twd_bbs`.`articles`
-        WHERE (`study_bbs`.`articles`.`index` = #{index}) limit 1;
+        WHERE (`twd_bbs`.`articles`.`index` = #{index}) limit 1;
     </delete>
 
     <select id="selectArticlesByBoardId"
@@ -155,7 +155,32 @@
                `users`.`nickname`       AS `userNickname`
         FROM `twd_bbs`.`articles`
                  LEFT JOIN twd_member.users on articles.user_email = users.email
-        WHERE `board_id` = #{boardId}
+                 LEFT JOIN `twd_bbs`.`boards` AS `board`
+                     ON board.`board_id` = #{boardId} OR board.`id` = #{boardId}
+        WHERE `articles`.`board_id` = board.id
         ORDER BY `articles`.`index` DESC
+        LIMIT #{limit} OFFSET #{offset};
+    </select>
+
+    <select id="selectArticleCountByBoardId"
+            resultType="int">
+        SELECT COUNT(0)
+        FROM `twd_bbs`.`articles`
+        LEFT JOIN `twd_bbs`.`boards` AS `board`
+        ON board.`board_id` = #{boardId} OR board.`id` = #{boardId}
+        <if test="criterion !=null and criterion.equals('nickname')">
+            LEFT JOIN `twd_member`.`users` ON articles.user_email = users.email
+        </if>
+        WHERE `articles`.`board_id` = board.id
+        <if test="criterion !=null and criterion.equals('title')">
+            AND REPLACE(`articles`.`title`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%')
+        </if>
+        <if test="criterion !=null and criterion.equals('all')">
+            AND (REPLACE(`articles`.`title`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%')
+            OR REPLACE(`articles`.`content`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%'))
+        </if>
+        <if test="criterion !=null and criterion.equals('nickname')">
+            AND BINARY `users`.`nickname` = #{keyword}
+        </if>
     </select>
 </mapper>

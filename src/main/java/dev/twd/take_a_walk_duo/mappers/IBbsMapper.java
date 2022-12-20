@@ -50,8 +50,13 @@ public interface IBbsMapper {
 
     //Mr.m
     //게시판 만들기
-    ArticleReadVo[] selectArticlesByBoardId(@Param(value = "boardId") String boardId);
+    ArticleReadVo[] selectArticlesByBoardId(@Param(value = "boardId") String boardId,
+                                            @Param(value = "limit") int limit,
+                                            @Param(value = "offset") int offSet);
 
+    int selectArticleCountByBoardId(@Param(value = "boardId") String boardId,
+                                    @Param(value = "criterion") String criterion,
+                                    @Param(value = "keyword") String keyword);
 
 
     //Mr.m

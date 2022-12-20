@@ -8,10 +8,12 @@ import dev.twd.take_a_walk_duo.entities.bbs.*;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
 import dev.twd.take_a_walk_duo.enums.bbs.ModifyArticleResult;
+import dev.twd.take_a_walk_duo.enums.bbs.ReadResult;
 import dev.twd.take_a_walk_duo.enums.bbs.WriteResult;
 import dev.twd.take_a_walk_duo.interfaces.IResult;
 import dev.twd.take_a_walk_duo.mappers.IBbsMapper;
 import dev.twd.take_a_walk_duo.mappers.IShopMapper;
+import dev.twd.take_a_walk_duo.models.PagingModel;
 import dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -202,19 +204,22 @@ public class BbsService {
     public Enum<? extends IResult> deleteArticle(ArticleEntity article, UserEntity user) {
         ArticleEntity existingArticle = this.bbsMapper.selectArticleByIndex(article.getIndex());
         if (existingArticle == null) {
-            return CommonResult.FAILURE;
+            return ReadResult.NO_SUCH_ARTICLE;
         }
         if (user == null || !user.getEmail().equals(existingArticle.getUserEmail())) {
-            return CommonResult.FAILURE;
+            return ReadResult.NOT_ALLOWED;
         }
         article.setBoardId(existingArticle.getBoardId());
 
         return this.bbsMapper.deleteArticle(article.getIndex()) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
 
-    public ArticleReadVo[] getArticles(BoardEntity board) {
+    public ArticleReadVo[] getArticles(BoardEntity board,PagingModel paging)  {
         return this.bbsMapper.selectArticlesByBoardId(
-                board.getId());
+                board.getId(),paging.countPerPage,
+                (paging.requestPage - 1) * paging.countPerPage);
     }
-
+    public int getArticleCount(BoardEntity board, String criterion, String keyword) {
+        return this.bbsMapper.selectArticleCountByBoardId(board.getId(), criterion, keyword);
+    }
 }

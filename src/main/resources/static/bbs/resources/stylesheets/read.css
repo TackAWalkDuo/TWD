@@ -97,11 +97,6 @@ body > .--main {
     text-decoration: none;
 }
 
-.title--select > .side-menu > a{
-    text-decoration: none;
-    color: inherit;
-}
-
 /*.title--select > li > .free-select {*/
 .title--select > li .free-select {
 
@@ -115,6 +110,10 @@ body > .--main {
 .title--select > li:hover .free-select{
     display: flex;
     z-index: 3;
+}
+.title--select > .side-menu > .a-select{
+    text-decoration: none;
+    color: inherit;
 }
 
 .title--select > li > .free-select > * {
@@ -223,6 +222,10 @@ body > .--main > .--form > .--content > .read-form .detail-img {
 }
 .table > tbody > tr > td > div {
     margin-top: 1rem;
+}
+
+.delete-article{
+    cursor: pointer;
 }
 
 
