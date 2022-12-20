@@ -41,7 +41,7 @@ body > .--main > .detail-main > .detail-info {
 body > .--main > .detail-main > .detail-info > .detail-title {
     font-size: 1.5rem;
     font-weight: 500;
-    padding-bottom: 0.75rem;
+    padding-bottom: 0.25rem;
 }
 
 body > .--main > .detail-main > .detail-info > .detail-stock {
@@ -49,6 +49,7 @@ body > .--main > .detail-main > .detail-info > .detail-stock {
     font-size: 0.9rem;
     font-weight: 700;
     color: rgb(240, 178, 122);
+    margin-bottom: 0.25rem;
 }
 
 body > .--main > .detail-main > .detail-info > .detail-stock > .detail-icon {
@@ -132,7 +133,7 @@ body > .--main > .detail-main > .detail-info > .detail-notice > .text {
     border-top: 0.0625rem solid rgb(171, 178, 185);;
     border-bottom: 0.0625rem solid rgb(171, 178, 185);
     height: inherit;
-    width: 3.5rem;
+    width: 3rem;
     text-align: center;
 }
 
@@ -274,21 +275,21 @@ body > .main > .search-form > .label {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-
-    margin: unset;
+    border: 0.0625rem solid rgb(180, 180, 188);
+    margin-top: 2rem;
     padding: unset;
 }
 
 .title-select > li {
-    border: 0.0625rem solid rgb(180, 180, 188);
-    border-radius: 99rem;
+    /*border: 0.0625rem solid rgb(180, 180, 188);*/
+    /*border-radius: 99rem;*/
     padding: 0.625rem 1.5rem;
     color: rgb(180, 180, 188);
-    margin: 1rem;
+    margin: 0.25rem 0;
 }
 
 .title-select > li:hover {
-    border: 0.0625rem solid rgb(169, 175, 126);
+    /*border: 0.0625rem solid rgb(169, 175, 126);*/
     color: rgb(169, 175, 126);
     cursor: pointer;
 }
@@ -491,6 +492,11 @@ body > main > .box > .item-container > .item-description > .side-image > .side-d
 }
 
 /*옆으로 빠지는 이미지*/
+
+/*상세 정보 시작*/
+body > main > .detail-content-container{
+    width: 100%;
+}
 
 
 

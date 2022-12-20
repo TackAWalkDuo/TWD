@@ -6,7 +6,7 @@ let cal = () =>{
     let firstNum = form['cost'].value;
     let secondNum = form['discount'].value;
     if (secondNum == 0){
-       return form['price'].value = firstNum + '원';
+        form['price'].value = firstNum + '원';
     }
     form['price'].value = Math.floor((firstNum * ((100 - secondNum) * 0.01)) / 10) * 10 + '원';
 }

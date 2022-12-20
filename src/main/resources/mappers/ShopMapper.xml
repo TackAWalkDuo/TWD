@@ -102,7 +102,9 @@
                `article`.`thumbnail`     AS `thumbnail`,
                `article`.`written_on`    AS `writtenOn`,
                `article`.`modified_on`   AS `modifiedOn`,
-               `product`.`quantity`      AS `qunantity`,
+               `product`.`quantity`      AS `quantity`,
+               `product`.`cost`          AS `cost`,
+               `product`.`discount`      AS `discount`,
                `product`.`price`         AS `price`,
                `product`.`category_text` AS 'categoryText',
                `product`.`text`          AS `text`
@@ -142,8 +144,8 @@
             keyColumn="index"
             keyProperty="index">
         INSERT INTO `twd_shop`.`sale_product`
-        (`article_index`, `quantity`, `cost`, `discount`, `price`, `profit`, `category_text`, `delivery_fee`)
-        VALUES (#{articleIndex}, #{quantity}, #{cost}, #{discount}, #{price}, #{profit}, #{categoryText},
+        (`article_index`, `quantity`, `cost`, `discount`, `price`, `profit`, `category_text`, `text`, `delivery_fee`)
+        VALUES (#{articleIndex}, #{quantity}, #{cost}, #{discount}, #{price}, #{profit}, #{categoryText}, #{text},
                 #{deliveryFee});
     </insert>
 
