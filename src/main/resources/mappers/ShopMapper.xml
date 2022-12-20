@@ -91,6 +91,50 @@
         LIMIT 8
     </select>
 
+    <!--detail page-->
+    <select id="selectArticleByArticleIndex"
+            resultType="dev.twd.take_a_walk_duo.vos.shop.ProductVo">
+        SELECT `article`.`index`         AS `index`,
+               `article`.`user_email`    AS `userEmail`,
+               `article`.`board_id`      AS `boardID`,
+               `article`.`title`         AS `title`,
+               `article`.`content`       AS `content`,
+               `article`.`thumbnail`     AS `thumbnail`,
+               `article`.`written_on`    AS `writtenOn`,
+               `article`.`modified_on`   AS `modifiedOn`,
+               `product`.`quantity`      AS `qunantity`,
+               `product`.`price`         AS `price`,
+               `product`.`category_text` AS 'categoryText',
+               `product`.`text`          AS `text`
+        FROM `twd_bbs`.`articles` AS `article`
+                 LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`
+                 LEFT JOIN `twd_shop`.`sale_product` AS `product` ON `article`.`index` = `product`.`article_index`
+        WHERE `article`.`index` = #{aid}
+        LIMIT 1
+    </select>
+
+    <!--get write-->
+    <select id="selectArticle"
+            resultType="dev.twd.take_a_walk_duo.vos.shop.ProductVo">
+        SELECT `article`.`index`         AS `index`,
+               `article`.`user_email`    AS `userEmail`,
+               `article`.`board_id`      AS `boardID`,
+               `article`.`title`         AS `title`,
+               `article`.`content`       AS `content`,
+               `article`.`thumbnail`     AS `thumbnail`,
+               `article`.`written_on`    AS `writtenOn`,
+               `article`.`modified_on`   AS `modifiedOn`,
+               `product`.`quantity`      AS `qunantity`,
+               `product`.`cost`          AS `cost`,
+               `product`.`discount`      AS `discount`,
+               `product`.`price`         AS `price`,
+               `product`.`category_text` AS 'categoryText',
+               `product`.`text`          AS `text`
+        FROM `twd_bbs`.`articles` AS `article`
+                 LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`
+                 LEFT JOIN `twd_shop`.`sale_product` AS `product` ON `article`.`index` = `product`.`article_index`
+        LIMIT 1
+    </select>
     <!-- ㅇㅇ   -->
     <insert id="insertProduct"
             parameterType="dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity"

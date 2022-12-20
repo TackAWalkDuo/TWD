@@ -1,5 +1,17 @@
 const form = window.document.getElementById('form');
 
+
+// 판매가격 자동 연산
+let cal = () =>{
+    let firstNum = form['cost'].value;
+    let secondNum = form['discount'].value;
+    if (secondNum == 0){
+       return form['price'].value = firstNum + '원';
+    }
+    form['price'].value = Math.floor((firstNum * ((100 - secondNum) * 0.01)) / 10) * 10 + '원';
+}
+
+
 let editor;
 ClassicEditor
     .create(form['content'], {
@@ -43,9 +55,11 @@ form.onsubmit = e => {
 
     // SaleProductEntity 등록
     formData.append("quantity", form['quantity'].value);
-    // formData.append("cost", form['cost'].value);
-    // formData.append("discount", form['discount'].value);
-    formData.append("price", form['price'].value);
+    formData.append("cost", form['cost'].value);
+
+    formData.append("discount", form['discount'].value);
+    formData.append("price", form['price'].value.replaceAll('원',''));
+
     // formData.append("profit", form['profit'].value);
     formData.append("categoryText", form['category'].value); // html select 태그의 option value 값으로 지정
     formData.append("text", form['text'].value);

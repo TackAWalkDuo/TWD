@@ -4,6 +4,8 @@ import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
 
 public class ProductVo extends ArticleEntity {
     private int quantity;
+    private int cost;
+    private int discount;
     private int price;
     private String categoryText;
 
@@ -17,6 +19,24 @@ public class ProductVo extends ArticleEntity {
 
     public ProductVo setQuantity(int quantity) {
         this.quantity = quantity;
+        return this;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public ProductVo setCost(int cost) {
+        this.cost = cost;
+        return this;
+    }
+
+    public int getDiscount() {
+        return discount;
+    }
+
+    public ProductVo setDiscount(int discount) {
+        this.discount = discount;
         return this;
     }
 

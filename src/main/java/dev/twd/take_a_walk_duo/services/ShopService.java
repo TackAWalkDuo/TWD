@@ -38,7 +38,7 @@ public class ShopService {
 
 
 
-    // list 부분
+    // list page
     public BoardEntity getBoard(String id)
     // id 는 게시판의 id임 notice 등
     {
@@ -63,10 +63,20 @@ public class ShopService {
                 keyword);
     }
 
+    // 모든 상품 보기(메인 페이지)
     public ProductVo[] getAllArticles(){
         return this.shopMapper.selectAllArticles();
     }
 
+    // detail page
+    public ProductVo detailArticle(int index){
+        return this.shopMapper.selectArticleByArticleIndex(index);
+    }
+
+    // write get
+    public ProductVo getArticle(){
+        return this.shopMapper.selectArticle();
+    }
 
     // 상품 등록
     public Enum<? extends IResult> write(ArticleEntity article,
@@ -106,9 +116,9 @@ public class ShopService {
         }
 
         product.setArticleIndex(article.getIndex());
-        product.setCost(0);
+//        product.setCost(0);
         product.setProfit(0);
-        product.setDiscount(0);
+//        product.setDiscount(0);
 
         if (this.shopMapper.insertProduct(product) == 0) {
             return CommonResult.FAILURE;
@@ -117,13 +127,14 @@ public class ShopService {
         return CommonResult.SUCCESS;
     }
 
-
+    // 이미지 업로드
     public Enum<? extends IResult> addImage(ImageEntity image) {
         return this.shopMapper.insertImage(image) > 0
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
 
+    // 이미지 다운로드
     public ImageEntity getImage(int index){
         return this.shopMapper.selectImageByIndex(index);
     }

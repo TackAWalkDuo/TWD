@@ -53,13 +53,7 @@ th{
     margin: 0.5rem;
 }
 
-.table > tbody > .nameLine > td,
-.table > tbody > .imageLine > td,
-.table > tbody > .quantityLine > td,
-.table > tbody > .textLine > td,
-.table > tbody > .priceLine > td,
-.table > tbody > .deliveryLine > td,
-.table > tbody > .categoryLine > td
+.table > tbody > * > td
 {
     border: 0.01rem solid #c4c4c4;
 }

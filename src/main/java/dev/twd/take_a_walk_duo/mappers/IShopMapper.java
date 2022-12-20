@@ -20,11 +20,17 @@ public interface IShopMapper {
                                         @Param(value = "criterion") String criterion,
                                         @Param(value = "keyword") String keyword);
 
+    // detail page
+    ProductVo selectArticleByArticleIndex(@Param(value = "aid")int aid);
+
     ProductVo[] selectAllArticles();
 
     BoardEntity selectBoardById(@Param(value = "id") String id);
 
     BoardEntity[] selectBoards();
+
+    // get write
+    ProductVo selectArticle();
 
     // SaleProductEntity 등록용
     int insertProduct(SaleProductEntity product);

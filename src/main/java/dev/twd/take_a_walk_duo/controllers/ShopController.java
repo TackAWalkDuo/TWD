@@ -50,8 +50,8 @@ public class ShopController {
         ModelAndView modelAndView = new ModelAndView("shop/main_backup");
         ProductVo[] products = this.shopService.getAllArticles();
         modelAndView.addObject("products", products);
-        if (user != null){
-            modelAndView.addObject("user",user);
+        if (user != null) {
+            modelAndView.addObject("user", user);
         }
         return modelAndView;
     }
@@ -108,16 +108,18 @@ public class ShopController {
     //    @RequestParam(value = "aid", required = false) int aid
     // 쇼핑 상품 상세보기 페이지 호출
     @GetMapping(value = "detail", produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getDetail(
-    ) {
+    public ModelAndView getDetail(@SessionAttribute(value = "user", required = false) UserEntity user, @RequestParam(value = "aid", required = false) int aid) {
         ModelAndView modelAndView;
         modelAndView = new ModelAndView("shop/detail_backup");
-//        ArticleReadVO article = this.bbsService.readArticle(aid);
-//        modelAndView.addObject("article", article);
-//        if (article != null) {
-//            BoardEntity board = this.bbsService.getBoard(article.getBoardId());
+        ProductVo product = this.shopService.detailArticle(aid);
+        modelAndView.addObject("product", product);
+//        if (product != null) {
+//            BoardEntity board = this.bbsService.getBoard(product.getBoardId());
 //            modelAndView.addObject("board", board);
-//        }
+//        } else
+        if (user != null) {
+            modelAndView.addObject("user", user);
+        }
         return modelAndView;
     }
 
@@ -125,9 +127,15 @@ public class ShopController {
     @RequestMapping(value = "write",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getWrite() {
+    public ModelAndView getWrite(@SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView;
+
         modelAndView = new ModelAndView("shop/write_backup");
+        ProductVo product = this.shopService.getArticle();
+        modelAndView.addObject("product", product);
+        if (user != null) {
+            modelAndView.addObject("user", user);
+        }
         return modelAndView;
     }
 
@@ -145,6 +153,9 @@ public class ShopController {
 
         return responseObject.toString();
     }
+
+    // 상품 수정
+
 
     // 이미지 다운로드(화면에 보이게하는 매핑)
     @GetMapping(value = "image")
@@ -182,4 +193,6 @@ public class ShopController {
         }
         return responseObject.toString();
     }
+
+
 }

@@ -10,11 +10,15 @@
     <script defer th:src="@{/resources/libraries/ckeditor/ckeditor.js}"></script>
     <script defer th:src="@{/shop/resources/scripts/write_backup.js}"></script>
     <link rel="stylesheet" th:href="@{/shop/resources/stylesheets/write_backup.css}">
+    <script th:if="${user == null || user.getAdmin() == false}">
+        alert('권한이 없거나 로그아웃 되었습니다. 로그인 후 다시 시도해 주세요.');
+        window.location.href='/member/login';
+    </script>
 </head>
-<body>
+<body th:if="${user != null}">
 <th:block th:replace="~{fragments/body :: header}"></th:block>
 <main class="--main main">
-<!--    <div class="img"></div>-->
+    <!--    <div class="img"></div>-->
     <form class="content --content" id="form">
         <input hidden multiple accept="image/*" name="images" type="file">
         <h1 class="title">상품 등록</h1>
@@ -25,24 +29,24 @@
         <table class="table" id="table">
             <tbody>
             <tr class="imageLine">
-                <th rowspan="8">상품 이미지</th>
-                <td rowspan="8" class="image">
+                <th rowspan="10">상품 이미지</th>
+                <td rowspan="10" class="image">
                     <label class="label">
                         <span hidden>상품 이미지</span>
                         <div class="image-container" rel="imageContainer">
-                        <!--이미지 들어오는 곳-->
+                            <!--이미지 들어오는 곳-->
                         </div>
                         <a class="image-select-button" href="#" rel="imageSelectButton">상품 이미지 선택...</a>
                     </label>
                 </td>
             </tr>
             <tr class="categoryLine">
-                <th>상품 카테고리</th>
+                <th>종류</th>
                 <td>
                     <label class="label">
-                        <span hidden>상품 카테고리</span>
-                        <select name="category" class="">
-                            <option selected disabled>카테고리를 선택해 주세요.</option>
+                        <span hidden>상품 종류</span>
+                        <select name="category" class="" required>
+                            <option value="" selected disabled>상품 종류를 선택해 주세요.</option>
                             <option value="feed">사료</option>
                             <option value="snack">간식</option>
                             <option value="clothes">옷</option>
@@ -55,38 +59,57 @@
                 </td>
             </tr>
             <tr class="nameLine">
-                <th>상품 이름</th>
+                <th>이름</th>
                 <td>
                     <label class="label">
                         <span hidden>상품 이름</span>
-                        <input class="--object-input input" maxlength="100" name="title" placeholder="상품 이름을 입력해주세요"
+                        <input class="--object-input input" required maxlength="100" name="title" placeholder="상품 이름을 입력해주세요"
                                type="text">
                     </label>
                 </td>
             </tr>
             <tr class="quantityLine">
-                <th>상품 수량</th>
+                <th>재고량</th>
                 <td>
                     <label class="label">
-                        <span hidden>상품 수량</span>
-                        <input class="--object-input input" min="1" max="999" name="quantity"
+                        <span hidden>재고량</span>
+                        <input class="--object-input input" required min="1" max="999" name="quantity"
                                placeholder="상품 수량을 입력해주세요. (1 ~ 999)"
                                type="number">
                     </label>
                 </td>
             </tr>
-            <tr class="priceLine">
-                <th>상품 가격</th>
+            <tr class="costLine">
+                <th>원가</th>
                 <td>
                     <label class="label">
-                        <span hidden>상품 가격</span>
-                        <input class="--object-input input" min="1" max="999999" name="price"
-                               placeholder="상품 가격을 입력해주세요. (1 ~ 999999)" type="number">
+                        <span hidden>상품 원가</span>
+                        <input class="--object-input input" required min="1" max="999999" name="cost" onkeyup="cal();"
+                               placeholder="상품 원가를 입력해주세요. (1 ~ 999999)" type="number">
+                    </label>
+                </td>
+            </tr>
+            <tr class="discountLine">
+                <th>할인율</th>
+                <td>
+                    <label class="label">
+                        <span hidden>상품 할인율</span>
+                        <input class="--object-input input" required min="0" max="999999" name="discount" value="0" onkeyup="cal();" placeholder="상품 할인율을 입력해주세요. (0 ~ 100%)" step="1" type="number">
+                    </label>
+                </td>
+            </tr>
+            <tr class="priceLine">
+                <th>판매 가격</th>
+                <td>
+                    <label class="label">
+                        <span hidden>상품 판매 가격</span>
+                        <input class="--object-input input" required min="0" max="999999" name="price" onkeyup="this.value=cal();"
+                               type="text" value="0원">
                     </label>
                 </td>
             </tr>
             <tr class="textLine">
-                <th>상품 소개</th>
+                <th>소개</th>
                 <td>
                     <label class="label">
                         <span hidden>상품 소개</span>
@@ -113,7 +136,7 @@
                 <td>
                     <label class="label">
                         <span hidden>상품 상세 정보</span>
-                        <textarea class="--object-input input" maxlength="10000" name="content"
+                        <textarea class="--object-input input" required maxlength="10000" name="content"
                                   placeholder="상품 상세 정보를 입력해주세요"
                                   type="text"></textarea>
                     </label>
