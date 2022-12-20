@@ -86,7 +86,7 @@ public class BbsController {
     public ModelAndView getRead(@SessionAttribute(value = "user", required = false) UserEntity user,
                                 @RequestParam(value = "aid", required = false) int aid) {
         ModelAndView modelAndView = new ModelAndView("bbs/read");
-        ArticleReadVo article = this.bbsService.readArticle(aid,user);
+        ArticleReadVo article = this.bbsService.readArticle(aid, user);
         modelAndView.addObject("article", article);
         System.out.println(article.getIndex());
         if (article != null) {
@@ -95,8 +95,8 @@ public class BbsController {
             BoardEntity[] boardTitle = this.bbsService.getBoardEntities();
             modelAndView.addObject("board", board);
             modelAndView.addObject("liked", article.isArticleLiked());
-            modelAndView.addObject("boardList",boardList);
-            modelAndView.addObject("boardTitles",boardTitle);
+            modelAndView.addObject("boardList", boardList);
+            modelAndView.addObject("boardTitles", boardTitle);
 
         }
         return modelAndView;
@@ -105,25 +105,25 @@ public class BbsController {
 //    Mr.m
 //    게시글 수정하기 구현
 
-        @RequestMapping(value = "modify", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    @RequestMapping(value = "modify", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getModify(@SessionAttribute(value = "user", required = false) UserEntity user, @RequestParam(value = "aid") int articleIndex) {
         ModelAndView modelAndView;
         ArticleReadVo article = this.bbsService.getModifyArticles(articleIndex, user);
         if (user == null) {
             //↑로그인 확인 조건
-            modelAndView = new ModelAndView("redirect:/member/login");}
-        else if (!user.getEmail().equals(article.getUserEmail())) {
+            modelAndView = new ModelAndView("redirect:/member/login");
+        } else if (!user.getEmail().equals(article.getUserEmail())) {
             modelAndView = new ModelAndView("redirect:./read?aid=" + articleIndex);
         } else {
             modelAndView = new ModelAndView("bbs/modify");
             modelAndView.addObject("article", article);
             BoardEntity board = this.bbsService.getBoard(article.getBoardId());
             modelAndView.addObject("board", board);
-            }
+        }
         return modelAndView;
     }
 
-//    게시물 수정하기(patch)
+    //    게시물 수정하기(patch)
     @RequestMapping(value = "modify", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String patchModify(@SessionAttribute(value = "user", required = false) UserEntity user,
@@ -134,7 +134,7 @@ public class BbsController {
             result = ModifyArticleResult.NOT_ALLOWED;
         } else if (articleIndex == 0) {
             result = ModifyArticleResult.NO_SUCH_ARTICLE;
-        }else {
+        } else {
             result = this.bbsService.modifyArticle(articleIndex, user, articleEntity);
 
             if (result == CommonResult.SUCCESS) {
@@ -173,12 +173,11 @@ public class BbsController {
     @PostMapping(value = "comment", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postComment(@SessionAttribute(value = "user", required = false) UserEntity user,
-                             @RequestParam(value = "images", required = false) MultipartFile[] images,
-                             CommentEntity comment) throws IOException {
+                              @RequestParam(value = "images", required = false) MultipartFile[] images,
+                              CommentEntity comment) throws IOException {
         JSONObject responseObject = new JSONObject();
 
-        System.out.println("comment check");
-        Enum<?> result =  this.bbsService.addComment(user, comment, images);
+        Enum<?> result = this.bbsService.addComment(user, comment, images);
 
         responseObject.put("result", result.name().toLowerCase());
 
@@ -244,18 +243,18 @@ public class BbsController {
     //댓글 불러오기
     @GetMapping(value = "comment", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public CommentVo[] getComment(@Param(value = "index") int index){
+    public CommentVo[] getComment(@Param(value = "index") int index) {
         return this.bbsService.getComment(index);
     }
 
     //댓글 이미지 불러오기 // shop 내부가 조금 달라서 새로 만듬
     @GetMapping(value = "commentImage")
-    public ResponseEntity<byte[]> getCommentImage(@RequestParam(value = "index")int index) {
+    public ResponseEntity<byte[]> getCommentImage(@RequestParam(value = "index") int index) {
         ResponseEntity<byte[]> responseEntity;
         CommentImageEntity commentImage = this.bbsService.getCommentImage(index);
-        if( commentImage == null ) {
+        if (commentImage == null) {
             responseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }else{
+        } else {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.valueOf(commentImage.getType()));
             headers.setContentLength(commentImage.getData().length);
@@ -263,6 +262,23 @@ public class BbsController {
         }
 
         return responseEntity;
+    }
+
+    @PostMapping(value = "modify", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postModify(@SessionAttribute(value = "user") UserEntity user,
+                             CommentEntity comment,
+                             @RequestParam(value = "images", required = false) MultipartFile[] images)
+            throws IOException {
+        JSONObject responseObject = new JSONObject();
+        System.out.println("comment modify check " + comment.getContent());
+        System.out.println("comment modify check " + comment.getUserEmail());
+        System.out.println("comment modify check " + comment.getArticleIndex());
+        System.out.println("comment modify check " + comment.getIndex());
+        System.out.println("comment modify check " + images.length);
+//        Enum<?> result = this.bbsService.modifyComment(user, comment, images);
+//        responseObject.put("result", result.name().toLowerCase());
+        return responseObject.toString();
     }
 
 }

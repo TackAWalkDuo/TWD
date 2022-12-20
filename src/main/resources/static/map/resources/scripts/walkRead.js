@@ -194,7 +194,7 @@ reviewForm.querySelector('[rel="imageSelectButton"]').addEventListener('click', 
 });
 
 
-//이미지 찾기에서 이미지를 선택할 경우.
+//이미지 찾기에서 이미지를 선택할 경우. (댓글 작성)
 reviewForm['images'].addEventListener('input', () => {
 
     imageContainerElement.querySelectorAll('img.image').forEach(x => x.remove());
@@ -213,8 +213,6 @@ reviewForm['images'].addEventListener('input', () => {
 });
 
 // 로그인 상태에서 좋아요 버튼 클릭시.
-
-
 likeIcon.addEventListener('click', () => {
     if (!likeIcon.classList.contains("prohibited")) {
         const xhr = new XMLHttpRequest();
@@ -290,7 +288,6 @@ reviewForm.onsubmit = e => {
     xhr.send(formData);
 };
 
-
 const loadReview = (articleIndex) => {
     reviewContainer.innerHTML = '';
     const xhr = new XMLHttpRequest();
@@ -303,20 +300,30 @@ const loadReview = (articleIndex) => {
             if (xhr.status >= 200 && xhr.status < 300) {
                 const responseArray = JSON.parse(xhr.responseText);
                 for (const reviewObject of responseArray) {
+
                     const itemHtml = `
                     <li class="item" rel="item">
                         <div class="title">
                             <span class="nickname" rel="nickname">${reviewObject['nickname']}</span>
                             <span class="time">${reviewObject['writtenOn']}</span>
-                        </div>
+                        </div> 
                         <div class="modifyMenu">
-                         ${reviewObject['userEmail'] === reviewForm['userEmail'].value ?
-                            `<a>수정</a>
-                            <a>삭제</a>`    : ` `}
+                        <input type="hidden" rel="commentIndex" value="${reviewObject['index']}">
+                        <!-- 로그인 되지 않았을 때 value 를 사용하게 되면 오류가 뜨기 때문에 오류 처리-->
+                         ${reviewObject['userEmail'] === (reviewForm['userEmail'] === undefined ?
+                        '' : reviewForm['userEmail'].value) ?
+                        `<a rel="actionModify" href="#">수정</a>
+                            <a rel="actionDelete">삭제</a>` : ` `}
                          </div>
-                        <div class="image-container" rel="imageContainer"></div>
-                        <span class="content" rel="imageContainer">${reviewObject['content']}</span>
-                    </li> `;
+                        <div class="image-container basic" rel="imageContainer"></div>
+                        <span class="content basic" rel="contentContainer">${reviewObject['content']}</span>
+                        
+                        <input hidden multiple accept="image/" rel="imagesModify" name="imagesModify" type="file">
+                        <a class="modify modifyText" rel="edit" href="#">수정하기</a>
+                        <a href="#" class="image-select-button modify" rel="imageModifySelectButton">이미지 선택...</a>
+                        <div class="image-container modify" rel="imageContainerModify"></div>
+                        <input class="content modify" rel="modifyContent">
+                    </li>`;
                     const itemElement = new DOMParser().parseFromString(itemHtml, 'text/html').querySelector('[rel="item"]');
                     const imageContainerElement = itemElement.querySelector('[rel="imageContainer"]');
                     if (reviewObject['imageIndexes'].length > 0) {
@@ -331,6 +338,95 @@ const loadReview = (articleIndex) => {
                         imageContainerElement.remove();
                     }
                     reviewContainer.append(itemElement);
+
+                    const commentImageSelect = itemElement.querySelector('[rel="imagesModify"]');
+
+                    //댓글 수정하기 눌렀을 경우의 이미지 선택 메뉴.
+                    itemElement.querySelector('[rel="imageModifySelectButton"]').addEventListener('click', e => {
+                        e.preventDefault();
+                        commentImageSelect.click();
+                    });
+
+                    const basicElement = itemElement.querySelectorAll('.basic');
+                    const modifyElementAll = itemElement.querySelectorAll('.modify');
+                    const imageContainerModifyElement = itemElement.querySelector('[rel="imageContainerModify"]');
+
+                    // 이미지 찾기에서 이미지를 선택할 경우. (댓글 수정)
+
+                    commentImageSelect.addEventListener('input', () => {
+                        imageContainerModifyElement.querySelectorAll('img.image').forEach(x => x.remove());
+
+                        for (let file of commentImageSelect.files) {
+                            const imageSrc = URL.createObjectURL(file);
+                            const imgElement = document.createElement('img');
+                            imgElement.classList.add('image');
+                            imgElement.setAttribute('src', imageSrc);
+                            imageContainerModifyElement.append(imgElement);
+                        }
+                    });
+
+                    itemElement.querySelector('[rel="edit"]')?.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const xhr = new XMLHttpRequest();
+
+                        const formData = new FormData();
+                        formData.append("userEmail", reviewForm['userEmail'].value);
+                        formData.append("content", itemElement.querySelector('[rel="modifyContent"]').value);
+                        formData.append("articleIndex", reviewForm['articleIndex'].value);
+                        formData.append("index", itemElement.querySelector('[rel="commentIndex"]').value);
+
+                        console.log(commentImageSelect.files.length);
+
+                        for (let file of commentImageSelect.files) {
+                            formData.append('images', file);
+                            console.log(file);
+                        }
+
+                        xhr.open("POST", '/bbs/modify');
+                        xhr.onreadystatechange = () => {
+                            if (xhr.readyState === XMLHttpRequest.DONE) {
+                                if (xhr.status >= 200 && xhr.status < 300) {
+
+                                }
+                            }
+                        };
+                        xhr.send(formData);
+                    });
+
+
+                    const modifyElement = itemElement.querySelector('[rel="actionModify"]');
+                    modifyElement?.addEventListener('click', (e) => {
+                        e.preventDefault();
+
+                        //기존의 태그를 숨김.
+                        itemElement.querySelector('[rel="actionDelete"]').text = "";
+                        modifyElement.text = "";
+
+                        for (element of basicElement) {      // 원래 댓글 숨김
+                            element.classList.add("modifying");
+                        }
+                        for (element of modifyElementAll) {     // 수정 화면 꺼냄.
+                            element.classList.add("modifying");
+                        }
+
+                        const imageContainerElement = itemElement.querySelector('[rel="imageContainerModify"]');
+                        if (reviewObject['imageIndexes'].length > 0) {
+                            for (const imageIndex of reviewObject['imageIndexes']) {
+                                const imageElement = document.createElement('img');
+                                imageElement.setAttribute('alt', '');
+                                imageElement.setAttribute('src', `/bbs/commentImage?index=${imageIndex}`);
+                                imageElement.classList.add('image');
+                                imageContainerElement.append(imageElement);
+                            }
+                        }
+
+                        // 기존 댓글을 input 창에 넣고 글의 끝에 커서 이동.
+                        itemElement.querySelector('[rel="modifyContent"]').focus();
+                        itemElement.querySelector('[rel="modifyContent"]').value = reviewObject['content'];
+
+                    });
+
+
                 }
             } else {
                 alert("알수없는 이유로 연결 실패..");

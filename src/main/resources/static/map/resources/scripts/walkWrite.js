@@ -168,6 +168,10 @@ walkArticle.onsubmit = e => {
                     case 'success':
                         window.location.href = './walk-read';
                         break;
+                    case 'not_signed':
+                        alert("로그인 해주세요.");
+                        window.location.href = '/member/login';
+                        break;
                     default:
                         alert("응 실패");
                 }

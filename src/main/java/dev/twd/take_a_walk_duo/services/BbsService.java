@@ -12,6 +12,7 @@ import dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import dev.twd.take_a_walk_duo.vos.bbs.CommentVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -216,4 +217,19 @@ public class BbsService {
     }
 
 
+    @Transactional
+    public Enum<? extends IResult> modifyComment(UserEntity user, CommentEntity comment,
+                                                 MultipartFile[] images) throws IOException {
+        //로그인 안했을 경우.
+        if(user == null) return CommonResult.NOT_SIGNED;
+        //로그인 사용자와 댓글 작성자가 다를 경우.
+        if(!user.getEmail().equals(comment.getUserEmail()))
+            return WriteResult.NOT_SAME;
+
+        comment.setWrittenOn(new Date());
+
+
+
+        return CommonResult.SUCCESS;
+    }
 }

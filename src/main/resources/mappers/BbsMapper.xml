@@ -182,4 +182,15 @@
         WHERE (`twd_bbs`.`article_likes`.`article_index` = #{articleIndex})
         LIMIT 1;
     </delete>
+
+    <update id="updateComment"
+    parameterType="dev.twd.take_a_walk_duo.entities.bbs.CommentEntity">
+        UPDATE `twd_bbs`.`comments`
+        SET `comment_index` = #{commentIndex},
+            `user_email`    = #{userEmail},
+            `content`       = #{content},
+            `article_index` = #{articleIndex}
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
 </mapper>

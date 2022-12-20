@@ -393,7 +393,8 @@ body > .--header {
 }
 
 
-#reviewForm > .review-container > .item > .modifyMenu {
+#reviewForm > .review-container > .item > .modifyMenu,
+#reviewForm > .review-container > .item > .modifyText{
     align-items: end;
     display: flex;
     flex-direction: row;
@@ -465,14 +466,16 @@ body > .--header {
     padding: 0.5rem 0.75rem;
 }
 
-#reviewForm > .review-container > .item > .date {
-    color: rgb(171, 178, 185);
-    font-size: 0.9rem;
+#reviewForm > .review-container > .item > .basic.modifying {
+    display: none;
+}
+#reviewForm > .review-container > .item > .modify{
+    display: none;
 }
 
-
-
-
+#reviewForm > .review-container > .item > .modify.modifying {
+    display: flex;
+}
 
 
 
