@@ -443,20 +443,38 @@ const loadReview = (articleIndex) => {
 };
 
 //게시글 삭제
-if(loginUserEmailElement.value !== undefined) {
+if (loginUserEmailElement.value !== undefined) {
     modifyMenuTopElement.querySelector('[rel="articleDelete"]').addEventListener('click', () => {
         const xhr = new XMLHttpRequest();
+        const formData = new FormData();
+        formData.append("aid", reviewForm['articleIndex'].value);
 
-        xhr.open("DELETE", `/bbs/delete?index=${reviewForm['articleIndex'].value}`)
+        xhr.open("DELETE", `/bbs/read`)
         xhr.onreadystatechange = () => {
-            if(xhr.readyState === XMLHttpRequest.DONE) {
-                if(xhr.status >= 200 && xhr.status < 300) {
-
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    const responseObject = JSON.parse(xhr.responseText);
+                    switch (responseObject['result']) {
+                        case 'success' :
+                            window.location.href = `/map/walk-read`;
+                            break;
+                        case 'no_such_article' :
+                            alert("게시글을 찾을 수 없습니다.");
+                            break;
+                        case 'not_allowed' :
+                            alert("로그인 정보가 일치하지 않습니다.");
+                            break;
+                        default:
+                            alert("삭제에 실패했습니다.");
+                    }
+                }else {
+                    alert("서버와 통신을 실패했습니다.")
                 }
             }
-        };xhr.send();
+        };
+        xhr.send(formData);
     });
-}
+};
 
 
 

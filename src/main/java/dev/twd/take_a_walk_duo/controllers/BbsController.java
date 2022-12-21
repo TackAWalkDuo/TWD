@@ -149,10 +149,13 @@ public class BbsController {
     //게시글 삭제
     @RequestMapping(value = "read", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String deleteArticle(@SessionAttribute(value = "user", required = false) UserEntity user, @RequestParam(value = "aid", required = false) int aid) {
+    public String deleteArticle(@SessionAttribute(value = "user", required = false) UserEntity user,
+                                @RequestParam(value = "aid", required = false) int aid) {
         ArticleEntity article = new ArticleEntity();
         article.setIndex(aid);
+        System.out.println("map delete check aid : "  + aid);
         Enum<?> result = this.bbsService.deleteArticle(article, user);
+        System.out.println(result.name().toLowerCase());
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
         if (result == CommonResult.SUCCESS) {
