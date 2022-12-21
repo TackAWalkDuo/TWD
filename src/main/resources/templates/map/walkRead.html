@@ -24,6 +24,8 @@
     <div class="map" id="map"></div>
     <div class="container" id="container">
         <div class="list-container" id="listContainer">
+            <input id="loginUserEmail" type="hidden" name="userEmail" th:if="${session.user != null}"
+                   th:value="${session.user.getEmail()}">
             <div class="write-container --object-button">
                 <a class="text" th:href="@{/map/walk-write}"> 작성하기</a>
             </div>
@@ -111,6 +113,10 @@
                     <i class="fa-solid fa-xmark" rel="closeDetail"></i>
                 </a>
             </div>
+            <div class="modifyMenu" id="modifyMenuTop">
+                <a href="#">수정</a>
+                <a href="#" rel="articleDelete">삭제</a>
+            </div>
             <div class="image-container" rel="imagecontainer">
                 <img src="https://blog.kakaocdn.net/dn/bTDsmH/btq8ojyIgMX/cYkB7gcHPhMTS53inkz0Kk/img.jpg" alt=""
                      class="image" rel="placeImage">
@@ -153,8 +159,6 @@
             <form class="review-form" id="reviewForm">
                 <input hidden multiple accept="image/" name="images" type="file">
                 <input type="hidden" name="articleIndex">
-                <input type="hidden" name="userEmail" th:if="${session.user != null}"
-                       th:value="${session.user.getEmail()}">
                 <span class="comment_title">리뷰 작성</span>
                 <div class="content-container">
                     <label class="label">

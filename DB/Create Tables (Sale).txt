@@ -1,25 +1,60 @@
+CREATE SCHEMA `twd_shop`
+
 CREATE TABLE `twd_shop`.`sale_product`
 (
     `index`          INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `article_index`  INT UNSIGNED NOT NULL,
     `quantity`       INT UNSIGNED NOT NULL,           # -- 수량
     `cost`           INT UNSIGNED NOT NULL,           # -- 원가
-    `discount`       INT UNSIGNED NOT NULL DEFAULT 0, # --할인가.
+    `discount`       INT UNSIGNED NOT NULL  DEFAULT 0, # --할인가.
     `price`          INT UNSIGNED NOT NULL,           # -- 판매가
     `profit`         INT UNSIGNED NOT NULL,           #  -- 이익
-    `category_index` INT UNSIGNED NOT NULL,           #   -- 상품 분류 1.사료 2.간식 3.옷 4.기타
+    `category_text`  VARCHAR(10)  NOT NULL,           #   -- 상품 분류 1.사료 2.간식 3.옷 4.기타
+    `text`           VARCHAR(200) NOT NULL  DEFAULT '상품 설명 없음' ,
+    `delivery_fee`  INT UNSIGNED  NOT NULL  DEFAULT 3000 ,
     CONSTRAINT PRIMARY KEY (`index`),
     CONSTRAINT FOREIGN KEY (`article_index`) REFERENCES `twd_bbs`.`articles` (`index`)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    CONSTRAINT FOREIGN KEY (`category_index`) REFERENCES `twd_shop`.`product_categories` (`index`)
+    CONSTRAINT FOREIGN KEY (`category_text`) REFERENCES `twd_shop`.`product_categories` (`id`)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
 CREATE TABLE `twd_shop`.`product_categories`
 (
-    `index` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `text`  VARCHAR(10)  NOT NULL,
+    `index` INT UNSIGNED   NOT NULL AUTO_INCREMENT,
+    `text`  VARCHAR(10)    NOT NULL,
+    `id`      VARCHAR(10)  NOT NULL,
     CONSTRAINT PRIMARY KEY (`index`)
 );
+
+CREATE TABLE `twd_shop`.`payment`
+(
+    `index`           INT UNSIGNED    AUTO_INCREMENT           NOT NULL
+    `user_email`      VARCHAR(50)                              NOT NULL,
+    `product_index`   INT UNSIGNED                             NOT NULL,
+    `sale_price`      INT UNSIGNED                             NOT NULL,
+    `quantity`        INT UNSIGNED                             NOT NULL,
+    `delivery fee`    INT UNSIGNED                             NOT NULL,
+    `registration_on` DATETIME            DEFAULT NOW()            NOT NULL,
+    `delivery_status` INT UNSIGNED    DEFAULT 0                NOT NULL,
+    CONSTRAINT PRIMARY KEY (`index`)
+);
+
+CREATE TABLE `twd_shop`.`shopping_cart`
+(
+    `index`           INT UNSIGNED    AUTO_INCREMENT           NOT NULL,
+    `user_email`      VARCHAR(50)                              NOT NULL,
+    `product_index`   INT UNSIGNED                             NOT NULL,
+    `sale_price`      INT UNSIGNED                             NOT NULL,
+    `quantity`        INT UNSIGNED                             NOT NULL,
+    `registration_on` DATETIME            DEFAULT NOW()            NOT NULL,
+    CONSTRAINT FOREIGN KEY (`user_email`) REFERENCES `twd_member`.`users` (`email`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT FOREIGN KEY (`product_index`) REFERENCES `twd_shop`.`sale_product` (`article_index`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+

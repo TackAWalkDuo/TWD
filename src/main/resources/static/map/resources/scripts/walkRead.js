@@ -5,6 +5,8 @@ const reviewForm = window.document.getElementById("reviewForm");
 const reviewContainer = reviewForm.querySelector('[rel="reviewContainer"]');
 const likeIcon = detailContainer.querySelector('[rel="likeIcon"]');
 const imageContainerElement = reviewForm.querySelector('[rel="imageContainer"]');
+const modifyMenuTopElement = window.document.getElementById("modifyMenuTop");
+const loginUserEmailElement = window.document.getElementById("loginUserEmail");
 
 let mapObject;
 let places = [];        // db 에서 list 를 가져와서 담아줄 변수.
@@ -13,12 +15,10 @@ detailContainer.show = (placeObject, placeElement) => {
     detailContainer.classList.add("visible");
     detailContainer.querySelector('[rel="title"]').innerText = placeObject['title'];
     detailContainer.querySelector('[rel="placeImage"]').setAttribute("src", `/bbs/thumbnail?index=${placeObject['index']}`);
-    // detailContainer.querySelector('[rel="view"]').innerText = placeObject['view'];
     detailContainer.querySelector('[rel="commentCounter"]').innerText = placeObject['commentCount'];
     detailContainer.querySelector('[rel="likeCounter"]').innerText = placeObject['likeCount'];
     detailContainer.querySelector('[rel="addressText"]').innerText = placeObject['address'];
     detailContainer.querySelector('[rel="descriptionText"]').innerText = placeObject['content'];
-    // console.log( "isSinged   " + placeObject['signed']);
 
     //로그인이 안되있을 경우 좋아요를 누를 수 없도록 처리.
     if (!placeObject['signed']) {
@@ -27,6 +27,12 @@ detailContainer.show = (placeObject, placeElement) => {
 
     if (placeObject['mine']) {
         likeIcon.classList.add("mine");
+    }
+
+    if (placeObject['userEmail'] === loginUserEmailElement.value) {
+        modifyMenuTopElement.classList.add("visible");
+        // modifyMenuTopElement.querySelector('[rel="articleDelete"]')
+        //      .setAttribute("href", `/map/delete?index=${placeObject['index']}`)
     }
 
     reviewForm['articleIndex'].value = placeObject['index'];
@@ -310,8 +316,8 @@ const loadReview = (articleIndex) => {
                         <div class="modifyMenu">
                         <input type="hidden" rel="commentIndex" value="${reviewObject['index']}">
                         <!-- 로그인 되지 않았을 때 value 를 사용하게 되면 오류가 뜨기 때문에 오류 처리-->
-                         ${reviewObject['userEmail'] === (reviewForm['userEmail'] === undefined ?
-                        '' : reviewForm['userEmail'].value) ?
+                         ${reviewObject['userEmail'] === (loginUserEmailElement.value === undefined ?
+                        '' : loginUserEmailElement.value) ?
                         `<a rel="actionModify" href="#">수정</a>
                             <a rel="actionDelete">삭제</a>` : ` `}
                          </div>
@@ -386,7 +392,7 @@ const loadReview = (articleIndex) => {
                         xhr.onreadystatechange = () => {
                             if (xhr.readyState === XMLHttpRequest.DONE) {
                                 if (xhr.status >= 200 && xhr.status < 300) {
-
+                                    // 변경하지 않을 경우의 플래그 설정.
                                 }
                             }
                         };
@@ -408,15 +414,15 @@ const loadReview = (articleIndex) => {
                         for (element of modifyElementAll) {     // 수정 화면 꺼냄.
                             element.classList.add("modifying");
                         }
-
-                        const imageContainerElement = itemElement.querySelector('[rel="imageContainerModify"]');
+                        //
+                        const imageModifyContainerElement = itemElement.querySelector('[rel="imageContainerModify"]');
                         if (reviewObject['imageIndexes'].length > 0) {
                             for (const imageIndex of reviewObject['imageIndexes']) {
                                 const imageElement = document.createElement('img');
                                 imageElement.setAttribute('alt', '');
                                 imageElement.setAttribute('src', `/bbs/commentImage?index=${imageIndex}`);
                                 imageElement.classList.add('image');
-                                imageContainerElement.append(imageElement);
+                                imageModifyContainerElement.append(imageElement);
                             }
                         }
 
@@ -436,7 +442,21 @@ const loadReview = (articleIndex) => {
     xhr.send(formData);
 };
 
+//게시글 삭제
+if(loginUserEmailElement.value !== undefined) {
+    modifyMenuTopElement.querySelector('[rel="articleDelete"]').addEventListener('click', () => {
+        const xhr = new XMLHttpRequest();
 
+        xhr.open("DELETE", `/bbs/delete?index=${reviewForm['articleIndex'].value}`)
+        xhr.onreadystatechange = () => {
+            if(xhr.readyState === XMLHttpRequest.DONE) {
+                if(xhr.status >= 200 && xhr.status < 300) {
+
+                }
+            }
+        };xhr.send();
+    });
+}
 
 
 

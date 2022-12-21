@@ -2,9 +2,10 @@ CREATE SCHEMA `twd_bbs`;
 
 CREATE TABLE `twd_bbs`.`boards`
 (
-    `id`    VARCHAR(10)  NOT NULL,
-    `text`  VARCHAR(100) NOT NULL,
-    `order` INT UNSIGNED NOT NULL, #게시판 상단 목록 순서 맞추기용.
+    `id`       VARCHAR(10)     NOT NULL,
+    `text`     VARCHAR(100)    NOT NULL,
+    `board_id` VARCHAR(10)     NULL,
+    `order`    INT UNSIGNED    NOT NULL, #게시판 상단 목록 순서 맞추기용.
     CONSTRAINT PRIMARY KEY (`id`)
 );
 

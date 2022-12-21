@@ -228,8 +228,8 @@ public class BbsService {
 
         comment.setWrittenOn(new Date());
 
-
-
         return CommonResult.SUCCESS;
     }
+
+
 }

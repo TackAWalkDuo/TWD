@@ -19,7 +19,6 @@ body > .--header {
 
 #container {
     position: absolute;
-    /*width: 33%;*/
     height: 60%;
     z-index: 0;
 
@@ -169,6 +168,18 @@ body > .--header {
 }
 
 #detailContainer.visible {
+    display: flex;
+}
+
+#detailContainer > .modifyMenu {
+    align-items: end;
+    display: none;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    padding-bottom: 0.5rem;
+}
+#detailContainer > .modifyMenu.visible{
     display: flex;
 }
 
@@ -402,7 +413,7 @@ body > .--header {
 
     padding-bottom: 0.5rem;
 }
-
+#detailContainer > .modifyMenu > * + *,
 #reviewForm > .review-container > .item > .modifyMenu > * + * {
     padding-left: 0.5rem;
 }
