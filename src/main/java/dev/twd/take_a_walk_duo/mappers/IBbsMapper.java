@@ -47,6 +47,19 @@ public interface IBbsMapper {
     //댓글 이미지 삭제
     int deleteCommentImage();
 
+    int deleteArticle(int index);
+
+
+    //Mr.m
+    //게시판 만들기
+    ArticleReadVo[] selectArticlesByBoardId(@Param(value = "boardId") String boardId,
+                                            @Param(value = "limit") int limit,
+                                            @Param(value = "offset") int offSet);
+
+    int selectArticleCountByBoardId(@Param(value = "boardId") String boardId,
+                                    @Param(value = "criterion") String criterion,
+                                    @Param(value = "keyword") String keyword);
+
 
     //Mr.m
     //이미지추가 맵퍼

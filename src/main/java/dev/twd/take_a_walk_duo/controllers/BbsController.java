@@ -5,6 +5,7 @@ import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
 import dev.twd.take_a_walk_duo.enums.bbs.ModifyArticleResult;
 import dev.twd.take_a_walk_duo.enums.bbs.WriteResult;
+import dev.twd.take_a_walk_duo.models.PagingModel;
 import dev.twd.take_a_walk_duo.services.BbsService;
 import dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import dev.twd.take_a_walk_duo.vos.bbs.CommentVo;
@@ -88,7 +89,6 @@ public class BbsController {
         ModelAndView modelAndView = new ModelAndView("bbs/read");
         ArticleReadVo article = this.bbsService.readArticle(aid, user);
         modelAndView.addObject("article", article);
-        System.out.println(article.getIndex());
         if (article != null) {
             BoardEntity board = this.bbsService.getBoard(article.getBoardId());
             BoardEntity[] boardList = this.bbsService.chartBoardId(board.getBoardId());
@@ -145,12 +145,61 @@ public class BbsController {
         return responseObject.toString();
     }
 
+    //    Mr.m
+    //게시글 삭제
+    @RequestMapping(value = "read", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String deleteArticle(@SessionAttribute(value = "user", required = false) UserEntity user, @RequestParam(value = "aid", required = false) int aid) {
+        ArticleEntity article = new ArticleEntity();
+        article.setIndex(aid);
+        Enum<?> result = this.bbsService.deleteArticle(article, user);
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("result", result.name().toLowerCase());
+        if (result == CommonResult.SUCCESS) {
+            responseObject.put("bid", article.getBoardId());
+        }
+        return responseObject.toString();
+    }
+
+
     //Mr.m
+    //리스트 구현
     @RequestMapping(value = "list",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getList() {
+    public ModelAndView getList(@RequestParam(value = "bid", required = false) String bid,
+                                @RequestParam(value = "page", required = false, defaultValue = "1")
+                                Integer page,
+                                @RequestParam(value = "criterion", required = false)
+                                String criterion,
+                                @RequestParam(value = "keyword", required = false)
+                                String keyword) {
+        page = Math.max(1, page);
         ModelAndView modelAndView = new ModelAndView("bbs/list");
+        BoardEntity board = bid == null ? null : this.bbsService.getBoard(bid);
+        modelAndView.addObject("board", board);
+        if (board != null) {
+            int totalCount = this.bbsService.getArticleCount(board, criterion, keyword);
+            PagingModel paging = new PagingModel(totalCount, page);
+            modelAndView.addObject("paging", paging);
+
+            ArticleReadVo[] articles = this.bbsService.getArticles(board,paging);
+            modelAndView.addObject("articles", articles);
+
+            System.out.println(articles.length);
+            BoardEntity[] boardList = this.bbsService.chartBoardId(board.getBoardId() == null ? board.getId() : board.getBoardId());
+            BoardEntity[] boardTitle = this.bbsService.getBoardEntities();
+            modelAndView.addObject("boardList", boardList);
+            modelAndView.addObject("boardTitles", boardTitle);
+
+            System.out.printf("bbs 이동 가능한 최소 페이지 : %d\n", paging.minPage);
+            System.out.printf("bbs 이동 가능한 최대 페이지 : %d\n", paging.maxPage);
+            System.out.printf("bbs 표시 시작 페이지 : %d\n", paging.startPage);
+            System.out.printf("bbs 표시 끝 페이지 : %d\n", paging.endPage);
+            System.out.println("가지고 있는 borad의 갯수" + boardList.length);
+            System.out.println("test :::" + bid);
+
+        }
         return modelAndView;
     }
 

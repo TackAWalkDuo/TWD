@@ -94,18 +94,26 @@ body > .--main {
     margin: 1rem;
     list-style: none;
     text-align: center;
+    text-decoration: none;
 }
 
-.title--select > li > .free-select {
+/*.title--select > li > .free-select {*/
+.title--select > li .free-select {
+
     text-align: center;
     padding: unset;
     list-style: unset;
     display: none;
 }
 
-.title--select > li > .free-select.visible {
+/*.title--select > li > .free-select.visible {*/
+.title--select > li:hover .free-select{
     display: flex;
     z-index: 3;
+}
+.title--select > .side-menu > .a-select{
+    text-decoration: none;
+    color: inherit;
 }
 
 .title--select > li > .free-select > * {
@@ -114,6 +122,11 @@ body > .--main {
     background-color: rgb(255, 255, 255);
     /*display: none;*/
 }
+.title--select > li > .free-select > .scroll-menu > a {
+    text-decoration: none;
+    color: inherit;
+}
+
 
 .title--select > li > .free-select > *:hover {
     background-color: rgba(180, 180, 188);
@@ -209,6 +222,10 @@ body > .--main > .--form > .--content > .read-form .detail-img {
 }
 .table > tbody > tr > td > div {
     margin-top: 1rem;
+}
+
+.delete-article{
+    cursor: pointer;
 }
 
 
