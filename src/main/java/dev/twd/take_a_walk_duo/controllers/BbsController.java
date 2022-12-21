@@ -316,10 +316,11 @@ public class BbsController {
         return responseEntity;
     }
 
-    @PostMapping(value = "modify", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "comment-modify", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String postModify(@SessionAttribute(value = "user") UserEntity user,
+    public String postCommentModify(@SessionAttribute(value = "user") UserEntity user,
                              CommentEntity comment,
+                             @RequestParam(value = "modifyFlag") Boolean modifyFlag,
                              @RequestParam(value = "images", required = false) MultipartFile[] images)
             throws IOException {
         JSONObject responseObject = new JSONObject();
@@ -327,9 +328,10 @@ public class BbsController {
         System.out.println("comment modify check " + comment.getUserEmail());
         System.out.println("comment modify check " + comment.getArticleIndex());
         System.out.println("comment modify check " + comment.getIndex());
-        System.out.println("comment modify check " + images.length);
-//        Enum<?> result = this.bbsService.modifyComment(user, comment, images);
-//        responseObject.put("result", result.name().toLowerCase());
+        System.out.println("comment modify check " + (images == null ? 0 : images.length));
+        System.out.println("comment modify check " + modifyFlag);
+        Enum<?> result = this.bbsService.modifyComment(user, comment, images, modifyFlag);
+        responseObject.put("result", result.name().toLowerCase());
         return responseObject.toString();
     }
 

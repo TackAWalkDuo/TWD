@@ -476,6 +476,9 @@ body > .--header {
     margin-bottom: 0.5rem;
     padding: 0.5rem 0.75rem;
 }
+#reviewForm > .review-container > .item > .basic {
+    display: flex;
+}
 
 #reviewForm > .review-container > .item > .basic.modifying {
     display: none;
@@ -488,5 +491,10 @@ body > .--header {
     display: flex;
 }
 
-
+#reviewForm > .review-container > .item > .image-button-container {
+    align-items: stretch;
+    display: none;
+    flex-direction: row;
+    justify-content: space-between;
+}
 

@@ -199,6 +199,12 @@
         LIMIT 1
     </update>
 
+    <delete id="deleteCommentImage">
+        DELETE
+        FROM `twd_bbs`.`comment_images`
+        WHERE `comment_index` = #{commentIndex}
+    </delete>
+
     <select id="selectArticlesByBoardId"
             resultType="dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo">
         SELECT `articles`.`index`       AS `index`,

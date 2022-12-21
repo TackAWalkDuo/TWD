@@ -45,7 +45,7 @@ public interface IBbsMapper {
     //댓글 수정
     int updateComment(CommentEntity comment);
     //댓글 이미지 삭제
-    int deleteCommentImage();
+    int deleteCommentImage(@Param(value = "commentIndex") int commentIndex);
 
     int deleteArticle(int index);
 

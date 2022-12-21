@@ -24,8 +24,6 @@
     <div class="map" id="map"></div>
     <div class="container" id="container">
         <div class="list-container" id="listContainer">
-            <input id="loginUserEmail" type="hidden" name="userEmail" th:if="${session.user != null}"
-                   th:value="${session.user.getEmail()}">
             <div class="write-container --object-button">
                 <a class="text" th:href="@{/map/walk-write}"> 작성하기</a>
             </div>
@@ -159,6 +157,8 @@
             <form class="review-form" id="reviewForm">
                 <input hidden multiple accept="image/" name="images" type="file">
                 <input type="hidden" name="articleIndex">
+                <input id="loginUserEmail" type="hidden" name="userEmail" th:if="${session.user != null}"
+                       th:value="${session.user.getEmail()}">
                 <span class="comment_title">리뷰 작성</span>
                 <div class="content-container">
                     <label class="label">
