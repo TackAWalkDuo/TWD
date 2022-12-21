@@ -31,7 +31,7 @@ detailContainer.show = (placeObject, placeElement) => {
     }
 
     // 로그인이 안되있는 상태일때  loginUserEmailElement 의 undefined 처리.
-    if ( (loginUserEmailElement === undefined) && (placeObject['userEmail'] === loginUserEmailElement.value)) {
+    if ( (loginUserEmailElement !== null) && (placeObject['userEmail'] === loginUserEmailElement.value)) {
         modifyMenuTopElement.classList.add("visible");
     }
 
@@ -321,7 +321,7 @@ const loadReview = (articleIndex) => {
                         <div class="basic modifyMenu">
                         <input type="hidden" rel="commentIndex" value="${reviewObject['index']}">
                         <!-- 로그인 되지 않았을 때 value 를 사용하게 되면 오류가 뜨기 때문에 오류 처리-->
-                         ${reviewObject['userEmail'] === (loginUserEmailElement.value === undefined ?
+                         ${reviewObject['userEmail'] === (loginUserEmailElement === null ?
                         '' : loginUserEmailElement.value) ?
                         `<a class="basic" rel="actionModify" href="#">수정</a>
                             <a class="basic" rel="actionDelete" href="#">삭제</a>` : ` `}
@@ -404,7 +404,6 @@ const loadReview = (articleIndex) => {
                         formData.append("index", itemElement.querySelector('[rel="commentIndex"]').value);
                         formData.append("modifyFlag", imageModifyFlag);
 
-                        console.log(commentImageSelect.files.length);
 
                         for (let file of commentImageSelect.files) {
                             formData.append('images', file);
@@ -491,7 +490,7 @@ const loadReview = (articleIndex) => {
 };
 
 //게시글 삭제
-if (loginUserEmailElement.value !== undefined) {
+if (loginUserEmailElement !== null) {
     modifyMenuTopElement.querySelector('[rel="articleDelete"]').addEventListener('click', () => {
         const xhr = new XMLHttpRequest();
         const formData = new FormData();
