@@ -11,6 +11,7 @@ const loginUserEmailElement = window.document.getElementById("loginUserEmail");
 let mapObject;
 let places = [];        // db 에서 list 를 가져와서 담아줄 변수.
 
+//list 의 게시글 또는 marker 클릭 시 해당 게시글을 보여줌.
 detailContainer.show = (placeObject, placeElement) => {
     detailContainer.classList.add("visible");
     detailContainer.querySelector('[rel="title"]').innerText = placeObject['title'];
@@ -35,6 +36,7 @@ detailContainer.show = (placeObject, placeElement) => {
         modifyMenuTopElement.classList.add("visible");
     }
 
+    // list 에서 선택한 게시글의 index 번호 저장.
     reviewForm['articleIndex'].value = placeObject['index'];
 
     //view count up
@@ -60,14 +62,14 @@ detailContainer.show = (placeObject, placeElement) => {
     xhr.send(formData);
 
     loadReview(placeObject['index']);
-
-
 }
+// 현재 보고 있는 게시글 list 또는 marker 를 클릭하면 닫힘.
 detailContainer.hide = () => {
     detailContainer.classList.remove("visible");
     detailContainer.querySelector('[rel="addressText"]').innerText = '';  // address 를 기준으로 하기때문에 기준점만 초기화
 }
 
+// detailContainer 의 닫기 버튼을 눌렀을 경우.
 detailContainer.querySelector('[rel="closeDetail"]').addEventListener('click', () => {
     detailContainer.hide();
 })
@@ -115,6 +117,7 @@ const loadPlaces = (ne, sw) => {
                         clickable: true,
                     });
 
+                    // 현재 지도안에 있는 값들을 등록된 순서대로 list 에 작성해서 추가합니다.
                     const placeHtml = `
                     <li class="item" rel="item">
                         <input type="hidden" name="latitude">
@@ -278,8 +281,10 @@ reviewForm.onsubmit = e => {
                 switch (responseObject['result']) {
                     case 'success' :
                         loadReview(reviewForm['articleIndex'].value);
+                        //작성이 완료되 었으니 작성칸을 비워줍니다.
                         reviewForm['content'].value = "";
                         imageContainerElement.innerHTML = "";
+                        // DB 에 저장은 됬지만 현재 페이지에 적용되지 않아 임의로 숫자를 조정.
                         detailContainer.querySelector('[rel="commentCounter"]').innerText =
                             Number(detailContainer.querySelector('[rel="commentCounter"]').innerText)+1;
                         list.querySelector(".review-counter").innerText =
