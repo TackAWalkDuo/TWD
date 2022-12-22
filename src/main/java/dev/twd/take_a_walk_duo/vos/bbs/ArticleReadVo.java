@@ -4,7 +4,7 @@ import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
 
 public class ArticleReadVo extends ArticleEntity {
     private String userNickname;
-    private int userSpecies;
+    private String userSpecies;
     private boolean articleLiked;
     private int articleLikedCount;
 
@@ -17,11 +17,11 @@ public class ArticleReadVo extends ArticleEntity {
         return this;
     }
 
-    public int getUserSpecies() {
+    public String getUserSpecies() {
         return userSpecies;
     }
 
-    public ArticleReadVo setUserSpecies(int userSpecies) {
+    public ArticleReadVo setUserSpecies(String userSpecies) {
         this.userSpecies = userSpecies;
         return this;
     }

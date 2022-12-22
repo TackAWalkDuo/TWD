@@ -154,7 +154,8 @@ public class BbsController {
     //게시글 삭제
     @RequestMapping(value = "read", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String deleteArticle(@SessionAttribute(value = "user", required = false) UserEntity user, @RequestParam(value = "aid", required = false) int aid) {
+    public String deleteArticle(@SessionAttribute(value = "user", required = false) UserEntity user,
+                                @RequestParam(value = "aid", required = false) int aid) {
         ArticleEntity article = new ArticleEntity();
         article.setIndex(aid);
         Enum<?> result = this.bbsService.deleteArticle(article, user);
@@ -316,6 +317,30 @@ public class BbsController {
         }
 
         return responseEntity;
+    }
+
+    @PostMapping(value = "comment-modify", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postCommentModify(@SessionAttribute(value = "user") UserEntity user,
+                             CommentEntity comment,
+                             @RequestParam(value = "modifyFlag") Boolean modifyFlag,
+                             @RequestParam(value = "images", required = false) MultipartFile[] images)
+            throws IOException {
+        JSONObject responseObject = new JSONObject();
+        Enum<?> result = this.bbsService.modifyComment(user, comment, images, modifyFlag);
+        responseObject.put("result", result.name().toLowerCase());
+        return responseObject.toString();
+    }
+
+    @DeleteMapping(value = "comment", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String deleteComment(@SessionAttribute(value = "user") UserEntity user,
+                                    CommentEntity comment) {
+
+        JSONObject responseObject = new JSONObject();
+        Enum<?> result = this.bbsService.deleteComment(user, comment);
+        responseObject.put("result", result.name().toLowerCase());
+        return responseObject.toString();
     }
 
 }

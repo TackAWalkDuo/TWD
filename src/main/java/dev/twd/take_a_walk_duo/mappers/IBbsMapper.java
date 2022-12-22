@@ -37,9 +37,17 @@ public interface IBbsMapper {
     //ArticleEntity(수정)조회수 만들기
     int updateArticle(ArticleEntity articleEntity);
 
-    int insertComment(CommentEntity comment);
 
+    //댓글 입력
+    int insertComment(CommentEntity comment);
+    //댓글 입력할때 이미지 입력
     int insertCommentImage(CommentImageEntity commentImage);
+    //댓글 수정
+    int updateComment(CommentEntity comment);
+    //댓글 이미지 삭제
+    int deleteCommentImage(@Param(value = "commentIndex") int commentIndex);
+    //댓글 삭제
+    int deleteComment(@Param(value = "index") int index);
 
     int deleteArticle(int index);
 

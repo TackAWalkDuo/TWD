@@ -12,8 +12,10 @@
     </select>
 
     <select id="selectBoardById" resultType="dev.twd.take_a_walk_duo.entities.bbs.BoardEntity">
-        SELECT `id`   AS `id`,
-               `text` As `text`
+        SELECT `id`       AS `id`,
+               `text`     AS `text`,
+               `board_id` AS `boardId`,
+               `order`    AS `order`
         FROM `twd_bbs`.`boards`
         WHERE BINARY `id` = #{bid}
             LIMIT 1;
@@ -105,7 +107,8 @@
             `view`           = #{view},
             `written_on`     = #{writtenOn},
             `modified_on`    = #{modifiedOn}
-        WHERE `index` = #{index} LIMIT 1
+        WHERE `index` = #{index}
+        LIMIT 1
     </update>
 
     <insert id="insertComment"
@@ -183,6 +186,29 @@
         DELETE
         FROM `twd_bbs`.`articles`
         WHERE (`twd_bbs`.`articles`.`index` = #{index}) limit 1;
+    </delete>
+
+    <update id="updateComment"
+    parameterType="dev.twd.take_a_walk_duo.entities.bbs.CommentEntity">
+        UPDATE `twd_bbs`.`comments`
+        SET `comment_index` = #{commentIndex},
+            `user_email`    = #{userEmail},
+            `content`       = #{content},
+            `article_index` = #{articleIndex}
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
+
+    <delete id="deleteCommentImage">
+        DELETE
+        FROM `twd_bbs`.`comment_images`
+        WHERE `comment_index` = #{commentIndex}
+    </delete>
+
+    <delete id="deleteComment">
+        DELETE
+        FROM `twd_bbs`.`comments`
+        WHERE `index` = #{index}
     </delete>
 
     <select id="selectArticlesByBoardId"

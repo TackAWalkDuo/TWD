@@ -28,7 +28,7 @@
     </insert>
 
     <select id="selectPlacesExceptImage"
-    resultType="dev.twd.take_a_walk_duo.vos.map.PlaceVo">
+            resultType="dev.twd.take_a_walk_duo.vos.map.PlaceVo">
         SELECT `article`.`index`                                         AS 'index',
                `article`.`user_email`                                    AS 'userEmail',
                `article`.`board_id`                                      AS 'boardId',
@@ -56,8 +56,6 @@
           AND `location`.`longitude` BETWEEN ${minLng} AND ${maxLng}
         GROUP BY `article`.`index`
     </select>
-
-
 
 </mapper>
 

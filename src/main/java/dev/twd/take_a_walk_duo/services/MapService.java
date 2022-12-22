@@ -34,10 +34,15 @@ public class MapService {
     @Transactional
     public Enum<? extends IResult> addWalkArticle(ArticleEntity article,
                                                   LocationEntity location,
-                                                  MultipartFile[] images) throws IOException {
+                                                  MultipartFile[] images,
+                                                  UserEntity user) throws IOException {
+        if(user == null) {
+            return CommonResult.NOT_SIGNED;
+        }
+
         // article 내용 DB에 저장
-        article.setUserEmail("been1@twd.com");      // TODO user.setEmail 로 변경.
-        article.setBoardId("walk");                 // TODO bord 확정 후 변경.
+        article.setUserEmail(user.getEmail());
+        article.setBoardId("walk");
 
         if (images != null) {
             for (MultipartFile image : images) {
@@ -89,5 +94,6 @@ public class MapService {
         return this.bbsMapper.updateArticle(article) > 0 ?
                 article : null;
     }
+
 
 }

@@ -1,9 +1,5 @@
 package dev.twd.take_a_walk_duo.services;
 
-import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.ArticleLikeEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
 import dev.twd.take_a_walk_duo.entities.bbs.*;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
@@ -18,6 +14,7 @@ import dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import dev.twd.take_a_walk_duo.vos.bbs.CommentVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -173,7 +170,6 @@ public class BbsService {
 
     //Mr.m
     //게시물 수정하기 (get)서비스
-
     public ArticleReadVo getModifyArticles(int articleIndex, UserEntity user) {
         return this.bbsMapper.selectArticleByIndex(articleIndex);
     }
@@ -198,6 +194,71 @@ public class BbsService {
         return CommonResult.SUCCESS;
     }
 
+    //댓글 불러오기 and 이미지 index 가져오기
+
+    public CommentVo[] getComment(int index) {
+        CommentVo[] comments = this.bbsMapper.selectCommentByIndex(index);
+        for(CommentVo comment : comments){
+            CommentImageEntity[] commentImage = this.bbsMapper.selectCommentImagesByCommentIndexExceptData(comment.getIndex());
+            int[] reviewImageIndexes = Arrays.stream(commentImage).mapToInt(CommentImageEntity::getIndex).toArray();
+
+            comment.setImageIndexes(reviewImageIndexes);
+        }
+
+        return comments;
+    }
+
+    public CommentImageEntity getCommentImage(int index) {
+        return this.bbsMapper.selectCommentImageByIndex(index);
+    }
+
+
+    @Transactional
+    public Enum<? extends IResult> modifyComment(UserEntity user, CommentEntity comment,
+                                                 MultipartFile[] images, Boolean modifyFlag) throws IOException {
+        //로그인 안했을 경우.
+        if(user == null) return CommonResult.NOT_SIGNED;
+        //로그인 사용자와 댓글 작성자가 다를 경우.
+        if(!user.getEmail().equals(comment.getUserEmail()))
+            return WriteResult.NOT_SAME;
+        //존재하지 않는 댓글일 경우.
+        if(this.bbsMapper.selectCommentByIndex(comment.getIndex()) == null)
+            return ReadResult.NO_SUCH_COMMENT;
+
+        comment.setWrittenOn(new Date()); // 날짜를 현재 날짜로 변경.
+        //update 시작.
+        if(this.bbsMapper.updateComment(comment) < 0 )
+            return CommonResult.FAILURE;
+
+        if(modifyFlag){
+            //변경되었다면 기존의 이미지는 전부 삭제.
+            this.bbsMapper.deleteCommentImage(comment.getIndex());
+
+            if (images != null && images.length > 0) {
+                for (MultipartFile image : images) {
+                    CommentImageEntity commentImage = new CommentImageEntity();
+                    commentImage.setCommentIndex(comment.getIndex());
+                    commentImage.setData(image.getBytes());
+                    commentImage.setType(image.getContentType());
+                    if (this.bbsMapper.insertCommentImage(commentImage) == 0) {
+                        return CommonResult.FAILURE;
+                    }
+                }
+            }
+
+        }
+
+        return CommonResult.SUCCESS;
+    }
+
+    public Enum<? extends IResult> deleteComment(UserEntity user, CommentEntity comment) {
+        if(user == null) return CommonResult.FAILURE;
+        if(!user.getEmail().equals(comment.getUserEmail())) return WriteResult.NOT_SAME;
+        return this.bbsMapper.deleteComment(comment.getIndex()) > 0 ?
+                CommonResult.SUCCESS : CommonResult.FAILURE;
+    }
+
+
     //Mr.m
     //게시글 삭제구문
     public Enum<? extends IResult> deleteArticle(ArticleEntity article, UserEntity user) {
@@ -221,23 +282,5 @@ public class BbsService {
     public int getArticleCount(BoardEntity board, String criterion, String keyword) {
         return this.bbsMapper.selectArticleCountByBoardId(board.getId(), criterion, keyword);
     }
-    //댓글 불러오기 and 이미지 index 가져오기
-
-    public CommentVo[] getComment(int index) {
-        CommentVo[] comments = this.bbsMapper.selectCommentByIndex(index);
-        for(CommentVo comment : comments){
-            CommentImageEntity[] commentImage = this.bbsMapper.selectCommentImagesByCommentIndexExceptData(comment.getIndex());
-            int[] reviewImageIndexes = Arrays.stream(commentImage).mapToInt(CommentImageEntity::getIndex).toArray();
-
-            comment.setImageIndexes(reviewImageIndexes);
-        }
-
-        return comments;
-    }
-
-    public CommentImageEntity getCommentImage(int index) {
-        return this.bbsMapper.selectCommentImageByIndex(index);
-    }
-
-
+>>>>>>>>> Temporary merge branch 2
 }

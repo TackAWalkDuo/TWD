@@ -21,7 +21,9 @@ window.document.getElementById('xButton').addEventListener('click', () => {
 let emailAuthIndex = null;
 setInterval(() => {
     if (emailAuthIndex === null) {
+        // 만약 index가 null이라면
         return;
+        // return해서 빠져나감
     }
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
@@ -36,6 +38,7 @@ setInterval(() => {
                     case 'success':
                         form['code'].value = responseObject['code'];
                         form['salt'].value = responseObject['salt'];
+                        // success 되었을 경우 밑에 경고문 치우고 새로운 비밀번호를 입력하도록 한다.
 
                         form.querySelector('[rel="messageRow"]').classList.remove('visible');
                         form.querySelector('[rel="passwordRow"]').classList.add('visible');
@@ -43,6 +46,7 @@ setInterval(() => {
                         emailAuthIndex = null;
                         break;
                     default:
+
                 }
             }
         }
@@ -59,18 +63,21 @@ form['emailSend'].addEventListener('click', () => {
         form['email'].focus();
         return;
     }
+    Cover.show('계정을 확인하고 있습니다.\n잠시만 기다려 주세요.');
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     formData.append('email', form['email'].value);
     xhr.open('POST', './recoverPassword');
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
+            Cover.hide();
             if (xhr.status >= 200 && xhr.status < 300) {
-                const responseObject = JSON.parse(xhr.responseText);
+                const responseObject = JSON.parse(xhr.responseText); // "{"result":"success"}"
                 console.log(xhr.responseText);
                 switch (responseObject['result']) {
                     case 'success':
                         emailAuthIndex = responseObject['index'];
+                        // 인덱스가 이곳으로 온다. (성공했을 경우)
                         form['email'].setAttribute('disabled', 'disabled');
                         form['emailSend'].setAttribute('disabled', 'disabled');
                         form.querySelector('[rel="messageRow"]').classList.add('visible');
@@ -88,7 +95,6 @@ form['emailSend'].addEventListener('click', () => {
     xhr.send(formData);
 });
 
-// 비밀번호 재설정하기 버튼
 form['recover'].addEventListener('click', () => {
     Warning.hide();
     if (form['password'].value === '') {
@@ -102,6 +108,7 @@ form['recover'].addEventListener('click', () => {
         form['passwordCheck'].select();
         return;
     }
+    Cover.show('비밀번호를 재설정하고 있습니다.\n잠시만 기다려 주세요.');
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     formData.append('email', form['email'].value);
@@ -111,8 +118,9 @@ form['recover'].addEventListener('click', () => {
     xhr.open('PATCH', './recoverPassword');
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
+            Cover.hide();
             if (xhr.status >= 200 && xhr.status < 300) {
-                const responseObject = JSON.parse(xhr.responseText);
+                const responseObject = JSON.parse(xhr.responseText); // "{"result":"success"}"
                 switch (responseObject['result']) {
                     case 'success':
                         alert('비밀번호를 성공적으로 재설정하였습니다.\n\n확인을 누르면 로그인 페이지로 이동합니다.');
@@ -127,4 +135,6 @@ form['recover'].addEventListener('click', () => {
         }
     };
     xhr.send(formData);
+
+
 });
