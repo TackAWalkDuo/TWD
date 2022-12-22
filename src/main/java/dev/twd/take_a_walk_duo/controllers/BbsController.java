@@ -44,12 +44,13 @@ public class BbsController {
         if (user == null) {
             modelAndView = new ModelAndView("redirect:/member/login");
         } else {
-            System.out.println("췍");
             BoardEntity board = bid == null ? null : this.bbsService.getBoard(bid);
-            System.out.println("췍2");
-
+            BoardEntity[] boardList = this.bbsService.chartBoardId(bid);
             modelAndView = new ModelAndView("bbs/write");
             modelAndView.addObject("board", board);
+            modelAndView.addObject("boardList", boardList);
+
+
         }
         return modelAndView;
     }
@@ -87,8 +88,11 @@ public class BbsController {
     public ModelAndView getRead(@SessionAttribute(value = "user", required = false) UserEntity user,
                                 @RequestParam(value = "aid", required = false) int aid) {
         ModelAndView modelAndView = new ModelAndView("bbs/read");
-        ArticleReadVo article = this.bbsService.readArticle(aid, user);
+        ArticleReadVo article = this.bbsService.readArticle(aid,user);
         modelAndView.addObject("article", article);
+        if(article.getBoardId().equals("walk")  || article.getBoardId().equals("shop") ) {
+            return new ModelAndView("bbs/notFindArticle");
+        }
         if (article != null) {
             BoardEntity board = this.bbsService.getBoard(article.getBoardId());
             BoardEntity[] boardList = this.bbsService.chartBoardId(board.getBoardId());
@@ -97,6 +101,7 @@ public class BbsController {
             modelAndView.addObject("liked", article.isArticleLiked());
             modelAndView.addObject("boardList", boardList);
             modelAndView.addObject("boardTitles", boardTitle);
+
 
         }
         return modelAndView;
@@ -153,9 +158,7 @@ public class BbsController {
                                 @RequestParam(value = "aid", required = false) int aid) {
         ArticleEntity article = new ArticleEntity();
         article.setIndex(aid);
-        System.out.println("map delete check aid : "  + aid);
         Enum<?> result = this.bbsService.deleteArticle(article, user);
-        System.out.println(result.name().toLowerCase());
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
         if (result == CommonResult.SUCCESS) {
@@ -225,10 +228,10 @@ public class BbsController {
     @PostMapping(value = "comment", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postComment(@SessionAttribute(value = "user", required = false) UserEntity user,
-                              @RequestParam(value = "images", required = false) MultipartFile[] images,
-                              CommentEntity comment) throws IOException {
+                              @RequestParam(value = "images", required = false) MultipartFile[] images, CommentEntity comment) throws IOException {
         JSONObject responseObject = new JSONObject();
 
+        System.out.println("comment check");
         Enum<?> result = this.bbsService.addComment(user, comment, images);
 
         responseObject.put("result", result.name().toLowerCase());
@@ -295,18 +298,18 @@ public class BbsController {
     //댓글 불러오기
     @GetMapping(value = "comment", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public CommentVo[] getComment(@Param(value = "index") int index) {
+    public CommentVo[] getComment(@Param(value = "index") int index){
         return this.bbsService.getComment(index);
     }
 
     //댓글 이미지 불러오기 // shop 내부가 조금 달라서 새로 만듬
     @GetMapping(value = "commentImage")
-    public ResponseEntity<byte[]> getCommentImage(@RequestParam(value = "index") int index) {
+    public ResponseEntity<byte[]> getCommentImage(@RequestParam(value = "index")int index) {
         ResponseEntity<byte[]> responseEntity;
         CommentImageEntity commentImage = this.bbsService.getCommentImage(index);
-        if (commentImage == null) {
+        if( commentImage == null ) {
             responseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
+        }else{
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.valueOf(commentImage.getType()));
             headers.setContentLength(commentImage.getData().length);

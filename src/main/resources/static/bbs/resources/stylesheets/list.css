@@ -245,4 +245,14 @@ body > .main > .search-form > .label {
     margin-inline: 1rem;
 }
 
+.--form > .--content> .button-container{
+    display: flex;
+    text-align: center;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-right: 1rem;
+}
+.--form > .--content> .button-container>a{
+    text-decoration: none;
+}
 

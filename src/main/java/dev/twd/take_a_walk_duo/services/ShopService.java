@@ -7,6 +7,7 @@ import dev.twd.take_a_walk_duo.enums.CommonResult;
 import dev.twd.take_a_walk_duo.interfaces.IResult;
 import dev.twd.take_a_walk_duo.mappers.IMemberMapper;
 import dev.twd.take_a_walk_duo.models.PagingModel;
+import dev.twd.take_a_walk_duo.utils.CryptoUtils;
 import dev.twd.take_a_walk_duo.vos.shop.ProductVo;
 import dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
@@ -37,7 +38,7 @@ public class ShopService {
 
 
 
-    // list 부분
+    // list page
     public BoardEntity getBoard(String id)
     // id 는 게시판의 id임 notice 등
     {
@@ -62,10 +63,20 @@ public class ShopService {
                 keyword);
     }
 
+    // 모든 상품 보기(메인 페이지)
     public ProductVo[] getAllArticles(){
         return this.shopMapper.selectAllArticles();
     }
 
+    // detail page
+    public ProductVo detailArticle(int index){
+        return this.shopMapper.selectArticleByArticleIndex(index);
+    }
+
+    // write get
+    public ProductVo getArticle(){
+        return this.shopMapper.selectArticle();
+    }
 
     // 상품 등록
     public Enum<? extends IResult> write(ArticleEntity article,
@@ -105,9 +116,9 @@ public class ShopService {
         }
 
         product.setArticleIndex(article.getIndex());
-        product.setCost(0);
+//        product.setCost(0);
         product.setProfit(0);
-        product.setDiscount(0);
+//        product.setDiscount(0);
 
         if (this.shopMapper.insertProduct(product) == 0) {
             return CommonResult.FAILURE;
@@ -116,21 +127,16 @@ public class ShopService {
         return CommonResult.SUCCESS;
     }
 
-
+    // 이미지 업로드
     public Enum<? extends IResult> addImage(ImageEntity image) {
         return this.shopMapper.insertImage(image) > 0
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
 
+    // 이미지 다운로드
     public ImageEntity getImage(int index){
         return this.shopMapper.selectImageByIndex(index);
     }
-
-//    public UserEntity login(UserEntity user){
-//        UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
-//        user.setAdmin(existingUser.getAdmin());
-//        return existingUser;
-//    }
 }
 

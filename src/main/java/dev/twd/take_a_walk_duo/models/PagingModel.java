@@ -10,7 +10,6 @@ public class PagingModel {
     public final int endPage;       // 표시 끝 페이지    startPage + 9 > x ? x : (startPage + 9)
 
     public PagingModel(int totalCount, int requestPage) {
-
         this(10, totalCount, requestPage);
     }
 
@@ -19,7 +18,7 @@ public class PagingModel {
         this.totalCount = totalCount;
         this.requestPage = requestPage;     //기본값은 1
         this.minPage = 1;
-        this.maxPage = (totalCount-1)/countPerPage +1;
+        this.maxPage = (totalCount - 1) / countPerPage + 1;
         this.startPage = ((requestPage - 1) / 10) * 10 + 1;     //10은 몇번 list 까지 클릭으로 갈수있는지?
         this.endPage = Math.min((this.startPage + 9), this.maxPage);
     }

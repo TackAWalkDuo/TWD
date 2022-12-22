@@ -1,9 +1,5 @@
 package dev.twd.take_a_walk_duo.services;
 
-import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.ArticleLikeEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
 import dev.twd.take_a_walk_duo.entities.bbs.*;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
@@ -92,13 +88,8 @@ public class BbsService {
     public ArticleReadVo readArticle(int index, UserEntity user) {
         ArticleReadVo existingArticleReadVo = this.bbsMapper.selectArticleByIndex(index, user == null ? null : user.getEmail());
         if (existingArticleReadVo != null) {
-//            for (MultipartFile image : images) {
-//                existingArticleReadVo.setThumbnail(image.getBytes());
-//                existingArticleReadVo.setThumbnailType(image.getContentType());
-//            }
             existingArticleReadVo.setView(existingArticleReadVo.getView() + 1);
             this.bbsMapper.updateArticle(existingArticleReadVo);
-        } else {
         }
         return existingArticleReadVo;
     }
@@ -149,7 +140,6 @@ public class BbsService {
         if (this.bbsMapper.insertComment(comment) == 0) {
             return CommonResult.FAILURE;
         }
-
         if (images != null && images.length > 0) {
             for (MultipartFile image : images) {
                 CommentImageEntity commentImage = new CommentImageEntity();
@@ -180,7 +170,6 @@ public class BbsService {
 
     //Mr.m
     //게시물 수정하기 (get)서비스
-
     public ArticleReadVo getModifyArticles(int articleIndex, UserEntity user) {
         return this.bbsMapper.selectArticleByIndex(articleIndex);
     }
@@ -293,5 +282,4 @@ public class BbsService {
     public int getArticleCount(BoardEntity board, String criterion, String keyword) {
         return this.bbsMapper.selectArticleCountByBoardId(board.getId(), criterion, keyword);
     }
-
 }
