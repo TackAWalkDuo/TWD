@@ -8,6 +8,7 @@
     <title>Take a walk duo</title>
     <th:block th:replace="~{fragments/head}"></th:block>
     <link rel="stylesheet" th:href="@{/shop/resources/stylesheets/detail_backup.css}">
+    <script defer th:src="@{/shop/resources/scripts/detail.js}"></script>
     <script th:if="${product == null || product.getBoardId() != 'shop'}">
         alert('존재하지 않는 상품입니다.');
         if (window.history.length > 1) {
@@ -28,7 +29,8 @@
             <div class="detail-title" th:text="${product.getTitle()}">제목</div>
             <div class="detail-stock">
                 <i class="detail-icon fa-solid fa-circle-exclamation"></i>
-                <span th:text="|재고 : ${product.getQuantity()}|"></span>
+                <span th:text="| 재고 : ${product.getQuantity()}|"></span>
+                <input rel="productQuantity" hidden th:value="${product.getQuantity()}">
             </div>
             <div class="detail-price" th:if="${product.getDiscount() > 0}" th:text="${product.getCost()} + '원'">30,000원</div>
             <div class="detail-sale-price">
@@ -58,10 +60,10 @@
                     <p class="order-text" th:text="${product.getTitle()}">제목</p>
                     <div class="detail-info-container">
                         <div class="info-quantity-box">
-                            <button class="info-button">-</button>
-                            <input class="info-number" value="1" type="number">
-                            <button class="info-button">+</button>
-                            <div class="info-price" th:text="${product.getPrice()} + '원'">22,700원</div>
+                            <button disabled class="info-button" name="minusButton" type="button">-</button>
+                            <input class="info-number" min="1" max="100" name="infoNumber" rel="infoNumber" value="1" type="number">
+                            <button class="info-button" name="plusButton" type="button">+</button>
+                            <input disabled class="info-price" rel="infoPrice" name="infoPrice" th:value="${product.getPrice()} + '원'">
                         </div>
                     </div>
                     <div class="detail-charge-container">
