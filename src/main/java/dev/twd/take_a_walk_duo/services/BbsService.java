@@ -282,5 +282,4 @@ public class BbsService {
     public int getArticleCount(BoardEntity board, String criterion, String keyword) {
         return this.bbsMapper.selectArticleCountByBoardId(board.getId(), criterion, keyword);
     }
->>>>>>>>> Temporary merge branch 2
 }
