@@ -7,6 +7,10 @@ public class ProductVo extends ArticleEntity {
     private int price;
     private String categoryText;
 
+    private String text;
+
+    private Boolean isAdmin;
+
     public int getQuantity() {
         return quantity;
     }
@@ -32,4 +36,26 @@ public class ProductVo extends ArticleEntity {
     public void setCategoryText(String categoryText) {
         this.categoryText = categoryText;
     }
+
+    public String getText() {
+        return text;
+    }
+
+    public ProductVo setText(String text) {
+        this.text = text;
+        return this;
+    }
+
+    public Boolean getAdmin() {
+        return isAdmin;
+    }
+
+    public ProductVo setAdmin(Boolean admin) {
+        isAdmin = admin;
+        return this;
+    }
 }
+
+
+
+

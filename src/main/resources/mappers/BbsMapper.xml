@@ -12,10 +12,8 @@
     </select>
 
     <select id="selectBoardById" resultType="dev.twd.take_a_walk_duo.entities.bbs.BoardEntity">
-        SELECT `id`       AS `id`,
-               `text`     AS `text`,
-               `board_id` AS `boardId`,
-               `order`    AS `order`
+        SELECT `id`   AS `id`,
+               `text` As `text`
         FROM `twd_bbs`.`boards`
         WHERE BINARY `id` = #{bid}
             LIMIT 1;
@@ -43,7 +41,9 @@
 
     <select id="selectThumbnailByIndex"
             resultType="dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity">
-        SELECT `index` AS 'index', `thumbnail` AS 'thumbnail', `thumbnail_type` AS 'thumbnailType'
+        SELECT `index`          AS 'index',
+               `thumbnail`      AS 'thumbnail',
+               `thumbnail_type` AS 'thumbnailType'
         FROM `twd_bbs`.`articles`
         WHERE `index` = #{index}
     </select>
@@ -118,6 +118,48 @@
                 IFNULL(#{writtenOn}, DEFAULT(`written_on`)))
     </insert>
 
+    <insert id="insertCommentImage"
+            useGeneratedKeys="true"
+            keyProperty="index"
+            keyColumn="index"
+            parameterType="dev.twd.take_a_walk_duo.entities.bbs.CommentImageEntity">
+        INSERT INTO `twd_bbs`.`comment_images` (`comment_index`, `data`, `type`)
+        VALUES (#{commentIndex}, #{data}, #{type})
+    </insert>
+
+    <select id="selectCommentByIndex"
+            resultType="dev.twd.take_a_walk_duo.vos.bbs.CommentVo">
+        SELECT `comment`.`index`         AS 'index',
+               `comment`.`comment_index` AS 'commentIndex',
+               `comment`.`user_email`    AS 'userEmail',
+               `comment`.`content`       AS 'content',
+               `comment`.`article_index` AS 'articleIndex',
+               `comment`.`written_on`    AS 'writtenOn',
+               `user`.`nickname`         AS 'nickname'
+        FROM `twd_bbs`.`comments` AS `comment`
+                 LEFT JOIN `twd_member`.`users` AS `user` ON `comment`.`user_email` = `user`.`email`
+        WHERE `comment`.`article_index` = #{index}
+    </select>
+
+    <select id="selectCommentImagesByCommentIndexExceptData"
+            resultType="dev.twd.take_a_walk_duo.entities.bbs.CommentImageEntity">
+        SELECT `index`         AS 'index',
+               `comment_index` AS 'commentIndex'
+        FROM `twd_bbs`.`comment_images` AS `comment_image`
+        WHERE `comment_image`.`comment_index` = #{commentIndex}
+    </select>
+
+
+    <select id="selectCommentImageByIndex"
+            resultType="dev.twd.take_a_walk_duo.entities.bbs.CommentImageEntity">
+        SELECT `index`         AS 'index',
+               `comment_index` AS 'commentIndex',
+               `data`          AS 'data',
+               `type`          AS 'type'
+        FROM `twd_bbs`.`comment_images` AS `comment_image`
+        WHERE `comment_image`.`index` = #{index}
+        LIMIT 1
+    </select>
     <select id="selectArticleLikeByIndex"
             resultType="dev.twd.take_a_walk_duo.entities.bbs.ArticleLikeEntity">
         SELECT `user_email`  AS `userEmail`,

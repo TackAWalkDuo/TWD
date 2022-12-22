@@ -8,6 +8,8 @@ import dev.twd.take_a_walk_duo.enums.bbs.WriteResult;
 import dev.twd.take_a_walk_duo.models.PagingModel;
 import dev.twd.take_a_walk_duo.services.BbsService;
 import dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo;
+import dev.twd.take_a_walk_duo.vos.bbs.CommentVo;
+import org.apache.ibatis.annotations.Param;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -85,7 +87,7 @@ public class BbsController {
     public ModelAndView getRead(@SessionAttribute(value = "user", required = false) UserEntity user,
                                 @RequestParam(value = "aid", required = false) int aid) {
         ModelAndView modelAndView = new ModelAndView("bbs/read");
-        ArticleReadVo article = this.bbsService.readArticle(aid, user);
+        ArticleReadVo article = this.bbsService.readArticle(aid,user);
         modelAndView.addObject("article", article);
         if (article != null) {
             BoardEntity board = this.bbsService.getBoard(article.getBoardId());
@@ -273,7 +275,8 @@ public class BbsController {
 
     @RequestMapping(value = "article-liked", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String postArticleLike(@SessionAttribute(value = "user", required = false) UserEntity user, ArticleLikeEntity articleLikeEntity) {
+    public String postArticleLike(@SessionAttribute(value = "user", required = false) UserEntity user,
+                                  ArticleLikeEntity articleLikeEntity) {
         Enum<?> result;
         if (user == null) {
             result = WriteResult.NOT_ALLOWED;
@@ -285,6 +288,31 @@ public class BbsController {
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
         return responseObject.toString();
+    }
+
+
+    //댓글 불러오기
+    @GetMapping(value = "comment", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public CommentVo[] getComment(@Param(value = "index") int index){
+        return this.bbsService.getComment(index);
+    }
+
+    //댓글 이미지 불러오기 // shop 내부가 조금 달라서 새로 만듬
+    @GetMapping(value = "commentImage")
+    public ResponseEntity<byte[]> getCommentImage(@RequestParam(value = "index")int index) {
+        ResponseEntity<byte[]> responseEntity;
+        CommentImageEntity commentImage = this.bbsService.getCommentImage(index);
+        if( commentImage == null ) {
+            responseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else{
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.valueOf(commentImage.getType()));
+            headers.setContentLength(commentImage.getData().length);
+            responseEntity = new ResponseEntity<>(commentImage.getData(), headers, HttpStatus.OK);
+        }
+
+        return responseEntity;
     }
 
 }

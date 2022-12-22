@@ -29,18 +29,6 @@ for (let i = 0; i < bbsList.length; i++) {
     }
 }
 
-// 현재 보고 있는 쇼핑 목록의 a태그 색깔 활성화
-const aList = window.document.getElementById("list-selected").getElementsByTagName("li");
-const listSelected = document.querySelectorAll('.a-select');
-
-for (let i = 0; i < aList.length; i++) {
-    const list = aList[i].className;
-    if (url.match(list)) {
-        listSelected.item(i).classList.add('selected');
-        break;
-    }
-}
-
 // if (document.location.href.match('notice')){
 //     selected.item(0).classList.add('selected');
 // }else if (document.location.href.match('free')){

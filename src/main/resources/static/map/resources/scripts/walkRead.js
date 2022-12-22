@@ -2,7 +2,9 @@ const map = window.document.getElementById("map");
 const list = window.document.getElementById("list");
 const detailContainer = window.document.getElementById("detailContainer");
 const reviewForm = window.document.getElementById("reviewForm");
+const reviewContainer = reviewForm.querySelector('[rel="reviewContainer"]');
 const likeIcon = detailContainer.querySelector('[rel="likeIcon"]');
+const imageContainerElement = reviewForm.querySelector('[rel="imageContainer"]');
 
 let mapObject;
 let places = [];        // db 에서 list 를 가져와서 담아줄 변수.
@@ -17,9 +19,14 @@ detailContainer.show = (placeObject, placeElement) => {
     detailContainer.querySelector('[rel="addressText"]').innerText = placeObject['address'];
     detailContainer.querySelector('[rel="descriptionText"]').innerText = placeObject['content'];
     // console.log( "isSinged   " + placeObject['signed']);
+
     //로그인이 안되있을 경우 좋아요를 누를 수 없도록 처리.
     if (!placeObject['signed']) {
-        detailContainer.querySelector('[rel="likeIcon"]').classList.add("prohibited");
+        likeIcon.classList.add("prohibited");
+    }
+
+    if (placeObject['mine']) {
+        likeIcon.classList.add("mine");
     }
 
     reviewForm['articleIndex'].value = placeObject['index'];
@@ -45,6 +52,10 @@ detailContainer.show = (placeObject, placeElement) => {
         }
     };
     xhr.send(formData);
+
+    loadReview(placeObject['index']);
+
+
 }
 detailContainer.hide = () => {
     detailContainer.classList.remove("visible");
@@ -185,7 +196,7 @@ reviewForm.querySelector('[rel="imageSelectButton"]').addEventListener('click', 
 
 //이미지 찾기에서 이미지를 선택할 경우.
 reviewForm['images'].addEventListener('input', () => {
-    const imageContainerElement = reviewForm.querySelector('[rel="imageContainer"]');
+
     imageContainerElement.querySelectorAll('img.image').forEach(x => x.remove());
     if (reviewForm['images'].files.length > 0) {
         reviewForm.querySelector('[rel="noImage"]').classList.add('hidden')
@@ -201,13 +212,41 @@ reviewForm['images'].addEventListener('input', () => {
     }
 });
 
-
 // 로그인 상태에서 좋아요 버튼 클릭시.
-if (!likeIcon.classList.contains("prohibited")) {
-    likeIcon.addEventListener('click', () => {
-        alert("like");
-    });
-}
+
+
+likeIcon.addEventListener('click', () => {
+    if (!likeIcon.classList.contains("prohibited")) {
+        const xhr = new XMLHttpRequest();
+        const formData = new FormData();
+        formData.append("articleIndex", reviewForm['articleIndex'].value);
+
+        xhr.open("POST", "/bbs/article-liked");
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    const responseObject = JSON.parse(xhr.responseText);
+                    switch (responseObject['result']) {
+                        case 'success' :
+                            if (likeIcon.classList.contains("mine")) {
+                                likeIcon.classList.remove("mine");
+                                detailContainer.querySelector("[rel='likeCounter']").innerText =
+                                    Number(detailContainer.querySelector("[rel='likeCounter']").innerText) - 1;
+                            } else {
+                                likeIcon.classList.add("mine");
+                                detailContainer.querySelector("[rel='likeCounter']").innerText =
+                                    Number(detailContainer.querySelector("[rel='likeCounter']").innerText) + 1;
+                            }
+                            break;
+                        default:
+                            alert("실패");
+                    }
+                }
+            }
+        };
+        xhr.send(formData);
+    }
+});
 
 
 //리뷰 저장
@@ -228,12 +267,14 @@ reviewForm.onsubmit = e => {
 
     xhr.open('POST', '/bbs/comment');
     xhr.onreadystatechange = () => {
-        if(xhr.readyState === XMLHttpRequest.DONE) {
-            if(xhr.status >= 200 && xhr.status < 300 ){
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status >= 200 && xhr.status < 300) {
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
                     case 'success' :
-                        alert("저장성공.")
+                        loadReview(reviewForm['articleIndex'].value);
+                        reviewForm['content'].value = "";
+                        imageContainerElement.innerHTML = "";
                         break;
                     case 'not_signed':
                         alert("로그인 해주세요");
@@ -241,16 +282,63 @@ reviewForm.onsubmit = e => {
                     default:
                         alert("실패");
                 }
-            }else {
+            } else {
                 alert("알수없는 이유로 연결 실패..");
             }
         }
-    };xhr.send(formData);
+    };
+    xhr.send(formData);
 };
 
 
+const loadReview = (articleIndex) => {
+    reviewContainer.innerHTML = '';
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
 
-
+    formData.append("aid", reviewForm['articleIndex'].value);
+    xhr.open("GET", `/bbs/comment?index=${articleIndex}`);
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                const responseArray = JSON.parse(xhr.responseText);
+                for (const reviewObject of responseArray) {
+                    const itemHtml = `
+                    <li class="item" rel="item">
+                        <div class="title">
+                            <span class="nickname" rel="nickname">${reviewObject['nickname']}</span>
+                            <span class="time">${reviewObject['writtenOn']}</span>
+                        </div>
+                        <div class="modifyMenu">
+                         ${reviewObject['userEmail'] === reviewForm['userEmail'].value ?
+                            `<a>수정</a>
+                            <a>삭제</a>`    : ` `}
+                         </div>
+                        <div class="image-container" rel="imageContainer"></div>
+                        <span class="content" rel="imageContainer">${reviewObject['content']}</span>
+                    </li> `;
+                    const itemElement = new DOMParser().parseFromString(itemHtml, 'text/html').querySelector('[rel="item"]');
+                    const imageContainerElement = itemElement.querySelector('[rel="imageContainer"]');
+                    if (reviewObject['imageIndexes'].length > 0) {
+                        for (const imageIndex of reviewObject['imageIndexes']) {
+                            const imageElement = document.createElement('img');
+                            imageElement.setAttribute('alt', '');
+                            imageElement.setAttribute('src', `/bbs/commentImage?index=${imageIndex}`);
+                            imageElement.classList.add('image');
+                            imageContainerElement.append(imageElement);
+                        }
+                    } else {
+                        imageContainerElement.remove();
+                    }
+                    reviewContainer.append(itemElement);
+                }
+            } else {
+                alert("알수없는 이유로 연결 실패..");
+            }
+        }
+    };
+    xhr.send(formData);
+};
 
 
 

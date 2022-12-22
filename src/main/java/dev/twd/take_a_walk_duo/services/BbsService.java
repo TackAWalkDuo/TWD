@@ -15,6 +15,7 @@ import dev.twd.take_a_walk_duo.mappers.IBbsMapper;
 import dev.twd.take_a_walk_duo.mappers.IShopMapper;
 import dev.twd.take_a_walk_duo.models.PagingModel;
 import dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo;
+import dev.twd.take_a_walk_duo.vos.bbs.CommentVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +25,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 
 @Service(value = "dev.test.take_a_walk_duo.services.BbsService")
@@ -95,6 +97,7 @@ public class BbsService {
 //            }
             existingArticleReadVo.setView(existingArticleReadVo.getView() + 1);
             this.bbsMapper.updateArticle(existingArticleReadVo);
+        } else {
         }
         return existingArticleReadVo;
     }
@@ -175,6 +178,7 @@ public class BbsService {
 
     //Mr.m
     //게시물 수정하기 (get)서비스
+
     public ArticleReadVo getModifyArticles(int articleIndex, UserEntity user) {
         return this.bbsMapper.selectArticleByIndex(articleIndex);
     }
@@ -222,4 +226,23 @@ public class BbsService {
     public int getArticleCount(BoardEntity board, String criterion, String keyword) {
         return this.bbsMapper.selectArticleCountByBoardId(board.getId(), criterion, keyword);
     }
+    //댓글 불러오기 and 이미지 index 가져오기
+
+    public CommentVo[] getComment(int index) {
+        CommentVo[] comments = this.bbsMapper.selectCommentByIndex(index);
+        for(CommentVo comment : comments){
+            CommentImageEntity[] commentImage = this.bbsMapper.selectCommentImagesByCommentIndexExceptData(comment.getIndex());
+            int[] reviewImageIndexes = Arrays.stream(commentImage).mapToInt(CommentImageEntity::getIndex).toArray();
+
+            comment.setImageIndexes(reviewImageIndexes);
+        }
+
+        return comments;
+    }
+
+    public CommentImageEntity getCommentImage(int index) {
+        return this.bbsMapper.selectCommentImageByIndex(index);
+    }
+
+
 }

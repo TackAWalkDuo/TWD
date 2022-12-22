@@ -31,3 +31,15 @@ CREATE TABLE `twd_member`.`email_auths`
     `expired_flag` BOOLEAN      NOT NULL DEFAULT FALSE,
     CONSTRAINT PRIMARY KEY (`index`)
 );
+
+CREATE TABLE `twd_member`.`kakao_users`
+(
+    `email`         VARCHAR(50) NOT NULL,
+    `id`            VARCHAR(10) NOT NULL,
+    `nickname`      VARCHAR(50) NOT NULL,
+    `registered_on` DATETIME    NOT NULL DEFAULT NOW(),
+    CONSTRAINT PRIMARY KEY (`id`),
+    CONSTRAINT FOREIGN KEY (`email`) REFERENCES `twd_member`.`users` (`email`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);

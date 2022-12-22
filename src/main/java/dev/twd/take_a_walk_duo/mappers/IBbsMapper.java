@@ -1,12 +1,8 @@
 package dev.twd.take_a_walk_duo.mappers;
 
-import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.ArticleLikeEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.CommentEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.CommentImageEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
+import dev.twd.take_a_walk_duo.entities.bbs.*;
 import dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo;
+import dev.twd.take_a_walk_duo.vos.bbs.CommentVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -65,6 +61,12 @@ public interface IBbsMapper {
 
     ImageEntity selectImageByIndex(@Param(value = "index") int index);
 
+    // 게시글 댓글
+    CommentVo[] selectCommentByIndex(@Param(value = "index") int index);
+    //댓글의 이미지 가져오기(map 에서 사용)
+    CommentImageEntity[] selectCommentImagesByCommentIndexExceptData(@Param(value = "commentIndex") int commentIndex);
+
+    CommentImageEntity selectCommentImageByIndex(@Param(value = "index") int index);
     BoardEntity[] selectBoardByBoardId(@Param(value = "bid") String bid);
 
 }

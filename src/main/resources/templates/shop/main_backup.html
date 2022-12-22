@@ -22,6 +22,12 @@
     </div>
     <section class="box collection">
         <h2 class="title">머릿글</h2>
+<!--        th:if="${user.getAdmin() == true}"-->
+        <div class="button">
+        <a th:href="@{write}">
+        <input type="button" class="--object-button" value="상품 등록하기">
+        </a>
+        </div>
         <ul class="item-container">
             <li class="item" th:each="product : ${products}">
                 <a class="link" href="#">
@@ -34,10 +40,12 @@
     </section>
     <section class="box scarf">
         <h2 class="title">머릿글</h2>
-        <ul class="item-container emple"  th:each="product : ${products}" th:if="${product.getCategoryText() == 'clothes'}">
-            <li class="item big">
+        <ul class="item-container emple">
+            <li class="item big" th:each="product : ${products}"
+                th:if="${product.getCategoryText() == 'clothes' && productStat.index == 0}">
                 <a class="link big">
-                    <img alt="" class="image-big" th:src="|/bbs/thumbnail?index=${product.getIndex()}|">
+                    <img alt="" class="image-big"
+                         th:src="|/bbs/thumbnail?index=${product.getIndex()}|">
                     <span class="text"></span>
                 </a>
             </li>
@@ -45,42 +53,58 @@
                 <div class="description-header">더 편안하고, 더 따뜻한 겨울을 보내기 위한 필수템!</div>
                 <span class="description-body">나날이 발전하는 반려견 아우터- 사이즈도 다양하고 스타일도 다양하게!</span>
 
-                <div class="side-image">
-                    <img alt="제품1" class="image side" th:src="|/bbs/thumbnail?index=${product.getIndex()}|">
+                <!--/*@thymesVar id="products" type="dev.twd.take_a_walk_duo.vos.shop.ProductVo[]"*/-->
+                <div class="side-image" th:each="product : ${products}"
+                     th:if="${product.getCategoryText() == 'clothes' && productStat.index == 1 || productStat.index == 2}">
+                    <img alt="제품1" class="image side"
+                         th:src="|/bbs/thumbnail?index=${product.getIndex()}|" th:if="${productStat.index == 1}">
+                    <img alt="제품1" class="image side"
+                         th:src="|/bbs/thumbnail?index=${product.getIndex()}|" th:if="${productStat.index == 2}">
                     <div class="side-description">
-                        <div class="side header">Dog coat Alaska Olive</div>
-                        <div class="side text">클라우드7 Cloud7</div>
-                        <div class="side charge-price">37,500원</div>
+                        <span th:if="${productStat.index == 1}">
+                        <div class="side header" th:text="${product.getTitle()}">Dog coat Alaska Olive
+                        </div>
+                        <div class="side text" th:utext="${product.getText()}">클라우드7 Cloud7
+                        </div>
+                        <div class="side charge-price" th:text="${product.getPrice() + '원'}">37,500원
+                        </div>
+                         </span>
+                        <span th:if="${productStat.index == 2}">
+                        <div class="side header" th:text="${product.getTitle()}">Dog coat Alaska Olive
+                        </div>
+                        <div class="side text" th:utext="${product.getText()}">클라우드7 Cloud7
+                        </div>
+                        <div class="side charge-price" th:text="${product.getPrice() + '원'}">37,500원
+                        </div>
+                        </span>
                     </div>
                 </div>
-                <div class="side-image">
-                    <img alt="제품1" class="image side" th:src="|/bbs/thumbnail?index=${product.getIndex()}|">
-                    <div class="side-description">
-                        <div class="side header">뮤니쿤트 Better Together Padding - Khaki</div>
-                        <div class="side text">뮤니쿤트 munikund</div>
-                        <div class="side charge-price">97,00원</div>
-                    </div>
-                </div>
+                <!--                <div class="side-image">-->
+                <!--                    <img alt="제품1" class="image side" th:src="|/bbs/thumbnail?index=${product.getIndex()}|">-->
+                <!--                    <div class="side-description">-->
+                <!--                        <div class="side header" th:text="${product.getTitle()}">뮤니쿤트 Better Together Padding - Khaki</div>-->
+                <!--                        <div class="side text">뮤니쿤트 munikund</div>-->
+                <!--                        <div class="side charge-price">97,00원</div>-->
+                <!--                    </div>-->
+                <!--                </div>-->
             </div>
         </ul>
     </section>
 
-<!--    <li class="item">-->
-<!--        <a class="link" href="#">-->
-<!--            <img alt="제품1" class="image" src="/resources/image/item1.jpg">-->
-<!--            <span class="text">제품1</span>-->
-<!--            <span class="price">25,000원</span>-->
-<!--        </a>-->
-<!--    </li>-->
-<!--    <li class="item">-->
-<!--        <a class="link" href="#">-->
-<!--            <img alt="제품2" class="image" src="/resources/image/item2.jpg">-->
-<!--            <span class="text">제품2</span>-->
-<!--            <span class="price">37,500원</span>-->
-<!--        </a>-->
-<!--    </li>-->
-
-
+    <!--    <li class="item">-->
+    <!--        <a class="link" href="#">-->
+    <!--            <img alt="제품1" class="image" src="/resources/image/item1.jpg">-->
+    <!--            <span class="text">제품1</span>-->
+    <!--            <span class="price">25,000원</span>-->
+    <!--        </a>-->
+    <!--    </li>-->
+    <!--    <li class="item">-->
+    <!--        <a class="link" href="#">-->
+    <!--            <img alt="제품2" class="image" src="/resources/image/item2.jpg">-->
+    <!--            <span class="text">제품2</span>-->
+    <!--            <span class="price">37,500원</span>-->
+    <!--        </a>-->
+    <!--    </li>-->
 
 
     <!--            <li class="item">-->
