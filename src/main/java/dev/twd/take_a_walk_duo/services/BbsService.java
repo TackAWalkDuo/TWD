@@ -91,13 +91,8 @@ public class BbsService {
     public ArticleReadVo readArticle(int index, UserEntity user) {
         ArticleReadVo existingArticleReadVo = this.bbsMapper.selectArticleByIndex(index, user == null ? null : user.getEmail());
         if (existingArticleReadVo != null) {
-//            for (MultipartFile image : images) {
-//                existingArticleReadVo.setThumbnail(image.getBytes());
-//                existingArticleReadVo.setThumbnailType(image.getContentType());
-//            }
             existingArticleReadVo.setView(existingArticleReadVo.getView() + 1);
             this.bbsMapper.updateArticle(existingArticleReadVo);
-        } else {
         }
         return existingArticleReadVo;
     }

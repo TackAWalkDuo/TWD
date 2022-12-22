@@ -22,9 +22,7 @@
                 <span hidden>검색기준</span>
                 <select name="criterion" class="--object-input">
                     <option value="menu" selected disabled>분류</option>
-                    <option value="daily">일상</option>
-                    <option value="tips">꿀TIP</option>
-                    <option value="humor">유머</option>
+                    <option th:each="boards : ${boardList}" th:if="${boards.getId() != 'free'}" th:text="${boards.getText()}" value="daily">일상</option>
                 </select>
                 <div class="writeButton-container">
                     <input class="--object-button" type="button" name="back" value="돌아가기">

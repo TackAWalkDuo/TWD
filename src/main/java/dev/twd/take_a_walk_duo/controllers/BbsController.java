@@ -44,12 +44,13 @@ public class BbsController {
         if (user == null) {
             modelAndView = new ModelAndView("redirect:/member/login");
         } else {
-            System.out.println("췍");
             BoardEntity board = bid == null ? null : this.bbsService.getBoard(bid);
-            System.out.println("췍2");
-
+            BoardEntity[] boardList = this.bbsService.chartBoardId(bid);
             modelAndView = new ModelAndView("bbs/write");
             modelAndView.addObject("board", board);
+            modelAndView.addObject("boardList", boardList);
+
+
         }
         return modelAndView;
     }
@@ -89,6 +90,9 @@ public class BbsController {
         ModelAndView modelAndView = new ModelAndView("bbs/read");
         ArticleReadVo article = this.bbsService.readArticle(aid,user);
         modelAndView.addObject("article", article);
+        if(article.getBoardId().equals("walk")  || article.getBoardId().equals("shop") ) {
+            return new ModelAndView("bbs/notFindArticle");
+        }
         if (article != null) {
             BoardEntity board = this.bbsService.getBoard(article.getBoardId());
             BoardEntity[] boardList = this.bbsService.chartBoardId(board.getBoardId());
@@ -223,8 +227,7 @@ public class BbsController {
     @PostMapping(value = "comment", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postComment(@SessionAttribute(value = "user", required = false) UserEntity user,
-                              @RequestParam(value = "images", required = false) MultipartFile[] images,
-                              CommentEntity comment) throws IOException {
+                              @RequestParam(value = "images", required = false) MultipartFile[] images, CommentEntity comment) throws IOException {
         JSONObject responseObject = new JSONObject();
 
         System.out.println("comment check");
