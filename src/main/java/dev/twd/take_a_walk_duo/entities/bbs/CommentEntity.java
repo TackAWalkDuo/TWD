@@ -1,5 +1,7 @@
 package dev.twd.take_a_walk_duo.entities.bbs;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 import java.util.Objects;
 
@@ -9,6 +11,7 @@ public class CommentEntity {
     private String userEmail;
     private String content;
     private int articleIndex;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm",timezone = "Asia/Seoul")
     private Date writtenOn;
 
     public int getIndex() {

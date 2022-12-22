@@ -14,7 +14,7 @@
     <script src="https://kit.fontawesome.com/12a5ab0618.js" crossorigin="anonymous"></script>
 </head>
 <body>
-
+<!-- x버튼 -->
 <div class="xButton" id="xButton">
         <span class="xButton">
             <i class="icon fa-solid fa-x"></i>
@@ -92,9 +92,10 @@
                         <span class="EmlPswd" id="EmlPswd" name="forgetEmlPswd">
                             <span class="forgetEml" id="forgetEml" name="forgetEml"
                                   type="submit" value="이메일 찾기"><a th:href="@{/member/recoverEmail}">이메일 찾기</a></span>
+                            <span>﹒</span>
                         <span class="forgetPswd" id="forgetPswd" name="forgetPswd"
                               type="submit" value="비밀번호 재설정하기"><a
-                                th:href="@{/member/recoverPassword}">비밀번호 찾기</a> </span>
+                                th:href="@{/member/recoverPassword}">비밀번호 재설정</a></span>
                         </span>
                     </label>
                     <!-- 카카오 로그인 -->
@@ -104,7 +105,7 @@
                     <div class="kakao">
                         <i class="icon fa-brands fa-kickstarter"></i>
                         <a class="kakaoButton" id="kakaoLoginButton"
-                           href="https://kauth.kakao.com/oauth/authorize?client_id=c46b378a1086f25e2d518ef34b37a493&redirect_uri=http://localhost:8080/member/kakao&response_type=code"
+                           href="https://kauth.kakao.com/oauth/authorize?client_id=6da80eef1101bb3318ba1f6bde584ab1&redirect_uri=http://localhost:8080/member/kakao&response_type=code"
                            target="_blank" th:if="${session.user == null}">카카오로 로그인하기</a>
                         <a class="kakaoButton" id="kakaoLogoutButton" th:href="@{'./member/logout'}"
                            th:if="${session.user != null}">카카오 로그아웃</a>
@@ -112,13 +113,13 @@
                 </td>
             </tr>
 
-            <!-- 네이버 로그인 -->
+            <!-- 네이버로 로그인 -->
             <tr>
                 <th id="naver"></th>
                 <td>
                     <div class="naver">
                         <i class="icon fa-solid fa-n"></i>
-                        <input class="naver-button" id="naver-button" name="kakaoButton"
+                        <input class="naver-button" id="naver-button" name="naverButton"
                                type="submit" value="네이버로 로그인하기" href="#">
                         <div></div>
                     </div>
@@ -132,5 +133,6 @@
         </table>
     </form>
 </main>
+<div class="login-container" id="loginContainer"></div>
 </body>
 </html>

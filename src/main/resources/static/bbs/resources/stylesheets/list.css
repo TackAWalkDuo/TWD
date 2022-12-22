@@ -81,6 +81,7 @@ body > .main > .search-form > .label {
     padding: 0.625rem 1.5rem;
     color: rgb(180, 180, 188);
     margin: 1rem;
+    list-style: none;
 }
 
 .title-select > li:hover {
@@ -111,6 +112,7 @@ body > .main > .search-form > .label {
     color: rgb(180, 180, 188);
     margin: 1.75rem;
     list-style: none;
+    /*여기 열고 닫기    */
 }
 
 .title--select > li.menu {
@@ -126,6 +128,7 @@ body > .main > .search-form > .label {
     margin: 1rem;
     list-style: none;
     text-align: center;
+    text-decoration: none;
 }
 
 .title--select > li > .free-select {
@@ -134,7 +137,12 @@ body > .main > .search-form > .label {
     list-style: unset;
     display: none;
 }
-.title--select > li > .free-select.visible{
+.title--select > .side-menu > .a-select{
+    text-decoration: none;
+    color: inherit;
+}
+
+.title--select > li:hover > .free-select{
     display: flex;
     z-index: 3;
 }
@@ -147,6 +155,10 @@ body > .main > .search-form > .label {
 .title--select > li > .free-select > *:hover {
     background-color: rgba(180, 180, 188);
     color: rgb(255,255,255);
+}
+.title--select > li > .free-select > .scroll-menu > a {
+    text-decoration: none;
+    color: inherit;
 }
 
 .menu {
@@ -185,6 +197,18 @@ body > .main > .search-form > .label {
     border-bottom: 0.0625rem solid rgb(234, 236, 238);
 }
 
+
+#pageContainer .page.selected, #pageContainer .page:hover {
+    background-color: rgba(229, 232, 232,90%);
+}
+
+#pageContainer .page {
+    background-color: rgba(229, 232, 232,50%);
+    padding: 0.5rem 0.75rem;
+    color: inherit;
+    text-decoration: none;
+}
+
 /*공지사항 테이블 라인*/
 #table > tbody > .notice-userArticle > td {
     background-color: rgb(120, 110, 110, 40%);
@@ -213,12 +237,22 @@ body > .main > .search-form > .label {
     margin: 2rem;
 }
 
-#table > tfoot > tr > td > .page-container > .page {
-    margin-inline: 0.5rem;
-}
+/*#table > tfoot > tr > td > .page-container > .page {*/
+/*    margin-inline: 0.5rem;*/
+/*}*/
 
 #table > tfoot > tr > td > .page-container > .page.number {
     margin-inline: 1rem;
 }
 
+.--form > .--content> .button-container{
+    display: flex;
+    text-align: center;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-right: 1rem;
+}
+.--form > .--content> .button-container>a{
+    text-decoration: none;
+}
 

@@ -37,7 +37,8 @@ public class MapController {
     @ResponseBody
     public String postWalkWrite(ArticleEntity article,
                                 LocationEntity location,
-                                @RequestParam(value = "images", required = false) MultipartFile[] images)
+                                @RequestParam(value = "images", required = false) MultipartFile[] images,
+                                @SessionAttribute(value = "user", required = false) UserEntity user)
             throws IOException {
 
         System.out.println(article.getTitle());
@@ -45,7 +46,7 @@ public class MapController {
         System.out.println(location.getLatitude());
         System.out.println(location.getLongitude());
 
-        Enum<?> result = this.mapService.addWalkArticle(article, location, images);
+        Enum<?> result = this.mapService.addWalkArticle(article, location, images, user);
 
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
@@ -88,5 +89,12 @@ public class MapController {
         return responseObject.toString();
     }
 
+//    @GetMapping(value = "delete", produces = MediaType.TEXT_HTML_VALUE)
+//    public ModelAndView getDeleteWalkArticle(@RequestParam(value = "index") int index,
+//                                             @SessionAttribute(value = "user") UserEntity user) {
+//        System.out.println("delete index check : " + index );
+//        ModelAndView modelAndView = new ModelAndView("redirect:/map/walk-read");
+//        return modelAndView;
+//    }
 
 }

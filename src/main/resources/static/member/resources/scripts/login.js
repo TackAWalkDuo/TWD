@@ -2,6 +2,7 @@ const form = window.document.getElementById('loginForm');
 
 const loginButton = document.getElementById('kakaoLoginButton');
 // 카카오 로그인하기 버튼
+const loginContainer = document.getElementById('loginContainer');
 
 const Warning = {
     getElement: () => form.querySelector('[rel="warningRow"]'),
@@ -20,11 +21,6 @@ window.document.getElementById('xButton').addEventListener('click', () => {
     } else {
         window.location.href = '/member';
     }
-});
-
-// recaptcha
-window.document.getElementById('g-recaptcha').addEventListener('click', () => {
-    alert('눌름');
 });
 
 // 로그인 버튼 눌렀을 때
@@ -73,8 +69,9 @@ form.onsubmit = (e) => {
 // 카카오로 로그인하기 눌렀을 때
 loginButton?.addEventListener('click', e => {
     e.preventDefault();
-    window.location.href = 'kauth.kakao.com/oauth/authorize?client_id=ecccd1725ed813810c3752e8582735fe&redirect_uri=http://localhost:8080/member/kakao&response_type=code';
-    window.open();
+    loginContainer.classList.add('visible');
+    // window.location.href = '/member/register';
+    window.open('https://kauth.kakao.com/oauth/authorize?client_id=6da80eef1101bb3318ba1f6bde584ab1&redirect_uri=http://localhost:8080/member/kakao&response_type=code', '로그인', 'width=500; height=750');
 });
 
 

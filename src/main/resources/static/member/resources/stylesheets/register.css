@@ -28,12 +28,11 @@ body > div > .xButton > .icon {
 }
 
 /* input */
-
 .--object-input {
     border-style: none;
     border-bottom: 0.0125rem solid;
     border-radius: 0;
-    width: 29.2rem;
+    width: 30rem;
     height: 2rem;
     font-size: 1.0625rem;
 
@@ -42,9 +41,49 @@ body > div > .xButton > .icon {
     padding-bottom: 0.5rem;
 }
 
-.--object-input:disabled {
+/* step1 input */
+body > .main > .content > .form.step1 > .--object-input {
+    border: 0.0125rem solid;
+    border-radius: 0;
+    width: 30rem;
+    height: 2rem;
+    font-size: 1.0625rem;
+
+    line-height: 147.6%;
+    padding-top: 0.825rem;
+    padding-bottom: 0.5rem;
+}
+
+
+/* step2 input */
+body > .main > .content > .form > .step.step2 > .table > tbody > tr > td .--object-input {
+    border-style: none;
+    border-bottom: 0.0125rem solid;
+    border-radius: 0;
+    width: 30rem;
+    height: 2rem;
+    font-size: 1.0625rem;
+
+    line-height: 147.6%;
+    padding-top: 0.825rem;
+    padding-bottom: 0.5rem;
+}
+
+body > .main > .content > .form > .step.step2 > .table > tbody > tr > td .--object-input:disabled {
     color: rgb(171, 178, 185);
     /*filter:brightness(90%);*/
+    border-radius: 0.5rem;
+    border-bottom: none;
+}
+
+/* select */
+
+select {
+    width: 12.5rem;
+    padding: 0.8rem 0.5rem;
+    font-family: inherit;
+    border: 1px solid #999;
+    border-radius: 0rem;
 }
 
 .--object-check {
@@ -99,7 +138,6 @@ body > .main > .content > .form {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    /*background-color: rgb(255, 255, 255);*/
 }
 
 body > .main > .content > .form > .title-container {
@@ -199,17 +237,6 @@ body > .main > .content > .form > .step.step1  > .label > .title {
     margin-bottom: 1rem;
 }
 
-body > .main > .content > .form > .step.step1  > .label > .title::before {
-    top: 0.0625rem;
-    width: 1rem;
-    height: 1rem;
-    background-color: rgb(139, 145, 121);
-    border-radius: 50%;
-    content: '';
-    display: inline-block;
-    margin-right: 0.625rem;
-    position: relative;
-}
 
 body > .main > .content > .form > .step.step1 > .label > .term {
     padding-top: 1rem;
@@ -303,15 +330,16 @@ body > .main > .content > .form > .step.step2 > .table > tbody > tr > td > .pane
 }
 
 body > .main > .content > .form > .warning {
+    border-radius: 0.375rem;
+    color: rgb(139, 145, 121);
+    font-size: 1.2rem;
+    padding: 1rem 1.25rem;
+    margin-right: 2.5rem;
+    width: 100%;
     align-items: center;
-    background-color: rgb(231, 76, 60);
-    border-radius: 0.5rem;
-    color: rgb(255, 255, 255);
     display: none;
     flex-direction: row;
-    justify-content: center;
-    margin-top: 2.5rem;
-    padding: 1rem 1.125rem;
+    justify-content: flex-start;
 }
 
 body > .main > .content > .form > .warning > .text {
@@ -384,11 +412,11 @@ body > .main > .content > .form > .button-container > .button.green {
 }
 
 body > .main > .content > .form > .button-container > .button.green:hover {
-    background-color: rgb(139, 145, 121);
+    background-color: rgb(120, 110, 11);
 }
 
 body > .main > .content > .form > .button-container > .button.green:active {
-    background-color: rgb(20, 143, 119);
+    background-color: rgb(120, 110, 11);
 }
 
 /* 성별 체크박스 */
@@ -402,7 +430,7 @@ body > .main > .content > .form > .button-container > .button.green:active {
     user-select: none;
 }
 
-.--object-gender > input[type=checkbox] {
+.--object-gender > input[type=radio] {
     display: none;
 }
 
@@ -416,14 +444,13 @@ body > .main > .content > .form > .button-container > .button.green:active {
     color: rgb(255, 255, 255);
     display: flex;
     flex: 0 0 1.125rem;
-    /*flex-grow, shrink, basis = 0  == > 모바일*/
     flex-direction: row;
     justify-content: center;
     margin-right: 0.75rem;
     overflow: hidden;
 }
 
-.--object-gender > input[type=checkbox]:checked ~ .--checkbox {
+.--object-gender > input[type=radio]:checked ~ .--checkbox {
     background-color: rgb(139, 145, 121);
     border: 0.0625rem solid rgb(139, 145, 121);
 }
@@ -434,6 +461,7 @@ body > .main > .content > .form > .button-container > .button.green:active {
     flex-direction: row;
     justify-content: flex-start;
 }
+
 .gender >.--object-gender > .--checkbox {
     width: 1.25rem;
     height: 1.25rem;
@@ -444,14 +472,13 @@ body > .main > .content > .form > .button-container > .button.green:active {
     color: rgb(255, 255, 255);
     display: flex;
     flex: 0 0 1.125rem;
-    /*flex-grow, shrink, basis = 0  == > 모바일*/
     flex-direction: row;
     justify-content: center;
     margin-right: 0.75rem;
     overflow: hidden;
 }
 
-.gender .--object-gender > input[type=checkbox]:checked ~ .--checkbox > {
+.gender .--object-gender > input[type=radio]:checked ~ .--checkbox > {
     background-color: rgb(139, 145, 121);
     border: 0.0625rem solid rgb(139, 145, 121);
 }
@@ -467,7 +494,7 @@ body > .main > .content > .form > .button-container > .button.green:active {
     user-select: none;
 }
 
-.--object-have > input[type=checkbox] {
+.--object-have > input[type=radio] {
     display: none;
 }
 
@@ -481,14 +508,13 @@ body > .main > .content > .form > .button-container > .button.green:active {
     color: rgb(255, 255, 255);
     display: flex;
     flex: 0 0 1.125rem;
-    /*flex-grow, shrink, basis = 0  == > 모바일*/
     flex-direction: row;
     justify-content: center;
     margin-right: 0.75rem;
     overflow: hidden;
 }
 
-.--object-have > input[type=checkbox]:checked ~ .--checkbox {
+.--object-have > input[type=radio]:checked ~ .--checkbox {
     background-color: rgb(139, 145, 121);
     border: 0.0625rem solid rgb(139, 145, 121);
 }
@@ -499,6 +525,7 @@ body > .main > .content > .form > .button-container > .button.green:active {
     flex-direction: row;
     justify-content: flex-start;
 }
+
 .have >.--object-have > .--checkbox {
     width: 1.25rem;
     height: 1.25rem;
@@ -509,14 +536,13 @@ body > .main > .content > .form > .button-container > .button.green:active {
     color: rgb(255, 255, 255);
     display: flex;
     flex: 0 0 1.125rem;
-    /*flex-grow, shrink, basis = 0  == > 모바일*/
     flex-direction: row;
     justify-content: center;
     margin-right: 0.75rem;
     overflow: hidden;
 }
 
-.have .--object-have > input[type=checkbox]:checked ~ .--checkbox > {
+.have .--object-have > input[type=radio]:checked ~ .--checkbox > {
     background-color: rgb(139, 145, 121);
     border: 0.0625rem solid rgb(139, 145, 121);
 }
@@ -532,7 +558,7 @@ body > .main > .content > .form > .button-container > .button.green:active {
     user-select: none;
 }
 
-.--object-size > input[type=checkbox] {
+.--object-size > input[type=radio] {
     display: none;
 }
 
@@ -546,14 +572,13 @@ body > .main > .content > .form > .button-container > .button.green:active {
     color: rgb(255, 255, 255);
     display: flex;
     flex: 0 0 1.125rem;
-    /*flex-grow, shrink, basis = 0  == > 모바일*/
     flex-direction: row;
     justify-content: center;
     margin-right: 0.75rem;
     overflow: hidden;
 }
 
-.--object-size > input[type=checkbox]:checked ~ .--checkbox {
+.--object-size > input[type=radio]:checked ~ .--checkbox {
     background-color: rgb(139, 145, 121);
     border: 0.0625rem solid rgb(139, 145, 121);
 }
@@ -564,6 +589,7 @@ body > .main > .content > .form > .button-container > .button.green:active {
     flex-direction: row;
     justify-content: flex-start;
 }
+
 .size >.--object-size > .--checkbox {
     width: 1.25rem;
     height: 1.25rem;
@@ -581,9 +607,20 @@ body > .main > .content > .form > .button-container > .button.green:active {
     overflow: hidden;
 }
 
-.size .--object-size > input[type=checkbox]:checked ~ .--checkbox > {
+.size .--object-size > input[type=radio]:checked ~ .--checkbox > {
     background-color: rgb(139, 145, 121);
     border: 0.0625rem solid rgb(139, 145, 121);
+}
+
+/* 서비스 이용약관 동의 */
+.--object-check {
+    margin-left: 3rem;
+    background-color: white;
+}
+
+#checkSpecies {
+    display: none;
+    margin-left: 1.5rem;
 }
 
 

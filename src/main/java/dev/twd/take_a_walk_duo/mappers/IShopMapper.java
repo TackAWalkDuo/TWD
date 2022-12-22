@@ -3,8 +3,8 @@ package dev.twd.take_a_walk_duo.mappers;
 import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
 import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
-import dev.twd.take_a_walk_duo.vos.shop.ProductVo;
 import dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity;
+import dev.twd.take_a_walk_duo.vos.shop.ProductVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

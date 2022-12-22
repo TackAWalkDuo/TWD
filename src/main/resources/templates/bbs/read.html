@@ -10,7 +10,7 @@
     <script defer th:src="@{/bbs/resources/scripts/read.js}"></script>
     <link rel="stylesheet" th:href="@{/bbs/resources/stylesheets/read.css}">
 </head>
-<body th:if="${article != null}">
+<body>
 <th:block th:replace="~{fragments/body :: header}"></th:block>
 <main class="--main main">
     <div class="img">
@@ -20,55 +20,50 @@
         <div class="--content content">
             <nav>
                 <ul class="title--select">
-                    <li class="menu"><a>자유게시판</a>
-                        <ul class="free-select visible">
-                            <li class="scroll-menu"><a>전체</a></li>
-                            <li class="scroll-menu"><a>일상</a></li>
-                            <li class="scroll-menu"><a>꿀Tip</a></li>
-                            <li class="scroll-menu"><a>유머</a></li>
+                    <li class="menu" rel="listMenu"><a th:href="@{/bbs/list(bid='free')}">자유게시판</a>
+                        <ul class="free-select" rel="freeSelect">
+                            <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'free'}" th:each="boardTitle : ${boardTitles}">
+                                <a class="a-select" th:text="${boardTitle.getText()}" th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
+                            </li>
                         </ul>
                     </li>
-                    <li class="menu"><a>모임후기</a>
-                        <ul class="free-select">
-                            <li class="scroll-menu"><a>전체</a></li>
-                            <li class="scroll-menu"><a>일상</a></li>
-                            <li class="scroll-menu"><a>꿀Tip</a></li>
-                            <li class="scroll-menu"><a>유머</a></li>
+                    <li class="menu" rel="listMenu"><a>모임후기</a>
+                        <ul class="free-select" rel="freeSelect">
+                            <li class="scroll-menu"><a>모임추천</a></li>
+                            <li class="scroll-menu"><a>자랑하기</a></li>
+                            <li class="scroll-menu"><a>릴스</a></li>
                         </ul>
                     </li>
-                    <li class="menu"><a>공지사항</a>
-                        <ul class="free-select visible">
-                            <li class="scroll-menu"><a>전체</a></li>
-                            <li class="scroll-menu"><a>일상</a></li>
-                            <li class="scroll-menu"><a>꿀Tip</a></li>
-                            <li class="scroll-menu"><a>유머</a></li>
+                    <li class="menu" rel="listMenu"><a th:href="@{/bbs/list(bid='notice')}">공지사항</a>
+                        <ul class="free-select" rel="freeSelect">
+                            <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'notice'}" th:each="boardTitle : ${boardTitles}">
+                                <a class="a-select" th:text="${boardTitle.getText()}" th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
+                            </li>
                         </ul>
                     </li>
-                    <li class="menu"><a>QNA</a>
-                        <ul class="free-select">
-                            <li class="scroll-menu"><a>전체</a></li>
-                            <li class="scroll-menu"><a>일상</a></li>
-                            <li class="scroll-menu"><a>꿀Tip</a></li>
-                            <li class="scroll-menu"><a>유머</a></li>
+                    <li class="menu" rel="listMenu"><a th:href="@{/bbs/list(bid='qna')}">QNA</a>
+                        <ul class="free-select" rel="freeSelect">
+                            <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'qna'}" th:each="boardTitle : ${boardTitles}">
+                                <a class="a-select" th:text="${boardTitle.getText()}" th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
+                            </li>
                         </ul>
                     </li>
-                    <li class="menu"><a>거래문의</a>
-                        <ul class="free-select">
-                            <li class="scroll-menu"><a>전체</a></li>
-                            <li class="scroll-menu"><a>일상</a></li>
-                            <li class="scroll-menu"><a>꿀Tip</a></li>
-                            <li class="scroll-menu"><a>유머</a></li>
+                    <li class="menu" rel="listMenu"><a th:href="@{/bbs/list(bid='query')}">거래문의</a>
+                        <ul class="free-select" rel="freeSelect">
+                            <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'query'}" th:each="boardTitle : ${boardTitles}">
+                                <a class="a-select" th:text="${boardTitle.getText()}" th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
                 <ul class="title--select">
                     <li class="side-menu connect"><a>전체</a></li>
-                    <li class="side-menu connect"><a>일상</a></li>
-                    <li class="side-menu connect"><a>꿀Tip</a></li>
-                    <li class="side-menu connect"><a>유머</a></li>
+                    <li class="side-menu connect" th:each="boards : ${boardList}">
+                    <a class="a-select" th:text="${boards.getText()}" th:href="@{/bbs/list(bid=${boards.getId()})}"></a>
+                    </li>
                 </ul>
             </nav>
-            <form class="read-form" id="form">
+            <form th:if="${article != null}" class="read-form" id="form">
                 <table class="table">
                     <thead>
                     <tr class="title-table">
@@ -82,11 +77,11 @@
                         <td class="image-tableData">
                             <div>
                                 <img rel="thumbnailImage" class="detail-img"
-                                     th:src="@{/bbs/thumbnail (index=${article.getIndex()})}" alt="#"
-                                     src="/resources/images/item1.jpg">
+                                     th:src="@{/bbs/thumbnail (index=${article.getIndex()})}" alt="#">
                             </div>
                         </td>
                     </tr>
+
                     <tr>
                         <th hidden>견종분류</th>
                         <td th:text="${article.getUserSpecies()}">대형견||소형견</td>
@@ -96,12 +91,13 @@
                         <td></td>
                         <th hidden>추천수</th>
                         <td rowspan="2">
-                            <div class="like">
-                                <a href="#" class="toggle visible"><i class="fa-solid fa-heart"></i></a>
-                                <span th:text="${'['+article.getArticleLikedCount()+']'}">1</span>
+                            <div th:class="${'like '+(liked == true ?'visible':'')}" id="likeA">
+                                <a href="#" class="toggle"><i class="fa-solid fa-heart"></i></a>
+                                <span rel="likeCount" name="count" th:text="${article.getArticleLikedCount()}">1</span>
                             </div>
                         </td>
                     </tr>
+
                     <tr>
                         <th hidden>작성 일시</th>
                         <td th:text="${#dates.format(article.getWrittenOn(),'yyyy-MM-dd HH:mm:ss')}">2000-01-01
@@ -111,7 +107,7 @@
                         <td th:text="${'조회수 ['+article.getView() +']'}">1</td>
                         <td>
                             <a class="modify-article" th:href="@{./modify (aid=${article.getIndex()})}">수정하기</a>
-                            <a class="delete-article">삭제하기</a>
+                            <a class="delete-article" id="deleteArticle">삭제하기</a>
                         </td>
                     </tr>
                     </thead>
@@ -129,6 +125,15 @@
                     <th>댓글 고?</th>
                     </tr>
                     </tfoot>
+                    <div class="dialog" rel="dialog">
+                        <div class="dialog__inner">
+                            <h1>TAKEAWALKDUO</h1>
+                            <p class="text">Dialog 내용</p>
+                            <div class="dialog__btn__wrap">
+                                <button id="ok">OK</button>
+                            </div>
+                        </div>
+                    </div>
                 </table>
                 <input name="aid" type="hidden" th:value="${article.getIndex()}">
             </form>

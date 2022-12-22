@@ -42,13 +42,12 @@ form['findButton'].addEventListener('click', () => {
     const formData = new FormData();
     formData.append('name', form['name'].value);
     formData.append('contact', form['contact'].value);
-    xhr.open('POST', 'http://localhost:8080/member/recoverEmail');
+    xhr.open('POST', './recoverEmail');
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
-            Cover.hide();
             if (xhr.status >= 200 && xhr.status < 300) {
                 const responseObject = JSON.parse(xhr.responseText);
-                console.log(xhr.responseText);
+                // console.log(xhr.responseText);
                 switch (responseObject['result']) {
                     case 'success':
                         form['name'].setAttribute('disabled', 'disabled');
@@ -56,9 +55,8 @@ form['findButton'].addEventListener('click', () => {
                         form['findButton'].setAttribute('disabled', 'disabled');
                         form.querySelector('[rel="messageRow"]').classList.add('visible');
 
-                        form.querySelector('[rel="message"]').innerText = responseObject.email;
+                        form.querySelector('[rel="message"]').innerText = responseObject['email'];
                         form.querySelector('[rel="loginRow"]').classList.add('visible');
-
                         break;
                     default:
                         Warning.show('입력한 정보와 일치하는 회원이 없습니다.');
@@ -71,4 +69,9 @@ form['findButton'].addEventListener('click', () => {
         }
     };
     xhr.send(formData);
+});
+
+// 로그인 버튼 눌렀을 때
+window.document.getElementById('loginButton').addEventListener('click', () => {
+    window.location.href = '../../login';
 });

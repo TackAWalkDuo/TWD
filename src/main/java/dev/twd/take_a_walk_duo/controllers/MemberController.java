@@ -1,9 +1,10 @@
 package dev.twd.take_a_walk_duo.controllers;
 
 import dev.twd.take_a_walk_duo.entities.member.EmailAuthEntity;
+import dev.twd.take_a_walk_duo.entities.member.KakaoUserEntity;
+import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
 import dev.twd.take_a_walk_duo.services.MemberService;
-import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -30,15 +31,18 @@ public class MemberController {
      * 카카오 로그인
      * rootgo
      */
+
     // 카카오 로그인
-    @GetMapping(value = "login", produces = MediaType.TEXT_PLAIN_VALUE)
+    @GetMapping(value = "kakao", produces = MediaType.TEXT_PLAIN_VALUE)
     public ModelAndView getKakaoLogin(@RequestParam(value = "code") String code,
                                       @RequestParam(value = "error", required = false) String error,
-                                      @RequestParam(value = "error_description", required = false) String errorDescription, HttpSession session) throws IOException {
+                                      @RequestParam(value = "error_description", required = false) String errorDescription,
+                                      HttpSession session) throws IOException {
         String accessToken = this.memberService.getKakaoAccessToken(code);
-        UserEntity user = this.memberService.getKakaoUserInfo(accessToken);
+        // 2번 인증코드로 토큰 전달
+        KakaoUserEntity user = this.memberService.getKakaoUserInfo(accessToken);
         session.setAttribute("user", user);
-        return new ModelAndView("memeber/login");
+        return new ModelAndView("memeber/kakao");
     }
 
     // 카카오 로그아웃
@@ -50,7 +54,8 @@ public class MemberController {
     }
 
     // 로그인 GET
-    @RequestMapping(value = "login", method = RequestMethod.GET,
+    @RequestMapping(value = "login",
+            method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getLogin() {
         ModelAndView modelAndView = new ModelAndView("member/login");
@@ -83,7 +88,8 @@ public class MemberController {
             produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getLogout(HttpSession session) {
         session.setAttribute("user", null);
-        ModelAndView modelAndView = new ModelAndView("redirect:login");
+        ModelAndView modelAndView = new ModelAndView("redirect:/");
+        // TODO 로그아웃 하면 바로 전 단계로 가야함
         return modelAndView;
     }
 
@@ -159,7 +165,6 @@ public class MemberController {
             responseObject.put("index", emailAuth.getIndex());
         }
         return responseObject.toString();
-        // "{"result":"success"}"
     }
 
     // 비밀번호 찾기 PATCH
@@ -189,6 +194,7 @@ public class MemberController {
     @RequestMapping(value = "recoverEmail",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
     public String postRecoverEmail(UserEntity user) {
         Enum<?> result = this.memberService.recoverEmail(user);
         JSONObject responseObject = new JSONObject();

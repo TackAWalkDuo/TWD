@@ -39,7 +39,7 @@ body > .--header {
     max-width: 20%;
     min-height: 45%;
     z-index: 0;
-    background-color: rgb(234, 236, 238);
+    background-color: rgba(211, 211, 211, 90%);
     top: 24%;
     left: 18%;
     overflow: hidden;
@@ -50,18 +50,23 @@ body > .--header {
 }
 
 
-#searchContainer {
-    overflow: hidden auto;
-    background-color: white;
+#writeContainer > .list_container {
+    margin-top: 0.5rem;
     border: 0.0625rem solid rgb(169, 169, 169);
+    text-align: center;
+
+
+    font-size: 2rem;
 }
 
-#searchContainer > .keyword {
-    margin: 0.5rem 0;
+#writeContainer > .list_container > .text {
+    text-decoration: none;
+    color: white;
 }
+
 
 #writeContainer > .walk-article {
-    margin-top: 2rem;
+    margin-top: 1rem;
     width: 90%;
 }
 
@@ -70,10 +75,9 @@ body > .--header {
 }
 
 #writeContainer > .walk-article > .title-container {
-    background-color: white;
+    background-color: rgb(234, 236, 238);
     margin-top: 1rem;
     padding: 0.5rem 0.5rem;
-    overflow: hidden auto;
     border: 0.0625rem solid rgb(169, 169, 169);
 }
 
@@ -88,11 +92,12 @@ body > .--header {
 
 #writeContainer > .walk-article > .image-container > .no-image {
     font-size: 1.2rem;
-    background-color: white;
+    background-color: rgb(234, 236, 238);
     border-radius: 0.5rem;
     width: 80%;
     padding: 1rem;
 }
+
 #writeContainer > .walk-article > .image-container > .no-image > * {
     font-size: 1.8rem;
 }
@@ -106,8 +111,8 @@ body > .--header {
 }
 
 #writeContainer > .walk-article > .image-container > .image-select-button {
-    font-size: 1rem;
-    color: black;
+    font-size: 1.5rem;
+    color: rgb(52, 152, 219);
     text-decoration: none;
     margin-bottom: 0.3rem;
 }
@@ -137,7 +142,7 @@ body > .--header {
     padding: 0.5rem 0.3rem;
     width: 90%;
     min-height: 8rem;
-    background-color: white;
+    background-color: rgb(234, 236, 238);
     font-size: 1.2rem;
     overflow: hidden auto;
     resize: none;
@@ -154,6 +159,8 @@ body > .--header {
     border: none;
     border: unset;
 }
+
+
 
 /* 지도 마커 클릭시 나오는 주소 */
 #bAddr {

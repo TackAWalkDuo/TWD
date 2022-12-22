@@ -22,10 +22,9 @@
 <section class="map-container" id="mapContainer">
     <div class="map" id="map"></div>
     <div class="write-container" id="writeContainer">
-<!--        <div class="search-container" id="searchContainer">-->
-<!--            <input class="keyword" placeholder="배경색은 프로젝트 베이스 컬러.">-->
-
-<!--        </div>-->
+        <div class="list_container --object-button" id="listContainer">
+            <a class="text" th:href="@{/map/walk-read}">목록으로</a>
+        </div>
         <form class="walk-article" id="walkArticle">
             <input hidden accept="image/" name="images" type="file">
             <input hidden name="lat">

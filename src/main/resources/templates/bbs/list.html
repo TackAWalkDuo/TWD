@@ -30,61 +30,67 @@
                    maxlength="50" name="keyword" th:value="${#request.getParameter('keyword')}"
                    placeholder="검색어를 입력해주세요">
         </label>
-        <!--            <input name="bid" type="hidden" th:value="${board.getId()}">-->
+        <input name="bid" type="hidden" th:value="${board.getId()}">
         <input type="submit" class="--object-button" value="검색">
     </form>
     <div class="--form">
         <div class="--content content">
             <nav>
                 <ul class="title--select">
-                    <li class="menu"><a>자유게시판</a>
-                        <ul class="free-select visible">
-                            <li class="scroll-menu"><a>전체</a></li>
-                            <li class="scroll-menu"><a>일상</a></li>
-                            <li class="scroll-menu"><a>꿀Tip</a></li>
-                            <li class="scroll-menu"><a>유머</a></li>
+                    <li class="menu" rel="listMenu"><a th:href="@{/bbs/list(bid='free')}">자유게시판</a>
+                        <ul class="free-select" rel="freeSelect">
+                            <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'free'}"
+                                th:each="boardTitle : ${boardTitles}">
+                                <a class="a-select" th:text="${boardTitle.getText()}"
+                                   th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
+                            </li>
                         </ul>
                     </li>
-                    <li class="menu"><a>모임후기</a>
-                        <ul class="free-select">
-                            <li class="scroll-menu"><a>전체</a></li>
-                            <li class="scroll-menu"><a>일상</a></li>
-                            <li class="scroll-menu"><a>꿀Tip</a></li>
-                            <li class="scroll-menu"><a>유머</a></li>
+                    <li class="menu" rel="listMenu"><a>모임후기</a>
+                        <ul class="free-select" rel="freeSelect">
+                            <li class="scroll-menu"><a>모임추천</a></li>
+                            <li class="scroll-menu"><a>자랑하기</a></li>
+                            <li class="scroll-menu"><a>릴스</a></li>
                         </ul>
                     </li>
-                    <li class="menu"><a>공지사항</a>
-                        <ul class="free-select visible">
-                            <li class="scroll-menu"><a>전체</a></li>
-                            <li class="scroll-menu"><a>일상</a></li>
-                            <li class="scroll-menu"><a>꿀Tip</a></li>
-                            <li class="scroll-menu"><a>유머</a></li>
+                    <li class="menu" rel="listMenu"><a th:href="@{/bbs/list(bid='notice')}">공지사항</a>
+                        <ul class="free-select" rel="freeSelect">
+                            <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'notice'}"
+                                th:each="boardTitle : ${boardTitles}">
+                                <a class="a-select" th:text="${boardTitle.getText()}"
+                                   th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
+                            </li>
                         </ul>
                     </li>
-                    <li class="menu"><a>QNA</a>
-                        <ul class="free-select">
-                            <li class="scroll-menu"><a>전체</a></li>
-                            <li class="scroll-menu"><a>일상</a></li>
-                            <li class="scroll-menu"><a>꿀Tip</a></li>
-                            <li class="scroll-menu"><a>유머</a></li>
+                    <li class="menu" rel="listMenu"><a th:href="@{/bbs/list(bid='qna')}">QNA</a>
+                        <ul class="free-select" rel="freeSelect">
+                            <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'qna'}"
+                                th:each="boardTitle : ${boardTitles}">
+                                <a class="a-select" th:text="${boardTitle.getText()}"
+                                   th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
+                            </li>
                         </ul>
                     </li>
-                    <li class="menu"><a>거래문의</a>
-                        <ul class="free-select">
-                            <li class="scroll-menu"><a>전체</a></li>
-                            <li class="scroll-menu"><a>일상</a></li>
-                            <li class="scroll-menu"><a>꿀Tip</a></li>
-                            <li class="scroll-menu"><a>유머</a></li>
+                    <li class="menu" rel="listMenu"><a th:href="@{/bbs/list(bid='query')}">거래문의</a>
+                        <ul class="free-select" rel="freeSelect">
+                            <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'query'}"
+                                th:each="boardTitle : ${boardTitles}">
+                                <a class="a-select" th:text="${boardTitle.getText()}"
+                                   th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
                 <ul class="title--select">
-                    <li class="side-menu connect"><a>전체</a></li>
-                    <li class="side-menu connect"><a>일상</a></li>
-                    <li class="side-menu connect"><a>꿀Tip</a></li>
-                    <li class="side-menu connect"><a>유머</a></li>
+                    <li class="side-menu connect" th:each="boards : ${boardList}">
+                        <a class="a-select" th:text="${boards.getText()}"
+                           th:href="@{/bbs/list(bid=${boards.getId()})}"></a>
+                    </li>
                 </ul>
             </nav>
+            <div class="button-container" id="buttonContainer">
+                <a class="--object-button" th:href="@{/bbs/write(bid=${board.getId()})}">작성하기</a>
+            </div>
             <table class="table" id="table">
                 <thead>
                 <tr class="list">
@@ -98,145 +104,20 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="notice-userArticle">
+                <tr class="userArticle" th:each="article :${articles}">
                     <td>갱얼쥐</td>
-                    <td>3</td>
+                    <td th:text="${article.getIndex()}">3</td>
                     <td>
-                        <a class="title">
-                            <span class="text">세번째 게시글</span>
+                        <a class="title" th:href="@{/bbs/read(aid=${article.getIndex()})}">
+                            <span class="text" th:text="${article.getTitle()}">세번째 게시글</span>
                             <span class="comment">[3]</span>
                         </a>
                     </td>
-                    <td>레너드</td>
-                    <td>17</td>
+                    <td th:text="${article.getUserNickname()}">레너드</td>
+                    <td th:text="${article.getView()}">17</td>
                     <td>추천수</td>
-                    <td>2022-01-03 00:00:00</td>
-                </tr>
-                <tr class="hot-userArticle">
-                    <td>갱얼쥐</td>
-                    <td>3</td>
-                    <td>
-                        <a class="title">
-                            <span class="text">세번째 게시글</span>
-                            <span class="comment">[3]</span>
-                        </a>
+                    <td th:text="${#dates.format(article.getModifiedOn(), 'yyyy-MM-dd HH:mm:ss')}">2022-01-03 00:00:00
                     </td>
-                    <td>레너드</td>
-                    <td>17</td>
-                    <td>추천수</td>
-                    <td>2022-01-03 00:00:00</td>
-                </tr>
-                <tr class="hot-userArticle">
-                    <td>갱얼쥐</td>
-                    <td>3</td>
-                    <td>
-                        <a class="title">
-                            <span class="text">세번째 게시글</span>
-                            <span class="comment">[3]</span>
-                        </a>
-                    </td>
-                    <td>레너드</td>
-                    <td>17</td>
-                    <td>추천수</td>
-                    <td>2022-01-03 00:00:00</td>
-                </tr>
-                <tr class="hot-userArticle">
-                    <td>갱얼쥐</td>
-                    <td>3</td>
-                    <td>
-                        <a class="title">
-                            <span class="text">세번째 게시글</span>
-                            <span class="comment">[3]</span>
-                        </a>
-                    </td>
-                    <td>레너드</td>
-                    <td>17</td>
-                    <td>추천수</td>
-                    <td>2022-01-03 00:00:00</td>
-                </tr>
-                <tr class="userArticle">
-                    <td>갱얼쥐</td>
-                    <td>3</td>
-                    <td>
-                        <a class="title">
-                            <span class="text">세번째 게시글</span>
-                            <span class="comment">[3]</span>
-                        </a>
-                    </td>
-                    <td>레너드</td>
-                    <td>17</td>
-                    <td>추천수</td>
-                    <td>2022-01-03 00:00:00</td>
-                </tr>
-                <tr class="userArticle">
-                    <td>갱얼쥐</td>
-                    <td>3</td>
-                    <td>
-                        <a class="title">
-                            <span class="text">세번째 게시글</span>
-                            <span class="comment">[3]</span>
-                        </a>
-                    </td>
-                    <td>레너드</td>
-                    <td>17</td>
-                    <td>추천수</td>
-                    <td>2022-01-03 00:00:00</td>
-                </tr>
-                <tr>
-                    <td>갱얼쥐</td>
-                    <td>3</td>
-                    <td>
-                        <a class="title">
-                            <span class="text">세번째 게시글</span>
-                            <span class="comment">[3]</span>
-                        </a>
-                    </td>
-                    <td>레너드</td>
-                    <td>17</td>
-                    <td>추천수</td>
-                    <td>2022-01-03 00:00:00</td>
-                </tr>
-                <tr>
-                    <td>갱얼쥐</td>
-                    <td>3</td>
-                    <td>
-                        <a class="title">
-                            <span class="text">세번째 게시글</span>
-                            <span class="comment">[3]</span>
-                        </a>
-                    </td>
-                    <td>레너드</td>
-                    <td>17</td>
-                    <td>추천수</td>
-                    <td>2022-01-03 00:00:00</td>
-                </tr>
-                <tr>
-                    <td>갱얼쥐</td>
-                    <td>3</td>
-                    <td>
-                        <a class="title">
-                            <span class="text">세번째 게시글</span>
-                            <span class="comment">[3]</span>
-                        </a>
-                    </td>
-                    <td>레너드</td>
-                    <td>17</td>
-                    <td>추천수</td>
-                    <td>2022-01-03 00:00:00</td>
-                </tr>
-                <tr>
-                    <td>갱얼쥐</td>
-                    <td>3</td>
-                    <td>
-                        <a class="title">
-                            <span class="text">세번째 게시글</span>
-                            <span class="comment">[3]</span>
-                        </a>
-                    </td>
-                    <td>레너드</td>
-                    <td>17</td>
-                    <td>추천수</td>
-                    <td>2022-01-03 00:00:00</td>
                 </tr>
                 <tr>
                     <td>갱얼쥐</td>
@@ -256,21 +137,32 @@
                 <tfoot>
                 <tr>
                     <td colspan="7">
-                        <div class="page-container">
-                            <a class="page">
+                        <div class="page-container" id="pageContainer"
+                             th:with="urlBuilder = ${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
+                            <a class="page"
+                               th:if="${paging.requestPage > 1}"
+                               th:href="@{${urlBuilder.replaceQueryParam('page',1).build().toUriString()}}">
                                 <i class="fa-solid fa-angles-left"></i>
                             </a>
-                            <a class="page">
+                            <a class="page"
+                               th:if="${paging.requestPage > 1}"
+                               th:href="@{${urlBuilder.replaceQueryParam('page',paging.requestPage - 1).build().toUriString()}}">
                                 <i class="fa-solid fa-angle-left"></i>
                             </a>
 
-                            <a class="page number">1 2 3 4 5</a>
-                            <a class="page">
+                            <a th:each="page : ${#numbers.sequence(paging.startPage,paging.endPage)}"
+                               th:class="${'page ' + (page == paging.requestPage ? 'selected' : '')}"
+                               th:text="${page}"
+                               th:href="@{${urlBuilder.replaceQueryParam('page',page).build().toUriString()}}"></a>
 
+                            <a class="page"
+                               th:if="${paging.requestPage < paging.maxPage}"
+                               th:href="@{${urlBuilder.replaceQueryParam('page',paging.requestPage + 1).build().toUriString()}}">
                                 <i class="fa-solid fa-angle-right"></i>
                             </a>
-                            <a class="page">
-
+                            <a class="page"
+                               th:if="${paging.requestPage < paging.maxPage}"
+                               th:href="@{${urlBuilder.replaceQueryParam('page',paging.maxPage).build().toUriString()}}">
                                 <i class="fa-solid fa-angles-right"></i>
                             </a>
                         </div>

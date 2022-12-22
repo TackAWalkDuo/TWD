@@ -70,15 +70,14 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
             form['password'].focus();
             return;
         }
-        if (form['nickname'].value === '') {
-            Warning.show('닉네임을 입력해주세요.')
-            form['nickname'].focus();
-            return;
-        }
-
         if (form['name'].value === '') {
             Warning.show('이름을 입력해주세요.')
             form['name'].focus();
+            return;
+        }
+        if (form['nickname'].value === '') {
+            Warning.show('닉네임을 입력해주세요.')
+            form['nickname'].focus();
             return;
         }
         if (form['contact'].value === '') {
@@ -87,26 +86,28 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
             return;
         }
 
-        // // TODO 체크 안되어있을 때 선택하라는 문구 나오게 하기.
-        // const isCheck = document.form['gender'].checked();
-        //
-        // // 남 -> 0  여 ->1
-        // if (!isCheck) {
-        //     Warning.show('성별을 선택해주세요.')
-        //     form['gender'].focus();
-        //     return false;
-        // }
-        //
-        // if (form['haveDog'].value === '') {
-        //     Warning.show('애완견 여/부를 선택해주세요.')
-        //     form['haveDog'].focus();
-        //     return;
-        // }
-        // if (form['species'].value === '') {
-        //     Warning.show('견종을 선택 해주세요.')
-        //     form['species'].focus();
-        //     return;
-        // }
+        const checkGenderMan = document.querySelector('[rel="genderMan"]');
+        const checkGenderWoman = document.querySelector('[rel="genderWoman"]');
+
+        if (checkGenderMan.checked === false && checkGenderWoman.checked === false) {
+            Warning.show('성별을 체크해주세요.')
+            return;
+        }
+
+        const checkHaveDog = document.querySelector('[rel="havedog"]');
+        const checkHaveNotDog = document.querySelector('[rel="notHaveDog"]');
+        if (checkHaveDog.checked === false && checkHaveNotDog.checked === false) {
+            Warning.show('애완견 여/부를 체크해 주세요.')
+            return;
+        }
+
+        const checkSmall = document.querySelector('[rel="small"]');
+        const checkMiddle = document.querySelector('[rel="middle"]');
+        const checkBig = document.querySelector('[rel="big"]');
+        if (checkHaveDog.checked === true && checkSmall.checked === false && checkMiddle.checked === false && checkBig.checked === false) {
+            Warning.show('견종선택을 체크해 주세요.')
+            return;
+        }
 
         if (form['addressPostal'].value === '' || form['addressPrimary'].value === '') {
             Warning.show('주소 찾기를 통해 주소를 입력해 주세요.')
@@ -144,11 +145,10 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
                         case 'email_not_verified':
                             Warning.show('이메일 인증이 완료되지 않았습니다.');
                             break;
-
                         default:
                             Warning.show('알 수 없는 이유로 회원가입에 실패하였습니다. 잠시 후 다시 시도해 주세요.');
                     }
-                }   else {
+                } else {
                     Warning.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
                 }
             }
@@ -158,6 +158,17 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
         window.location.href = 'login';
     }
 });
+
+// '여' 체크 했을때 견종선택 나오도록
+form.querySelector('[rel="haveDog"]').addEventListener('click', () => {
+    document.getElementById('checkSpecies').style.display = "flex";
+});
+
+// '부' 체크 했을때 견종선택 안나오도록
+form.querySelector('[rel="notHaveDog"]').addEventListener('click', () => {
+    document.getElementById('checkSpecies').style.display = "none";
+});
+
 
 // 인증번호 전송 눌렀을 때
 form['emailSend'].addEventListener('click', () => {
@@ -275,7 +286,6 @@ form['emailVerify'].addEventListener('click', () => {
     };
     xhr.send(formData);
 });
-
 
 // 우편번호 찾기 기능
 form['addressFind'].addEventListener('click', () => {
