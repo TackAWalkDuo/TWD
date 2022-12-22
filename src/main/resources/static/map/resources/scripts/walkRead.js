@@ -526,8 +526,16 @@ const loadReview = (articleIndex) => {
     }
 ;
 
-//게시글 삭제
+// 로그인 되었을경우에 삭제와 수정이 가능하게 하기위한 조건문
 if (loginUserEmailElement !== null) {
+
+    //게시글 수정하기
+    modifyMenuTopElement.querySelector('[rel="articleModify"]').addEventListener('click', () => {
+       console.log("modify");
+
+    });
+
+    //게시글 삭제
     modifyMenuTopElement.querySelector('[rel="articleDelete"]').addEventListener('click', () => {
         const xhr = new XMLHttpRequest();
         const formData = new FormData();

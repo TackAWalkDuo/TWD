@@ -89,12 +89,4 @@ public class MapController {
         return responseObject.toString();
     }
 
-//    @GetMapping(value = "delete", produces = MediaType.TEXT_HTML_VALUE)
-//    public ModelAndView getDeleteWalkArticle(@RequestParam(value = "index") int index,
-//                                             @SessionAttribute(value = "user") UserEntity user) {
-//        System.out.println("delete index check : " + index );
-//        ModelAndView modelAndView = new ModelAndView("redirect:/map/walk-read");
-//        return modelAndView;
-//    }
-
 }

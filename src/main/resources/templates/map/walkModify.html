@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>산책 게시판 - 수정하기</title>
+    <th:block th:replace="~{fragments/head}"></th:block>
+    <script src="https://kit.fontawesome.com/5c01421323.js" crossorigin="anonymous"></script>
+    <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3dd5def9cc8bbac0d245f16beaca36c9&libraries=services"></script>
+    <script defer th:src="@{/map/resources/scripts/walkModify.js}"></script>
+    <link rel="stylesheet" th:href="@{/map/resources/stylesheets/walkWrite.css}">
+
+
+</head>
+
+<body>
+<th:block th:replace="~{fragments/body :: header}"></th:block>
+
+<section class="map-container" id="mapContainer">
+    <div class="map" id="map"></div>
+    <div class="write-container" id="writeContainer">
+        <div class="list_container --object-button" id="listContainer">
+            <a class="text" th:href="@{/map/walk-read}">목록으로</a>
+        </div>
+        <form class="walk-article" id="walkArticle">
+            <input hidden accept="image/" name="images" type="file">
+            <input hidden name="lat">
+            <input hidden name="lng">
+            <input hidden name="address">
+            <div class="title-container">
+                <input name="place_title" class="title" placeholder="어디인가요?">
+            </div>
+            <div class="image-container" rel="imageContainer">
+                <a href="#" class="image-select-button" rel="imageSelectButton">이미지 선택...</a>
+                <div class="no-image" rel="noImage">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <div class="text">NO Select Image</div>
+                </div>
+
+            </div>
+            <div class="content-container">
+                <textarea type="text" class="content" maxlength="100" name="content"
+                          placeholder="간단한 소개를 작성해주세요."></textarea>
+            </div>
+            <div class="submit-container">
+                <input type="submit" class="--object-button" value="작성">
+            </div>
+        </form>
+    </div>
+</section>
+
+
+<!-- cover -->
+<th:block th:replace="~{fragments/body :: cover}"></th:block>
+<th:block th:replace="~{fragments/body :: footer}"></th:block>
+</body>
+</html>
