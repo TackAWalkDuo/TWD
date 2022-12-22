@@ -9,9 +9,12 @@ public class UserEntity {
     private String nickname;
     private String name;
     private String contact;
-    private boolean gender;
-    private boolean haveDog;
-    private int species;
+    private int birthYear;
+    private int birthMonth;
+    private int birthDay;
+    private String gender;
+    private String haveDog;
+    private String species;
     private String addressPostal;
     private String addressPrimary;
     private String addressSecondary;
@@ -54,31 +57,58 @@ public class UserEntity {
         return contact;
     }
 
+    public int getBirthYear() {
+        return birthYear;
+    }
+
+    public UserEntity setBirthYear(int birthYear) {
+        this.birthYear = birthYear;
+        return this;
+    }
+
+    public int getBirthMonth() {
+        return birthMonth;
+    }
+
+    public UserEntity setBirthMonth(int birthMonth) {
+        this.birthMonth = birthMonth;
+        return this;
+    }
+
+    public int getBirthDay() {
+        return birthDay;
+    }
+
+    public UserEntity setBirthDay(int birthDay) {
+        this.birthDay = birthDay;
+        return this;
+    }
+
     public void setContact(String contact) {
         this.contact = contact;
     }
 
-    public boolean isGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(boolean gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
-    public boolean isHaveDog() {
+    public String getHaveDog() {
         return haveDog;
     }
 
-    public void setHaveDog(boolean haveDog) {
+    public void setHaveDog(String haveDog) {
         this.haveDog = haveDog;
     }
 
-    public int getSpecies() {
+    public String getSpecies() {
         return species;
     }
 
-    public void setSpecies(int species) {
+    public void setSpecies(String species) {
         this.species = species;
     }
 

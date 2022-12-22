@@ -8,10 +8,21 @@
             keyColumn="email"
             keyProperty="email"
             parameterType="dev.twd.take_a_walk_duo.entities.member.UserEntity">
-        INSERT INTO `twd_member`.`users`(`email`, `password`, `nickname`, `name`, `contact`, `gender`, `haveDog`,
-                                        `address_postal`, `address_primary`, `address_secondary`)
-        VALUES (#{email}, #{password}, #{nickname}, #{name}, #{contact}, #{gender}, #{haveDog}, #{addressPostal},
-                #{addressPrimary}, #{addressSecondary})
+        INSERT INTO `twd_member`.`users`(`email`, `password`, `nickname`, `name`, `contact`, `birth_year`,
+                                         `birth_month`, `birth_day`, `gender`, `haveDog`, `species`, `address_postal`,
+                                         `address_primary`, `address_secondary`)
+        VALUES (#{email}, #{password}, #{nickname}, #{name},
+                #{contact}, #{birthYear}, #{birthMonth}, #{birthDay}, #{gender}, #{haveDog},
+                IFNULL(#{species}, DEFAULT(`species`)),
+                #{addressPostal}, #{addressPrimary}, #{addressSecondary})
+    </insert>
+
+    <insert id="insertKakaoUser"
+            keyColumn="id"
+            keyProperty="id"
+            parameterType="dev.twd.take_a_walk_duo.entities.member.KakaoUserEntity">
+        INSERT INTO `twd_member`.`kakao_users`(`id`, `nickname`, `registered_on`)
+        VALUES (#{id}, #{nickname}, IFNULL(#{registeredOn}, DEFAULT(`registered_on`)))
     </insert>
 
     <insert id="insertEmailAuth"
@@ -23,6 +34,17 @@
         VALUES (#{email}, #{code}, #{salt}, #{createdOn}, #{expiresOn}, #{isExpired})
     </insert>
 
+    <select id="selectUserById"
+            resultType="dev.twd.take_a_walk_duo.entities.member.KakaoUserEntity">
+        SELECT `email`         AS `email`,
+               `id`            AS `id`,
+               `nickname`      AS `nickname`,
+               `registered_on` AS `registeredOn`
+        FROM `twd_member`.`kakao_users`
+        WHERE `id` = #{id}
+        LIMIT 1
+    </select>
+
     <select id="selectUserByEmail"
             resultType="dev.twd.take_a_walk_duo.entities.member.UserEntity">
         SELECT `email`             AS `email`,
@@ -30,14 +52,16 @@
                `nickname`          AS `nickname`,
                `name`              AS `name`,
                `contact`           AS `contact`,
+               `birth_year`        AS `birthYear`,
+               `birth_month`       AS `birthMonth`,
+               `birth_day`         AS `birthDay`,
                `gender`            AS `gender`,
                `haveDog`           AS `haveDog`,
                `species`           AS `species`,
                `address_postal`    AS `addressPostal`,
                `address_primary`   AS `addressPrimary`,
                `address_secondary` AS `addressSecondary`,
-               `registered_on`     AS `registeredOn`,
-               `admin_flag`        AS `isAdmin`
+               `registered_on`     AS `registeredOn`
         FROM `twd_member`.`users`
         WHERE BINARY `email` = #{email}
         LIMIT 1
@@ -51,6 +75,9 @@
                `nickname`          AS `nickname`,
                `name`              AS `name`,
                `contact`           AS `contact`,
+               `birth_year`        AS `birthYear`,
+               `birth_month`       AS `birthMonth`,
+               `birth_day`         AS `birthDay`,
                `gender`            AS `gender`,
                `haveDog`           AS `haveDog`,
                `species`           AS `species`,
@@ -101,6 +128,9 @@
             `nickname`          = #{nickname},
             `name`              = #{name},
             `contact`           = #{contact},
+            `birth_year`        = #{birthYear},
+            `birth_month`       = #{birthMonth},
+            `birth_day`         = #{birthDay},
             `gender`            = #{gender},
             `haveDog`           = #{haveDog},
             `species`           = #{species},
@@ -109,7 +139,7 @@
             `address_secondary` = #{addressSecondary},
             `registered_on`     = #{registeredOn}
         WHERE BINARY `email` = #{email}
-            LIMIT 1
+        LIMIT 1
     </update>
 
     <update id="updateEmailAuth"
@@ -122,7 +152,7 @@
             `expires_on`   = #{expiresOn},
             `expired_flag` = #{isExpired}
         WHERE BINARY `index` = #{index}
-            LIMIT 1
+        LIMIT 1
     </update>
 
 </mapper>

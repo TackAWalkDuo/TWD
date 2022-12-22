@@ -1,6 +1,7 @@
 package dev.twd.take_a_walk_duo.mappers;
 
 import dev.twd.take_a_walk_duo.entities.member.EmailAuthEntity;
+import dev.twd.take_a_walk_duo.entities.member.KakaoUserEntity;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -9,11 +10,15 @@ import org.apache.ibatis.annotations.Param;
 public interface IMemberMapper {
     int insertUser(UserEntity user);
 
+    int insertKakaoUser(KakaoUserEntity kakaoUser);
+
     int updateUser(UserEntity user);
 
     int updateEmailAuth(EmailAuthEntity emailAuth);
 
     int insertEmailAuth(EmailAuthEntity emailAuth);
+
+    KakaoUserEntity selectUserById(@Param(value = "id") String id);
 
     UserEntity selectUserByEmail(@Param(value = "email") String email);
 

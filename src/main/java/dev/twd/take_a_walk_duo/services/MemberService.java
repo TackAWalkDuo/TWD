@@ -1,6 +1,7 @@
 package dev.twd.take_a_walk_duo.services;
 
 import dev.twd.take_a_walk_duo.entities.member.EmailAuthEntity;
+import dev.twd.take_a_walk_duo.entities.member.KakaoUserEntity;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
 import dev.twd.take_a_walk_duo.enums.member.RegisterResult;
@@ -57,10 +58,8 @@ public class MemberService {
             try (BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter)) {
                 StringBuilder requestBuilder = new StringBuilder();
                 requestBuilder.append("grant_type=authorization_code");
-                requestBuilder.append("&client_id=ecccd1725ed813810c3752e8582735fe");
-                // TODO REST_API_KEY 입력
+                requestBuilder.append("&client_id=6da80eef1101bb3318ba1f6bde584ab1");
                 requestBuilder.append("&redirect_uri=http://localhost:8080/member/kakao");
-                // TODO redirect_uri
                 requestBuilder.append("&code=").append(code);
                 bufferedWriter.write(requestBuilder.toString());
                 bufferedWriter.flush();
@@ -83,7 +82,7 @@ public class MemberService {
     }
 
     // 카카오 userinfo 발급 받는 getKakaoUserInfo
-    public UserEntity getKakaoUserInfo(String accessToken) throws IOException {
+    public KakaoUserEntity getKakaoUserInfo(String accessToken) throws IOException {
         URL url = new URL("https://kapi.kakao.com/v2/user/me");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestProperty("Authorization", String.format("Bearer %s", accessToken));
@@ -102,18 +101,15 @@ public class MemberService {
         System.out.println("응답 내용 : " + responseBuilder);
         JSONObject responseObject = new JSONObject(responseBuilder.toString());
         JSONObject propertyObject = responseObject.getJSONObject("properties");
-        String email = String.valueOf(responseObject.getLong("email"));
-        // TODO 이부분 맞는지 체크해야함
-        UserEntity user = this.memberMapper.selectUserByEmail(email);
-        // TODO 이부분 맞는지 체크해야함
-        if (user == null) {
-            user = new UserEntity();
-            user.setEmail(email);
-            // TODO 이부분 맞는지 체크해야함
-            user.setNickname(propertyObject.getString("nickname"));
-            this.memberMapper.insertUser(user);
+        String id = String.valueOf(responseObject.getLong("id"));
+        KakaoUserEntity kakaoUser = this.memberMapper.selectUserById(id);
+        if (kakaoUser == null) {
+            kakaoUser = new KakaoUserEntity();
+            kakaoUser.setId(id);
+            kakaoUser.setNickname(propertyObject.getString("nickname"));
+            this.memberMapper.insertKakaoUser(kakaoUser);
         }
-        return user;
+        return kakaoUser;
     }
 
     // 로그인
@@ -147,6 +143,10 @@ public class MemberService {
             System.out.println(existingEmailAuth == null);
             System.out.println(existingEmailAuth.isExpired());
             return RegisterResult.EMAIL_NOT_VERIFIED;
+        }
+        // haveDog 결과가 notHave 이면 none 을 넣어준다.
+        if (user.getHaveDog().equals("notHave")) {
+            user.setSpecies("none");
         }
         // 비밀번호 해싱
         user.setPassword(CryptoUtils.hashSha512(user.getPassword()));
@@ -195,7 +195,7 @@ public class MemberService {
         Context context = new Context();
         context.setVariable("code", emailAuth.getCode());
 
-        String text = this.templateEngine.process("member/registerEmailAuth", context);
+        String text = this.templateEngine.process("static/member/registerEmailAuth", context);
         MimeMessage mail = this.mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mail, "UTF-8");
         helper.setFrom("rmsgh1202@gmail.com");
@@ -267,7 +267,7 @@ public class MemberService {
             return CommonResult.FAILURE;
         }
         String authCode = RandomStringUtils.randomNumeric(6);
-        String authSalt = String.format("$s%s%f%f",
+        String authSalt = String.format("%s%s%f%f",
                 authCode,
                 emailAuth.getEmail(),
                 Math.random(),
@@ -290,10 +290,10 @@ public class MemberService {
         context.setVariable("code", emailAuth.getCode());
         context.setVariable("salt", emailAuth.getSalt());
 
-        String text = this.templateEngine.process("member/recoverPasswordEmailAuth", context);
+        String text = this.templateEngine.process("static/member/recoverPasswordEmailAuth", context);
         MimeMessage mail = this.mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mail, "UTF-8");
-        helper.setFrom("rmsgh1202@gmail.com");
+        helper.setFrom("rootgo1@twd.com");
         helper.setTo(emailAuth.getEmail());
         helper.setSubject("[twd]비밀번호 재설정 인증 링크");
         helper.setText(text, true);
