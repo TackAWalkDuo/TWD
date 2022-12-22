@@ -43,6 +43,7 @@ form.onsubmit = (e) => {
     formData.append('email', form['email'].value);
     formData.append('password', form['password'].value);
     xhr.open('POST', './login');
+    console.log("확인");
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             // Cover.hide();
