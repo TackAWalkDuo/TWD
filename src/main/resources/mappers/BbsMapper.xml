@@ -205,6 +205,12 @@
         WHERE `comment_index` = #{commentIndex}
     </delete>
 
+    <delete id="deleteComment">
+        DELETE
+        FROM `twd_bbs`.`comments`
+        WHERE `index` = #{index}
+    </delete>
+
     <select id="selectArticlesByBoardId"
             resultType="dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo">
         SELECT `articles`.`index`       AS `index`,

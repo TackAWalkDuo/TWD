@@ -324,13 +324,18 @@ public class BbsController {
                              @RequestParam(value = "images", required = false) MultipartFile[] images)
             throws IOException {
         JSONObject responseObject = new JSONObject();
-        System.out.println("comment modify check " + comment.getContent());
-        System.out.println("comment modify check " + comment.getUserEmail());
-        System.out.println("comment modify check " + comment.getArticleIndex());
-        System.out.println("comment modify check " + comment.getIndex());
-        System.out.println("comment modify check " + (images == null ? 0 : images.length));
-        System.out.println("comment modify check " + modifyFlag);
         Enum<?> result = this.bbsService.modifyComment(user, comment, images, modifyFlag);
+        responseObject.put("result", result.name().toLowerCase());
+        return responseObject.toString();
+    }
+
+    @DeleteMapping(value = "comment", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String deleteComment(@SessionAttribute(value = "user") UserEntity user,
+                                    CommentEntity comment) {
+
+        JSONObject responseObject = new JSONObject();
+        Enum<?> result = this.bbsService.deleteComment(user, comment);
         responseObject.put("result", result.name().toLowerCase());
         return responseObject.toString();
     }

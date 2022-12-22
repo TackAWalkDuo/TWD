@@ -32,7 +32,7 @@ detailContainer.show = (placeObject, placeElement) => {
     }
 
     // 로그인이 안되있는 상태일때  loginUserEmailElement 의 undefined 처리.
-    if ( (loginUserEmailElement !== null) && (placeObject['userEmail'] === loginUserEmailElement.value)) {
+    if ((loginUserEmailElement !== null) && (placeObject['userEmail'] === loginUserEmailElement.value)) {
         modifyMenuTopElement.classList.add("visible");
     }
 
@@ -286,7 +286,7 @@ reviewForm.onsubmit = e => {
                         imageContainerElement.innerHTML = "";
                         // DB 에 저장은 됬지만 현재 페이지에 적용되지 않아 임의로 숫자를 조정.
                         detailContainer.querySelector('[rel="commentCounter"]').innerText =
-                            Number(detailContainer.querySelector('[rel="commentCounter"]').innerText)+1;
+                            Number(detailContainer.querySelector('[rel="commentCounter"]').innerText) + 1;
                         list.querySelector(".review-counter").innerText =
                             Number(detailContainer.querySelector('[rel="commentCounter"]').innerText);
 
@@ -306,18 +306,18 @@ reviewForm.onsubmit = e => {
 };
 
 const loadReview = (articleIndex) => {
-    reviewContainer.innerHTML = '';
-    const xhr = new XMLHttpRequest();
-    const formData = new FormData();
+        reviewContainer.innerHTML = '';
+        const xhr = new XMLHttpRequest();
+        const formData = new FormData();
 
-    formData.append("aid", reviewForm['articleIndex'].value);
-    xhr.open("GET", `/bbs/comment?index=${articleIndex}`);
-    xhr.onreadystatechange = () => {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status >= 200 && xhr.status < 300) {
-                const responseArray = JSON.parse(xhr.responseText);
-                for (const reviewObject of responseArray) {
-                    const itemHtml = `
+        formData.append("aid", reviewForm['articleIndex'].value);
+        xhr.open("GET", `/bbs/comment?index=${articleIndex}`);
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    const responseArray = JSON.parse(xhr.responseText);
+                    for (const reviewObject of responseArray) {
+                        const itemHtml = `
                     <li class="item" rel="item">
                         <div class="title">
                             <span class="nickname" rel="nickname">${reviewObject['nickname']}</span>
@@ -327,8 +327,8 @@ const loadReview = (articleIndex) => {
                         <input type="hidden" rel="commentIndex" value="${reviewObject['index']}">
                         <!-- 로그인 되지 않았을 때 value 를 사용하게 되면 오류가 뜨기 때문에 오류 처리-->
                          ${reviewObject['userEmail'] === (loginUserEmailElement === null ?
-                        '' : loginUserEmailElement.value) ?
-                        `<a class="basic" rel="actionModify" href="#">수정</a>
+                            '' : loginUserEmailElement.value) ?
+                            `<a class="basic" rel="actionModify" href="#">수정</a>
                             <a class="basic" rel="actionDelete" href="#">삭제</a>` : ` `}
                          </div>
                         <div class="image-container basic" rel="imageContainer"></div>
@@ -346,153 +346,185 @@ const loadReview = (articleIndex) => {
                         <div class="image-container modify" rel="imageContainerModify"></div>
                         <input class="content modify" rel="modifyContent">
                     </li>`;
-                    const itemElement = new DOMParser().parseFromString(itemHtml, 'text/html').querySelector('[rel="item"]');
-                    const imageContainerElement = itemElement.querySelector('[rel="imageContainer"]');
+                        const itemElement = new DOMParser().parseFromString(itemHtml, 'text/html').querySelector('[rel="item"]');
+                        const imageContainerElement = itemElement.querySelector('[rel="imageContainer"]');
 
-                    if (reviewObject['imageIndexes'].length > 0) {
-                        for (const imageIndex of reviewObject['imageIndexes']) {
-                            const imageElement = document.createElement('img');
-                            imageElement.setAttribute('alt', '');
-                            imageElement.setAttribute('src', `/bbs/commentImage?index=${imageIndex}`);
-                            imageElement.classList.add('image');
-                            imageContainerElement.append(imageElement);
-                        }
-                    } else {
-                        imageContainerElement.remove();
-                    }
-                    reviewContainer.append(itemElement);
-
-                    const commentImageSelect = itemElement.querySelector('[rel="imagesModify"]');
-
-                    // 수정하기 버튼을 눌렀을때 이미지가 변하지 않았다면 Controller 에서 작업을 하지 않기 위해서.
-                    let imageModifyFlag = false;
-
-                    //댓글 수정하기 눌렀을 경우의 이미지 선택 메뉴.
-                    itemElement.querySelector('[rel="imageModifySelectButton"]').addEventListener('click', e => {
-                        e.preventDefault();
-                        commentImageSelect.click();
-                    });
-
-                    const basicElement = itemElement.querySelectorAll('.basic');
-                    const modifyElementAll = itemElement.querySelectorAll('.modify');
-                    const imageContainerModifyElement = itemElement.querySelector('[rel="imageContainerModify"]');
-
-                    // 이미지 찾기에서 이미지를 선택할 경우. (댓글 수정)
-                    commentImageSelect.addEventListener('input', () => {
-                        imageContainerModifyElement.querySelectorAll('img.image').forEach(x => x.remove());
-
-                        for (let file of commentImageSelect.files) {
-                            const imageSrc = URL.createObjectURL(file);
-                            const imgElement = document.createElement('img');
-                            imgElement.classList.add('image');
-                            imgElement.setAttribute('src', imageSrc);
-                            imageContainerModifyElement.append(imgElement);
-                        }
-                        imageModifyFlag = true;
-                    });
-
-                    itemElement.querySelector('[rel="imageModifyDeleteButton"]').addEventListener('click' , ()=> {
-                        imageModifyFlag = true;
-                        commentImageSelect.files = null;
-                        imageContainerModifyElement.querySelectorAll('img.image').forEach(x => x.remove());
-                    });
-
-                    // 댓글 '수정하기' 버튼을 누를경우
-                    itemElement.querySelector('[rel="edit"]').addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const xhr = new XMLHttpRequest();
-
-                        const formData = new FormData();
-                        formData.append("userEmail", reviewForm['userEmail'].value);
-                        formData.append("content", itemElement.querySelector('[rel="modifyContent"]').value);
-                        formData.append("articleIndex", reviewForm['articleIndex'].value);
-                        formData.append("index", itemElement.querySelector('[rel="commentIndex"]').value);
-                        formData.append("modifyFlag", imageModifyFlag);
-
-
-                        for (let file of commentImageSelect.files) {
-                            formData.append('images', file);
-                        }
-
-                        xhr.open("POST", '/bbs/comment-modify');
-                        xhr.onreadystatechange = () => {
-                            if (xhr.readyState === XMLHttpRequest.DONE) {
-                                if (xhr.status >= 200 && xhr.status < 300) {
-                                    const responseObject = JSON.parse(xhr.responseText);
-                                    switch (responseObject['result']) {
-                                        case 'success' :
-                                            loadReview(reviewForm['articleIndex'].value);
-                                            break;
-                                        case 'no_such_comment' :
-                                            alert("게시글을 찾을 수 없습니다.");
-                                            break;
-                                        case 'not_signed' :
-                                            alert("로그인 정보가 일치하지 않습니다.");
-                                            break;
-                                        case 'not_same' :
-                                            alert("작성자가 아닙니다.");
-                                            break;
-                                        default:
-                                            alert("수정에 실패했습니다.");
-                                    }
-                                }else {
-                                    alert("서버와 통신을 실패했습니다.");
-                                }
-                            }
-                        };
-                        xhr.send(formData);
-                    });
-
-
-                    const modifyElement = itemElement.querySelector('[rel="actionModify"]');
-                    modifyElement?.addEventListener('click', (e) => {
-                        e.preventDefault();
-
-                        for (element of basicElement) {      // 원래 댓글 숨김
-                            element.classList.add("modifying");
-                        }
-                        for (element of modifyElementAll) {     // 수정 화면 꺼냄.
-                            element.classList.add("modifying");
-                        }
-                        //
-                        const imageModifyContainerElement = itemElement.querySelector('[rel="imageContainerModify"]');
                         if (reviewObject['imageIndexes'].length > 0) {
                             for (const imageIndex of reviewObject['imageIndexes']) {
                                 const imageElement = document.createElement('img');
                                 imageElement.setAttribute('alt', '');
                                 imageElement.setAttribute('src', `/bbs/commentImage?index=${imageIndex}`);
                                 imageElement.classList.add('image');
-                                imageModifyContainerElement.append(imageElement);
+                                imageContainerElement.append(imageElement);
                             }
+                        } else {
+                            imageContainerElement.remove();
                         }
+                        reviewContainer.append(itemElement);
 
-                        // 기존 댓글을 input 창에 넣고 글의 끝에 커서 이동.
-                        itemElement.querySelector('[rel="modifyContent"]').focus();
-                        itemElement.querySelector('[rel="modifyContent"]').value = reviewObject['content'];
+                        //댓글 삭제  (댓글 작성자와 로그인 유저가 다를 경우에 오류 해결 구문)
+                        if (reviewObject['userEmail'] === (loginUserEmailElement === null ?
+                            '' : loginUserEmailElement.value)) {
+                            itemElement.querySelector('[rel="actionDelete"]').addEventListener('click', () => {
+                                const xhr = new XMLHttpRequest();
+                                const formData = new FormData();
+                                formData.append("index", reviewObject['index']);
+                                formData.append("userEmail", reviewObject['userEmail']);
 
-                    });
+                                xhr.open("DELETE", "/bbs/comment");
+                                xhr.onreadystatechange = () => {
+                                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                                        if (xhr.status >= 200 && xhr.status < 300) {
+                                            const responseObject = JSON.parse(xhr.responseText);
+                                            switch (responseObject['result']) {
+                                                case 'success' :
+                                                    loadReview(reviewForm['articleIndex'].value);
+                                                    break;
+                                                default:
+                                                    alert("알 수 없는 이유로 삭제에 실패했습니다.");
+                                            }
+                                        }
+                                    } else {
 
-                    itemElement.querySelector('[rel="modifyCancel"]').addEventListener('click', ()=> {
-                        //메뉴확인.
-                        for (element of basicElement) {      // 원래 댓글 꺼냄
-                            element.classList.remove("modifying");
-                        }
-                        for (element of modifyElementAll) {     // 수정 화면 숨김.
-                            element.classList.remove("modifying");
-                        }
-                        // 수정하기에서 추가한 이미지 지움.
-                        imageContainerModifyElement.querySelectorAll('img.image').forEach(x => x.remove());
-                    });
+                                    }
+                                };
+                                xhr.send(formData);
+                            });
+                        };
 
 
+                        const commentImageSelect = itemElement.querySelector('[rel="imagesModify"]');
+
+                        // 수정하기 버튼을 눌렀을때 이미지가 변하지 않았다면 Controller 에서 작업을 하지 않기 위해서.
+                        let imageModifyFlag = false;
+
+                        //댓글 수정하기 눌렀을 경우의 이미지 선택 메뉴.
+                        itemElement.querySelector('[rel="imageModifySelectButton"]').addEventListener('click', e => {
+                            e.preventDefault();
+                            commentImageSelect.click();
+                        });
+
+                        const basicElement = itemElement.querySelectorAll('.basic');
+                        const modifyElementAll = itemElement.querySelectorAll('.modify');
+                        const imageContainerModifyElement = itemElement.querySelector('[rel="imageContainerModify"]');
+
+                        // 이미지 찾기에서 이미지를 선택할 경우. (댓글 수정)
+                        commentImageSelect.addEventListener('input', () => {
+                            imageContainerModifyElement.querySelectorAll('img.image').forEach(x => x.remove());
+
+                            for (let file of commentImageSelect.files) {
+                                const imageSrc = URL.createObjectURL(file);
+                                const imgElement = document.createElement('img');
+                                imgElement.classList.add('image');
+                                imgElement.setAttribute('src', imageSrc);
+                                imageContainerModifyElement.append(imgElement);
+                            }
+                            imageModifyFlag = true;
+                        });
+
+                        itemElement.querySelector('[rel="imageModifyDeleteButton"]').addEventListener('click', () => {
+                            imageModifyFlag = true;
+                            commentImageSelect.files = null;
+                            imageContainerModifyElement.querySelectorAll('img.image').forEach(x => x.remove());
+                        });
+
+                        // 댓글 '수정하기' 버튼을 누를경우
+                        itemElement.querySelector('[rel="edit"]').addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const xhr = new XMLHttpRequest();
+
+                            const formData = new FormData();
+                            // formData.append("userEmail", reviewForm['userEmail'].value);
+                            formData.append("userEmail", reviewObject['userEmail']);
+                            formData.append("content", itemElement.querySelector('[rel="modifyContent"]').value);
+                            formData.append("articleIndex", reviewForm['articleIndex'].value);
+                            formData.append("index", itemElement.querySelector('[rel="commentIndex"]').value);
+                            formData.append("modifyFlag", imageModifyFlag);
+
+
+                            for (let file of commentImageSelect.files) {
+                                formData.append('images', file);
+                            }
+
+                            xhr.open("POST", '/bbs/comment-modify');
+                            xhr.onreadystatechange = () => {
+                                if (xhr.readyState === XMLHttpRequest.DONE) {
+                                    if (xhr.status >= 200 && xhr.status < 300) {
+                                        const responseObject = JSON.parse(xhr.responseText);
+                                        switch (responseObject['result']) {
+                                            case 'success' :
+                                                loadReview(reviewForm['articleIndex'].value);
+                                                break;
+                                            case 'no_such_comment' :
+                                                alert("게시글을 찾을 수 없습니다.");
+                                                break;
+                                            case 'not_signed' :
+                                                alert("로그인 정보가 일치하지 않습니다.");
+                                                break;
+                                            case 'not_same' :
+                                                alert("작성자가 아닙니다.");
+                                                break;
+                                            default:
+                                                alert("수정에 실패했습니다.");
+                                        }
+                                    } else {
+                                        alert("서버와 통신을 실패했습니다.");
+                                    }
+                                }
+                            };
+                            xhr.send(formData);
+                        });
+
+
+                        const modifyElement = itemElement.querySelector('[rel="actionModify"]');
+                        modifyElement?.addEventListener('click', (e) => {
+                            e.preventDefault();
+
+                            for (element of basicElement) {      // 원래 댓글 숨김
+                                element.classList.add("modifying");
+                            }
+                            for (element of modifyElementAll) {     // 수정 화면 꺼냄.
+                                element.classList.add("modifying");
+                            }
+                            //
+                            const imageModifyContainerElement = itemElement.querySelector('[rel="imageContainerModify"]');
+                            if (reviewObject['imageIndexes'].length > 0) {
+                                for (const imageIndex of reviewObject['imageIndexes']) {
+                                    const imageElement = document.createElement('img');
+                                    imageElement.setAttribute('alt', '');
+                                    imageElement.setAttribute('src', `/bbs/commentImage?index=${imageIndex}`);
+                                    imageElement.classList.add('image');
+                                    imageModifyContainerElement.append(imageElement);
+                                }
+                            }
+
+                            // 기존 댓글을 input 창에 넣고 글의 끝에 커서 이동.
+                            itemElement.querySelector('[rel="modifyContent"]').focus();
+                            itemElement.querySelector('[rel="modifyContent"]').value = reviewObject['content'];
+
+                        });
+
+                        itemElement.querySelector('[rel="modifyCancel"]').addEventListener('click', () => {
+                            //메뉴확인.
+                            for (element of basicElement) {      // 원래 댓글 꺼냄
+                                element.classList.remove("modifying");
+                            }
+                            for (element of modifyElementAll) {     // 수정 화면 숨김.
+                                element.classList.remove("modifying");
+                            }
+                            // 수정하기에서 추가한 이미지 지움.
+                            imageContainerModifyElement.querySelectorAll('img.image').forEach(x => x.remove());
+                        });
+
+                    }
+                } else {
+                    alert("알수없는 이유로 연결 실패..");
                 }
-            } else {
-                alert("알수없는 이유로 연결 실패..");
             }
-        }
-    };
-    xhr.send(formData);
-};
+        };
+        xhr.send(formData);
+    }
+;
 
 //게시글 삭제
 if (loginUserEmailElement !== null) {
@@ -519,7 +551,7 @@ if (loginUserEmailElement !== null) {
                         default:
                             alert("삭제에 실패했습니다.");
                     }
-                }else {
+                } else {
                     alert("서버와 통신을 실패했습니다.");
                 }
             }
