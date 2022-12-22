@@ -39,7 +39,7 @@ public class MemberController {
         String accessToken = this.memberService.getKakaoAccessToken(code);
         UserEntity user = this.memberService.getKakaoUserInfo(accessToken);
         session.setAttribute("user", user);
-        return new ModelAndView("memeber/login");
+        return new ModelAndView("member/login");
     }
 
     // 카카오 로그아웃
