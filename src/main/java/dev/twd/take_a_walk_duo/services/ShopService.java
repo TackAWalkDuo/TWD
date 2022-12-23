@@ -5,9 +5,10 @@ import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
 import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
 import dev.twd.take_a_walk_duo.interfaces.IResult;
+import dev.twd.take_a_walk_duo.mappers.IBbsMapper;
 import dev.twd.take_a_walk_duo.mappers.IMemberMapper;
 import dev.twd.take_a_walk_duo.models.PagingModel;
-import dev.twd.take_a_walk_duo.utils.CryptoUtils;
+import dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import dev.twd.take_a_walk_duo.vos.shop.ProductVo;
 import dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
@@ -29,11 +30,14 @@ public class ShopService {
     private final IShopMapper shopMapper;
     private final IMemberMapper memberMapper;
 
+    private final IBbsMapper bbsMapper;
+
     // memberMapper 서비스도 의존성 주입함.
     @Autowired
-    public ShopService(IShopMapper shopMapper, IMemberMapper memberMapper) {
+    public ShopService(IShopMapper shopMapper, IMemberMapper memberMapper, IBbsMapper bbsMapper) {
         this.shopMapper = shopMapper;
         this.memberMapper = memberMapper;
+        this.bbsMapper = bbsMapper;
     }
 
 
@@ -71,6 +75,22 @@ public class ShopService {
     // detail page
     public ProductVo detailArticle(int index){
         return this.shopMapper.selectArticleByArticleIndex(index);
+    }
+
+    // 상품 삭제
+    public Enum<? extends IResult> deleteProduct(ProductVo product, UserEntity user) {
+        ProductVo existingProduct = this.shopMapper.selectArticleByArticleIndex(product.getIndex());
+        if (existingProduct == null) {
+            return CommonResult.FAILURE;
+        }
+        if (user == null || !user.getEmail().equals(existingProduct.getUserEmail())) {
+            return CommonResult.FAILURE;
+        }
+        product.setCategoryText(existingProduct.getCategoryText());
+        product.setBoardId(existingProduct.getBoardId()); // db에서 가져온 boardID를 전달받은 article의 boardID로 세팅 > 컨트롤러와 연계
+        return this.bbsMapper.deleteArticle(product.getIndex()) > 0
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
     }
 
     // write get

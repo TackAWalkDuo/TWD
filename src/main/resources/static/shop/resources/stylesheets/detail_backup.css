@@ -164,9 +164,15 @@ body > .--main > .detail-main > .detail-info > .detail-notice > .text {
     cursor: not-allowed;
 }
 
+#orderForm > .detail-order-container > .detail-info-container > .info-quantity-box > .just-space{
+    flex: 1;
+}
+
 #orderForm > .detail-order-container > .detail-info-container > .info-quantity-box > .info-price {
-    position: absolute;
-    right: 0.25rem;
+    text-align: right;
+    /*justify-self: right;*/
+    /*position: absolute;*/
+    /*right: 0.25rem;*/
 }
 
 #orderForm > .detail-order-container > .detail-charge-container{
@@ -237,11 +243,30 @@ body > .--main > .detail-main > .detail-info > .detail-notice > .text {
     font-weight: 500;
     font-size: 1.25rem;
     color: rgb(255,255,255);
+    
+    align-items : center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#orderForm > .detail-order-container > .product-button > .--object-button.delete{
+    filter: brightness(80%);
+    color: black;
+    /*color: rgb(128, 139, 150);*/
+    /*background-color: rgb(169, 175, 126);*/
+    /*width: 7.5rem;*/
+    /*flex-grow: 1;*/
 }
 
 #orderForm > .detail-order-container > .product-button > .--object-button:hover{
     cursor: pointer;
     filter: brightness(125%);
+}
+
+#deleteButton{
+    text-align: center;
+    text-decoration: none;
 }
 
 body > .main > .search-form {

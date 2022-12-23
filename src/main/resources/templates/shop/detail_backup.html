@@ -32,9 +32,12 @@
                 <span th:text="| 재고 : ${product.getQuantity()}|"></span>
                 <input rel="productQuantity" hidden th:value="${product.getQuantity()}">
             </div>
-            <div class="detail-price" th:if="${product.getDiscount() > 0}" th:text="${product.getCost()} + '원'">30,000원</div>
+            <div class="detail-price" th:if="${product.getDiscount() > 0}" th:text="${product.getCost()} + '원'">
+                30,000원
+            </div>
             <div class="detail-sale-price">
-                <span class="sale" th:if="${product.getDiscount() > 0}"  th:text="${product.getDiscount()} + '%'">30%</span>
+                <span class="sale" th:if="${product.getDiscount() > 0}"
+                      th:text="${product.getDiscount()} + '%'">30%</span>
                 <span th:text="${product.getPrice()} + '원'">22,700원</span>
             </div>
             <p class="detail-text" th:text="${product.getTitle()}">제목</p>
@@ -48,22 +51,26 @@
                 <span class="text">3,000원</span>
             </div>
             <form class="order-form" id="orderForm">
-<!--                    여유가 된다면 사료 : 맛, 갯수 등등 / 옷 : 사이즈로 나눠보자-->
-<!--                <div class="select-container">-->
-<!--                    <select class="select" name="product-select">-->
-<!--                        <option value="1" selected>옵션을 선택해 주세요.</option>-->
-<!--                        <option value="2">1번</option>-->
-<!--                        <option value="3">2번</option>-->
-<!--                    </select>-->
-<!--                </div>-->
+                <!--                    여유가 된다면 사료 : 맛, 갯수 등등 / 옷 : 사이즈로 나눠보자-->
+                <!--                <div class="select-container">-->
+                <!--                    <select class="select" name="product-select">-->
+                <!--                        <option value="1" selected>옵션을 선택해 주세요.</option>-->
+                <!--                        <option value="2">1번</option>-->
+                <!--                        <option value="3">2번</option>-->
+                <!--                    </select>-->
+                <!--                </div>-->
                 <div class="detail-order-container">
                     <p class="order-text" th:text="${product.getTitle()}">제목</p>
                     <div class="detail-info-container">
                         <div class="info-quantity-box">
                             <button disabled class="info-button" name="minusButton" type="button">-</button>
-                            <input class="info-number" min="1" max="100" name="infoNumber" rel="infoNumber" value="1" type="number">
+                            <input class="info-number" min="1" max="100" name="infoNumber" rel="infoNumber"
+                                   value="1"
+                                   type="number">
                             <button class="info-button" name="plusButton" type="button">+</button>
-                            <input disabled class="info-price" rel="infoPrice" name="infoPrice" th:value="${product.getPrice()} + '원'">
+                            <div class="just-space"></div>
+                            <input disabled class="info-price" rel="infoPrice" name="infoPrice"
+                                   th:value="${product.getPrice()} + '원'">
                         </div>
                     </div>
                     <div class="detail-charge-container">
@@ -74,11 +81,13 @@
                             </i>
                         </span>
                         <span class="charge-quantity" rel="chargeQuantity">총 수량 1개</span>
-                        <span class="charge-price">22,700원</span>
+                        <span th:text="${product.getPrice() + '원'}" class="charge-price"
+                              rel="chargePrice">22,700원</span>
                     </div>
                     <div class="product-button">
                         <input class="buy --object-button" value="구매하기" type="submit">
                         <input class="cart --object-button" value="장바구니" type="submit">
+                        <a th:if="${user?.getAdmin() == true}" class=" delete --object-button" href="#" id="deleteButton">삭제</a>
                     </div>
                 </div>
             </form>
