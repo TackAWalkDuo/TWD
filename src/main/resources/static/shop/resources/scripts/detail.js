@@ -62,6 +62,7 @@ infoNum.onkeyup = e => {
     // input이 공란이면 총 갯수 0개로 지정
     if (infoNum.value == '') {
         e.preventDefault();
+        orderForm['infoPrice'].value = 0 + '원';
         chargeQuantity.innerText = '총 수량 ' + 0 + '개';
         chargePrice.innerText = 0 + '원';
         return;
