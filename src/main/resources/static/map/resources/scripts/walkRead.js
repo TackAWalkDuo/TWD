@@ -38,6 +38,8 @@ detailContainer.show = (placeObject, placeElement) => {
 
     // list 에서 선택한 게시글의 index 번호 저장.
     reviewForm['articleIndex'].value = placeObject['index'];
+    modifyMenuTopElement.querySelector('[rel="articleModify"]')
+        .setAttribute("href", `./modify?index=${placeObject['index']}`)
 
     //view count up
     const xhr = new XMLHttpRequest();
@@ -80,7 +82,7 @@ const loadMap = (lat, lng) => {
     lng ??= 126.570667;
     mapObject = new kakao.maps.Map(map, { //지도를 생성할 때 필요한 기본 옵션
         center: new kakao.maps.LatLng(lat, lng), //지도의 중심좌표.
-        level: 3 //지도의 레벨(확대, 축소 정도)
+        level: 7 //지도의 레벨(확대, 축소 정도)
     }); //지도 생성 및 객체 리턴
     kakao.maps.event.addListener(mapObject, 'dragend', () => {
         loadPlaces();
@@ -123,11 +125,12 @@ const loadPlaces = (ne, sw) => {
                         <input type="hidden" name="latitude">
                         <input type="hidden" name="longitude">
                         <span class="top">
+                        <img alt="" rel="image" class="image" src="/resources/images/Ninave2.jpg">
                            <span class="info">
                                <span class="name" rel="name">${placeObject['title']}</span>
                                <span class="interest-container">
                                    <span class="view-container">
-                                       <i class="fa-solid fa-eye"></i>
+                                       <i class="fa-solid fa-paw"></i>
                                        <span class="view" rel="view">${placeObject['view']}</span>
                                    </span>
                                    <span class="review-container">
@@ -135,12 +138,12 @@ const loadPlaces = (ne, sw) => {
                                        <span class="review-counter">${placeObject['commentCount']}</span>
                                    </span>
                                    <span class="like-container">
-                                       <i class="icon fa-solid fa-heart"></i>
+                                       <i class="like-icon icon fa-solid fa-heart"></i>
                                        <span class="like-counter">${placeObject['likeCount']}</span>
                                    </span>
                                </span>
                            </span>
-                           <img alt="" rel="image" class="image" src="/resources/images/Ninave2.jpg">
+                           
                         </span>
                         <span class="address bottom">${placeObject['address']}</span>
                     <\li>`;
@@ -530,10 +533,10 @@ const loadReview = (articleIndex) => {
 if (loginUserEmailElement !== null) {
 
     //게시글 수정하기
-    modifyMenuTopElement.querySelector('[rel="articleModify"]').addEventListener('click', () => {
-       console.log("modify");
-
-    });
+    // modifyMenuTopElement.querySelector('[rel="articleModify"]').addEventListener('click', () => {
+    //    console.log("modify");
+    //
+    // });
 
     //게시글 삭제
     modifyMenuTopElement.querySelector('[rel="articleDelete"]').addEventListener('click', () => {

@@ -89,4 +89,15 @@ public class MapController {
         return responseObject.toString();
     }
 
+    @GetMapping(value = "modify", produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getModify(@RequestParam(value = "index") int index) {
+        ModelAndView modelAndView = new ModelAndView("map/walkModify");
+
+        System.out.println("modify index check = " + index);
+
+
+
+        return modelAndView;
+    }
+
 }
