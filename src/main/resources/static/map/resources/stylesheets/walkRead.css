@@ -20,7 +20,7 @@ body > .--header {
 #container {
     position: absolute;
     height: 85%;
-    z-index: 0;
+    z-index: 3;
 
     top: 10%;
     left: 1rem;
@@ -28,15 +28,18 @@ body > .--header {
     overflow: hidden auto;
 
     align-items: start;
-    display: flex;
+    display: none;
     flex-direction: row;
     justify-content: flex-start;
     border-radius: 0.7rem;
 }
 
+#container.fold {
+    display: flex;
+}
+
 
 #listContainer {
-    /*min-width: 40%;*/
     height: 100%;
     background-color: white;
     overflow: hidden auto;
@@ -146,6 +149,10 @@ body > .--header {
     margin-left: 0.5rem;
 }
 
+#list > .item > .top > .info > .interest-container > * > * + * {
+    margin-left: 0.5rem;
+}
+
 #list > .item:last-child {
     margin-bottom: 1rem;
 }
@@ -154,7 +161,7 @@ body > .--header {
 #detailContainer {
     background-color: white;
     flex-basis: 22.5rem;
-    width: 20.5rem;
+    max-width: 0;
     height: 100%;
     z-index: 3;
     overflow: auto;
@@ -163,14 +170,15 @@ body > .--header {
     transition-timing-function: ease-in-out;
 
     align-items: stretch;
-    display: none;
+    display: flex;
     flex-direction: column;
     justify-content: flex-start;
     padding: 0 0.5rem;
 }
 
 #detailContainer.visible {
-    display: flex;
+    max-width: 22.5rem;
+    min-width: 22.5rem;
 }
 
 #detailContainer > .modifyMenu {
@@ -181,7 +189,8 @@ body > .--header {
 
     padding-bottom: 0.5rem;
 }
-#detailContainer > .modifyMenu.visible{
+
+#detailContainer > .modifyMenu.visible {
     display: flex;
 }
 
@@ -191,6 +200,7 @@ body > .--header {
     flex-direction: row;
     justify-content: space-between;
     padding: 0.3rem 0.5rem;
+    width: 20rem;
 }
 
 #detailContainer > .image-container > .image {
@@ -214,7 +224,7 @@ body > .--header {
 }
 
 
-.interest-container > .like-container > .like-icon{
+.interest-container > .like-container > .like-icon {
     font-weight: 50;
 }
 
@@ -412,7 +422,7 @@ body > .--header {
 
 
 #reviewForm > .review-container > .item > .modifyMenu,
-#reviewForm > .review-container > .item > .modifyText{
+#reviewForm > .review-container > .item > .modifyText {
     align-items: end;
     display: flex;
     flex-direction: row;
@@ -420,6 +430,7 @@ body > .--header {
 
     padding-bottom: 0.5rem;
 }
+
 #detailContainer > .modifyMenu > * + *,
 #reviewForm > .review-container > .item > .modifyMenu > * + * {
     padding-left: 0.5rem;
@@ -483,6 +494,7 @@ body > .--header {
     margin-bottom: 0.5rem;
     padding: 0.5rem 0.75rem;
 }
+
 #reviewForm > .review-container > .item > .basic {
     display: flex;
 }
@@ -490,7 +502,8 @@ body > .--header {
 #reviewForm > .review-container > .item > .basic.modifying {
     display: none;
 }
-#reviewForm > .review-container > .item > .modify{
+
+#reviewForm > .review-container > .item > .modify {
     display: none;
 }
 
@@ -505,3 +518,27 @@ body > .--header {
     justify-content: space-between;
 }
 
+#foldContainer {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    z-index: 2;
+
+    width: 4rem;
+    height: 5rem;
+}
+
+#foldContainer.open-list {
+    left: 22.5rem;
+}
+
+#foldContainer.open-details{
+    left: 44.9rem;
+}

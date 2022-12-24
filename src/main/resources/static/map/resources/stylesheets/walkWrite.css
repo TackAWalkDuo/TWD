@@ -13,7 +13,7 @@ body > .--header {
 
 #map {
     height: 100%;
-    width: 70%;
+    width: 100%;
     z-index: 0;
 }
 
@@ -35,13 +35,11 @@ body > .--header {
 
 #writeContainer {
     position: absolute;
-    min-width: 17%;
-    max-width: 20%;
-    min-height: 45%;
+
     z-index: 0;
-    background-color: rgba(211, 211, 211, 90%);
-    top: 24%;
-    left: 18%;
+    background-color: white;
+    top: 20%;
+    left: 10%;
     overflow: hidden;
     align-items: center;
     display: flex;
@@ -51,12 +49,12 @@ body > .--header {
 
 
 #writeContainer > .list_container {
-    margin-top: 0.5rem;
+    margin: 0.5rem 1rem;
     border: 0.0625rem solid rgb(169, 169, 169);
     text-align: center;
+    min-width: 10rem;
 
-
-    font-size: 2rem;
+    font-size: 1rem;
 }
 
 #writeContainer > .list_container > .text {
@@ -153,13 +151,20 @@ body > .--header {
     display: flex;
     flex-direction: column;
     justify-content: center;
+
+}
+
+#writeContainer > .walk-article > .submit-container > .write {
+    min-width: 18rem;
+    margin: 0.5rem 1rem;
+
+    font-size: 2rem;
 }
 
 #mapContainer > .map > div > div > div > * {
     border: none;
     border: unset;
 }
-
 
 
 /* 지도 마커 클릭시 나오는 주소 */

@@ -1,5 +1,6 @@
 const map = window.document.getElementById("map");
 const list = window.document.getElementById("list");
+const container = window.document.getElementById("container");
 const detailContainer = window.document.getElementById("detailContainer");
 const reviewForm = window.document.getElementById("reviewForm");
 const reviewContainer = reviewForm.querySelector('[rel="reviewContainer"]');
@@ -63,16 +64,29 @@ detailContainer.show = (placeObject, placeElement) => {
     };
     xhr.send(formData);
 
+    if(!container.classList.contains("fold")) container.classList.add("fold");
+
+    foldElement.classList.add("open-list"); // fold controller
+    foldElement.classList.add("open-details"); // fold controller
+
+    foldChangeIcon(container.classList.contains("fold"));
+
+
     loadReview(placeObject['index']);
 }
 // 현재 보고 있는 게시글 list 또는 marker 를 클릭하면 닫힘.
 detailContainer.hide = () => {
     detailContainer.classList.remove("visible");
     detailContainer.querySelector('[rel="addressText"]').innerText = '';  // address 를 기준으로 하기때문에 기준점만 초기화
+
+    foldElement.classList.remove("open-details"); // fold controller
+    foldChangeIcon(container.classList.contains("fold"));
+
 }
 
 // detailContainer 의 닫기 버튼을 눌렀을 경우.
-detailContainer.querySelector('[rel="closeDetail"]').addEventListener('click', () => {
+detailContainer.querySelector('[rel="closeDetail"]').addEventListener('click', (e) => {
+    e.preventDefault();
     detailContainer.hide();
 })
 
@@ -161,7 +175,8 @@ const loadPlaces = (ne, sw) => {
 
                     //marker 클릭할 경우.
                     kakao.maps.event.addListener(marker, 'click', () => {
-                        mapObject.setCenter(latLng);
+                        mapObject.setLevel(3) // 클릭 할 경우 지도 확대 레벨 변경
+                        mapObject.setCenter(latLng); // 현재 지도를 클릭한 지점을 중심으로 변경
 
                         if (detailContainer.querySelector('[rel="addressText"]').innerText === (placeObject['address'])) {
                             detailContainer.hide();
@@ -173,7 +188,8 @@ const loadPlaces = (ne, sw) => {
 
                     // list 의 게시글을 클릭 했을 경우.
                     placeElement.addEventListener('click', () => {
-                        mapObject.setCenter(latLng);
+                        mapObject.setLevel(3) // 클릭 할 경우 지도 확대 레벨 변경
+                        mapObject.setCenter(latLng); // 현재 지도를 클릭한 지점을 중심으로 변경
 
                         if (detailContainer.querySelector('[rel="addressText"]').innerText === (placeObject['address'])) {
                             detailContainer.hide();
@@ -393,7 +409,8 @@ const loadReview = (articleIndex) => {
                                 };
                                 xhr.send(formData);
                             });
-                        };
+                        }
+                        ;
 
 
                         const commentImageSelect = itemElement.querySelector('[rel="imagesModify"]');
@@ -571,6 +588,37 @@ if (loginUserEmailElement !== null) {
     });
 }
 
+const foldElement = window.document.getElementById("foldContainer");
+
+
+//fold controller
+foldElement.addEventListener('click', () => {
+
+    if (container.classList.contains("fold")) {
+        container.classList.remove("fold");
+        foldElement.classList.remove("open-list");
+        foldElement.classList.remove("open-details");
+        detailContainer.classList.remove("visible");
+    } else {
+        container.classList.add("fold");
+        foldElement.classList.add("open-list");
+    }
+
+    foldChangeIcon(container.classList.contains("fold"));
+
+});
+
+function foldChangeIcon(flag) {
+    const foldIcon = foldElement.querySelector('[rel="foldIcon"]');
+    if(flag && foldIcon.classList.contains("fa-greater-than")) {
+        foldIcon.classList.remove("fa-greater-than");
+        foldIcon.classList.add("fa-less-than");
+    }
+    if(!flag) {
+        foldIcon.classList.remove("fa-less-than");
+        foldIcon.classList.add("fa-greater-than");
+    }
+}
 
 
 
@@ -578,11 +626,8 @@ if (loginUserEmailElement !== null) {
 
 
 
-
-
-
-
-
+//<i class="fa-solid fa-greater-than"></i>
+//<i class="fa-solid fa-less-than"></i>
 
 
 

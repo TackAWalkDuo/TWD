@@ -22,10 +22,11 @@
 <section class="map-container" id="mapContainer">
     <div class="map" id="map"></div>
     <div class="write-container" id="writeContainer">
-        <div class="list_container --object-button" id="listContainer">
-            <a class="text" th:href="@{/map/walk-read}">목록으로</a>
-        </div>
+
         <form class="walk-article" id="walkArticle">
+            <div class="submit-container">
+                <input type="submit" class="--object-button write" value="작성">
+            </div>
             <input hidden accept="image/" name="images" type="file">
             <input hidden name="lat">
             <input hidden name="lng">
@@ -45,10 +46,12 @@
                 <textarea type="text" class="content" maxlength="100" name="content"
                           placeholder="간단한 소개를 작성해주세요."></textarea>
             </div>
-            <div class="submit-container">
-                <input type="submit" class="--object-button" value="작성">
-            </div>
+
         </form>
+
+        <div class="list_container --object-button" id="listContainer">
+            <a class="text" th:href="@{/map/walk-read}">목록으로</a>
+        </div>
     </div>
 </section>
 
