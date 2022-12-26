@@ -27,31 +27,47 @@ body {
 }
 
 .error {
-    width: 100%;
-    font-size: 4.5rem;
+    margin-left: 1rem;
     padding: 1rem;
+    width: 40rem;
+    font-size: 3.5rem;
 
     align-items: center;
     display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .error > span {
-    margin-left: 0.5rem;
-    font-size: 4rem;
+    font-size: 2.5rem;
+    margin-left: 1rem;
     color: rgb(105, 105, 105);
 }
 
-.icon {
-    font-size: 10rem;
-    margin-right: 0.5rem;
-    color: rgb(255, 212, 0);
+/* 잘못된 페이지 입니다. */
+.warning > .errorPage {
+    font-size: 2.5rem;
+    color: rgb(105, 105, 105);
+    margin-top: 2rem;
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
+.icon {
+    font-size: 6.5rem;
+    margin-right: 0.5rem;
+    color: rgb(139, 145, 121);
+}
+
+/* 요청하신 페이지 처리중 */
 .errorText {
-    border-left: 1rem solid rgb(255, 212, 0);
+    border-left: 1rem solid rgb(120, 110, 11);
     border-radius: 0.3rem;
-    width: 100%;
+    width: 40rem;
     margin-top: 2rem;
+    margin-left: 10rem;
     padding: 1rem;
 }
 
