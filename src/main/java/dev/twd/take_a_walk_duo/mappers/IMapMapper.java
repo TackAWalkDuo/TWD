@@ -22,5 +22,7 @@ public interface IMapMapper {
 
     int updateArticleView(ArticleEntity article);
 
+    PlaceVo selectPlace(@Param(value = "index") int index);
+
 
 }

@@ -41,6 +41,7 @@ likeA.addEventListener('click', e => {
 
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
+    console.log(form['aid'].value);
     formData.append('articleIndex', form['aid'].value);
     xhr.open('POST', './article-liked');
     xhr.onreadystatechange = () => {

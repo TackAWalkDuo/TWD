@@ -86,6 +86,8 @@ body > .--header {
     flex-direction: column;
     justify-content: center;
     text-align: center;
+
+    width: 18rem;
 }
 
 #writeContainer > .walk-article > .image-container > .no-image {

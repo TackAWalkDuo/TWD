@@ -13,42 +13,52 @@
     <script defer th:src="@{/map/resources/scripts/walkModify.js}"></script>
     <link rel="stylesheet" th:href="@{/map/resources/stylesheets/walkWrite.css}">
 
+    <script th:if="${place == null}">
+        alert('존재하지 않는 게시글입니다..');
+        if (window.history.length > 1) window.history.back();
+        else window.close();
+    </script>
+
 
 </head>
 
-<body>
+<body th:if="${place != null}">
 <th:block th:replace="~{fragments/body :: header}"></th:block>
 
 <section class="map-container" id="mapContainer">
     <div class="map" id="map"></div>
     <div class="write-container" id="writeContainer">
-        <div class="list_container --object-button" id="listContainer">
-            <a class="text" th:href="@{/map/walk-read}">목록으로</a>
-        </div>
+
         <form class="walk-article" id="walkArticle">
+            <div class="submit-container">
+                <input type="submit" class="--object-button write" value="수정">
+            </div>
             <input hidden accept="image/" name="images" type="file">
-            <input hidden name="lat">
-            <input hidden name="lng">
-            <input hidden name="address">
+            <input hidden name="lat" rel="lat" th:value="${place.getLatitude()}">
+            <input hidden name="lng" rel="lng" th:value="${place.getLongitude()}">
+            <input hidden name="address" th:value="${place.getAddress()}">
             <div class="title-container">
-                <input name="place_title" class="title" placeholder="어디인가요?">
+                <input name="place_title" class="title" placeholder="어디인가요?" th:value="${place.getTitle()}">
             </div>
             <div class="image-container" rel="imageContainer">
                 <a href="#" class="image-select-button" rel="imageSelectButton">이미지 선택...</a>
-                <div class="no-image" rel="noImage">
+                <div class="no-image hidden" rel="noImage">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                     <div class="text">NO Select Image</div>
                 </div>
-
+                <img class="image" rel="thumbnail" alt="">
+                <a href="#" class="image-delete-button" rel="imageDeleteButton">이미지 삭제</a>
             </div>
             <div class="content-container">
                 <textarea type="text" class="content" maxlength="100" name="content"
-                          placeholder="간단한 소개를 작성해주세요."></textarea>
+                          placeholder="간단한 소개를 작성해주세요." th:text="${place.getContent()}"></textarea>
             </div>
-            <div class="submit-container">
-                <input type="submit" class="--object-button" value="작성">
-            </div>
+
         </form>
+
+        <div class="list_container --object-button" id="listContainer">
+            <a class="text" th:href="@{/map/walk-read}">목록으로</a>
+        </div>
     </div>
 </section>
 

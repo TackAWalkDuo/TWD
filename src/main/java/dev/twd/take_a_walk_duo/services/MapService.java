@@ -52,10 +52,10 @@ public class MapService {
         } else {
             byte[] imageInByte;
             File defaultImage = new File("src/main/resources/static/resources/images/TAWD_logo.png");
-            defaultImage.setReadable(true, false);
+//            defaultImage.setReadable(true, false);
 
-            System.out.println("file 권한  : " + defaultImage.canRead());
-            System.out.println("file exit  : " + defaultImage.exists());
+//            System.out.println("file 권한  : " + defaultImage.canRead());
+//            System.out.println("file exit  : " + defaultImage.exists());
 
             BufferedImage originalImage = ImageIO.read(defaultImage);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -95,5 +95,11 @@ public class MapService {
                 article : null;
     }
 
+
+    public PlaceVo getPlace(int index, UserEntity user) {
+        if(user == null) return null;
+
+        return this.mapMapper.selectPlace(index);
+    }
 
 }

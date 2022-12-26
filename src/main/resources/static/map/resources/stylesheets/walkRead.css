@@ -173,12 +173,13 @@ body > .--header {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 0 0.5rem;
+
 }
 
 #detailContainer.visible {
     max-width: 22.5rem;
     min-width: 22.5rem;
+    padding: 0 0.5rem;
 }
 
 #detailContainer > .modifyMenu {
@@ -261,6 +262,11 @@ body > .--header {
 
 #detailContainer > .info-container > .address {
     padding-bottom: 1rem;
+}
+
+#detailContainer > .info-container > .address > .text{
+    text-decoration: none;
+    color: black;
 }
 
 #detailContainer > .info-container > .content {
@@ -533,12 +539,51 @@ body > .--header {
 
     width: 4rem;
     height: 5rem;
+
+    margin-left: 1rem;
+
+    border-radius: 1.2rem;
+    box-shadow: 0.2rem 0.2rem 0.1rem 0.0625rem rgba(0, 0, 0, 10%);
 }
 
 #foldContainer.open-list {
-    left: 22.5rem;
+    left: 20.5rem;
 }
 
 #foldContainer.open-details{
-    left: 44.9rem;
+    left: 43.5rem;
 }
+
+
+
+/*.cover {*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    background-color: rgba(0, 0, 0, 80%);*/
+/*    align-items: center;*/
+/*    display: none;*/
+/*    flex-direction: column;*/
+/*    justify-content: center;*/
+/*    z-index: 0;*/
+/*    color: rgb(255, 255, 255);*/
+/*    position: fixed;*/
+/*}*/
+
+/*.cover.visible {*/
+/*    display: flex;*/
+/*}*/
+
+/*.cover > .--icon {*/
+/*    width: 4rem;*/
+/*    height: 4rem;*/
+/*    animation-duration: 1500ms;*/
+/*    animation-name: anim-cover-icon;*/
+/*    animation-iteration-count: infinite;*/
+/*    animation-timing-function: linear;*/
+/*    -webkit-user-drag: none;*/
+/*    pointer-events: none;*/
+/*    user-select: none;*/
+/*}*/
+

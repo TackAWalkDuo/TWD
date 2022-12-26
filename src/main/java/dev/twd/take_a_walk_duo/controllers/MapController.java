@@ -66,11 +66,6 @@ public class MapController {
                               @RequestParam(value = "maxLat") double maxLat,
                               @RequestParam(value = "maxLng") double maxLng,
                               @SessionAttribute(value = "user", required = false) UserEntity user) {
-        System.out.println("login check"+user);
-        PlaceVo[] temp = this.mapService.getPlaces(minLat, minLng, maxLat, maxLng, user);
-        for (int i = 0; i < temp.length; i++) {
-            System.out.println("isSigned " + temp[i].isSigned());
-        }
         return this.mapService.getPlaces(minLat, minLng, maxLat, maxLng, user);
     }
 
@@ -90,12 +85,12 @@ public class MapController {
     }
 
     @GetMapping(value = "modify", produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getModify(@RequestParam(value = "index") int index) {
+    public ModelAndView getModify(@RequestParam(value = "index") int index,
+                                  @SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView("map/walkModify");
 
         System.out.println("modify index check = " + index);
-
-
+        modelAndView.addObject("place", this.mapService.getPlace(index, user));
 
         return modelAndView;
     }

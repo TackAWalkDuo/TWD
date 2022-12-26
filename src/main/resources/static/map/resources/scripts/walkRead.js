@@ -14,17 +14,25 @@ let places = [];        // db 에서 list 를 가져와서 담아줄 변수.
 
 //list 의 게시글 또는 marker 클릭 시 해당 게시글을 보여줌.
 detailContainer.show = (placeObject, placeElement) => {
+    // list.querySelectorAll('[rel="item"]').forEach(x => x.remove());
     detailContainer.classList.add("visible");
     detailContainer.querySelector('[rel="title"]').innerText = placeObject['title'];
     detailContainer.querySelector('[rel="placeImage"]').setAttribute("src", `/bbs/thumbnail?index=${placeObject['index']}`);
     detailContainer.querySelector('[rel="commentCounter"]').innerText = placeObject['commentCount'];
     detailContainer.querySelector('[rel="likeCounter"]').innerText = placeObject['likeCount'];
     detailContainer.querySelector('[rel="addressText"]').innerText = placeObject['address'];
+    //detail 에서 주소를 누를 경우 kakao map 에서 직접 검색
+    detailContainer.querySelector('[rel="addressText"]')
+        .setAttribute("href", `https://map.kakao.com/link/search/${placeObject['address']}`);
     detailContainer.querySelector('[rel="descriptionText"]').innerText = placeObject['content'];
 
     //로그인이 안되있을 경우 좋아요를 누를 수 없도록 처리.
     if (!placeObject['signed']) {
         likeIcon.classList.add("prohibited");
+    }
+
+    if (likeIcon.classList.contains("mine")) {          // 이전 게시글의 mine 이 남아 있을 경우를 대비한. mine 삭제 조치.
+        likeIcon.classList.remove("mine");
     }
 
     // 로그인된 계정으로 좋아요를 눌렀을 경우.
@@ -64,15 +72,22 @@ detailContainer.show = (placeObject, placeElement) => {
     };
     xhr.send(formData);
 
-    if(!container.classList.contains("fold")) container.classList.add("fold");
+    if (!container.classList.contains("fold")) container.classList.add("fold");
 
     foldElement.classList.add("open-list"); // fold controller
     foldElement.classList.add("open-details"); // fold controller
 
     foldChangeIcon(container.classList.contains("fold"));
 
-
     loadReview(placeObject['index']);
+
+    mapObject.setLevel(3) // 클릭 할 경우 지도 확대 레벨 변경
+    mapObject.setCenter(new kakao.maps.LatLng(placeObject['latitude'], placeObject['longitude'])); // 현재 지도를 클릭한 지점을 중심으로 변경
+    list.innerHTML =''; // level 을 변경할 경우 zoom_changed event 가 발생하기 때문에 list를 한번 초기화해줍니다.
+    setTimeout(()=>{
+        loadPlaces();
+    }, 50);
+
 }
 // 현재 보고 있는 게시글 list 또는 marker 를 클릭하면 닫힘.
 detailContainer.hide = () => {
@@ -96,7 +111,7 @@ const loadMap = (lat, lng) => {
     lng ??= 126.570667;
     mapObject = new kakao.maps.Map(map, { //지도를 생성할 때 필요한 기본 옵션
         center: new kakao.maps.LatLng(lat, lng), //지도의 중심좌표.
-        level: 7 //지도의 레벨(확대, 축소 정도)
+        level: 6 //지도의 레벨(확대, 축소 정도)
     }); //지도 생성 및 객체 리턴
     kakao.maps.event.addListener(mapObject, 'dragend', () => {
         loadPlaces();
@@ -109,18 +124,21 @@ const loadMap = (lat, lng) => {
 
 // 현재 지도 내에서 표시할 수 있는 좌표가 있는 게시글을 list 에 표시
 const loadPlaces = (ne, sw) => {
+    list.innerHTML='';          // html 예시 삭제.
     if (!ne || !sw) {
         const bounds = mapObject.getBounds();
         ne = bounds.getNorthEast();
         sw = bounds.getSouthWest();
     }
-    list.innerHTML = '';
+    console.log(`minLat=${sw['Ma']}&minLng=${sw['La']}&maxLat=${ne['Ma']}&maxLng=${ne['La']}`);
+
     const xhr = new XMLHttpRequest();
     //                                   min = 현재 페이지의 촤측하단 위도,경도            max = 현재 페이지의 우측상단 위도, 경도
     xhr.open('GET', `./place?minLat=${sw['Ma']}&minLng=${sw['La']}&maxLat=${ne['Ma']}&maxLng=${ne['La']}`);
 
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
+            preventMapLoad = false;
             if (xhr.status >= 200 && xhr.status < 300) {
                 const placeArray = JSON.parse(xhr.responseText);
                 places = placeArray;
@@ -171,31 +189,27 @@ const loadPlaces = (ne, sw) => {
                     imageElement.setAttribute('src', `/bbs/thumbnail?index=${placeObject['index']}`);
 
                     // 현재 표시 되는 게시글의 자표.
-                    const latLng = new kakao.maps.LatLng(placeObject['latitude'], placeObject['longitude']);
+
 
                     //marker 클릭할 경우.
                     kakao.maps.event.addListener(marker, 'click', () => {
-                        mapObject.setLevel(3) // 클릭 할 경우 지도 확대 레벨 변경
-                        mapObject.setCenter(latLng); // 현재 지도를 클릭한 지점을 중심으로 변경
-
                         if (detailContainer.querySelector('[rel="addressText"]').innerText === (placeObject['address'])) {
                             detailContainer.hide();
                         } else {
                             detailContainer.show(placeObject, placeElement);
                         }
+
                     });
                     marker.setMap(mapObject);
 
                     // list 의 게시글을 클릭 했을 경우.
                     placeElement.addEventListener('click', () => {
-                        mapObject.setLevel(3) // 클릭 할 경우 지도 확대 레벨 변경
-                        mapObject.setCenter(latLng); // 현재 지도를 클릭한 지점을 중심으로 변경
-
                         if (detailContainer.querySelector('[rel="addressText"]').innerText === (placeObject['address'])) {
                             detailContainer.hide();
                         } else {
                             detailContainer.show(placeObject, placeElement);
                         }
+
                     });
 
                     list.append(placeElement);
@@ -409,8 +423,7 @@ const loadReview = (articleIndex) => {
                                 };
                                 xhr.send(formData);
                             });
-                        }
-                        ;
+                        };
 
 
                         const commentImageSelect = itemElement.querySelector('[rel="imagesModify"]');
@@ -610,20 +623,15 @@ foldElement.addEventListener('click', () => {
 
 function foldChangeIcon(flag) {
     const foldIcon = foldElement.querySelector('[rel="foldIcon"]');
-    if(flag && foldIcon.classList.contains("fa-greater-than")) {
+    if (flag && foldIcon.classList.contains("fa-greater-than")) {
         foldIcon.classList.remove("fa-greater-than");
         foldIcon.classList.add("fa-less-than");
     }
-    if(!flag) {
+    if (!flag) {
         foldIcon.classList.remove("fa-less-than");
         foldIcon.classList.add("fa-greater-than");
     }
 }
-
-
-
-
-
 
 
 //<i class="fa-solid fa-greater-than"></i>

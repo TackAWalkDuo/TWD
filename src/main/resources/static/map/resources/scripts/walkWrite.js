@@ -16,6 +16,7 @@ let detailAddr
 const loadMap = (lat, lng) => {
     lat ??= 33.450701;
     lng ??= 126.570667;
+
     mapObject = new kakao.maps.Map(map, { //지도를 생성할 때 필요한 기본 옵션
         center: new kakao.maps.LatLng(lat, lng), //지도의 중심좌표.
         level: 3 //지도의 레벨(확대, 축소 정도)

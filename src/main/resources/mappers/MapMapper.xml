@@ -57,6 +57,26 @@
         GROUP BY `article`.`index`
     </select>
 
+
+    <select id="selectPlace"
+    resultType="dev.twd.take_a_walk_duo.vos.map.PlaceVo">
+        SELECT `article`.`index`          AS 'index',
+               `article`.`user_email`     AS 'userEmail',
+               `article`.`board_id`       AS 'boardId',
+               `article`.`title`          AS 'title',
+               `article`.`content`        AS 'content',
+               `article`.`view`           AS 'view',
+               `article`.`written_on`     AS 'writtenOn',
+               `article`.`modified_on`    AS 'modifiedOn',
+               `location`.`address`       AS 'address',
+               `location`.`latitude`      AS 'latitude',
+               `location`.`longitude`     AS 'longitude'
+        FROM `twd_bbs`.`articles` AS `article`
+                 LEFT JOIN `twd_bbs`.`location` ON `article`.`index` = `location`.`article_index`
+        WHERE `article`.`index` = #{index}
+
+    </select>
+
 </mapper>
 
 
