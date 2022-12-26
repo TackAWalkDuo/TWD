@@ -93,6 +93,9 @@ public class ShopService {
                 : CommonResult.FAILURE;
     }
 
+    // 상품 수정
+
+
     // write get
     public ProductVo getArticle(){
         return this.shopMapper.selectArticle();

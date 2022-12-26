@@ -87,8 +87,12 @@
                     <div class="product-button">
                         <input class="buy --object-button" value="구매하기" type="submit">
                         <input class="cart --object-button" value="장바구니" type="submit">
+                    </div>
+                    <div class="admin-product-button">
+                        <a th:if="${user?.getAdmin() == true}" class=" modify --object-button" th:href="@{/shop/modify(aid=${product.getIndex()})}"
+                           id="modifyButton">수정하기</a>
                         <a th:if="${user?.getAdmin() == true}" class=" delete --object-button" href="#"
-                           id="deleteButton">삭제</a>
+                           id="deleteButton">삭제하기</a>
                     </div>
                 </div>
             </form>
@@ -123,7 +127,7 @@
             </tr>
             <tr>
                 <th>모델명</th>
-                <td th:text="${product.getTitle()}">산책해듀오</td>
+                <td th:text="${product.getTitle()}"></td>
                 <th>원산지</th>
                 <td>국산</td>
             </tr>
@@ -192,24 +196,24 @@
     </div>
 
 
-<!--    <form class="search-form" id="searchForm" method="get">-->
-<!--        <label class="label">-->
-<!--            <span hidden>검색 기준</span>-->
-<!--            <select class="&#45;&#45;object-input" name="criterion">-->
-<!--                <option value="all">제목 + 내용</option>-->
-<!--                <option value="title">제목</option>-->
-<!--                <option value="nickname">작성자</option>-->
-<!--            </select>-->
-<!--        </label>-->
-<!--        <label class="label">-->
-<!--            <span hidden>검색어</span>-->
-<!--            &lt;!&ndash;주소창에서 키값이 keyword인 값을 value로 넣는다&ndash;&gt;-->
-<!--            <input class="&#45;&#45;object-input" maxlength="50" name="keyword" placeholder="검색어를 입력해 주세요." type="text">-->
-<!--        </label>-->
-<!--        &lt;!&ndash;검색 결과에 bid 필요해서 넣음&ndash;&gt;-->
-<!--        <input name="bid" type="hidden">-->
-<!--        <input class="&#45;&#45;object-button" type="submit" value="검색">-->
-<!--    </form>-->
+    <!--    <form class="search-form" id="searchForm" method="get">-->
+    <!--        <label class="label">-->
+    <!--            <span hidden>검색 기준</span>-->
+    <!--            <select class="&#45;&#45;object-input" name="criterion">-->
+    <!--                <option value="all">제목 + 내용</option>-->
+    <!--                <option value="title">제목</option>-->
+    <!--                <option value="nickname">작성자</option>-->
+    <!--            </select>-->
+    <!--        </label>-->
+    <!--        <label class="label">-->
+    <!--            <span hidden>검색어</span>-->
+    <!--            &lt;!&ndash;주소창에서 키값이 keyword인 값을 value로 넣는다&ndash;&gt;-->
+    <!--            <input class="&#45;&#45;object-input" maxlength="50" name="keyword" placeholder="검색어를 입력해 주세요." type="text">-->
+    <!--        </label>-->
+    <!--        &lt;!&ndash;검색 결과에 bid 필요해서 넣음&ndash;&gt;-->
+    <!--        <input name="bid" type="hidden">-->
+    <!--        <input class="&#45;&#45;object-button" type="submit" value="검색">-->
+    <!--    </form>-->
 </main>
 <!-- cover -->
 <th:block th:replace="~{fragments/body :: cover}"></th:block>
