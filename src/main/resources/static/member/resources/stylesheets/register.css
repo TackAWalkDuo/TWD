@@ -41,17 +41,9 @@ body > div > .xButton > .icon {
     padding-bottom: 0.5rem;
 }
 
-/* step1 input */
-body > .main > .content > .form.step1 > .--object-input {
-    border: 0.0125rem solid;
-    border-radius: 0;
-    width: 30rem;
-    height: 2rem;
-    font-size: 1.0625rem;
-
-    line-height: 147.6%;
-    padding-top: 0.825rem;
-    padding-bottom: 0.5rem;
+.--object-input.term {
+    border: 0.00000125rem solid rgb(211, 211, 211);
+    padding: 0.5rem;
 }
 
 
@@ -71,19 +63,46 @@ body > .main > .content > .form > .step.step2 > .table > tbody > tr > td .--obje
 
 body > .main > .content > .form > .step.step2 > .table > tbody > tr > td .--object-input:disabled {
     color: rgb(171, 178, 185);
-    /*filter:brightness(90%);*/
     border-radius: 0.5rem;
     border-bottom: none;
 }
 
-/* select */
+/* 생년월일 */
+td.birth > label{
+    width: 100%;
+    flex-wrap: nowrap;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
 
-select {
-    width: 12.5rem;
-    padding: 0.8rem 0.5rem;
+/* birth year */
+#year {
+    width: 9.4rem;
+    height: 1.6rem;
+    padding-left: 0.5rem;
+    margin-right: 0.5rem;
     font-family: inherit;
-    border: 1px solid #999;
-    border-radius: 0rem;
+    border-bottom: 0.0125rem solid;
+}
+
+/* select */
+select {
+    width: 9.4rem;
+    padding: 0.8rem 0.5rem;
+    margin-right: 0.5rem;
+    font-family: inherit;
+    border-bottom:  0.0125rem solid;
+}
+
+/* birth day */
+#day {
+    width: 9.2rem;
+    height: 1.6rem;
+    padding-left: 0.5rem;
+    font-family: inherit;
+    border-bottom: 0.0125rem solid;
 }
 
 .--object-check {
@@ -622,9 +641,3 @@ body > .main > .content > .form > .button-container > .button.green:active {
     display: none;
     margin-left: 1.5rem;
 }
-
-
-
-
-
-
