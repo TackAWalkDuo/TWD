@@ -110,7 +110,7 @@ select {
     cursor: pointer;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: center;
     user-select: none;
 }
 
@@ -629,12 +629,6 @@ body > .main > .content > .form > .button-container > .button.green:active {
 .size .--object-size > input[type=radio]:checked ~ .--checkbox > {
     background-color: rgb(139, 145, 121);
     border: 0.0625rem solid rgb(139, 145, 121);
-}
-
-/* 서비스 이용약관 동의 */
-.--object-check {
-    margin-left: 3rem;
-    background-color: white;
 }
 
 #checkSpecies {
