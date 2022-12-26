@@ -13,24 +13,22 @@ body > .--header {
 
 #map {
     height: 100%;
-    width: 70%;
+    width: 100%;
     z-index: 0;
 }
 
 #container {
     position: absolute;
-    height: 60%;
+    height: 85%;
     z-index: 0;
-
-    top: 20%;
-    left: 15%;
-
+    top: 10%;
+    left: 1rem;
     overflow: hidden auto;
-
     align-items: start;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    border-radius: 0.7rem;
 }
 
 
@@ -51,16 +49,25 @@ body > .--header {
 
 #listContainer > .write-container {
     margin-top: 0.5rem;
-    border: 0.0625rem solid rgb(169, 169, 169);
+    border-bottom: 0.5rem solid rgb(169, 169, 169);
     text-align: center;
-
-
-    font-size: 2rem;
+    font-size: 1.5rem;
+    border-top: 0.5rem solid rgb(169, 169, 169);
+    background: none;
+    border-radius: unset;
 }
+
+#listContainer > .write-container:hover {
+    border-bottom: 0.5rem solid rgb(120, 110, 110);
+    border-top: 0.5rem solid rgb(120, 110, 110);
+    color: rgb(120, 110, 110);
+
+}
+
 
 #listContainer > .write-container > .text {
     text-decoration: none;
-    color: white;
+    color: rgb(169,169,169);
 }
 
 #list {
@@ -79,9 +86,8 @@ body > .--header {
 
 #list > .item {
     padding: 1rem 1.5rem;
-    border-bottom: 0.0625rem solid rgb(234, 236, 238);
+    border-bottom: 0.3rem solid rgb(234, 236, 238);
     cursor: pointer;
-
     align-items: stretch;
     display: flex;
     flex-direction: column;

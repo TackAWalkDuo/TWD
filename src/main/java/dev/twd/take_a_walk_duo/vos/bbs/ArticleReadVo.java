@@ -8,6 +8,17 @@ public class ArticleReadVo extends ArticleEntity {
     private boolean articleLiked;
     private int articleLikedCount;
 
+    private boolean isSigned;
+
+    public boolean isSigned() {
+        return isSigned;
+    }
+
+    public ArticleReadVo setSigned(boolean signed) {
+        isSigned = signed;
+        return this;
+    }
+
     public String getUserNickname() {
         return userNickname;
     }

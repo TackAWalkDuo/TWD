@@ -8,7 +8,8 @@
                `text`  AS `text`,
                `order` AS `order`
         FROM `twd_bbs`.`boards`
-        ORDER BY `order` LIMIT 4;
+        ORDER BY `order`
+        LIMIT 4;
     </select>
 
     <select id="selectBoardById" resultType="dev.twd.take_a_walk_duo.entities.bbs.BoardEntity">
@@ -18,7 +19,7 @@
                `order`    AS `order`
         FROM `twd_bbs`.`boards`
         WHERE BINARY `id` = #{bid}
-            LIMIT 1;
+        LIMIT 1;
     </select>
     <insert id="insertArticle"
             useGeneratedKeys="true"
@@ -73,7 +74,8 @@
                            on `articles`.`index` = `articleLike`.`article_index`
                                AND `articleLike`.`user_email` = IFNULL(#{email}, '')
         WHERE `articles`.`index` = #{index}
-        GROUP BY `articles`.`index` LIMIT 1;
+        GROUP BY `articles`.`index`
+        LIMIT 1;
     </select>
 
     <select id="selectBoardByBoardId"
@@ -83,7 +85,8 @@
                `board_id` AS `boardId`,
                `order`    AS `order`
         FROM `twd_bbs`.`boards` AS `board`
-        WHERE `board_id` = #{bid} OR `id` = #{bid}
+        WHERE `board_id` = #{bid}
+           OR `id` = #{bid}
         ORDER BY `order`;
     </select>
 
@@ -179,17 +182,19 @@
     <delete id="deleteByArticleLiked">
         DELETE
         FROM `twd_bbs`.`article_likes`
-        WHERE (`twd_bbs`.`article_likes`.`article_index` = #{articleIndex}) LIMIT 1;
+        WHERE (`twd_bbs`.`article_likes`.`article_index` = #{articleIndex})
+        LIMIT 1;
     </delete>
 
     <delete id="deleteArticle">
         DELETE
         FROM `twd_bbs`.`articles`
-        WHERE (`twd_bbs`.`articles`.`index` = #{index}) limit 1;
+        WHERE (`twd_bbs`.`articles`.`index` = #{index})
+        limit 1;
     </delete>
 
     <update id="updateComment"
-    parameterType="dev.twd.take_a_walk_duo.entities.bbs.CommentEntity">
+            parameterType="dev.twd.take_a_walk_duo.entities.bbs.CommentEntity">
         UPDATE `twd_bbs`.`comments`
         SET `comment_index` = #{commentIndex},
             `user_email`    = #{userEmail},
@@ -213,42 +218,46 @@
 
     <select id="selectArticlesByBoardId"
             resultType="dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo">
-        SELECT `articles`.`index`       AS `index`,
-               `articles`.`user_email`  AS `userEmail`,
-               `articles`.`board_id`    AS `boardId`,
-               `articles`.`title`       AS `title`,
-               `articles`.`view`        AS `view`,
-               `articles`.`written_on`  AS `writtenOn`,
-               `articles`.`modified_on` AS `modifiedOn`,
-               `users`.`nickname`       AS `userNickname`
+        SELECT `articles`.`index`                   AS `index`,
+               `articles`.`user_email`              AS `userEmail`,
+               `articles`.`board_id`                AS `boardId`,
+               `articles`.`title`                   AS `title`,
+               `articles`.`view`                    AS `view`,
+               `articles`.`written_on`              AS `writtenOn`,
+               `articles`.`modified_on`             AS `modifiedOn`,
+               `users`.`nickname`                   AS `userNickname`,
+               COUNT(`aLikedCount`.`article_index`) AS `articleLikedCount`
         FROM `twd_bbs`.`articles`
                  LEFT JOIN twd_member.users on articles.user_email = users.email
                  LEFT JOIN `twd_bbs`.`boards` AS `board`
-                     ON board.`board_id` = #{boardId} OR board.`id` = #{boardId}
+                           ON board.`board_id` = #{boardId} OR board.`id` = #{boardId}
+                 LEFT JOIN `twd_bbs`.`article_likes` AS `aLikedCount`
+                           on `articles`.`index` = `aLikedCount`.`article_index`
         WHERE `articles`.`board_id` = board.id
+        GROUP BY `articles`.`index`
         ORDER BY `articles`.`index` DESC
+
         LIMIT #{limit} OFFSET #{offset};
     </select>
-
-    <select id="selectArticleCountByBoardId"
-            resultType="int">
-        SELECT COUNT(0)
-        FROM `twd_bbs`.`articles`
-        LEFT JOIN `twd_bbs`.`boards` AS `board`
-        ON board.`board_id` = #{boardId} OR board.`id` = #{boardId}
-        <if test="criterion !=null and criterion.equals('nickname')">
-            LEFT JOIN `twd_member`.`users` ON articles.user_email = users.email
-        </if>
-        WHERE `articles`.`board_id` = board.id
-        <if test="criterion !=null and criterion.equals('title')">
-            AND REPLACE(`articles`.`title`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%')
-        </if>
-        <if test="criterion !=null and criterion.equals('all')">
-            AND (REPLACE(`articles`.`title`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%')
-            OR REPLACE(`articles`.`content`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%'))
-        </if>
-        <if test="criterion !=null and criterion.equals('nickname')">
-            AND BINARY `users`.`nickname` = #{keyword}
-        </if>
-    </select>
-</mapper>
+<select id="selectArticleCountByBoardId"
+        resultType="int">
+SELECT COUNT(0)
+FROM `twd_bbs`.`articles`
+LEFT JOIN `twd_bbs`.`boards` AS `board`
+ON board.`board_id` = #{boardId} OR board.`id` = #{boardId}
+<if test="criterion !=null and criterion.equals('nickname')">
+    LEFT JOIN `twd_member`.`users` ON articles.user_email = users.email
+</if>
+WHERE `articles`.`board_id` = board.id
+<if test="criterion !=null and criterion.equals('title')">
+    AND REPLACE(`articles`.`title`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%')
+</if>
+<if test="criterion !=null and criterion.equals('all')">
+    AND (REPLACE(`articles`.`title`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%')
+    OR REPLACE(`articles`.`content`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%'))
+</if>
+<if test="criterion !=null and criterion.equals('nickname')">
+    AND BINARY `users`.`nickname` = #{keyword}
+</if>
+</select>
+        </mapper>

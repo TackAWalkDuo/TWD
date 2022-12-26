@@ -22,8 +22,10 @@
                 <ul class="title--select">
                     <li class="menu" rel="listMenu"><a th:href="@{/bbs/list(bid='free')}">자유게시판</a>
                         <ul class="free-select" rel="freeSelect">
-                            <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'free'}" th:each="boardTitle : ${boardTitles}">
-                                <a class="a-select" th:text="${boardTitle.getText()}" th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
+                            <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'free'}"
+                                th:each="boardTitle : ${boardTitles}">
+                                <a class="a-select" th:text="${boardTitle.getText()}"
+                                   th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
                             </li>
                         </ul>
                     </li>
@@ -36,22 +38,28 @@
                     </li>
                     <li class="menu" rel="listMenu"><a th:href="@{/bbs/list(bid='notice')}">공지사항</a>
                         <ul class="free-select" rel="freeSelect">
-                            <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'notice'}" th:each="boardTitle : ${boardTitles}">
-                                <a class="a-select" th:text="${boardTitle.getText()}" th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
+                            <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'notice'}"
+                                th:each="boardTitle : ${boardTitles}">
+                                <a class="a-select" th:text="${boardTitle.getText()}"
+                                   th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
                             </li>
                         </ul>
                     </li>
                     <li class="menu" rel="listMenu"><a th:href="@{/bbs/list(bid='qna')}">QNA</a>
                         <ul class="free-select" rel="freeSelect">
-                            <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'qna'}" th:each="boardTitle : ${boardTitles}">
-                                <a class="a-select" th:text="${boardTitle.getText()}" th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
+                            <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'qna'}"
+                                th:each="boardTitle : ${boardTitles}">
+                                <a class="a-select" th:text="${boardTitle.getText()}"
+                                   th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
                             </li>
                         </ul>
                     </li>
                     <li class="menu" rel="listMenu"><a th:href="@{/bbs/list(bid='query')}">거래문의</a>
                         <ul class="free-select" rel="freeSelect">
-                            <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'query'}" th:each="boardTitle : ${boardTitles}">
-                                <a class="a-select" th:text="${boardTitle.getText()}" th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
+                            <li class="scroll-menu" th:if="${boardTitle.getBoardId() == 'query'}"
+                                th:each="boardTitle : ${boardTitles}">
+                                <a class="a-select" th:text="${boardTitle.getText()}"
+                                   th:href="@{/bbs/list(bid=${boardTitle.getId()})}"></a>
                             </li>
                         </ul>
                     </li>
@@ -59,7 +67,8 @@
                 <ul class="title--select">
                     <li class="side-menu connect"><a>전체</a></li>
                     <li class="side-menu connect" th:each="boards : ${boardList}">
-                    <a class="a-select" th:text="${boards.getText()}" th:href="@{/bbs/list(bid=${boards.getId()})}"></a>
+                        <a class="a-select" th:text="${boards.getText()}"
+                           th:href="@{/bbs/list(bid=${boards.getId()})}"></a>
                     </li>
                 </ul>
             </nav>
@@ -97,7 +106,6 @@
                             </div>
                         </td>
                     </tr>
-
                     <tr>
                         <th hidden>작성 일시</th>
                         <td th:text="${#dates.format(article.getWrittenOn(),'yyyy-MM-dd HH:mm:ss')}">2000-01-01
@@ -121,19 +129,106 @@
                     </tr>
                     </tbody>
                     <tfoot>
-                    <tr>
-                    <th>댓글 고?</th>
+                    <tr class="comment-row">
+                        <td colspan="6">
+                            <div id="commentMinePicForm" class="comment-mine-pic-form">
+                                <div class="speciesPicContainer">
+                                    <img class="speciesPic" src="/resources/images/icons8-jake-150.png" alt="#">
+                                </div>
+                                <div id="commentMineForm" class="comment-mine-form">
+                                    <div class="head">
+                                        <span class="writer">관리자</span>
+                                    </div>
+                                    <div id="commentForm" class="comment-form">
+                                        <label class="label">
+                                            <span hidden>댓글작성</span>
+                                            <textarea class="--object-input" maxlength="100" name="content"
+                                                   placeholder="댓글을 입력해 주세요 그동안 자바에서 접근제한자를 사용하는 이유를 '외부에서의 사용범위에 따른 설정' 정도로만 알고 있었다. 사실 매우 기초적인 부분이지만 예상컨대, 나와 비슷한 사람들 분명 많을 것이다. 최근 자바 관련 공부를 하다가 문득 접근제한자를 쓰는 이유에 대해 의문이 들었다. 접근제한자를 쓰는 이유가 외부에서 사용해도 되거나 사용하면 안되는 것을 지정하는 건데 만약에 사용하면 안된다면 그냥 안쓰면 되는거 아닌가? 하는 의문에서 시작이 되었고 이 이유에 대해 찾아본 결과 이것은 매우 간단했고 생각보다 중요한 사실이었다. 접근제한자를 사용하는 이유는 프로젝트에서 협업을 할 때, 코드 작성자의 의도를 전달하기 위해서였다고 한다.... 나만 몰랐던건가...?ㅎ">
+                                            </textarea>
+                                        </label>
+                                        <input class="--object-button" type="submit" value="작성">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="comment-container" id="commentContainer">
+                                <div class="comment liked mine">
+                                    <div class="comment head">
+                                        <div class="speciesPicContainer">
+                                            <img class="speciesPic" src="/resources/images/icons8-jake-150.png" alt="#">
+                                        </div>
+                                        <div class="head">
+                                            <span class="writer">관리자</span>
+                                            <span class="dt">2022-01-01 00:00:00</span>
+                                            <span class="action-container">
+                                                <a href="#" class="action reply">답글달기</a>
+                                                <a href="#" class="action modify">수정</a>
+                                                <a href="#" class="action delete">삭제</a>
+                                                <a href="#" class="action cancel">취소</a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="body">
+                                        <div class="content">
+                                            <span class="text">그동안 자바에서 접근제한자를 사용하는 이유를 '외부에서의 사용범위에 따른 설정' 정도로만 알고 있었다. 사실 매우 기초적인 부분이지만 예상컨대, 나와 비슷한 사람들 분명 많을 것이다. 최근 자바 관련 공부를 하다가 문득 접근제한자를 쓰는 이유에 대해 의문이 들었다. 접근제한자를 쓰는 이유가 외부에서 사용해도 되거나 사용하면 안되는 것을 지정하는 건데 만약에 사용하면 안된다면 그냥 안쓰면 되는거 아닌가? 하는 의문에서 시작이 되었고 이 이유에 대해 찾아본 결과 이것은 매우 간단했고 생각보다 중요한 사실이었다. 접근제한자를 사용하는 이유는 프로젝트에서 협업을 할 때, 코드 작성자의 의도를 전달하기 위해서였다고 한다.... 나만 몰랐던건가...?ㅎ</span>
+                                            <div class="like">
+                                                <a href="#" class="toggle"><i class="fa-solid fa-heart"></i></a><span
+                                                    class="count"> 9,999</span>
+                                            </div>
+                                        </div>
+                                        <div class="modify-form">
+                                            <label class="label">
+                                                <span hidden>댓글수정</span>
+                                                <textarea class="--object-input" maxlength="100" name="content"
+                                                       placeholder="댓글을 입력해 주세요">
+                                                </textarea>
+                                            </label>
+                                            <input class="--object-button" type="submit" value="수정">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="reply-form" id="replyForm">
+                                    <div class="head">
+                                        <span class="to">@관리자</span>
+                                        <a href="#" class="cancel">취소</a>
+                                    </div>
+                                    <div class="body">
+                                        <label class="label">
+                                            <span hidden>답글작성</span>
+                                            <input class="--object-input" maxlength="100" name="content"
+                                                   placeholder="답글을 입력해 주세요"
+                                                   type="text">
+                                        </label>
+                                        <input class="--object-button" type="submit" value="작성">
+                                    </div>
+                                </div>
+                                <div class="comment sub">
+                                    <div class="head">
+                                        <span class="writer">누구</span>
+                                        <span class="dt">2022-01-01 00:00:00</span>
+                                        <span class="spring"></span>
+                                        <span class="action-container">
+                                    <a href="#" class="action reply">답글달기</a>
+                                    <a href="#" class="action delete">삭제</a>
+                                </span>
+                                    </div>
+                                    <div class="body">아직도 댓글놀이 하네</div>
+                                </div>
+                                <div class="comment sub mine">
+                                    <div class="head">
+                                        <span class="writer">관리자</span>
+                                        <span class="dt">2022-01-01 00:00:00</span>
+                                        <span class="spring"></span>
+                                        <span class="action-container">
+                                    <a href="#" class="action reply">답글달기</a>
+                                    <a href="#" class="action delete">삭제</a>
+                                </span>
+                                    </div>
+                                    <div class="body">즐</div>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                     </tfoot>
-                    <div class="dialog" rel="dialog">
-                        <div class="dialog__inner">
-                            <h1>TAKEAWALKDUO</h1>
-                            <p class="text">Dialog 내용</p>
-                            <div class="dialog__btn__wrap">
-                                <button id="ok">OK</button>
-                            </div>
-                        </div>
-                    </div>
                 </table>
                 <input name="aid" type="hidden" th:value="${article.getIndex()}">
             </form>
@@ -143,6 +238,15 @@
 <div class="image-scale" id="imageScale">
     <img class="detail-img" rel="scaleImage" th:src="@{/bbs/thumbnail (index=${article.getIndex()})}" alt="#"
          src="/resources/images/item1.jpg">
+</div>
+<div class="dialog" rel="dialog">
+    <div class="dialog__inner">
+        <h1>TAKEAWALKDUO</h1>
+        <p class="text">Dialog 내용</p>
+        <div class="dialog__btn__wrap">
+            <button id="ok">OK</button>
+        </div>
+    </div>
 </div>
 <th:block th:replace="~{fragments/body :: cover}"></th:block>
 <th:block th:replace="~{fragments/body :: footer}"></th:block>

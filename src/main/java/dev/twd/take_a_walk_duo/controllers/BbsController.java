@@ -101,6 +101,7 @@ public class BbsController {
             modelAndView.addObject("liked", article.isArticleLiked());
             modelAndView.addObject("boardList", boardList);
             modelAndView.addObject("boardTitles", boardTitle);
+            modelAndView.addObject("isSigned",article.isSigned());
 
 
         }

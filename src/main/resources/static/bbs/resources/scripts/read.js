@@ -3,7 +3,7 @@ let imageScale = window.document.getElementById('imageScale');
 const freeSelect = window.document.querySelector("[rel='freeSelect']");
 
 const showDialog = {
-    getElement: () => form.querySelector('[rel="dialog"]'),
+    getElement: () => window.document.querySelector('[rel="dialog"]'),
     show: (text) => {
         const dialog = showDialog.getElement();
         dialog.querySelector('.text').innerText = text;
@@ -39,10 +39,11 @@ const likeA = window.document.getElementById('likeA');
 likeA.addEventListener('click', e => {
     e.preventDefault();
 
+    console.log(form['aid'].value);
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     formData.append('articleIndex', form['aid'].value);
-    xhr.open('POST', './article-liked');
+    xhr.open('POST', '/bbs/article-liked');
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status >= 200 && xhr.status < 300) {
