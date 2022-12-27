@@ -40,6 +40,7 @@ public class MapController {
             throws IOException {
         Enum<?> result = this.mapService.addWalkArticle(article, location, images, user);
 
+        System.out.println("check mpa writesdfsdfsdfsdfsdf");
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
 

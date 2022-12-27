@@ -155,12 +155,13 @@ walkArticle.onsubmit = e => {
     formData.append("longitude", walkArticle['lng'].value);
     formData.append("address", walkArticle['address'].value);
 
-    formData.append("modifyFlag", imageModifyFlag);
 
     //MultipartFile 받을 정보.
     for (let file of walkArticle['images'].files) {
         formData.append('images', file);
     }
+
+    console.log("check");
 
     xhr.open('POST', './write');
     xhr.onreadystatechange = () => {

@@ -3,7 +3,7 @@ body > .--header {
     top: 0;
 }
 
-#pageContainer {
+#mapContainer {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -17,7 +17,7 @@ body > .--header {
     z-index: 0;
 }
 
-#pageContainer > .cover {
+#mapContainer > .cover {
     top: 0;
     left: 0;
     width: 100%;
@@ -173,7 +173,7 @@ body > .--header {
     font-size: 2rem;
 }
 
-#pageContainer > .map > div > div > div > * {
+#mapContainer > .map > div > div > div > * {
     border: none;
     border: unset;
 }
