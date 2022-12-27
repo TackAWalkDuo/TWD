@@ -155,19 +155,21 @@ walkArticle.onsubmit = e => {
     formData.append("longitude", walkArticle['lng'].value);
     formData.append("address", walkArticle['address'].value);
 
+    formData.append("modifyFlag", imageModifyFlag);
+
     //MultipartFile 받을 정보.
     for (let file of walkArticle['images'].files) {
         formData.append('images', file);
     }
 
-    xhr.open('POST', './walk-write');
+    xhr.open('POST', './write');
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status >= 200 && xhr.status < 300) {
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
                     case 'success':
-                        window.location.href = './walk-read';
+                        window.location.href = './read';
                         break;
                     case 'not_signed':
                         alert("로그인 해주세요.");

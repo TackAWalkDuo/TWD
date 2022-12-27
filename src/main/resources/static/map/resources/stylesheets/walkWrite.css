@@ -110,15 +110,25 @@ body > .--header {
     display: none;
 }
 
-#writeContainer > .walk-article > .image-container > .image-select-button {
+#writeContainer > .walk-article > .image-container > .image-select-button,
+#writeContainer > .walk-article > .image-container > .image-button-container > .image-select-button {
     font-size: 1.5rem;
     color: rgb(52, 152, 219);
     text-decoration: none;
     margin-bottom: 0.3rem;
 }
 
-#writeContainer > .walk-article > .image-container > .image-select-button:active {
+#writeContainer > .walk-article > .image-container > .image-select-button:active,
+#writeContainer > .walk-article > .image-container > .image-button-container > .image-select-button:active {
     color: inherit;
+}
+
+#writeContainer > .walk-article > .image-container > .image-button-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 18rem;
 }
 
 #writeContainer > .walk-article > .image-container > .image {

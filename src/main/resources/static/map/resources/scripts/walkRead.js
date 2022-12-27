@@ -361,15 +361,15 @@ const loadReview = (articleIndex) => {
                         <!-- 로그인 되지 않았을 때 value 를 사용하게 되면 오류가 뜨기 때문에 오류 처리-->
                          ${reviewObject['userEmail'] === (loginUserEmailElement === null ?
                             '' : loginUserEmailElement.value) ?
-                            `<a class="basic" rel="actionModify" href="#">수정</a>
-                            <a class="basic" rel="actionDelete" href="#">삭제</a>` : ` `}
+                            `<a class="basic modify-button" rel="actionModify" href="#">수정</a>
+                            <a class="basic delete-button" rel="actionDelete" href="#">삭제</a>` : ` `}
                          </div>
                         <div class="image-container basic" rel="imageContainer"></div>
                         <span class="content basic" rel="contentContainer">${reviewObject['content']}</span>
                         
                         <input hidden multiple accept="image/" rel="imagesModify" name="imagesModify" type="file">
                         <div class="modify modifyMenu">
-                            <a class="modify modifyText" rel="edit" href="#">수정하기</a>
+                            <a class="modify-button modify modifyText" rel="edit" href="#">수정하기</a>
                             <a class="modify modifyCancel" rel="modifyCancel" href="#">취소</a>
                         </div>
                         <div class="modify image-button-container">
@@ -399,6 +399,9 @@ const loadReview = (articleIndex) => {
                         if (reviewObject['userEmail'] === (loginUserEmailElement === null ?
                             '' : loginUserEmailElement.value)) {
                             itemElement.querySelector('[rel="actionDelete"]').addEventListener('click', () => {
+                                if (!confirm('정말로 댓글을 삭제할까요?')) {
+                                    return;
+                                }
                                 const xhr = new XMLHttpRequest();
                                 const formData = new FormData();
                                 formData.append("index", reviewObject['index']);
@@ -561,15 +564,12 @@ const loadReview = (articleIndex) => {
 
 // 로그인 되었을경우에 삭제와 수정이 가능하게 하기위한 조건문
 if (loginUserEmailElement !== null) {
-
-    //게시글 수정하기
-    // modifyMenuTopElement.querySelector('[rel="articleModify"]').addEventListener('click', () => {
-    //    console.log("modify");
-    //
-    // });
-
     //게시글 삭제
     modifyMenuTopElement.querySelector('[rel="articleDelete"]').addEventListener('click', () => {
+        if (!confirm('정말로 게시글을 삭제할까요?')) {
+            return;
+        }
+
         const xhr = new XMLHttpRequest();
         const formData = new FormData();
         formData.append("aid", reviewForm['articleIndex'].value);
@@ -581,7 +581,7 @@ if (loginUserEmailElement !== null) {
                     const responseObject = JSON.parse(xhr.responseText);
                     switch (responseObject['result']) {
                         case 'success' :
-                            window.location.href = `/map/walk-read`;
+                            window.location.href = `/map/read`;
                             break;
                         case 'no_such_article' :
                             alert("게시글을 찾을 수 없습니다.");

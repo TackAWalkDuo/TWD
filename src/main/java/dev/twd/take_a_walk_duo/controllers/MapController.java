@@ -26,26 +26,18 @@ public class MapController {
         this.mapService = bbsService;
     }
 
-    @GetMapping(value = "walk-write", produces = MediaType.TEXT_HTML_VALUE)
+    @GetMapping(value = "write", produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getWalkWrite() {
         return new ModelAndView("map/walkWrite");
     }
 
-
-    //TODO user 업데이트 이후에 session 추가
-    @PostMapping(value = "walk-write", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "write", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postWalkWrite(ArticleEntity article,
                                 LocationEntity location,
                                 @RequestParam(value = "images", required = false) MultipartFile[] images,
                                 @SessionAttribute(value = "user", required = false) UserEntity user)
             throws IOException {
-
-        System.out.println(article.getTitle());
-        System.out.println(article.getContent());
-        System.out.println(location.getLatitude());
-        System.out.println(location.getLongitude());
-
         Enum<?> result = this.mapService.addWalkArticle(article, location, images, user);
 
         JSONObject responseObject = new JSONObject();
@@ -54,7 +46,7 @@ public class MapController {
         return responseObject.toString();
     }
 
-    @GetMapping(value = "walk-read", produces = MediaType.TEXT_HTML_VALUE)
+    @GetMapping(value = "read", produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getWalkRead() {
         return new ModelAndView("map/walkRead");
     }
@@ -93,6 +85,20 @@ public class MapController {
         modelAndView.addObject("place", this.mapService.getPlace(index, user));
 
         return modelAndView;
+    }
+
+    @PostMapping(value = "modify", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postModify(ArticleEntity article, LocationEntity location,
+                             @SessionAttribute(value = "user", required = false) UserEntity user,
+                             @RequestParam(value = "images", required = false) MultipartFile[] images,
+                             Boolean modifyFlag) throws IOException {
+
+        Enum<?> result = this.mapService.modifyWalkArticle(article, location, user, images, modifyFlag);
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("result", result.name().toLowerCase());
+
+        return responseObject.toString();
     }
 
 }

@@ -153,9 +153,11 @@ walkArticle['images'].addEventListener('input', () => {
     imageModifyFlag = true;
 });
 
+//기본 이미지로 변경
 walkArticle.querySelector('[rel="imageDeleteButton"]').addEventListener('click', ()=> {
     walkArticle['images'].files = null;
     imageContainerElement.querySelectorAll('img.image').forEach(x => x.remove());
+    walkArticle.querySelector('[rel="noImage"]').classList.remove('hidden')
     imageModifyFlag = true;
 })
 
@@ -180,8 +182,13 @@ walkArticle.onsubmit = e => {
     }
 
     //ArticleEntity 로 받을 정보
+    const url = new URL(window.location.href);
+    const searchParams = url.searchParams;
+
+    formData.append("index", searchParams.get('index'));
     formData.append("title", walkArticle['place_title'].value);
     formData.append("content", walkArticle['content'].value);
+    formData.append("userEmail", walkArticle['userEmail'].value)
 
     // Location 으로 받을 정보
     formData.append("latitude", walkArticle['lat'].value);
@@ -193,18 +200,28 @@ walkArticle.onsubmit = e => {
         formData.append('images', file);
     }
 
-    xhr.open('POST', './walk-write');
+    formData.append("modifyFlag", imageModifyFlag);
+
+    xhr.open('POST', './modify');
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status >= 200 && xhr.status < 300) {
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
                     case 'success':
-                        window.location.href = './walk-read';
+                        window.location.href = './read';
                         break;
                     case 'not_signed':
                         alert("로그인 해주세요.");
                         window.location.href = '../../../member/login';
+                        break;
+                    case 'not_allowed':
+                        alert("작성자가 아닙니다.");
+                        window.location.href = './read';
+                        break;
+                    case 'no_such_article':
+                        alert("존재하지 않는 게시글 입니다.");
+                        window.location.href = './read';
                         break;
                     default:
                         alert("응 실패");

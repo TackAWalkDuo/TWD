@@ -51,7 +51,6 @@ public interface IBbsMapper {
 
     int deleteArticle(int index);
 
-
     //Mr.m
     //게시판 만들기
     ArticleReadVo[] selectArticlesByBoardId(@Param(value = "boardId") String boardId,
@@ -61,7 +60,6 @@ public interface IBbsMapper {
     int selectArticleCountByBoardId(@Param(value = "boardId") String boardId,
                                     @Param(value = "criterion") String criterion,
                                     @Param(value = "keyword") String keyword);
-
 
     //Mr.m
     //이미지추가 맵퍼

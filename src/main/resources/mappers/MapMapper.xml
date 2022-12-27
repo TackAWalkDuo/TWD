@@ -57,7 +57,6 @@
         GROUP BY `article`.`index`
     </select>
 
-
     <select id="selectPlace"
     resultType="dev.twd.take_a_walk_duo.vos.map.PlaceVo">
         SELECT `article`.`index`          AS 'index',
@@ -76,6 +75,28 @@
         WHERE `article`.`index` = #{index}
 
     </select>
+
+    <select id="selectLocationByArticleIndex"
+            resultType="dev.twd.take_a_walk_duo.entities.bbs.map.LocationEntity">
+        SELECT `index`         AS 'index',
+               `article_index` AS 'articleIndex',
+               `address`       AS 'address',
+               `latitude`      AS 'latitude',
+               `longitude`     AS 'longitude'
+        FROM `twd_bbs`.`location`
+        WHERE article_index = #{articleIndex}
+    </select>
+
+    <update id="updateLocation"
+            parameterType="dev.twd.take_a_walk_duo.entities.bbs.map.LocationEntity">
+        UPDATE `twd_bbs`.`location`
+        SET `article_index` = #{articleIndex},
+            `address`       = #{address},
+            `latitude`      = #{latitude},
+            `longitude`     = #{longitude}
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
 
 </mapper>
 

@@ -10,7 +10,7 @@
             <li th:class="${'--item ' + board.getId()}" th:if="${board.getBoardId() == null}" th:each="board : ${boards}">
                 <a class="--link small"
                    th:text="${board.getText()}"
-                   th:if="${board.getId()} == 'walk'" th:href="@{/map/walk-read}"></a>
+                   th:if="${board.getId()} == 'walk'" th:href="@{/map/read}"></a>
                 <a class="--link small"
                    th:text="${board.getText()}"
                    th:if="${board.getId()} == 'shop'" th:href="@{/shop/main}">

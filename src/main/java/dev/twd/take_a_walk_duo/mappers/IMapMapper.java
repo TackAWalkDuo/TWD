@@ -19,10 +19,10 @@ public interface IMapMapper {
                                       @Param(value = "maxLng") double maxLng,
                                       @Param(value = "email") String email);
 
-
-    int updateArticleView(ArticleEntity article);
-
     PlaceVo selectPlace(@Param(value = "index") int index);
 
+    LocationEntity selectLocationByArticleIndex(@Param(value = "articleIndex") int articleIndex);
+
+    int updateLocation(LocationEntity location);
 
 }
