@@ -10,6 +10,7 @@ import dev.twd.take_a_walk_duo.services.BbsService;
 import dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import dev.twd.take_a_walk_duo.vos.bbs.CommentVo;
 import org.apache.ibatis.annotations.Param;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 @Controller(value = "dev.test.take_a_walk_duo.controllers.bbsController")
 @RequestMapping(value = "/bbs")
@@ -299,9 +301,11 @@ public class BbsController {
     //댓글 불러오기
     @GetMapping(value = "comment", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public CommentVo[] getComment(@Param(value = "index") int index){
+    public CommentVo[] getComment(@Param(value = "index") int index) {
+        System.out.println(index + "이거있나?");
         return this.bbsService.getComment(index);
     }
+
 
     //댓글 이미지 불러오기 // shop 내부가 조금 달라서 새로 만듬
     @GetMapping(value = "commentImage")

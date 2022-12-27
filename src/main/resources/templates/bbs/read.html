@@ -72,7 +72,7 @@
                     </li>
                 </ul>
             </nav>
-            <form th:if="${article != null}" class="read-form" id="form">
+            <div th:if="${article != null}" class="read-form" id="form">
                 <table class="table">
                     <thead>
                     <tr class="title-table">
@@ -90,7 +90,6 @@
                             </div>
                         </td>
                     </tr>
-
                     <tr>
                         <th hidden>견종분류</th>
                         <td th:text="${article.getUserSpecies()}">대형견||소형견</td>
@@ -131,7 +130,7 @@
                     <tfoot>
                     <tr class="comment-row">
                         <td colspan="6">
-                            <div id="commentMinePicForm" class="comment-mine-pic-form">
+                            <form id="commentMinePicForm" class="comment-mine-pic-form">
                                 <div class="speciesPicContainer">
                                     <img class="speciesPic" src="/resources/images/icons8-jake-150.png" alt="#">
                                 </div>
@@ -142,14 +141,14 @@
                                     <div id="commentForm" class="comment-form">
                                         <label class="label">
                                             <span hidden>댓글작성</span>
-                                            <textarea class="--object-input" maxlength="100" name="content"
-                                                   placeholder="댓글을 입력해 주세요 그동안 자바에서 접근제한자를 사용하는 이유를 '외부에서의 사용범위에 따른 설정' 정도로만 알고 있었다. 사실 매우 기초적인 부분이지만 예상컨대, 나와 비슷한 사람들 분명 많을 것이다. 최근 자바 관련 공부를 하다가 문득 접근제한자를 쓰는 이유에 대해 의문이 들었다. 접근제한자를 쓰는 이유가 외부에서 사용해도 되거나 사용하면 안되는 것을 지정하는 건데 만약에 사용하면 안된다면 그냥 안쓰면 되는거 아닌가? 하는 의문에서 시작이 되었고 이 이유에 대해 찾아본 결과 이것은 매우 간단했고 생각보다 중요한 사실이었다. 접근제한자를 사용하는 이유는 프로젝트에서 협업을 할 때, 코드 작성자의 의도를 전달하기 위해서였다고 한다.... 나만 몰랐던건가...?ㅎ">
-                                            </textarea>
+                                            <textarea class="--object-input" maxlength="300" name="content"
+                                                      placeholder="댓글을 입력해 주세요"></textarea>
                                         </label>
                                         <input class="--object-button" type="submit" value="작성">
                                     </div>
                                 </div>
-                            </div>
+                                <input name="aid" type="hidden" th:value="${article.getIndex()}">
+                            </form>
                             <div class="comment-container" id="commentContainer">
                                 <div class="comment liked mine">
                                     <div class="comment head">
@@ -169,69 +168,92 @@
                                     </div>
                                     <div class="body">
                                         <div class="content">
-                                            <span class="text">그동안 자바에서 접근제한자를 사용하는 이유를 '외부에서의 사용범위에 따른 설정' 정도로만 알고 있었다. 사실 매우 기초적인 부분이지만 예상컨대, 나와 비슷한 사람들 분명 많을 것이다. 최근 자바 관련 공부를 하다가 문득 접근제한자를 쓰는 이유에 대해 의문이 들었다. 접근제한자를 쓰는 이유가 외부에서 사용해도 되거나 사용하면 안되는 것을 지정하는 건데 만약에 사용하면 안된다면 그냥 안쓰면 되는거 아닌가? 하는 의문에서 시작이 되었고 이 이유에 대해 찾아본 결과 이것은 매우 간단했고 생각보다 중요한 사실이었다. 접근제한자를 사용하는 이유는 프로젝트에서 협업을 할 때, 코드 작성자의 의도를 전달하기 위해서였다고 한다.... 나만 몰랐던건가...?ㅎ</span>
+                                            <span class="text">나만 몰랐던건가...?ㅎ</span>
                                             <div class="like">
                                                 <a href="#" class="toggle"><i class="fa-solid fa-heart"></i></a><span
                                                     class="count"> 9,999</span>
                                             </div>
                                         </div>
-                                        <div class="modify-form">
+                                        <form class="modify-form">
                                             <label class="label">
                                                 <span hidden>댓글수정</span>
-                                                <textarea class="--object-input" maxlength="100" name="content"
-                                                       placeholder="댓글을 입력해 주세요">
-                                                </textarea>
+                                                <textarea class="--object-input" maxlength="300" name="content"
+                                                          placeholder="댓글을 입력해 주세요"></textarea>
                                             </label>
                                             <input class="--object-button" type="submit" value="수정">
+                                        </form>
+                                    </div>
+                                </div>
+                                <form class="reply-form" id="replyForm">
+                                    <div id="replyMinePicForm" class="reply-mine-pic-form">
+                                        <div class="speciesPicContainer">
+                                            <img class="speciesPic" src="/resources/images/icons8-jake-150.png" alt="#">
+                                        </div>
+                                        <div id="replyMineForm" class="reply-mine-form">
+                                            <div class="head">
+                                                <span class="writer">관리자</span>
+                                                <span class="action-container">
+                                                <a href="#" class="action cancel">취소</a>
+                                                </span>
+                                            </div>
+                                            <div class="body">
+                                                <label class="label">
+                                                    <span hidden>답글작성</span>
+                                                    <textarea class="--object-input" maxlength="300" name="content"
+                                                              placeholder="답글을 입력해 주세요"></textarea>
+                                                </label>
+                                                <input class="--object-button" type="submit" value="작성">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="reply-form" id="replyForm">
-                                    <div class="head">
-                                        <span class="to">@관리자</span>
-                                        <a href="#" class="cancel">취소</a>
-                                    </div>
-                                    <div class="body">
-                                        <label class="label">
-                                            <span hidden>답글작성</span>
-                                            <input class="--object-input" maxlength="100" name="content"
-                                                   placeholder="답글을 입력해 주세요"
-                                                   type="text">
-                                        </label>
-                                        <input class="--object-button" type="submit" value="작성">
-                                    </div>
-                                </div>
+                                </form>
                                 <div class="comment sub">
-                                    <div class="head">
-                                        <span class="writer">누구</span>
-                                        <span class="dt">2022-01-01 00:00:00</span>
-                                        <span class="spring"></span>
-                                        <span class="action-container">
-                                    <a href="#" class="action reply">답글달기</a>
-                                    <a href="#" class="action delete">삭제</a>
-                                </span>
+                                    <div class="comment head">
+                                        <div class="speciesPicContainer">
+                                            <img class="speciesPic" src="/resources/images/icons8-dog-64%20(3).png"
+                                                 alt="#">
+                                        </div>
+                                        <div class="head">
+                                            <span class="writer">누구</span>
+                                            <span class="dt">2022-01-01 00:00:00</span>
+                                            <span class="action-container">
+                                                <a href="#" class="action reply">답글달기</a>
+                                                <a href="#" class="action modify">수정</a>
+                                                <a href="#" class="action delete">삭제</a>
+                                                <a href="#" class="action cancel">취소</a>
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div class="body">아직도 댓글놀이 하네</div>
+                                    <div class="body">대형견이즈 와따! 첫 번째로는 안아 주면 기뻐합니다. 애정을 가지고 있는 상대방과 스킨십을 하는 것은 사람 역시 기분이
+                                        업! 되기 마련이죠. 애견 역시도 사랑으로 꼬옥~ 안아 주면 행복함과 편안함을 느껴 마음이 안정될 수 있어요. 단, 그렇지 않은 경우도 있을 수
+                                        있으니까 그러한 경우에는 너무 상처받지 않으시길 바랄게요!
+                                    </div>
                                 </div>
                                 <div class="comment sub mine">
-                                    <div class="head">
-                                        <span class="writer">관리자</span>
-                                        <span class="dt">2022-01-01 00:00:00</span>
-                                        <span class="spring"></span>
-                                        <span class="action-container">
-                                    <a href="#" class="action reply">답글달기</a>
-                                    <a href="#" class="action delete">삭제</a>
-                                </span>
+                                    <div class="comment head">
+                                        <div class="speciesPicContainer">
+                                            <img class="speciesPic" src="/resources/images/icons8-jake-150.png"
+                                                 alt="#">
+                                        </div>
+                                        <div class="head">
+                                            <span class="writer">내 대댓글</span>
+                                            <span class="dt">2022-01-01 00:00:00</span>
+                                            <span class="action-container">
+                                                <a href="#" class="action reply">답글달기</a>
+                                                <a href="#" class="action modify">수정</a>
+                                                <a href="#" class="action delete">삭제</a>
+                                                <a href="#" class="action cancel">취소</a>
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div class="body">즐</div>
+                                    <div class="body">휴먼이즈 와따!</div>
                                 </div>
                             </div>
                         </td>
                     </tr>
                     </tfoot>
                 </table>
-                <input name="aid" type="hidden" th:value="${article.getIndex()}">
-            </form>
+            </div>
         </div>
     </div>
 </main>
