@@ -286,7 +286,12 @@ tfoot > .comment-row > td > .comment-mine-pic-form {
     border-bottom: 0.05rem solid rgba(120, 120, 120, 40%);
 }
 
+
+
 tfoot > .comment-row > td > .comment-container > .reply-form > .reply-mine-pic-form {
+    display: none;
+}
+tfoot > .comment-row > td > .comment-container > .reply-form.visible > .reply-mine-pic-form {
     display: flex;
     flex-direction: row;
     padding: 1rem 0;
@@ -396,7 +401,11 @@ tfoot > .comment-row > td > .comment-mine-pic-form > .comment-form > .label > .-
     font-weight: 900;
 }
 
-.comment-container > .comment > .body > .modify-form {
+.comment-container > .comment > .body > .modify-form{
+    display: none;
+}
+
+.comment-container > .comment > .body > .modify-form.visible {
     display: flex;
 }
 
@@ -427,6 +436,6 @@ tfoot > .comment-row > td > .comment-container > .reply-form > .reply-mine-pic-f
 .comment.sub{
     border-left: 0.15rem solid gray;
     padding-left: 1rem;
-    margin: 0 0 1rem 2.5rem;
+    margin: 0 0 0 2.5rem;
 }
 

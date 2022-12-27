@@ -252,7 +252,7 @@ public class BbsService {
     }
 
     public Enum<? extends IResult> deleteComment(UserEntity user, CommentEntity comment) {
-        if(user == null) return CommonResult.FAILURE;
+        if(user == null) return CommonResult.NOT_SIGNED;
         if(!user.getEmail().equals(comment.getUserEmail())) return WriteResult.NOT_SAME;
         return this.bbsMapper.deleteComment(comment.getIndex()) > 0 ?
                 CommonResult.SUCCESS : CommonResult.FAILURE;
