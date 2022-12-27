@@ -58,12 +58,14 @@
     </select>
 
     <select id="selectPlace"
-    resultType="dev.twd.take_a_walk_duo.vos.map.PlaceVo">
+            resultType="dev.twd.take_a_walk_duo.vos.map.PlaceVo">
         SELECT `article`.`index`          AS 'index',
                `article`.`user_email`     AS 'userEmail',
                `article`.`board_id`       AS 'boardId',
                `article`.`title`          AS 'title',
                `article`.`content`        AS 'content',
+               `article`.`thumbnail`      AS 'thumbnail',
+               `article`.`thumbnail_type` AS 'thumbnailType',
                `article`.`view`           AS 'view',
                `article`.`written_on`     AS 'writtenOn',
                `article`.`modified_on`    AS 'modifiedOn',
