@@ -32,6 +32,15 @@ public class MemberController {
      * rootgo
      */
 
+    // 마이페이지
+    @RequestMapping(value = "myPage",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getMyPage() {
+        ModelAndView modelAndView = new ModelAndView("member/myPage");
+        return modelAndView;
+    }
+
     // 카카오 로그인
     @GetMapping(value = "kakao", produces = MediaType.TEXT_PLAIN_VALUE)
     public ModelAndView getKakaoLogin(@RequestParam(value = "code") String code,

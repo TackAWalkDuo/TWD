@@ -73,5 +73,5 @@ form['findButton'].addEventListener('click', () => {
 
 // 로그인 버튼 눌렀을 때
 window.document.getElementById('loginButton').addEventListener('click', () => {
-    window.location.href = '../../login';
+    window.location.href = '/member/login';
 });
