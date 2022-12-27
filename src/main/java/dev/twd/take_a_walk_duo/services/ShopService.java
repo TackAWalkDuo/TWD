@@ -24,6 +24,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 @Service(value = "dev.test.take_a_walk_duo.services.ShopService")
 public class ShopService {
@@ -41,7 +42,6 @@ public class ShopService {
     }
 
 
-
     // list page
     public BoardEntity getBoard(String id)
     // id 는 게시판의 id임 notice 등
@@ -57,6 +57,7 @@ public class ShopService {
     public int getArticleCount(BoardEntity board, String criterion, String keyword) {
         return this.shopMapper.selectArticleCountByBoardId(board.getId(), criterion, keyword);
     }
+
     public ProductVo[] getArticles(BoardEntity board, PagingModel paging, String criterion, String keyword) {
         System.out.println("서비스 보드 테크스트ㅡ " + board.getText());
         return this.shopMapper.selectArticlesByBoardId(
@@ -68,14 +69,142 @@ public class ShopService {
     }
 
     // 모든 상품 보기(메인 페이지)
-    public ProductVo[] getAllArticles(){
+    public ProductVo[] getAllArticles() {
         return this.shopMapper.selectAllArticles();
     }
 
     // detail page
-    public ProductVo detailArticle(int index){
+    public ProductVo detailArticle(int index) {
         return this.shopMapper.selectArticleByArticleIndex(index);
     }
+
+    // 상품 수정
+    public Enum<? extends IResult> prepareModifyArticle(ProductVo product, UserEntity user) {
+        if (user == null) {
+            return CommonResult.FAILURE;
+        }
+        ProductVo existingProduct = this.shopMapper.selectArticleByArticleIndex(product.getIndex());
+        if (existingProduct == null) {
+            return CommonResult.FAILURE;
+        }
+        product.setIndex(existingProduct.getIndex());
+        product.setUserEmail(existingProduct.getUserEmail());
+        product.setCategoryText(existingProduct.getCategoryText());
+        product.setAdmin(existingProduct.getAdmin());
+        product.setCost(existingProduct.getCost());
+        product.setBoardId(existingProduct.getBoardId());
+        product.setPrice(existingProduct.getPrice());
+        product.setDiscount(existingProduct.getDiscount());
+        product.setQuantity(existingProduct.getQuantity());
+        product.setText(existingProduct.getText());
+        product.setTitle(existingProduct.getTitle());
+        product.setContent(existingProduct.getContent());
+        product.setCategoryName(existingProduct.getCategoryName());
+        product.setWrittenOn(existingProduct.getWrittenOn());
+        product.setModifiedOn(existingProduct.getModifiedOn());
+        return CommonResult.SUCCESS;
+    }
+
+    // 상품 수정 2트
+    public Enum<? extends IResult> modifyArticle(ArticleEntity article, SaleProductEntity product, @RequestParam(value = "images", required = false) MultipartFile[] images) throws IOException {
+        SaleProductEntity existingProduct = this.shopMapper.selectProductByArticleIndex(article.getIndex());
+        System.out.println("프로덕트 어디니" + existingProduct.getArticleIndex());
+        System.out.println("프로덕트 뭐 가지고 있니" + product.getText());
+
+        ArticleEntity existingArticle = this.shopMapper.selectArticleByIndex(article.getIndex());
+        System.out.println("아티클 어디니?" + article.getIndex());
+
+        System.out.println("아티클 타이틀 수정 전 " + existingArticle.getTitle());
+        existingArticle.setTitle(article.getTitle());
+        existingArticle.setContent(article.getContent());
+        System.out.println("아티클 타이틀 수정 후 " + existingArticle.getTitle());
+
+        existingProduct.setCategoryText(product.getCategoryText());
+        existingProduct.setCost(product.getCost());
+        existingProduct.setPrice(product.getPrice());
+        existingProduct.setDiscount(product.getDiscount());
+
+        System.out.println("프로덕트 수량 수정 전 " + existingProduct.getQuantity());
+        existingProduct.setQuantity(product.getQuantity());
+        System.out.println("프로덕트 수량 수정 후 " + existingProduct.getQuantity());
+
+        existingProduct.setText(product.getText());
+
+        System.out.println("아티클 이미지 수정 전 " + existingArticle.getThumbnail());
+
+//        existingArticle.setThumbnail(existingArticle.getThumbnail());
+        System.out.println("아티클 이미지 수정 전 중간 " + existingArticle.getThumbnail());
+        if (images != null) {
+            for (MultipartFile image : images) {
+                existingArticle.setThumbnail(image.getBytes());
+                existingArticle.setThumbnailType(image.getContentType());
+            }
+        }
+////            if (images == null){
+//            byte[] imageInByte;
+//            File defaultImage = new File("src/main/resources/static/resources/images/ingImage.jpeg");
+//            defaultImage.setReadable(true, false);
+//
+//            BufferedImage originalImage = ImageIO.read(defaultImage);
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//            ImageIO.write(originalImage, "jpeg", baos);
+//            baos.flush();
+//
+//            imageInByte = baos.toByteArray();
+//
+//            existingArticle.setThumbnail(imageInByte);
+//            existingArticle.setThumbnailType("image/jpeg");
+//            baos.close();
+//        }
+        System.out.println("아티클 이미지 수정 후" + existingArticle.getThumbnail());
+
+        if (this.shopMapper.updateArticle(existingArticle) == 0) {
+            return CommonResult.FAILURE;
+        }
+
+        if (this.shopMapper.updateProduct(existingProduct) == 0) {
+            return CommonResult.FAILURE;
+        }
+
+        return CommonResult.SUCCESS;
+    }
+
+//    public Enum<? extends IResult> modifyArticle(ArticleEntity article, SaleProductEntity product, @SessionAttribute(value = "user", required = false) UserEntity user) {
+//        ArticleEntity existingArticle =
+//                this.shopMapper.selectArticleByIndex(
+//                        article.getIndex());
+//
+//        SaleProductEntity existingProduct = this.shopMapper.selectProductByArticleIndex(product.getArticleIndex());
+//
+//        UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
+//
+//        if (!existingUser.getAdmin()) { // 관리자 계정이 아니라면 등록 실패
+//            return CommonResult.FAILURE;
+//        }
+//
+//
+////        product.setCategoryText(existingProduct.getCategoryText());
+////        product.setCost(existingProduct.getCost());
+////        product.setPrice(existingProduct.getPrice());
+////        product.setDiscount(existingProduct.getDiscount());
+////        product.setQuantity(existingProduct.getQuantity());
+////        product.setText(existingProduct.getText());
+//
+////        user.setAdmin(existingUser.getAdmin());
+////
+////        article.setIndex(existingArticle.getIndex());
+////        article.setUserEmail(existingArticle.getUserEmail());
+////        article.setBoardId(existingArticle.getBoardId());
+////        article.setTitle(existingArticle.getTitle());
+////        article.setContent(existingArticle.getContent());
+////        product.setCategoryName(existingProduct.getCategoryName());
+////        article.setWrittenOn(existingArticle.getWrittenOn());
+////        article.setModifiedOn(new Date());
+//        if (this.shopMapper.updateArticle(existingProduct) == 0) {
+//            return CommonResult.FAILURE;
+//        }
+//        return CommonResult.SUCCESS;
+//    }
 
     // 상품 삭제
     public Enum<? extends IResult> deleteProduct(ProductVo product, UserEntity user) {
@@ -97,7 +226,7 @@ public class ShopService {
 
 
     // write get
-    public ProductVo getArticle(){
+    public ProductVo getArticle() {
         return this.shopMapper.selectArticle();
     }
 
@@ -117,7 +246,7 @@ public class ShopService {
                 article.setThumbnail(image.getBytes());
                 article.setThumbnailType(image.getContentType());
             }
-        }else {
+        } else {
             byte[] imageInByte;
             File defaultImage = new File("src/main/resources/static/resources/images/ingImage.jpeg");
             defaultImage.setReadable(true, false);
@@ -158,7 +287,7 @@ public class ShopService {
     }
 
     // 이미지 다운로드
-    public ImageEntity getImage(int index){
+    public ImageEntity getImage(int index) {
         return this.shopMapper.selectImageByIndex(index);
     }
 }

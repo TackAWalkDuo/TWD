@@ -8,7 +8,7 @@
     <title>Take a walk duo</title>
     <th:block th:replace="~{fragments/head}"></th:block>
     <script defer th:src="@{/resources/libraries/ckeditor/ckeditor.js}"></script>
-    <script defer th:src="@{/shop/resources/scripts/write_backup.js}"></script>
+    <script defer th:src="@{/shop/resources/scripts/modify.js}"></script>
     <link rel="stylesheet" th:href="@{/shop/resources/stylesheets/write_backup.css}">
     <script th:if="${user == null || user.getAdmin() == false}">
         alert('권한이 없거나 로그아웃 되었습니다. 로그인 후 다시 시도해 주세요.');
@@ -38,6 +38,7 @@
                             <!--이미지 들어오는 곳-->
                         </div>
                         <a class="image-select-button" href="#" rel="imageSelectButton">상품 이미지 선택...</a>
+                        <a class="image-select-button" href="#" rel="defaultImageButton">이미지 삭제</a>
                     </label>
                 </td>
             </tr>
@@ -47,12 +48,12 @@
                     <label class="label">
                         <span hidden>상품 종류</span>
                         <select name="category" class="" required>
-                            <option value="" selected disabled>상품 종류를 선택해 주세요.</option>
-                            <option value="feed">사료</option>
-                            <option value="snack">간식</option>
-                            <option value="clothes">옷</option>
-                            <option value="toy">장난감</option>
-                            <option value="etc">기타 용품</option>
+                            <option selected th:value="${product.getCategoryText()}" th:text="${product.getCategoryName()}"></option>
+                            <option th:if="${product.getCategoryText() != 'feed'}" value="feed">사료</option>
+                            <option th:if="${product.getCategoryText() != 'snack'}" value="snack">간식</option>
+                            <option th:if="${product.getCategoryText() != 'clothes'}" value="clothes">옷</option>
+                            <option th:if="${product.getCategoryText() != 'toy'}" value="toy">장난감</option>
+                            <option th:if="${product.getCategoryText() != 'etc'}" value="etc">기타 용품</option>
                         </select>
                         <!--            <input class="&#45;&#45;object-input input" maxlength="100" name="title" placeholder="상품 이름을 입력해주세요"-->
                         <!--                   type="text">-->
@@ -64,8 +65,7 @@
                 <td>
                     <label class="label">
                         <span hidden>상품 이름</span>
-                        <input class="--object-input input" required maxlength="100" name="title"
-                               placeholder="상품 이름을 입력해주세요"
+                        <input th:value="${product.getTitle()}" class="--object-input input" required maxlength="100" name="title"
                                type="text">
                     </label>
                 </td>
@@ -75,8 +75,7 @@
                 <td>
                     <label class="label">
                         <span hidden>재고량</span>
-                        <input class="--object-input input" required min="1" max="999" name="quantity"
-                               placeholder="상품 수량을 입력해주세요. (1 ~ 999)"
+                        <input th:value="${product.getQuantity()}" class="--object-input input" required min="1" max="999" name="quantity"
                                type="number">
                     </label>
                 </td>
@@ -86,7 +85,7 @@
                 <td>
                     <label class="label">
                         <span hidden>상품 원가</span>
-                        <input class="--object-input input" required min="1" max="999999" name="cost" onkeyup="cal();"
+                        <input th:value="${product.getCost()}" class="--object-input input" required min="1" max="999999" name="cost" onkeyup="cal();"
                                placeholder="상품 원가를 입력해주세요. (1 ~ 999999)" type="number">
                     </label>
                 </td>
@@ -96,7 +95,7 @@
                 <td>
                     <label class="label">
                         <span hidden>상품 할인율</span>
-                        <input class="--object-input input" required min="0" max="999999" name="discount" value="0"
+                        <input th:value="${product.getDiscount()}" class="--object-input input" required min="0" max="999999" name="discount" value="0"
                                onkeyup="cal();" placeholder="상품 할인율을 입력해주세요. (0 ~ 100%)" step="1" type="number">
                     </label>
                 </td>
@@ -106,7 +105,7 @@
                 <td>
                     <label class="label">
                         <span hidden>상품 판매 가격</span>
-                        <input class="--object-input input" required min="0" max="999999" name="price"
+                        <input th:value="${product.getPrice()}" class="--object-input input" required min="0" max="999999" name="price"
                                onkeyup="this.value=cal();"
                                type="text" value="0원">
                     </label>
@@ -117,7 +116,7 @@
                 <td>
                     <label class="label">
                         <span hidden>상품 소개</span>
-                        <textarea style="resize: none" class="--object-input input" placeholder="상품 소개를 입력해주세요"
+                        <textarea th:text="${product.getText()}" style="resize: none" class="--object-input input" placeholder="상품 소개를 입력해주세요"
                                   name="text" maxlength="500"></textarea>
                         <!--            <input class="&#45;&#45;object-input input" maxlength="200" name="text" placeholder="상품 소개를 입력해주세요"-->
                         <!--                   type="text">-->
@@ -140,7 +139,7 @@
                 <td>
                     <label class="label">
                         <span hidden>상품 상세 정보</span>
-                        <textarea class="--object-input input" maxlength="10000" name="content"
+                        <textarea th:utext="${product.getContent()}" class="--object-input input" maxlength="10000" name="content"
                                   placeholder="상품 상세 정보를 입력해주세요"
                                   type="text"></textarea>
                     </label>

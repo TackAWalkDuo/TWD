@@ -10,6 +10,9 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface IShopMapper {
+    ArticleEntity selectArticleByIndex(@Param(value = "aid") int aid);
+    SaleProductEntity selectProductByArticleIndex(@Param(value = "aid") int aid);
+
     int selectArticleCountByBoardId(@Param(value = "boardId") String boardId,
                                     @Param(value = "keyword") String keyword,
                                     @Param(value = "criterion") String criterion);
@@ -31,6 +34,11 @@ public interface IShopMapper {
 
     // get write
     ProductVo selectArticle();
+
+    // 상품 수정
+    int updateProduct(SaleProductEntity product);
+
+    int updateArticle(ArticleEntity article);
 
     // SaleProductEntity 등록용
     int insertProduct(SaleProductEntity product);
