@@ -11,6 +11,8 @@ public class ProductVo extends ArticleEntity {
 
     private String text;
 
+    private String categoryName;
+
     private Boolean isAdmin;
 
     public int getQuantity() {
@@ -63,6 +65,15 @@ public class ProductVo extends ArticleEntity {
 
     public ProductVo setText(String text) {
         this.text = text;
+        return this;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public ProductVo setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
         return this;
     }
 

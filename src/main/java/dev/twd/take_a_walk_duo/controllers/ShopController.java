@@ -11,6 +11,7 @@ import dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.services.BbsService;
 import dev.twd.take_a_walk_duo.services.ShopService;
+import dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import dev.twd.take_a_walk_duo.vos.shop.ProductVo;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,10 +118,70 @@ public class ShopController {
 //            BoardEntity board = this.bbsService.getBoard(product.getBoardId());
 //            modelAndView.addObject("board", board);
 //        } else
+        modelAndView.addObject("user", user);
+        return modelAndView;
+    }
+
+    // 상품 수정 호중
+    @GetMapping(value = "modify",
+            produces = MediaType.TEXT_HTML_VALUE)
+    // modelandview 쓸때는 responsebody 어노테이션 쓰는거 아님.
+    public ModelAndView getModify(@SessionAttribute(value = "user", required = false) UserEntity user,
+                                  @RequestParam(value = "aid", required = false) int aid
+    ) {
+        ProductVo product = new ProductVo();
+        product.setIndex(aid);
+        Enum<?> result = this.shopService.prepareModifyArticle(product, user);
+        ModelAndView modelAndView;
+
+        modelAndView = new ModelAndView("shop/modify");
+//        ProductVo product = this.shopService.getArticle();
+        modelAndView.addObject("product", product);
         if (user != null) {
             modelAndView.addObject("user", user);
         }
+//        modelAndView.addObject("result", result.name());
+//        if (result == CommonResult.SUCCESS) {
+//            modelAndView.addObject("board", this.bbsService.getBoard(article.getBoardId()));
+//        }
         return modelAndView;
+    }
+
+    // 상품 수정 등록
+    @PatchMapping(value = "modify",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody // xhr로 결과를 받기위해 사용
+    public String patchModify(ArticleEntity article,
+                              SaleProductEntity product,
+                              @SessionAttribute(value = "user", required = false) UserEntity user, @RequestParam(value = "images", required = false) MultipartFile[] images,
+                              @RequestParam(value = "aid", required = false) int aid) throws IOException {
+        article.setIndex(aid);
+//        Enum<?> result = this.shopService.modifyArticle(article, product, user);
+        Enum<?> result = this.shopService.modifyArticle(article, product, images);
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("result", result.name().toLowerCase());
+        if (result == CommonResult.SUCCESS) {
+            responseObject.put("aid", aid); // 성공시 js로 aid값 전달
+        }
+        return responseObject.toString();
+    }
+
+    // 상품 삭제
+    @DeleteMapping(value = "detail", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String deleteDetail(@SessionAttribute(value = "user", required = false) UserEntity user,
+                               @RequestParam(value = "aid", required = false) int aid) {
+        ProductVo product = new ProductVo();
+        product.setIndex(aid);
+
+        Enum<?> result = this.shopService.deleteProduct(product, user);
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("result", result.name().toLowerCase());
+        if (result == CommonResult.SUCCESS) {
+            responseObject.put("bid", product.getCategoryText());
+            System.out.println("카테" + product.getCategoryText());
+        }
+        return responseObject.toString();
     }
 
     // 상품 등록 페이지 호출

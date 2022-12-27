@@ -66,6 +66,40 @@
         LIMIT #{limit} OFFSET #{offset}
     </select>
 
+    <select id="selectArticleByIndex"
+            resultType="dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity">
+        SELECT `index`          AS `index`,
+               `user_email`     AS `userEmail`,
+               `board_id`       AS `boardID`,
+               `title`          AS `title`,
+               `content`        AS `content`,
+               `thumbnail`      AS `thumbnail`,
+               `thumbnail_type` AS `thumbnailType`,
+               `view`           AS `view`,
+               `written_on`     AS `writtenOn`,
+               `modified_on`    AS `modifiedOn`
+        FROM `twd_bbs`.`articles`
+        WHERE `index` = #{aid}
+        LIMIT 1;
+    </select>
+
+    <select id="selectProductByArticleIndex"
+            resultType="dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity">
+        SELECT `index`         AS `index`,
+               `article_index` AS `articleIndex`,
+               `quantity`      AS `quantity`,
+               `cost`          AS `cost`,
+               `discount`      AS `discount`,
+               `price`         AS `price`,
+               `profit`        AS `profit`,
+               `category_text` AS `categoryText`,
+               `text`          AS `text`,
+               `delivery_fee`  AS `deliveryFee`
+        FROM `twd_shop`.`sale_product`
+        WHERE `article_index` = #{aid}
+        LIMIT 1;
+    </select>
+
     <!-- shop/main용-->
     <select id="selectAllArticles"
             resultType="dev.twd.take_a_walk_duo.vos.shop.ProductVo">
@@ -107,10 +141,13 @@
                `product`.`discount`      AS `discount`,
                `product`.`price`         AS `price`,
                `product`.`category_text` AS 'categoryText',
-               `product`.`text`          AS `text`
+               `product`.`text`          AS `text`,
+               `category`.`text`         AS `categoryName`
+#                `user`.`admin_flag`       AS `isAdmin`
         FROM `twd_bbs`.`articles` AS `article`
                  LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`
                  LEFT JOIN `twd_shop`.`sale_product` AS `product` ON `article`.`index` = `product`.`article_index`
+                 LEFT JOIN `twd_shop`.`product_categories` AS `category` ON `category`.`id` = `product`.`category_text`
         WHERE `article`.`index` = #{aid}
         LIMIT 1
     </select>
@@ -200,4 +237,38 @@
         INSERT INTO `twd_bbs`.`images`(`file_name`, `file_mime`, `data`)
         VALUES (#{fileName}, #{fileMime}, #{data})
     </insert>
+
+    <update id="updateProduct"
+            parameterType="dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity">
+        UPDATE `twd_shop`.`sale_product`
+        SET `article_index` = #{articleIndex},
+            `quantity`      = #{quantity},
+            `cost`          = #{cost},
+            `discount`      = #{discount},
+            `price`         = #{price},
+            `profit`        = #{profit},
+            `category_text` = #{categoryText},
+            `text`          = #{text},
+            `delivery_fee`  = #{deliveryFee}
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
+
+    <update id="updateArticle"
+            parameterType="dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity">
+        UPDATE `twd_bbs`.`articles`
+        SET `user_email` = #{userEmail},
+            `board_id` = #{boardId},
+            `title` = #{title},
+            `content` = #{content},
+            `thumbnail` = #{thumbnail},
+            `thumbnail_type` = #{thumbnailType},
+            `view` = #{view},
+            `written_on` = #{writtenOn},
+            `modified_on` = #{modifiedOn}
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
+
+
 </mapper>

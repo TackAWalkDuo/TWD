@@ -79,6 +79,8 @@ public class MemberController {
         }
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
+        System.out.println("누구냐" + user.getAdmin());
+        System.out.println("누구냐" + user.getEmail());
         return responseObject.toString();
     }
 
