@@ -18,8 +18,16 @@
         <label class="label">
             <span hidden>사용자</span>
         </label>
+
         <div class="button-container">
-            <span class="button">산책해듀오에 오신것을 환영합니다.</span>
+            <span class="button">고근호님
+                <i class="fa-solid fa-chevron-right"></i>
+            </span>
+        </div>
+        <div class="button-container">
+            <span class="button">대형견 소유주
+                <i class="fa-solid fa-dog"></i>
+            </span>
         </div>
         <div class="button-container">
             <a class="button"
@@ -35,45 +43,69 @@
                th:if="${session.user == null}"
                target="_blank" id="registerButton">회원가입</a>
         </div>
-        <div class="button-container">
-            <a class="button"
-               th:href="@{/member/myPage}"
-               target="_blank" id="" th:if="${session.user != null}"><i class="fa-solid fa-desktop"></i> 마이페이지</a>
-        </div>
-    </form>
 
-    <form class="search-form" id="searchForm">
+    </form>
+    <form class="list-form" id="listForm">
         <label class="label">
             <span hidden>리스트</span>
         </label>
-        <div class="button-container">
-            <span class="button">산책해듀오에 오신것을 환영합니다.</span>
-        </div>
-        <div class="button-container">
-            <a class="button"
-               th:href="@{/member/login}"
-               th:if="${session.user == null}"
-               target="_blank" id="loginButton">로그인</a>
-            <a class="button"
-               th:href="@{/member/logout}"
-               th:if="${session.user != null}"
-               target="_blank" id="logoutButton">로그아웃</a>
-            <a class="button"
-               th:href="@{/member/register}"
-               th:if="${session.user == null}"
-               target="_blank" id="registerButton">회원가입</a>
-        </div>
-        <div class="button-container">
-            <a class="button"
+        <div class="list-container">
+            <a class="list"
                th:href="@{/member/myPage}"
-               target="_blank" id="" th:if="${session.user != null}"><i class="fa-solid fa-desktop"></i> 마이페이지</a>
+               target="_blank" id="" th:if="${session.user != null}">
+                마이페이지</a>
+        </div>
+        <div class="list-container">
+            <a class="list"
+               th:href="@{/member}"
+               th:if="${session.user != null}"
+               target="_blank" id="">주문조회</a>
+        </div>
+        <div class="list-container">
+            <a class="list"
+               th:href="@{/member}"
+               th:if="${session.user != null}"
+               target="_blank" id="">위시 리스트</a>
+        </div>
+        <div class="list-container">
+            <a class="list"
+               th:href="@{/member}"
+               th:if="${session.user != null}"
+               target="_blank" id="">취소/교환/반품</a>
+        </div>
+        <div class="list-container">
+            <a class="list"
+               th:href="@{/member}"
+               th:if="${session.user != null}"
+               target="_blank" id="">포인트</a>
+        </div>
+        <div class="list-container">
+            <a class="list"
+               th:href="@{/member}"
+               th:if="${session.user != null}"
+               target="_blank" id="">1:1 문의</a>
+        </div>
+        <div class="list-container">
+            <a class="list"
+               th:href="@{/member}"
+               th:if="${session.user != null}"
+               target="_blank" id="">정보 수정</a>
+        </div>
+        <div class="list-container">
+            <a class="list"
+               th:href="@{/member}"
+               th:if="${session.user != null}"
+               target="_blank" id="">회원탈퇴</a>
         </div>
     </form>
-
 </section>
 <th:block th:replace="~{fragments/body :: header}"></th:block>
-<section class="map-container" id="mapContainer">
-    <div class="cover" rel="cover"></div>
+<section class="page-container" id="pageContainer">
+    <div class="cover" rel="cover">
+        <form class="page">
+            <span>page</span>
+        </form>
+    </div>
 </section>
 </body>
 

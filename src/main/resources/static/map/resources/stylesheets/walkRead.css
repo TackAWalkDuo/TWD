@@ -3,7 +3,7 @@ body > .--header {
     top: 0;
 }
 
-#mapContainer {
+#pageContainer {
     display: flex;
     align-items: center;
     justify-content: center;
