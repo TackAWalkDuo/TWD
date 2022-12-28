@@ -14,7 +14,6 @@
     <script defer th:src="@{/map/resources/scripts/walkRead.js}"></script>
     <link rel="stylesheet" th:href="@{/map/resources/stylesheets/walkRead.css}">
 
-
 </head>
 
 <body>
@@ -25,19 +24,22 @@
     <div class="container" id="container">
         <div class="list-container" id="listContainer">
             <div class="write-container --object-button">
-                <a class="text" th:href="@{/map/walk-write}"> 작성하기</a>
+                <a class="text" th:href="@{/map/write}"> 작성하기</a>
             </div>
+            <input id="loginUserEmail" type="hidden" name="userEmail" th:if="${session.user != null}"
+                   th:value="${session.user.getEmail()}">
 
             <ul class="list" id="list">
                 <li class="item" rel="item">
                     <input type="hidden" name="latitude">
                     <input type="hidden" name="longitude">
                     <span class="top">
+                        <img alt="" class="image" src="/resources/images/Ninave2.jpg">
                         <span class="info">
                             <span class="name" rel="name">장소 이름</span>
                             <span class="interest-container">
                                 <span class="view-container">
-                                    <i class="fa-solid fa-eye"></i>
+                                    <i class="fa-solid fa-paw"></i>
                                     <span class="view">20</span>
                                 </span>
                                 <span class="review-container">
@@ -50,7 +52,7 @@
                                 </span>
                             </span>
                         </span>
-                        <img alt="" class="image" src="/resources/images/Ninave2.jpg">
+
                     </span>
                     <span class="address bottom">대구 중구 동인동1가 238-1</span>
                 </li>
@@ -107,13 +109,13 @@
         <div class="detail-container" id="detailContainer">
             <div class="title-container">
                 <span class="title" rel="title">아크리시아</span>
-                <a href="#" class="close-button" rel="closeButton">
+                <a href=" " class="close-button" rel="closeButton">
                     <i class="fa-solid fa-xmark" rel="closeDetail"></i>
                 </a>
             </div>
             <div class="modifyMenu" id="modifyMenuTop">
-                <a href="#">수정</a>
-                <a href="#" rel="articleDelete">삭제</a>
+                <a class="modify-button" rel="articleModify">수정</a>
+                <a class="delete-button" href="#" rel="articleDelete">삭제</a>
             </div>
             <div class="image-container" rel="imagecontainer">
                 <img src="https://blog.kakaocdn.net/dn/bTDsmH/btq8ojyIgMX/cYkB7gcHPhMTS53inkz0Kk/img.jpg" alt=""
@@ -137,7 +139,7 @@
             <ul class="info-container">
                 <li class="item address">
                     <i class="icon fa-solid fa-location-pin"></i>
-                    <span class="text" rel="addressText">대구 중구 달구벌대로 2109-32</span>
+                    <a class="text" rel="addressText" target="_blank">대구 중구 달구벌대로 2109-32</a>
                 </li>
 
                 <li class="item content">
@@ -157,8 +159,7 @@
             <form class="review-form" id="reviewForm">
                 <input hidden multiple accept="image/" name="images" type="file">
                 <input type="hidden" name="articleIndex">
-                <input id="loginUserEmail" type="hidden" name="userEmail" th:if="${session.user != null}"
-                       th:value="${session.user.getEmail()}">
+
                 <span class="comment_title">리뷰 작성</span>
                 <div class="content-container">
                     <label class="label">
@@ -194,6 +195,9 @@
 
 
         </div>
+    </div>
+    <div class="fold-container" id="foldContainer">
+        <i class="fa-solid fa-greater-than" rel="foldIcon"></i>
     </div>
 </section>
 

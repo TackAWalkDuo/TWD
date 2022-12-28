@@ -61,7 +61,8 @@
                `address_postal`    AS `addressPostal`,
                `address_primary`   AS `addressPrimary`,
                `address_secondary` AS `addressSecondary`,
-               `registered_on`     AS `registeredOn`
+               `registered_on`     AS `registeredOn`,
+               `admin_flag`        AS `isAdmin`
         FROM `twd_member`.`users`
         WHERE BINARY `email` = #{email}
         LIMIT 1
@@ -139,7 +140,7 @@
             `address_secondary` = #{addressSecondary},
             `registered_on`     = #{registeredOn}
         WHERE BINARY `email` = #{email}
-        LIMIT 1
+            LIMIT 1
     </update>
 
     <update id="updateEmailAuth"
@@ -152,7 +153,7 @@
             `expires_on`   = #{expiresOn},
             `expired_flag` = #{isExpired}
         WHERE BINARY `index` = #{index}
-        LIMIT 1
+            LIMIT 1
     </update>
     
     <delete id="deleteUser"

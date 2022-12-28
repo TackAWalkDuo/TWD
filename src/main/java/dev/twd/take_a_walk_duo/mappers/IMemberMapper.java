@@ -9,6 +9,8 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface IMemberMapper {
+
+
     int insertUser(UserEntity user);
 
     int deleteUser(UserEntity user);

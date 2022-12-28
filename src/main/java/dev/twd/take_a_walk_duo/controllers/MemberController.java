@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
-@Controller(value = "dev.test.study_member_bbs.controllers.MemberController")
+@Controller(value = "dev.twd.study_member_bbs.controllers.MemberController")
 @RequestMapping(value = "member")
 public class MemberController {
     private final MemberService memberService;
@@ -117,6 +117,8 @@ public class MemberController {
         }
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
+        System.out.println("누구냐" + user.getAdmin());
+        System.out.println("누구냐" + user.getEmail());
         return responseObject.toString();
     }
 

@@ -34,7 +34,7 @@
         <ul class="item-container">
 <!--            th:each="article : ${articles}" th:if="${article.getBoardId() == 'shop'}"-->
             <li class="item" th:each="article : ${articles}">
-                <a class="link" href="#">
+                <a class="link" th:href="@{/shop/detail(aid=${article.getIndex()})}">
                     <img alt="제품1" class="image" th:src="|/bbs/thumbnail?index=${article.getIndex()}|">
                     <span class="text" th:text="${article.getTitle()}">제품1</span>
                     <span th:text="${article.getPrice() + '원'}">56,000원</span>
@@ -180,10 +180,9 @@
     <form class="search-form" id="searchForm" method="get">
         <label class="label">
             <span hidden>검색 기준</span>
-            <select class="--object-input" name="criterion" th:with="criterion = ${#request.getParameter('criterion')}">
+            <select class="--object-input input" name="criterion" th:with="criterion = ${#request.getParameter('criterion')}">
                 <option value="all" th:selected="${criterion == null || criterion.equals('all')}">제목 + 내용</option>
                 <option value="title" th:selected="${criterion != null && criterion.equals('title')}">제목</option>
-                <option value="nickname" th:selected="${criterion != null && criterion.equals('nickname')}">작성자</option>
             </select>
         </label>
         <label class="label">

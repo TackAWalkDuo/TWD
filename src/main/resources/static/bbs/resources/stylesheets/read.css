@@ -107,11 +107,12 @@ body > .--main {
 }
 
 /*.title--select > li > .free-select.visible {*/
-.title--select > li:hover .free-select{
+.title--select > li:hover .free-select {
     display: flex;
     z-index: 3;
 }
-.title--select > .side-menu > .a-select{
+
+.title--select > .side-menu > .a-select {
     text-decoration: none;
     color: inherit;
 }
@@ -122,6 +123,7 @@ body > .--main {
     background-color: rgb(255, 255, 255);
     /*display: none;*/
 }
+
 .title--select > li > .free-select > .scroll-menu > a {
     text-decoration: none;
     color: inherit;
@@ -216,25 +218,29 @@ body > .--main > .--form > .--content > .read-form .detail-img {
 .table > thead > tr > td:nth-of-type(4) {
     border-left: 0.0625rem inset rgb(120, 120, 120);
 }
-#form > .table > thead > tr > td > a{
+
+#form > .table > thead > tr > td > a {
     text-decoration: none;
     color: rgb(169, 175, 126);
 }
+
 .table > tbody > tr > td > div {
     margin-top: 1rem;
 }
 
-.delete-article{
+.delete-article {
     cursor: pointer;
 }
 
 
 /*Article liked css구현부문*/
-.table > thead > tr > td >.like> .toggle > i{
+.table > thead > tr > td > .like > .toggle > i {
     /*font-size: 1.2rem;*/
     font-weight: 10;
+    color: rgb(205, 97, 85);
 }
-.table > thead > tr > td >.like.visible> .toggle> i{
+
+.table > thead > tr > td > .like.visible > .toggle > i {
     font-size: 1.2rem;
     color: rgb(205, 97, 85);
     font-weight: 900;
@@ -267,3 +273,169 @@ body > .--main > .--form > .--content > .read-form .detail-img {
     /*width: 20rem;*/
     border-radius: 0.5rem;
 }
+
+/*댓글 css*/
+tfoot {
+    margin: 1rem 0;
+}
+
+tfoot > .comment-row > td > .comment-mine-pic-form {
+    display: flex;
+    flex-direction: row;
+    padding: 1rem 0;
+    border-bottom: 0.05rem solid rgba(120, 120, 120, 40%);
+}
+
+
+
+tfoot > .comment-row > td > .comment-container > .reply-form > .reply-mine-pic-form {
+    display: none;
+}
+tfoot > .comment-row > td > .comment-container > .reply-form.visible > .reply-mine-pic-form {
+    display: flex;
+    flex-direction: row;
+    padding: 1rem 0;
+}
+
+tfoot > .comment-row > td > .comment-mine-pic-form > .speciesPicContainer,
+tfoot > .comment-row > td > .comment-container > .reply-form > .reply-mine-pic-form >.speciesPicContainer{
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+}
+
+
+.speciesPicContainer > .speciesPic {
+    width: 3rem;
+    height: 3rem;
+}
+
+tfoot > .comment-row > td > .comment-mine-pic-form > .comment-mine-form,
+tfoot > .comment-row > td > .comment-container > .reply-form > .reply-mine-pic-form > .reply-mine-form {
+    border: 0.08rem solid rgb(169, 175, 126);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    flex: 1;
+}
+
+tfoot > .comment-row > td > .comment-mine-pic-form > .comment-mine-form > .comment-form,
+tfoot > .comment-row > td > .comment-container > .reply-form >.reply-mine-pic-form > .reply-mine-form >.body{
+    display: flex;
+    flex-direction: row;
+    margin-top: 0.5rem;
+}
+
+tfoot > .comment-row > td > .comment-mine-pic-form > .comment-mine-form > .comment-form > .label,
+tfoot > .comment-row > td > .comment-container > .reply-form >.reply-mine-pic-form> .reply-mine-form >.body >.label{
+    flex: 1;
+    align-items: center;
+    display: flex;
+}
+
+tfoot > .comment-row > td > .comment-mine-pic-form > .comment-mine-form > .comment-form > .label > .--object-input,
+tfoot > .comment-row > td > .comment-container > .reply-form >.reply-mine-pic-form> .reply-mine-form >.body >.label >.--object-input{
+    flex: 1;
+}
+
+
+tfoot > .comment-row > td > .comment-mine-pic-form > .comment-mine-form > .head,
+tfoot > .comment-row > td > .comment-container > .reply-form > .reply-mine-pic-form > .reply-mine-form > .head {
+    border-bottom: 0.09rem solid rgb(139, 145, 126, 80%);
+    padding: 0.5rem;
+}
+
+tfoot > .comment-row > td > .comment-mine-pic-form > .comment-form > .label,
+tfoot > .comment-row > td > .comment-mine-pic-form > .comment-form > .label > .--object-input{
+    flex: 1;
+}
+
+.comment-container {
+    padding: 1rem 0;
+}
+
+.comment-container > .comment > .comment {
+    display: flex;
+    flex-direction: row;
+}
+
+.comment-container > .comment > .comment > .head {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.comment-container > .comment > .comment > .head > .action-container > .action {
+    text-decoration: none;
+    color: rgb(169, 175, 126);
+}
+
+.comment-container > .comment > .body > .content {
+    display: flex;
+    flex-direction: row;
+}
+
+.comment-container > .comment > .body > .content > .text,
+.comment.sub >.body{
+    white-space: normal;
+    word-break: break-all;
+    padding: 0.5rem 0;
+    flex: 1;
+}
+
+.comment-container > .comment > .body > .content > .like {
+    display: flex;
+    align-items: center;
+    margin: 1rem;
+}
+
+.comment-container > .comment > .body > .content > .like > .toggle > i {
+    /*font-size: 1.2rem;*/
+    font-weight: 10;
+    color: rgb(205, 97, 85);
+}
+
+.comment-container > .comment > .body > .content > .like.visible > .toggle > i {
+    font-size: 1.2rem;
+    color: rgb(205, 97, 85);
+    font-weight: 900;
+}
+
+.comment-container > .comment > .body > .modify-form{
+    display: none;
+}
+
+.comment-container > .comment > .body > .modify-form.visible {
+    display: flex;
+}
+
+.comment-container > .comment > .body > .modify-form > .label,
+.comment-container > .comment > .body > .modify-form > .label > .--object-input {
+    display: flex;
+    flex: 1;
+    resize: none;
+}
+
+.comment-container > .comment > .body > .modify-form > .label > .--object-input {
+    white-space: pre-wrap;
+    word-break: break-all;
+    padding: 0.5rem 0;
+    flex: 1;
+}
+
+tfoot > .comment-row > td > .comment-container > .reply-form > .reply-mine-pic-form > .reply-mine-form > .head {
+    display: flex;
+    justify-content: space-between;
+}
+
+tfoot > .comment-row > td > .comment-container > .reply-form > .reply-mine-pic-form > .reply-mine-form > .head > .action-container > .action {
+    text-decoration: none;
+    color: rgb(169, 175, 126);
+}
+
+.comment.sub{
+    border-left: 0.15rem solid gray;
+    padding-left: 1rem;
+    margin: 0 0 0 2.5rem;
+}
+

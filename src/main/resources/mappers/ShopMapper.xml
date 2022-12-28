@@ -4,10 +4,29 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dev.twd.take_a_walk_duo.mappers.IShopMapper">
 
+<!--    <select id="selectArticleCountByBoardId"-->
+<!--            resultType="int">-->
+<!--        SELECT COUNT(0)-->
+<!--        FROM `twd_bbs`.`articles`-->
+<!--        WHERE `board_id` = #{boardId}-->
+<!--    </select>-->
+
     <select id="selectArticleCountByBoardId"
             resultType="int">
         SELECT COUNT(0)
-        FROM `twd_bbs`.`articles`
+        FROM `twd_bbs`.`articles` AS `article`
+        LEFT JOIN `twd_shop`.`sale_product` AS `product`
+        ON `article`.`index` = `product`.`article_index`
+        LEFT JOIN `twd_shop`.`product_categories` AS `cotegory`
+        ON `cotegory`.`id` = `product`.`category_text`
+        WHERE `article`.`board_id` = 'shop' AND `product`.category_text = #{boardId}
+        <if test="criterion !=null and criterion.equals('title')">
+            AND REPLACE(`article`.`title`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%')
+        </if>
+        <if test="criterion !=null and criterion.equals('all')">
+            AND (REPLACE(`article`.`title`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%')
+            OR REPLACE(`article`.`content`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%'))
+        </if>
     </select>
 
     <!--    <select id="selectArticlesByBoardId"-->
@@ -43,11 +62,34 @@
     <!--    </select>-->
 
     <!--위에꺼 수정한거임-->
+<!--    <select id="selectArticlesByBoardId"-->
+<!--            resultType="dev.twd.take_a_walk_duo.vos.shop.ProductVo">-->
+<!--        SELECT `article`.`index`         AS `index`,-->
+<!--               `article`.`user_email`    AS `userEmail`,-->
+<!--               `article`.`board_id`      AS `boardID`,-->
+<!--               `article`.`title`         AS `title`,-->
+<!--               `article`.`thumbnail`     AS `thumbnail`,-->
+<!--               `article`.`view`          AS `view`,-->
+<!--               `article`.`written_on`    AS `writtenOn`,-->
+<!--               `article`.`modified_on`   AS `modifiedOn`,-->
+<!--               `product`.`quantity`      AS `qunantity`,-->
+<!--               `product`.`price`         AS `price`,-->
+<!--               `product`.`category_text` AS 'categoryText'-->
+<!--        FROM `twd_bbs`.`articles` AS `article`-->
+<!--                 LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`-->
+<!--                 LEFT JOIN `twd_shop`.`sale_product` AS `product` ON `article`.`index` = `product`.`article_index`-->
+<!--        WHERE `board_id` = 'shop'-->
+<!--          AND `product`.`category_text` = #{boardText}-->
+<!--        GROUP BY `index`-->
+<!--        ORDER BY `index` DESC-->
+<!--        LIMIT #{limit} OFFSET #{offset}-->
+<!--    </select>-->
+<!--    되면 위에꺼 삭제-->
     <select id="selectArticlesByBoardId"
             resultType="dev.twd.take_a_walk_duo.vos.shop.ProductVo">
         SELECT `article`.`index`         AS `index`,
                `article`.`user_email`    AS `userEmail`,
-               `article`.`board_id`      AS `boardID`,
+               `article`.`board_id`      AS `boardId`,
                `article`.`title`         AS `title`,
                `article`.`thumbnail`     AS `thumbnail`,
                `article`.`view`          AS `view`,
@@ -59,11 +101,51 @@
         FROM `twd_bbs`.`articles` AS `article`
                  LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`
                  LEFT JOIN `twd_shop`.`sale_product` AS `product` ON `article`.`index` = `product`.`article_index`
-        WHERE `board_id` = 'shop'
-          AND `product`.`category_text` = #{boardText}
-        GROUP BY `index`
-        ORDER BY `index` DESC
+        WHERE `product`.`category_text` = #{boardId}
+        <if test="criterion !=null and criterion.equals('title')">
+            AND REPLACE(`article`.`title`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%')
+        </if>
+
+        <if test="criterion !=null and criterion.equals('all')">
+            AND (REPLACE(`article`.`title`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%')
+            OR REPLACE(`article`.`content`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%'))
+        </if>
+        ORDER BY `article`.`index` DESC
         LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="selectArticleByIndex"
+            resultType="dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity">
+        SELECT `index`          AS `index`,
+               `user_email`     AS `userEmail`,
+               `board_id`       AS `boardID`,
+               `title`          AS `title`,
+               `content`        AS `content`,
+               `thumbnail`      AS `thumbnail`,
+               `thumbnail_type` AS `thumbnailType`,
+               `view`           AS `view`,
+               `written_on`     AS `writtenOn`,
+               `modified_on`    AS `modifiedOn`
+        FROM `twd_bbs`.`articles`
+        WHERE `index` = #{aid}
+        LIMIT 1;
+    </select>
+
+    <select id="selectProductByArticleIndex"
+            resultType="dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity">
+        SELECT `index`         AS `index`,
+               `article_index` AS `articleIndex`,
+               `quantity`      AS `quantity`,
+               `cost`          AS `cost`,
+               `discount`      AS `discount`,
+               `price`         AS `price`,
+               `profit`        AS `profit`,
+               `category_text` AS `categoryText`,
+               `text`          AS `text`,
+               `delivery_fee`  AS `deliveryFee`
+        FROM `twd_shop`.`sale_product`
+        WHERE `article_index` = #{aid}
+        LIMIT 1;
     </select>
 
     <!-- shop/main용-->
@@ -85,8 +167,7 @@
         FROM `twd_bbs`.`articles` AS `article`
                  LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`
                  LEFT JOIN `twd_shop`.`sale_product` AS `product` ON `article`.`index` = `product`.`article_index`
-        WHERE `board_id` = 'shop'
-        GROUP BY `index`
+        WHERE `article`.`board_id` = 'shop'
         ORDER BY `index` DESC
         LIMIT 8
     </select>
@@ -107,10 +188,13 @@
                `product`.`discount`      AS `discount`,
                `product`.`price`         AS `price`,
                `product`.`category_text` AS 'categoryText',
-               `product`.`text`          AS `text`
+               `product`.`text`          AS `text`,
+               `category`.`text`         AS `categoryName`
+#                `user`.`admin_flag`       AS `isAdmin`
         FROM `twd_bbs`.`articles` AS `article`
                  LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`
                  LEFT JOIN `twd_shop`.`sale_product` AS `product` ON `article`.`index` = `product`.`article_index`
+                 LEFT JOIN `twd_shop`.`product_categories` AS `category` ON `category`.`id` = `product`.`category_text`
         WHERE `article`.`index` = #{aid}
         LIMIT 1
     </select>
@@ -169,7 +253,7 @@
                `board_id` AS `boardId`,
                `order`    AS `order`
         FROM `twd_bbs`.`boards`
-        WHERE BINARY `id` = #{id}
+        WHERE BINARY `id` = #{bid}
         LIMIT 1;
     </select>
 
@@ -200,4 +284,38 @@
         INSERT INTO `twd_bbs`.`images`(`file_name`, `file_mime`, `data`)
         VALUES (#{fileName}, #{fileMime}, #{data})
     </insert>
+
+    <update id="updateProduct"
+            parameterType="dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity">
+        UPDATE `twd_shop`.`sale_product`
+        SET `article_index` = #{articleIndex},
+            `quantity`      = #{quantity},
+            `cost`          = #{cost},
+            `discount`      = #{discount},
+            `price`         = #{price},
+            `profit`        = #{profit},
+            `category_text` = #{categoryText},
+            `text`          = #{text},
+            `delivery_fee`  = #{deliveryFee}
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
+
+    <update id="updateArticle"
+            parameterType="dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity">
+        UPDATE `twd_bbs`.`articles`
+        SET `user_email`     = #{userEmail},
+            `board_id`       = #{boardId},
+            `title`          = #{title},
+            `content`        = #{content},
+            `thumbnail`      = #{thumbnail},
+            `thumbnail_type` = #{thumbnailType},
+            `view`           = #{view},
+            `written_on`     = #{writtenOn},
+            `modified_on`    = #{modifiedOn}
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
+
+
 </mapper>

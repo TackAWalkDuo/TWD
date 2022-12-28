@@ -13,16 +13,39 @@ let geocoder = new kakao.maps.services.Geocoder();
 // 좌표에 따른 주소를 담을 변수.
 let detailAddr
 
+let initializationMarker = true;            // 수정하기 페이지 처음들어 왔을 때 마커 표시
+let initializationThumbnail = true;         // 수정하기 페이지 처음들어 왔을 때 썸네일 표시
+
+// 수정하기 버튼을 눌렀을때 이미지가 변하지 않았다면 Controller 에서 작업을 하지 않기 위해서.
+let imageModifyFlag = false;
+
+if (initializationThumbnail) {
+    initializationThumbnail = false;
+    const url = new URL(window.location.href);
+    const searchParams = url.searchParams;
+    walkArticle.querySelector('[rel="thumbnail"]')
+        .setAttribute("src", `/bbs/thumbnail?index=${searchParams.get("index")}`);
+
+}
+
 //지도 활성화.
 const loadMap = (lat, lng) => {
-    lat ??= 33.450701;
-    lng ??= 126.570667;
+    lat ??= walkArticle.querySelector('[rel="lat"]').value;
+    lng ??= walkArticle.querySelector('[rel="lng"]').value;
 
     mapObject = new kakao.maps.Map(map, { //지도를 생성할 때 필요한 기본 옵션
         center: new kakao.maps.LatLng(lat, lng), //지도의 중심좌표.
         level: 3 //지도의 레벨(확대, 축소 정도)
     }); //지도 생성 및 객체 리턴
 
+    if(initializationMarker){
+        initializationMarker = false;
+        marker.setPosition(new kakao.maps
+            .LatLng(walkArticle.querySelector('[rel="lat"]').value,
+                walkArticle.querySelector('[rel="lng"]').value));         // 생성 할 marker 위치 지정
+        marker.setMap(mapObject);           // 생성 한 marker 지도에 setting
+        marker.setDraggable(true);          // marker 드래그 가능.
+    }
 
     // 지도 클릭시 클릭지점에 maker 생성.
     kakao.maps.event.addListener(mapObject, 'click', function (mouseEvent) {
@@ -96,8 +119,9 @@ function searchDetailAddrFromCoords(coords, callback) {
 
 
 //ip를 통해서 현재 위치 확인 권한 설정후 현재 위치를 중심으로 지도 표시
-navigator.geolocation.getCurrentPosition(e => {
-    loadMap(e['coords']['latitude'], e['coords']['longitude']);
+navigator.geolocation.getCurrentPosition(() => {
+    loadMap(walkArticle.querySelector('[rel="lat"]').value,
+        walkArticle.querySelector('[rel="lng"]').value);
 }, () => {
     loadMap();
 });
@@ -111,6 +135,7 @@ walkArticle.querySelector('[rel="imageSelectButton"]').addEventListener('click',
 
 //이미지 찾기에서 이미지를 선택할 경우.
 walkArticle['images'].addEventListener('input', () => {
+    // const imageContainerElement = walkArticle.querySelector('[rel="imageContainer"]');
     imageContainerElement.querySelectorAll('img.image').forEach(x => x.remove());
     if (walkArticle['images'].files.length > 0) {
         walkArticle.querySelector('[rel="noImage"]').classList.add('hidden')
@@ -124,46 +149,60 @@ walkArticle['images'].addEventListener('input', () => {
         imgElement.setAttribute('src', imageSrc);
         imageContainerElement.append(imgElement);
     }
+    console.log(walkArticle['images'].files);
+    imageModifyFlag = true;
 });
 
+//기본 이미지로 변경
+walkArticle.querySelector('[rel="imageDeleteButton"]').addEventListener('click', ()=> {
+    walkArticle['images'].files = null;
+    imageContainerElement.querySelectorAll('img.image').forEach(x => x.remove());
+    walkArticle.querySelector('[rel="noImage"]').classList.remove('hidden')
+    imageModifyFlag = true;
+})
 
-// walk 게시글 작성 버튼.
+
+// walk 게시글 수정. 버튼.
 walkArticle.onsubmit = e => {
     e.preventDefault();
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
 
-    if(walkArticle['lat'].value === null || walkArticle['address'].value === null) {
+    if (walkArticle['lat'].value === null || walkArticle['address'].value === null) {
         alert("추천할 좌표를 지도에서 선택해주세요.");
         return false;
     }
-    if(walkArticle['place_title'].value === '') {
+    if (walkArticle['place_title'].value === '') {
         alert("추천할 장소를 작성해주세요.");
         return false;
     }
-    if(walkArticle['content'].value === '') {
+    if (walkArticle['content'].value === '') {
         alert("어떤 이유로 추천하는 작성해주세요.");
         return false;
     }
 
     //ArticleEntity 로 받을 정보
+    const url = new URL(window.location.href);
+    const searchParams = url.searchParams;
+
+    formData.append("index", searchParams.get('index'));
     formData.append("title", walkArticle['place_title'].value);
     formData.append("content", walkArticle['content'].value);
+    formData.append("userEmail", walkArticle['userEmail'].value)
 
     // Location 으로 받을 정보
     formData.append("latitude", walkArticle['lat'].value);
     formData.append("longitude", walkArticle['lng'].value);
     formData.append("address", walkArticle['address'].value);
 
-
     //MultipartFile 받을 정보.
     for (let file of walkArticle['images'].files) {
         formData.append('images', file);
     }
 
-    console.log("check");
+    formData.append("modifyFlag", imageModifyFlag);
 
-    xhr.open('POST', './write');
+    xhr.open('POST', './modify');
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status >= 200 && xhr.status < 300) {
@@ -176,6 +215,14 @@ walkArticle.onsubmit = e => {
                         alert("로그인 해주세요.");
                         window.location.href = '../../../member/login';
                         break;
+                    case 'not_allowed':
+                        alert("작성자가 아닙니다.");
+                        window.location.href = './read';
+                        break;
+                    case 'no_such_article':
+                        alert("존재하지 않는 게시글 입니다.");
+                        window.location.href = './read';
+                        break;
                     default:
                         alert("응 실패");
                 }
@@ -187,11 +234,7 @@ walkArticle.onsubmit = e => {
     xhr.send(formData);
 };
 
-walkArticle.querySelector('[rel="imageDeleteButton"]').addEventListener('click', ()=> {
-    walkArticle['images'].files = null;
-    imageContainerElement.querySelectorAll('img.image').forEach(x => x.remove());
-    walkArticle.querySelector('[rel="noImage"]').classList.remove('hidden')
-});
+
 
 
 

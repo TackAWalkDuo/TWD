@@ -108,6 +108,7 @@ th{
 #table > tbody > .imageLine > td > label > .image-select-button{
     text-decoration: none;
     color: rgb(0,0,0);
+    padding:1rem;
 }
 
 #table > tbody > .imageLine > td > label > .image-select-button:hover{

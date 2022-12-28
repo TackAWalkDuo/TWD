@@ -7,6 +7,28 @@ public class CommentVo extends CommentEntity {
 
     private int[] imageIndexes;
 
+    private boolean isSigned;
+
+    private boolean isMine;
+
+    public boolean isSigned() {
+        return isSigned;
+    }
+
+    public CommentVo setSigned(boolean signed) {
+        isSigned = signed;
+        return this;
+    }
+
+    public boolean isMine() {
+        return isMine;
+    }
+
+    public CommentVo setMine(boolean mine) {
+        isMine = mine;
+        return this;
+    }
+
     public String getNickname() {
         return nickname;
     }

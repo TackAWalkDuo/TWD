@@ -1,5 +1,6 @@
 const map = window.document.getElementById("map");
 const list = window.document.getElementById("list");
+const container = window.document.getElementById("container");
 const detailContainer = window.document.getElementById("detailContainer");
 const reviewForm = window.document.getElementById("reviewForm");
 const reviewContainer = reviewForm.querySelector('[rel="reviewContainer"]');
@@ -13,17 +14,25 @@ let places = [];        // db 에서 list 를 가져와서 담아줄 변수.
 
 //list 의 게시글 또는 marker 클릭 시 해당 게시글을 보여줌.
 detailContainer.show = (placeObject, placeElement) => {
+    // list.querySelectorAll('[rel="item"]').forEach(x => x.remove());
     detailContainer.classList.add("visible");
     detailContainer.querySelector('[rel="title"]').innerText = placeObject['title'];
     detailContainer.querySelector('[rel="placeImage"]').setAttribute("src", `/bbs/thumbnail?index=${placeObject['index']}`);
     detailContainer.querySelector('[rel="commentCounter"]').innerText = placeObject['commentCount'];
     detailContainer.querySelector('[rel="likeCounter"]').innerText = placeObject['likeCount'];
     detailContainer.querySelector('[rel="addressText"]').innerText = placeObject['address'];
+    //detail 에서 주소를 누를 경우 kakao map 에서 직접 검색
+    detailContainer.querySelector('[rel="addressText"]')
+        .setAttribute("href", `https://map.kakao.com/link/search/${placeObject['address']}`);
     detailContainer.querySelector('[rel="descriptionText"]').innerText = placeObject['content'];
 
     //로그인이 안되있을 경우 좋아요를 누를 수 없도록 처리.
     if (!placeObject['signed']) {
         likeIcon.classList.add("prohibited");
+    }
+
+    if (likeIcon.classList.contains("mine")) {          // 이전 게시글의 mine 이 남아 있을 경우를 대비한. mine 삭제 조치.
+        likeIcon.classList.remove("mine");
     }
 
     // 로그인된 계정으로 좋아요를 눌렀을 경우.
@@ -38,6 +47,8 @@ detailContainer.show = (placeObject, placeElement) => {
 
     // list 에서 선택한 게시글의 index 번호 저장.
     reviewForm['articleIndex'].value = placeObject['index'];
+    modifyMenuTopElement.querySelector('[rel="articleModify"]')
+        .setAttribute("href", `./modify?index=${placeObject['index']}`)
 
     //view count up
     const xhr = new XMLHttpRequest();
@@ -61,16 +72,36 @@ detailContainer.show = (placeObject, placeElement) => {
     };
     xhr.send(formData);
 
+    if (!container.classList.contains("fold")) container.classList.add("fold");
+
+    foldElement.classList.add("open-list"); // fold controller
+    foldElement.classList.add("open-details"); // fold controller
+
+    foldChangeIcon(container.classList.contains("fold"));
+
     loadReview(placeObject['index']);
+
+    mapObject.setLevel(3) // 클릭 할 경우 지도 확대 레벨 변경
+    mapObject.setCenter(new kakao.maps.LatLng(placeObject['latitude'], placeObject['longitude'])); // 현재 지도를 클릭한 지점을 중심으로 변경
+    list.innerHTML =''; // level 을 변경할 경우 zoom_changed event 가 발생하기 때문에 list를 한번 초기화해줍니다.
+    setTimeout(()=>{
+        loadPlaces();
+    }, 50);
+
 }
 // 현재 보고 있는 게시글 list 또는 marker 를 클릭하면 닫힘.
 detailContainer.hide = () => {
     detailContainer.classList.remove("visible");
     detailContainer.querySelector('[rel="addressText"]').innerText = '';  // address 를 기준으로 하기때문에 기준점만 초기화
+
+    foldElement.classList.remove("open-details"); // fold controller
+    foldChangeIcon(container.classList.contains("fold"));
+
 }
 
 // detailContainer 의 닫기 버튼을 눌렀을 경우.
-detailContainer.querySelector('[rel="closeDetail"]').addEventListener('click', () => {
+detailContainer.querySelector('[rel="closeDetail"]').addEventListener('click', (e) => {
+    e.preventDefault();
     detailContainer.hide();
 })
 
@@ -80,7 +111,7 @@ const loadMap = (lat, lng) => {
     lng ??= 126.570667;
     mapObject = new kakao.maps.Map(map, { //지도를 생성할 때 필요한 기본 옵션
         center: new kakao.maps.LatLng(lat, lng), //지도의 중심좌표.
-        level: 3 //지도의 레벨(확대, 축소 정도)
+        level: 6 //지도의 레벨(확대, 축소 정도)
     }); //지도 생성 및 객체 리턴
     kakao.maps.event.addListener(mapObject, 'dragend', () => {
         loadPlaces();
@@ -93,18 +124,21 @@ const loadMap = (lat, lng) => {
 
 // 현재 지도 내에서 표시할 수 있는 좌표가 있는 게시글을 list 에 표시
 const loadPlaces = (ne, sw) => {
+    list.innerHTML='';          // html 예시 삭제.
     if (!ne || !sw) {
         const bounds = mapObject.getBounds();
         ne = bounds.getNorthEast();
         sw = bounds.getSouthWest();
     }
-    list.innerHTML = '';
+    console.log(`minLat=${sw['Ma']}&minLng=${sw['La']}&maxLat=${ne['Ma']}&maxLng=${ne['La']}`);
+
     const xhr = new XMLHttpRequest();
     //                                   min = 현재 페이지의 촤측하단 위도,경도            max = 현재 페이지의 우측상단 위도, 경도
     xhr.open('GET', `./place?minLat=${sw['Ma']}&minLng=${sw['La']}&maxLat=${ne['Ma']}&maxLng=${ne['La']}`);
 
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
+            preventMapLoad = false;
             if (xhr.status >= 200 && xhr.status < 300) {
                 const placeArray = JSON.parse(xhr.responseText);
                 places = placeArray;
@@ -123,11 +157,12 @@ const loadPlaces = (ne, sw) => {
                         <input type="hidden" name="latitude">
                         <input type="hidden" name="longitude">
                         <span class="top">
+                        <img alt="" rel="image" class="image" src="/resources/images/Ninave2.jpg">
                            <span class="info">
                                <span class="name" rel="name">${placeObject['title']}</span>
                                <span class="interest-container">
                                    <span class="view-container">
-                                       <i class="fa-solid fa-eye"></i>
+                                       <i class="fa-solid fa-paw"></i>
                                        <span class="view" rel="view">${placeObject['view']}</span>
                                    </span>
                                    <span class="review-container">
@@ -135,12 +170,12 @@ const loadPlaces = (ne, sw) => {
                                        <span class="review-counter">${placeObject['commentCount']}</span>
                                    </span>
                                    <span class="like-container">
-                                       <i class="icon fa-solid fa-heart"></i>
+                                       <i class="like-icon icon fa-solid fa-heart"></i>
                                        <span class="like-counter">${placeObject['likeCount']}</span>
                                    </span>
                                </span>
                            </span>
-                           <img alt="" rel="image" class="image" src="/resources/images/Ninave2.jpg">
+                           
                         </span>
                         <span class="address bottom">${placeObject['address']}</span>
                     <\li>`;
@@ -154,29 +189,27 @@ const loadPlaces = (ne, sw) => {
                     imageElement.setAttribute('src', `/bbs/thumbnail?index=${placeObject['index']}`);
 
                     // 현재 표시 되는 게시글의 자표.
-                    const latLng = new kakao.maps.LatLng(placeObject['latitude'], placeObject['longitude']);
+
 
                     //marker 클릭할 경우.
                     kakao.maps.event.addListener(marker, 'click', () => {
-                        mapObject.setCenter(latLng);
-
                         if (detailContainer.querySelector('[rel="addressText"]').innerText === (placeObject['address'])) {
                             detailContainer.hide();
                         } else {
                             detailContainer.show(placeObject, placeElement);
                         }
+
                     });
                     marker.setMap(mapObject);
 
                     // list 의 게시글을 클릭 했을 경우.
                     placeElement.addEventListener('click', () => {
-                        mapObject.setCenter(latLng);
-
                         if (detailContainer.querySelector('[rel="addressText"]').innerText === (placeObject['address'])) {
                             detailContainer.hide();
                         } else {
                             detailContainer.show(placeObject, placeElement);
                         }
+
                     });
 
                     list.append(placeElement);
@@ -328,15 +361,15 @@ const loadReview = (articleIndex) => {
                         <!-- 로그인 되지 않았을 때 value 를 사용하게 되면 오류가 뜨기 때문에 오류 처리-->
                          ${reviewObject['userEmail'] === (loginUserEmailElement === null ?
                             '' : loginUserEmailElement.value) ?
-                            `<a class="basic" rel="actionModify" href="#">수정</a>
-                            <a class="basic" rel="actionDelete" href="#">삭제</a>` : ` `}
+                            `<a class="basic modify-button" rel="actionModify" href="#">수정</a>
+                            <a class="basic delete-button" rel="actionDelete" href="#">삭제</a>` : ` `}
                          </div>
                         <div class="image-container basic" rel="imageContainer"></div>
                         <span class="content basic" rel="contentContainer">${reviewObject['content']}</span>
                         
                         <input hidden multiple accept="image/" rel="imagesModify" name="imagesModify" type="file">
                         <div class="modify modifyMenu">
-                            <a class="modify modifyText" rel="edit" href="#">수정하기</a>
+                            <a class="modify-button modify modifyText" rel="edit" href="#">수정하기</a>
                             <a class="modify modifyCancel" rel="modifyCancel" href="#">취소</a>
                         </div>
                         <div class="modify image-button-container">
@@ -366,6 +399,9 @@ const loadReview = (articleIndex) => {
                         if (reviewObject['userEmail'] === (loginUserEmailElement === null ?
                             '' : loginUserEmailElement.value)) {
                             itemElement.querySelector('[rel="actionDelete"]').addEventListener('click', () => {
+                                if (!confirm('정말로 댓글을 삭제할까요?')) {
+                                    return;
+                                }
                                 const xhr = new XMLHttpRequest();
                                 const formData = new FormData();
                                 formData.append("index", reviewObject['index']);
@@ -437,7 +473,7 @@ const loadReview = (articleIndex) => {
                             // formData.append("userEmail", reviewForm['userEmail'].value);
                             formData.append("userEmail", reviewObject['userEmail']);
                             formData.append("content", itemElement.querySelector('[rel="modifyContent"]').value);
-                            formData.append("articleIndex", reviewForm['articleIndex'].value);
+                            // formData.append("articleIndex", reviewForm['articleIndex'].value);
                             formData.append("index", itemElement.querySelector('[rel="commentIndex"]').value);
                             formData.append("modifyFlag", imageModifyFlag);
 
@@ -526,9 +562,14 @@ const loadReview = (articleIndex) => {
     }
 ;
 
-//게시글 삭제
+// 로그인 되었을경우에 삭제와 수정이 가능하게 하기위한 조건문
 if (loginUserEmailElement !== null) {
+    //게시글 삭제
     modifyMenuTopElement.querySelector('[rel="articleDelete"]').addEventListener('click', () => {
+        if (!confirm('정말로 게시글을 삭제할까요?')) {
+            return;
+        }
+
         const xhr = new XMLHttpRequest();
         const formData = new FormData();
         formData.append("aid", reviewForm['articleIndex'].value);
@@ -540,7 +581,7 @@ if (loginUserEmailElement !== null) {
                     const responseObject = JSON.parse(xhr.responseText);
                     switch (responseObject['result']) {
                         case 'success' :
-                            window.location.href = `/map/walk-read`;
+                            window.location.href = `/map/read`;
                             break;
                         case 'no_such_article' :
                             alert("게시글을 찾을 수 없습니다.");
@@ -560,19 +601,35 @@ if (loginUserEmailElement !== null) {
     });
 }
 
+const foldElement = window.document.getElementById("foldContainer");
 
 
+//fold controller
+foldElement.addEventListener('click', () => {
 
+    if (container.classList.contains("fold")) {
+        container.classList.remove("fold");
+        foldElement.classList.remove("open-list");
+        foldElement.classList.remove("open-details");
+        detailContainer.classList.remove("visible");
+    } else {
+        container.classList.add("fold");
+        foldElement.classList.add("open-list");
+    }
 
+    foldChangeIcon(container.classList.contains("fold"));
 
+});
 
-
-
-
-
-
-
-
-
-
+function foldChangeIcon(flag) {
+    const foldIcon = foldElement.querySelector('[rel="foldIcon"]');
+    if (flag && foldIcon.classList.contains("fa-greater-than")) {
+        foldIcon.classList.remove("fa-greater-than");
+        foldIcon.classList.add("fa-less-than");
+    }
+    if (!flag) {
+        foldIcon.classList.remove("fa-less-than");
+        foldIcon.classList.add("fa-greater-than");
+    }
+}
 

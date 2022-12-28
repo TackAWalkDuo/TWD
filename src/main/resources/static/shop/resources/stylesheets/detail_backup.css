@@ -110,7 +110,7 @@ body > .--main > .detail-main > .detail-info > .detail-notice > .text {
     font-weight: 500;
 }
 
-#orderForm > .detail-order-container > .order-text{
+#orderForm > .detail-order-container > .order-text {
     border-top: 0.0625rem solid rgb(234, 236, 238);
     padding-top: 0.75rem;
     font-size: 0.9rem;
@@ -154,40 +154,46 @@ body > .--main > .detail-main > .detail-info > .detail-notice > .text {
     font-size: 1.25rem;
 }
 
-#orderForm > .detail-order-container > .detail-info-container > .info-quantity-box > .info-button:hover{
+#orderForm > .detail-order-container > .detail-info-container > .info-quantity-box > .info-button:hover {
     cursor: pointer;
 }
 
-#orderForm > .detail-order-container > .detail-info-container > .info-quantity-box > .info-button:disabled{
-    background-color: rgb(234,236,238);
+#orderForm > .detail-order-container > .detail-info-container > .info-quantity-box > .info-button:disabled {
+    background-color: rgb(234, 236, 238);
     color: rgb(213, 216, 220);
     cursor: not-allowed;
 }
 
-#orderForm > .detail-order-container > .detail-info-container > .info-quantity-box > .info-price {
-    position: absolute;
-    right: 0.25rem;
+#orderForm > .detail-order-container > .detail-info-container > .info-quantity-box > .just-space {
+    flex: 1;
 }
 
-#orderForm > .detail-order-container > .detail-charge-container{
-    align-items : center;
+#orderForm > .detail-order-container > .detail-info-container > .info-quantity-box > .info-price {
+    text-align: right;
+    /*justify-self: right;*/
+    /*position: absolute;*/
+    /*right: 0.25rem;*/
+}
+
+#orderForm > .detail-order-container > .detail-charge-container {
+    align-items: center;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-#orderForm > .detail-order-container > .detail-charge-container > .charge-info{
+#orderForm > .detail-order-container > .detail-charge-container > .charge-info {
     font-weight: 700;
     font-size: 1rem;
 }
 
-#orderForm > .detail-order-container > .detail-charge-container > .charge-quantity{
+#orderForm > .detail-order-container > .detail-charge-container > .charge-quantity {
     margin-left: 15rem;
     font-size: 0.9rem;
-    color: rgb(171,178,185);
+    color: rgb(171, 178, 185);
 }
 
-#orderForm > .detail-order-container > .detail-charge-container > .charge-price{
+#orderForm > .detail-order-container > .detail-charge-container > .charge-price {
     color: rgb(133, 193, 233);
     font-size: 1.5rem;
     font-weight: 700;
@@ -220,28 +226,51 @@ body > .--main > .detail-main > .detail-info > .detail-notice > .text {
 /*    left: 53.5%;*/
 /*}*/
 
-#orderForm > .detail-order-container > .product-button{
-    padding: 3rem 0;
+#orderForm > .detail-order-container > .product-button,
+#orderForm > .detail-order-container > .admin-product-button {
+    padding-top: 3rem;
 
-    align-items : center;
+    align-items: center;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
 }
-#orderForm > .detail-order-container > .product-button > .--object-button{
+
+#orderForm > .detail-order-container > .product-button > .--object-button,
+#orderForm > .detail-order-container > .admin-product-button > .--object-button {
     /*background-color: rgba(169, 175, 126,30%);*/
-    border: rgba(169, 175, 126,30%) 0.0625rem solid;
+    border: rgba(169, 175, 126, 30%) 0.0625rem solid;
     border-radius: 5px;
     width: 10rem;
     height: 3rem;
     font-weight: 500;
     font-size: 1.25rem;
-    color: rgb(255,255,255);
+    color: rgb(255, 255, 255);
+
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
-#orderForm > .detail-order-container > .product-button > .--object-button:hover{
+#orderForm > .detail-order-container > .admin-product-button > .--object-button{
+    filter: brightness(80%);
+    color: black;
+    /*color: rgb(128, 139, 150);*/
+    /*background-color: rgb(169, 175, 126);*/
+    /*width: 7.5rem;*/
+    /*flex-grow: 1;*/
+}
+
+#orderForm > .detail-order-container > .product-button > .--object-button:hover {
     cursor: pointer;
     filter: brightness(125%);
+}
+
+#deleteButton,
+#modifyButton {
+    text-align: center;
+    text-decoration: none;
 }
 
 body > .main > .search-form {
@@ -503,9 +532,115 @@ body > main > .box > .item-container > .item-description > .side-image > .side-d
 /*옆으로 빠지는 이미지*/
 
 /*상세 정보 시작*/
-body > main > .detail-content-container{
+#button-top {
+    padding: unset;
+    margin: unset;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+}
+
+#button-top > * {
+    padding: unset;
+    margin: unset;
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+    background-color: unset;
+    border: 0.0625rem solid rgb(216, 218, 220);
+}
+
+#button-top > *:hover {
+    cursor: pointer;
+    background-color: rgb(216, 218, 220);
+}
+
+#detailContentContainer {
     width: 100%;
 }
+
+#detailContentContainer > .title-select > * > * {
+    text-decoration: none;
+    color: inherit;
+}
+
+#detailContentContainer > div > span > p,
+#detailContentContainer > div > span > .image {
+    text-align: center;
+}
+
+#detailContentContainer > div > span > .image > img {
+    aspect-ratio: 4/3;
+    max-width: 80%;
+    max-height: 80%;
+}
+
+#detailContentContainer > .information-container {
+    width: 80%;
+    margin: auto;
+}
+
+#detailContentContainer > .information-container > div:first-of-type {
+    border-top: 0.0625rem solid rgb(216, 218, 220);
+    font-size: 1.5rem;
+    font-weight: 700;
+    /*width: 80%;*/
+    padding: 2rem 0;
+}
+
+#detailContentContainer b {
+    font-size: 1rem;
+}
+
+#detailContentContainer > .information-container > p {
+    text-indent: 20px;
+    font-size: 0.9rem;
+    line-height: 0.5rem;
+}
+
+#detailContentContainer > .information-container > p:last-of-type {
+    border-bottom: 0.0625rem solid rgb(216, 218, 220);
+    /*width: 80%;*/
+    padding-bottom: 2rem;
+}
+
+#detailContentContainer > .information-table {
+    padding-top: 1.5rem;
+    border-spacing: 0;
+    border-collapse: collapse;
+    width: 80%;
+    margin: 1.5rem auto 3rem auto;
+}
+
+#detailContentContainer > .information-table > caption {
+    text-align: left;
+    padding-bottom: 0.9rem;
+}
+
+#detailContentContainer > .information-table > tbody > tr > th {
+    font-size: 0.9rem;
+    border: solid rgb(216, 218, 220);
+    border-width: 1px 0;
+    font-weight: unset;
+    background-color: rgb(234, 236, 238);
+    padding: 10px 20px;
+    border-spacing: 0;
+    width: 20%;
+}
+
+#detailContentContainer > .information-table > tbody > tr > td {
+    font-size: 0.9rem;
+    padding: 10px 20px;
+    border: solid rgb(216, 218, 220);
+    border-width: 1px 0;
+    color: rgb(128, 139, 150);
+    border-spacing: 0;
+}
+
+
+
+
+
 
 
 
