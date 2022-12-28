@@ -133,20 +133,35 @@
         VALUES (#{commentIndex}, #{data}, #{type})
     </insert>
 
+    <insert id="insertCommentLike"
+            parameterType="dev.twd.take_a_walk_duo.entities.bbs.CommentLikeEntity">
+        INSERT INTO `twd_bbs`.`comment_likes`(user_email, comment_index, created_on)
+        VALUES (#{userEmail}, #{commentIndex}, IFNULL(#{createdOn}, DEFAULT(`created_on`)));
+    </insert>
+
     <select id="selectCommentsByIndex"
             resultType="dev.twd.take_a_walk_duo.vos.bbs.CommentVo">
-        SELECT `comment`.`index`         AS 'index',
-               `comment`.`comment_index` AS 'commentIndex',
-               `comment`.`user_email`    AS 'userEmail',
-               `comment`.`content`       AS 'content',
-               `comment`.`article_index` AS 'articleIndex',
-               `comment`.`written_on`    AS 'writtenOn',
+        SELECT `comment`.`index`         AS `index`,
+               `comment`.`comment_index` AS `commentIndex`,
+               `comment`.`user_email`    AS `userEmail`,
+               `comment`.`content`       AS `content`,
+               `comment`.`article_index` AS `articleIndex`,
+               `comment`.`written_on`    AS `writtenOn`,
                (#{email} IS NOT NULL)    AS `isSigned`,
                (BINARY IFNULL(#{email}, '') = `comment`.`user_email`) AS `isMine`,
-               `user`.`nickname`         AS 'nickname'
+               `user`.`nickname`         AS `nickname`,
+               COUNT(`commentLike`.`comment_index`) > 0                   AS `isLiked`,
+               COUNT(`commentLikeCount`.`comment_index`)                  AS `likeCommentCount`
         FROM `twd_bbs`.`comments` AS `comment`
                  LEFT JOIN `twd_member`.`users` AS `user` ON `comment`.`user_email` = `user`.`email`
+                 LEFT JOIN `twd_bbs`.`comment_likes` AS `commentLike`
+                           ON `comment`.`index` = `commentLike`.`comment_index` AND
+                              `commentLike`.`user_email` = IFNULL(#{email}, '')
+                 LEFT JOIN `twd_bbs`.`comment_likes` AS `commentLikeCount`
+                           ON `comment`.`index` = `commentLikeCount`.`comment_index`
         WHERE `comment`.`article_index` = #{index}
+        GROUP BY `comment`.`index`
+        ORDER BY `comment`.`index`
     </select>
 
     <select id="selectCommentByIndex"
@@ -233,6 +248,13 @@
         DELETE
         FROM `twd_bbs`.`comments`
         WHERE `index` = #{index}
+    </delete>
+
+    <delete id="deleteByCommentLiked">
+        DELETE
+        FROM `twd_bbs`.`comment_likes`
+        WHERE (`twd_bbs`.`comment_likes`.`comment_index` = #{commentIndex})
+            LIMIT 1;
     </delete>
 
     <select id="selectArticlesByBoardId"

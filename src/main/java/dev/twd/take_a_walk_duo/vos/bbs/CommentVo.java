@@ -11,6 +11,26 @@ public class CommentVo extends CommentEntity {
 
     private boolean isMine;
 
+    private boolean isLiked;
+
+    private int likeCommentCount;
+
+    public int getLikeCommentCount() {
+        return likeCommentCount;
+    }
+
+    public void setLikeCommentCount(int likeCommentCount) {
+        this.likeCommentCount = likeCommentCount;
+    }
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
+    }
+
     public boolean isSigned() {
         return isSigned;
     }
