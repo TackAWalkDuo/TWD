@@ -10,7 +10,7 @@ public class PagingModel {
     public final int endPage;       // 표시 끝 페이지    startPage + 9 > x ? x : (startPage + 9)
 
     public PagingModel(int totalCount, int requestPage) {
-        this(10, totalCount, requestPage);
+        this(12, totalCount, requestPage);
     }
 
     public PagingModel(int countPerPage, int totalCount, int requestPage) {

@@ -86,21 +86,18 @@ public class ShopController {
         if (board != null) {
             int totalCount = this.shopService.getArticleCount(board, criterion, keyword);
 
-            PagingModel paging = new PagingModel(12, totalCount, page);
+            PagingModel paging = new PagingModel(totalCount, page);
             modelAndView.addObject("paging", paging);
 
             ProductVo[] articles = this.shopService.getArticles(board, paging, criterion, keyword);
+
             modelAndView.addObject("articles", articles);
+            System.out.println("토탈 카운트? " + totalCount);
             System.out.println("twd articles" + articles.length);
             System.out.printf("이동 가능한 최소 페이지 : %d\n", paging.minPage);
             System.out.printf("이동 가능한 최대 페이지 : %d\n", paging.maxPage);
             System.out.printf("표시 시작 페이지 : %d\n", paging.startPage);
             System.out.printf("표시 끝 페이지 : %d\n", paging.endPage);
-
-
-            for (int i = 0; i < articles.length; i++) {
-                System.out.println("확인이다 이자식아" + articles[i].getCategoryText());
-            }
         }
         return modelAndView;
     }
