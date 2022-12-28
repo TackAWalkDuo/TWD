@@ -204,7 +204,6 @@ form['emailSend'].addEventListener('click', () => {
         form['email'].focus();
         return;
     }
-    //Cover.show('인증번호를 전송하고 있습니다.\n잠시만 기다려 주세요.');
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     formData.append('email', form['email'].value);
