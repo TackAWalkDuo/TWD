@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 
-@Controller(value = "dev.test.take_a_walk_duo.controllers.MapController")
+@Controller(value = "dev.twd.take_a_walk_duo.controllers.MapController")
 @RequestMapping(value = "map")
 public class MapController {
     private final MapService mapService;

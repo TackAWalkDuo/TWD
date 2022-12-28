@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
 
-@Service(value = "dev.test.take_a_walk_duo.services.BbsService")
+@Service(value = "dev.twd.take_a_walk_duo.services.BbsService")
 public class BbsService {
 
     private final IBbsMapper bbsMapper;

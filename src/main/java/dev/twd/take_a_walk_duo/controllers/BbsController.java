@@ -25,7 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
-@Controller(value = "dev.test.take_a_walk_duo.controllers.bbsController")
+@Controller(value = "dev.twd.take_a_walk_duo.controllers.bbsController")
 @RequestMapping(value = "/bbs")
 public class BbsController {
     private final BbsService bbsService;

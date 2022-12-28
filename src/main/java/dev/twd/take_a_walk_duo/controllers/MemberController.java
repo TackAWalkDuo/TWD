@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
-@Controller(value = "dev.test.study_member_bbs.controllers.MemberController")
+@Controller(value = "dev.twd.study_member_bbs.controllers.MemberController")
 @RequestMapping(value = "member")
 public class MemberController {
     private final MemberService memberService;

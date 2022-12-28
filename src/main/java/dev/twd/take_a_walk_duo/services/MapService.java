@@ -21,7 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
-@Service(value = "dev.test.take_a_walk_duo.services.MapService")
+@Service(value = "dev.twd.take_a_walk_duo.services.MapService")
 public class MapService {
     private final IMapMapper mapMapper;
     private final IBbsMapper bbsMapper;

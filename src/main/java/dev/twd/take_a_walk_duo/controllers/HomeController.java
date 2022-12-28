@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller(value = "dev.test.pet_walk.controllers.HomeController")
+@Controller(value = "dev.twd.pet_walk.controllers.HomeController")
 @RequestMapping(value = "/")
 public class HomeController {
 

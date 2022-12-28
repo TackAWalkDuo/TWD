@@ -32,7 +32,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
-@Service(value = "dev.test.take_a_walk_duo.services.MemberService")
+@Service(value = "dev.twd.take_a_walk_duo.services.MemberService")
 public class MemberService {
     private final JavaMailSender mailSender;
 
