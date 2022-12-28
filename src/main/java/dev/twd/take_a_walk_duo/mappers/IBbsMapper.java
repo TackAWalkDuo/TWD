@@ -51,6 +51,7 @@ public interface IBbsMapper {
 
     int deleteArticle(int index);
 
+
     //Mr.m
     //게시판 만들기
     ArticleReadVo[] selectArticlesByBoardId(@Param(value = "boardId") String boardId,
@@ -61,6 +62,7 @@ public interface IBbsMapper {
                                     @Param(value = "criterion") String criterion,
                                     @Param(value = "keyword") String keyword);
 
+
     //Mr.m
     //이미지추가 맵퍼
     int insertImage(ImageEntity image);
@@ -68,8 +70,10 @@ public interface IBbsMapper {
     ImageEntity selectImageByIndex(@Param(value = "index") int index);
 
     // 게시글 댓글
-    CommentVo[] selectCommentsByIndex(@Param(value = "index") int index);
-    CommentVo selectCommentByIndex(@Param(value = "index") int index);
+    CommentVo[] selectCommentsByIndex(@Param(value = "index") int index,
+                                      @Param(value = "email") String email);
+
+    CommentVo selectCommentByIndex(@Param(value = "index")int index);
     //댓글의 이미지 가져오기(map 에서 사용)
     CommentImageEntity[] selectCommentImagesByCommentIndexExceptData(@Param(value = "commentIndex") int commentIndex);
 

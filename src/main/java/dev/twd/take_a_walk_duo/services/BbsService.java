@@ -196,8 +196,8 @@ public class BbsService {
 
     //댓글 불러오기 and 이미지 index 가져오기
 
-    public CommentVo[] getComment(int index) {
-        CommentVo[] comments = this.bbsMapper.selectCommentsByIndex(index);
+    public CommentVo[] getComment(int index,UserEntity user) {
+        CommentVo[] comments = this.bbsMapper.selectCommentsByIndex(index, user == null ? null : user.getEmail());
         for(CommentVo comment : comments){
             CommentImageEntity[] commentImage = this.bbsMapper.selectCommentImagesByCommentIndexExceptData(comment.getIndex());
             int[] reviewImageIndexes = Arrays.stream(commentImage).mapToInt(CommentImageEntity::getIndex).toArray();
@@ -224,7 +224,7 @@ public class BbsService {
             return WriteResult.NOT_SAME;
 
         //존재하지 않는 댓글일 경우.
-        if(this.bbsMapper.selectCommentsByIndex(comment.getIndex()) == null)
+        if(this.bbsMapper.selectCommentsByIndex(comment.getIndex(), user.getEmail()) == null)
             return ReadResult.NO_SUCH_COMMENT;
 
         existingComment.setContent(comment.getContent());
@@ -255,7 +255,7 @@ public class BbsService {
     }
 
     public Enum<? extends IResult> deleteComment(UserEntity user, CommentEntity comment) {
-        if(user == null) return CommonResult.FAILURE;
+        if(user == null) return CommonResult.NOT_SIGNED;
         if(!user.getEmail().equals(comment.getUserEmail())) return WriteResult.NOT_SAME;
         return this.bbsMapper.deleteComment(comment.getIndex()) > 0 ?
                 CommonResult.SUCCESS : CommonResult.FAILURE;

@@ -10,6 +10,7 @@ import dev.twd.take_a_walk_duo.services.BbsService;
 import dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import dev.twd.take_a_walk_duo.vos.bbs.CommentVo;
 import org.apache.ibatis.annotations.Param;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 @Controller(value = "dev.test.take_a_walk_duo.controllers.bbsController")
 @RequestMapping(value = "/bbs")
@@ -88,9 +90,9 @@ public class BbsController {
     public ModelAndView getRead(@SessionAttribute(value = "user", required = false) UserEntity user,
                                 @RequestParam(value = "aid", required = false) int aid) {
         ModelAndView modelAndView = new ModelAndView("bbs/read");
-        ArticleReadVo article = this.bbsService.readArticle(aid,user);
+        ArticleReadVo article = this.bbsService.readArticle(aid, user);
         modelAndView.addObject("article", article);
-        if(article.getBoardId().equals("walk")  || article.getBoardId().equals("shop") ) {
+        if (article.getBoardId().equals("walk") || article.getBoardId().equals("shop")) {
             return new ModelAndView("bbs/notFindArticle");
         }
         if (article != null) {
@@ -101,6 +103,7 @@ public class BbsController {
             modelAndView.addObject("liked", article.isArticleLiked());
             modelAndView.addObject("boardList", boardList);
             modelAndView.addObject("boardTitles", boardTitle);
+            modelAndView.addObject("isSigned", article.isSigned());
 
 
         }
@@ -189,7 +192,7 @@ public class BbsController {
             PagingModel paging = new PagingModel(totalCount, page);
             modelAndView.addObject("paging", paging);
 
-            ArticleReadVo[] articles = this.bbsService.getArticles(board,paging);
+            ArticleReadVo[] articles = this.bbsService.getArticles(board, paging);
             modelAndView.addObject("articles", articles);
 
             System.out.println(articles.length);
@@ -298,18 +301,20 @@ public class BbsController {
     //댓글 불러오기
     @GetMapping(value = "comment", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public CommentVo[] getComment(@Param(value = "index") int index){
-        return this.bbsService.getComment(index);
+    public CommentVo[] getComment(@Param(value = "index") int index,
+                                  @SessionAttribute(value = "user", required = false) UserEntity user) {
+        return this.bbsService.getComment(index, user);
     }
+
 
     //댓글 이미지 불러오기 // shop 내부가 조금 달라서 새로 만듬
     @GetMapping(value = "commentImage")
-    public ResponseEntity<byte[]> getCommentImage(@RequestParam(value = "index")int index) {
+    public ResponseEntity<byte[]> getCommentImage(@RequestParam(value = "index") int index) {
         ResponseEntity<byte[]> responseEntity;
         CommentImageEntity commentImage = this.bbsService.getCommentImage(index);
-        if( commentImage == null ) {
+        if (commentImage == null) {
             responseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }else{
+        } else {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.valueOf(commentImage.getType()));
             headers.setContentLength(commentImage.getData().length);
@@ -322,9 +327,9 @@ public class BbsController {
     @PostMapping(value = "comment-modify", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postCommentModify(@SessionAttribute(value = "user") UserEntity user,
-                             CommentEntity comment,
-                             @RequestParam(value = "modifyFlag", required = false) Boolean modifyFlag,
-                             @RequestParam(value = "images", required = false) MultipartFile[] images)
+                                    CommentEntity comment,
+                                    @RequestParam(value = "modifyFlag", required = false, defaultValue = "false") Boolean modifyFlag,
+                                    @RequestParam(value = "images", required = false) MultipartFile[] images)
             throws IOException {
         JSONObject responseObject = new JSONObject();
         Enum<?> result = this.bbsService.modifyComment(user, comment, images, modifyFlag);
@@ -335,7 +340,7 @@ public class BbsController {
     @DeleteMapping(value = "comment", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String deleteComment(@SessionAttribute(value = "user") UserEntity user,
-                                    CommentEntity comment) {
+                                CommentEntity comment) {
 
         JSONObject responseObject = new JSONObject();
         Enum<?> result = this.bbsService.deleteComment(user, comment);
