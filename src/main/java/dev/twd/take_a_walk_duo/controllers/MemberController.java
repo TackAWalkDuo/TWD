@@ -27,6 +27,15 @@ public class MemberController {
         this.memberService = memberService;
     }
 
+    // 정보수정
+    @RequestMapping(value = "changeInformation",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getChangeInformation() {
+        ModelAndView modelAndView = new ModelAndView("member/changeInformation");
+        return modelAndView;
+    }
+
     // 탈퇴하기
     @RequestMapping(value = "secession",
             method = RequestMethod.GET,

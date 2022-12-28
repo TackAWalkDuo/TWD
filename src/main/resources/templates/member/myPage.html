@@ -52,50 +52,50 @@
         <div class="list-container">
             <a class="list"
                th:href="@{/member/myPage}"
-               target="_blank" id="" th:if="${session.user != null}">
+               target="_blank" th:if="${session.user != null}">
                 마이페이지</a>
         </div>
         <div class="list-container">
             <a class="list"
                th:href="@{/member}"
                th:if="${session.user != null}"
-               target="_blank" id="">주문조회</a>
+               target="_blank">주문조회</a>
         </div>
         <div class="list-container">
             <a class="list"
                th:href="@{/member}"
                th:if="${session.user != null}"
-               target="_blank" id="">위시 리스트</a>
+               target="_blank">위시 리스트</a>
         </div>
         <div class="list-container">
             <a class="list"
                th:href="@{/member}"
                th:if="${session.user != null}"
-               target="_blank" id="">취소/교환/반품</a>
+               target="_blank">취소/교환/반품</a>
         </div>
         <div class="list-container">
             <a class="list"
                th:href="@{/member}"
                th:if="${session.user != null}"
-               target="_blank" id="">포인트</a>
+               target="_blank">포인트</a>
         </div>
         <div class="list-container">
             <a class="list"
                th:href="@{/member}"
                th:if="${session.user != null}"
-               target="_blank" id="">1:1 문의</a>
+               target="_blank">1:1 문의</a>
         </div>
         <div class="list-container">
             <a class="list"
-               th:href="@{/member}"
+               th:href="@{/member/changeInformation}"
                th:if="${session.user != null}"
-               target="_blank" id="">정보 수정</a>
+               target="_blank">정보 수정</a>
         </div>
         <div class="list-container">
             <a class="list"
-               th:href="@{/member}"
+               th:href="@{/member/secession}"
                th:if="${session.user != null}"
-               target="_blank" id="">회원탈퇴</a>
+               target="_blank">회원탈퇴</a>
         </div>
     </form>
 </section>
