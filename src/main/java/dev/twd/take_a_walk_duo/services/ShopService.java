@@ -58,6 +58,7 @@ public class ShopService {
     }
 
     public int getArticleCount(BoardEntity board, String criterion, String keyword) {
+        System.out.println("criterion??" + criterion);
         return this.shopMapper.selectArticleCountByBoardId(board.getId(), criterion, keyword);
     }
 
