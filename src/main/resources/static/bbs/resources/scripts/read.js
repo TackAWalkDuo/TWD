@@ -2,6 +2,7 @@ const form = window.document.getElementById('form');
 let imageScale = window.document.getElementById('imageScale');
 const commentContainer = window.document.getElementById('commentContainer');
 const commentMinePicForm = window.document.getElementById('commentMinePicForm');
+const likeA = window.document.getElementById('likeA');
 
 
 const loadComments = () => {
@@ -27,10 +28,10 @@ const loadComments = () => {
                                             <span class="writer">${commentObject['nickname']}</span>
                                             <span class="dt">${commentObject['writtenOn']}</span>
                                             <span class="action-container">
-                                                <a href="#" class="action reply"  rel="actionReply">답글달기</a>
-                                                <a href="#" class="action modify" rel="actionModify">수정</a>
-                                                <a href="#" class="action delete" rel="actionDelete">삭제</a>
-                                                <a href="#" class="action cancel" rel="actionCancel">취소</a>
+                                                 ${commentObject['signed'] === true ? '<a href="#" class="action reply"  rel="actionReply">답글달기</a>' : ''}
+                                                ${commentObject['mine'] === true ? '<a href="#" class="action modify" rel="actionModify">수정</a>' : ''}
+                                                ${commentObject['mine'] === true ? '<a href="#" class="action delete" rel="actionDelete">삭제</a>' : ''}
+                                                ${commentObject['mine'] === true ? '<a href="#" class="action cancel" rel="actionCancel">취소</a>' : ''}
                                             </span>
                                         </div>
                                     </div>
@@ -92,7 +93,7 @@ const loadComments = () => {
                             modifyFormElement.classList.add('visible');
                             modifyFormElement['content'].focus();
                         });
-                        dom.querySelector('[rel="actionCancel"]').addEventListener('click', e => {
+                        dom.querySelector('[rel="actionCancel"]')?.addEventListener('click', e => {
                             e.preventDefault();
 
                             modifyFormElement.classList.remove('visible');
@@ -149,6 +150,7 @@ const loadComments = () => {
                             const xhr = new XMLHttpRequest();
                             const formData = new FormData();
                             formData.append('index', commentObject['index']);
+                            formData.append('userEmail',commentObject['userEmail']);
                             xhr.open('DELETE', './comment');
                             xhr.onreadystatechange = () => {
                                 if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -196,26 +198,29 @@ const loadComments = () => {
                                         switch (responseObject['result']) {
                                             case 'success' :
                                                 console.log('성공');
+                                                loadComments();
                                                 break;
                                             case 'no_such_comment' :
-                                                alert("게시글을 찾을 수 없습니다.");
+                                                showDialog.show("게시글을 찾을 수 없습니다.");
                                                 break;
                                             case 'not_signed' :
-                                                alert("로그인 정보가 일치하지 않습니다.");
+                                                showDialog.show("로그인 정보가 일치하지 않습니다.");
                                                 break;
                                             case 'not_same' :
-                                                alert("작성자가 아닙니다.");
+                                                showDialog.show("작성자가 아닙니다.");
                                                 break;
                                             default:
-                                                alert("수정에 실패했습니다.");
+                                                showDialog.show("수정에 실패했습니다.");
                                         }
                                     } else {
-                                        alert('알수없는 이유로 실패하였습니다');
+                                        showDialog.show('알수없는 이유로 실패하였습니다');
                                     }
                                 }
                             };
                             xhr.send(formData);
                         };
+
+
 
 
 
@@ -234,6 +239,8 @@ const loadComments = () => {
                     for (let commentObject of responseArray.filter(x => !x['commentIndex'])) {
                         appendComment(commentObject, false);
                         appendReplyOf(commentObject);
+                        console.log(commentObject['singed']);
+                        console.log(commentObject['mine']);
                     }
 
                 }
@@ -326,14 +333,13 @@ window.document.getElementById('imageScale').addEventListener('click', e => {
     //     : imageScale.classList.add('visible');
 });
 
-const likeA = window.document.getElementById('likeA');
+
 likeA.addEventListener('click', e => {
     e.preventDefault();
-
-    console.log(form['aid'].value);
+    console.log('click중');
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
-    formData.append('articleIndex', form['aid'].value);
+    formData.append('articleIndex', commentMinePicForm['aid'].value);
     xhr.open('POST', '/bbs/article-liked');
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {

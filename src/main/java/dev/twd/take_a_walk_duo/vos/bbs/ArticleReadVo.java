@@ -7,7 +7,6 @@ public class ArticleReadVo extends ArticleEntity {
     private String userSpecies;
     private boolean articleLiked;
     private int articleLikedCount;
-
     private boolean isSigned;
 
     public boolean isSigned() {

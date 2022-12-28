@@ -144,6 +144,23 @@
                `user`.`nickname`         AS 'nickname'
         FROM `twd_bbs`.`comments` AS `comment`
                  LEFT JOIN `twd_member`.`users` AS `user` ON `comment`.`user_email` = `user`.`email`
+        WHERE `comment`.`index` = #{index}
+        LIMIT 1
+    </select>
+
+    <select id="selectCommentsByIndex"
+            resultType="dev.twd.take_a_walk_duo.vos.bbs.CommentVo">
+        SELECT `comment`.`index`         AS 'index',
+               `comment`.`comment_index` AS 'commentIndex',
+               `comment`.`user_email`    AS 'userEmail',
+               `comment`.`content`       AS 'content',
+               `comment`.`article_index` AS 'articleIndex',
+               `comment`.`written_on`    AS 'writtenOn',
+               (#{email} IS NOT NULL)    AS `isSigned`,
+               (BINARY IFNULL(#{email}, '') = `comment`.`user_email`) AS `isMine`,
+               `user`.`nickname`         AS 'nickname'
+        FROM `twd_bbs`.`comments` AS `comment`
+                 LEFT JOIN `twd_member`.`users` AS `user` ON `comment`.`user_email` = `user`.`email`
         WHERE `comment`.`article_index` = #{index}
     </select>
 
@@ -199,7 +216,8 @@
         SET `comment_index` = #{commentIndex},
             `user_email`    = #{userEmail},
             `content`       = #{content},
-            `article_index` = #{articleIndex}
+            `article_index` = #{articleIndex},
+            `written_on`    = #{writtenOn}
         WHERE `index` = #{index}
         LIMIT 1
     </update>
@@ -239,25 +257,25 @@
 
         LIMIT #{limit} OFFSET #{offset};
     </select>
-<select id="selectArticleCountByBoardId"
-        resultType="int">
-SELECT COUNT(0)
-FROM `twd_bbs`.`articles`
-LEFT JOIN `twd_bbs`.`boards` AS `board`
-ON board.`board_id` = #{boardId} OR board.`id` = #{boardId}
-<if test="criterion !=null and criterion.equals('nickname')">
-    LEFT JOIN `twd_member`.`users` ON articles.user_email = users.email
-</if>
-WHERE `articles`.`board_id` = board.id
-<if test="criterion !=null and criterion.equals('title')">
-    AND REPLACE(`articles`.`title`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%')
-</if>
-<if test="criterion !=null and criterion.equals('all')">
-    AND (REPLACE(`articles`.`title`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%')
-    OR REPLACE(`articles`.`content`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%'))
-</if>
-<if test="criterion !=null and criterion.equals('nickname')">
-    AND BINARY `users`.`nickname` = #{keyword}
-</if>
-</select>
-        </mapper>
+    <select id="selectArticleCountByBoardId"
+            resultType="int">
+        SELECT COUNT(0)
+        FROM `twd_bbs`.`articles`
+        LEFT JOIN `twd_bbs`.`boards` AS `board`
+        ON board.`board_id` = #{boardId} OR board.`id` = #{boardId}
+        <if test="criterion !=null and criterion.equals('nickname')">
+            LEFT JOIN `twd_member`.`users` ON articles.user_email = users.email
+        </if>
+        WHERE `articles`.`board_id` = board.id
+        <if test="criterion !=null and criterion.equals('title')">
+            AND REPLACE(`articles`.`title`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%')
+        </if>
+        <if test="criterion !=null and criterion.equals('all')">
+            AND (REPLACE(`articles`.`title`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%')
+            OR REPLACE(`articles`.`content`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%'))
+        </if>
+        <if test="criterion !=null and criterion.equals('nickname')">
+            AND BINARY `users`.`nickname` = #{keyword}
+        </if>
+    </select>
+</mapper>
