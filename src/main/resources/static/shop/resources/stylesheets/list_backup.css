@@ -38,6 +38,10 @@ body > .main > .search-form {
     padding: 0.5rem 0.875rem;
 }
 
+.--object-input.input{
+    text-align: center;
+}
+
 .--object-button {
     background-color: rgb(169, 175, 126);
     box-sizing: border-box;

@@ -17,7 +17,14 @@ public interface IShopMapper {
                                     @Param(value = "keyword") String keyword,
                                     @Param(value = "criterion") String criterion);
 
-    ProductVo[] selectArticlesByBoardId(@Param(value = "boardText") String boardText,
+//    ProductVo[] selectArticleCountByBoardId(@Param(value = "boardText") String boardText,
+//                                        @Param(value = "limit") int limit,
+//                                        @Param(value = "offset") int offset,
+//                                        @Param(value = "criterion") String criterion,
+//                                        @Param(value = "keyword") String keyword);
+
+    // 되면 위에꺼 삭제
+    ProductVo[] selectArticlesByBoardId(@Param(value = "boardId") String boardId,
                                         @Param(value = "limit") int limit,
                                         @Param(value = "offset") int offset,
                                         @Param(value = "criterion") String criterion,
@@ -28,7 +35,7 @@ public interface IShopMapper {
 
     ProductVo[] selectAllArticles();
 
-    BoardEntity selectBoardById(@Param(value = "id") String id);
+    BoardEntity selectBoardById(@Param(value = "bid") String id);
 
     BoardEntity[] selectBoards();
 

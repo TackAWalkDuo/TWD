@@ -46,7 +46,10 @@ public class ShopService {
     public BoardEntity getBoard(String id)
     // id 는 게시판의 id임 notice 등
     {
-        return this.shopMapper.selectBoardById(id);
+        BoardEntity boardEntity = this.shopMapper.selectBoardById(id);
+        System.out.println("보드 아이디는" + boardEntity.getId());
+        return boardEntity;
+//        return this.shopMapper.selectBoardById(id);
     }
 
     // 인터셉터용
