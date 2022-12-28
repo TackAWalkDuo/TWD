@@ -115,7 +115,7 @@
                     </td>
                     <td th:text="${article.getUserNickname()}">레너드</td>
                     <td th:text="${article.getView()}">17</td>
-                    <td>추천수</td>
+                    <td th:text="${article.getArticleLikedCount()}">추천수</td>
                     <td th:text="${#dates.format(article.getModifiedOn(), 'yyyy-MM-dd HH:mm:ss')}">2022-01-03 00:00:00
                     </td>
                 </tr>

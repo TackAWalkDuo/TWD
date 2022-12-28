@@ -1,3 +1,8 @@
+a {
+    text-decoration: none;
+    color: black;
+}
+
 body > .--header {
     position: sticky;
     top: 0;
@@ -13,29 +18,34 @@ body > .--header {
 
 #map {
     height: 100%;
-    width: 70%;
+    width: 100%;
     z-index: 0;
 }
 
+
 #container {
     position: absolute;
-    height: 60%;
-    z-index: 0;
+    height: 85%;
+    z-index: 3;
 
-    top: 20%;
-    left: 15%;
+    top: 10%;
+    left: 1rem;
 
     overflow: hidden auto;
 
     align-items: start;
-    display: flex;
+    display: none;
     flex-direction: row;
     justify-content: flex-start;
+    border-radius: 0.7rem;
+}
+
+#container.fold {
+    display: flex;
 }
 
 
 #listContainer {
-    min-width: 40%;
     height: 100%;
     background-color: white;
     overflow: hidden auto;
@@ -53,7 +63,7 @@ body > .--header {
     margin-top: 0.5rem;
     border: 0.0625rem solid rgb(169, 169, 169);
     text-align: center;
-
+    min-width: 18rem;
 
     font-size: 2rem;
 }
@@ -103,7 +113,7 @@ body > .--header {
     width: 4.5rem;
     aspect-ratio: 1 / 1;
     border-radius: 0.5rem;
-    margin-left: 0.5rem;
+    margin-right: 1rem;
     object-fit: cover;
     object-position: center;
 }
@@ -114,12 +124,12 @@ body > .--header {
     align-items: stretch;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
 }
 
 #list > .item > .top > .info > .name {
-    font-size: 1.25rem;
-    color: rgb(52, 152, 219);
+    font-size: 1rem;
+    color: black;
     margin-bottom: 0.5rem;
     white-space: nowrap;
 }
@@ -136,11 +146,16 @@ body > .--header {
 #list > .item > .top > .info > .interest-container > * {
     align-items: center;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
+    margin-right: 0.5rem;
 }
 
 #list > .item > .top > .info > .interest-container > * + * {
+    margin-left: 0.5rem;
+}
+
+#list > .item > .top > .info > .interest-container > * > * + * {
     margin-left: 0.5rem;
 }
 
@@ -148,11 +163,15 @@ body > .--header {
     margin-bottom: 1rem;
 }
 
+#list > .item >.address {
+    padding-top: 0.3rem;
+}
+
 
 #detailContainer {
     background-color: white;
     flex-basis: 22.5rem;
-    width: 17rem;
+    max-width: 0;
     height: 100%;
     z-index: 3;
     overflow: auto;
@@ -161,14 +180,16 @@ body > .--header {
     transition-timing-function: ease-in-out;
 
     align-items: stretch;
-    display: none;
+    display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 0 0.5rem;
+
 }
 
 #detailContainer.visible {
-    display: flex;
+    max-width: 22.5rem;
+    min-width: 22.5rem;
+    padding: 0 0.5rem;
 }
 
 #detailContainer > .modifyMenu {
@@ -179,16 +200,22 @@ body > .--header {
 
     padding-bottom: 0.5rem;
 }
-#detailContainer > .modifyMenu.visible{
+
+#detailContainer > .modifyMenu.visible {
     display: flex;
 }
 
 #detailContainer > .title-container {
-    align-items: flex-start;
+    align-items: center;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding: 0.3rem 0.5rem;
+    width: 20rem;
+}
+
+#detailContainer > .title-container > .title {
+    font-size: 1.5rem;
 }
 
 #detailContainer > .image-container > .image {
@@ -209,6 +236,11 @@ body > .--header {
 
 #detailContainer > .interest-container > * + * {
     margin-left: 0.8rem;
+}
+
+
+.interest-container > .like-container > .like-icon {
+    font-weight: 50;
 }
 
 #detailContainer > .interest-container > .like-container > * {
@@ -244,6 +276,11 @@ body > .--header {
 
 #detailContainer > .info-container > .address {
     padding-bottom: 1rem;
+}
+
+#detailContainer > .info-container > .address > .text {
+    text-decoration: none;
+    color: black;
 }
 
 #detailContainer > .info-container > .content {
@@ -361,17 +398,6 @@ body > .--header {
     display: none;
 }
 
-#reviewForm > .image-select-button {
-    color: rgb(52, 152, 219);
-    font-size: 0.9rem;
-    text-decoration: none;
-}
-
-#reviewForm > .image-select-button:hover {
-    text-decoration: underline;
-}
-
-
 #reviewForm > .review-container {
     list-style-type: none;
     margin-block: unset;
@@ -405,7 +431,7 @@ body > .--header {
 
 
 #reviewForm > .review-container > .item > .modifyMenu,
-#reviewForm > .review-container > .item > .modifyText{
+#reviewForm > .review-container > .item > .modifyText {
     align-items: end;
     display: flex;
     flex-direction: row;
@@ -413,9 +439,10 @@ body > .--header {
 
     padding-bottom: 0.5rem;
 }
+
 #detailContainer > .modifyMenu > * + *,
 #reviewForm > .review-container > .item > .modifyMenu > * + * {
-    padding-left: 0.5rem;
+    margin-left: 1rem;
 }
 
 
@@ -476,6 +503,7 @@ body > .--header {
     margin-bottom: 0.5rem;
     padding: 0.5rem 0.75rem;
 }
+
 #reviewForm > .review-container > .item > .basic {
     display: flex;
 }
@@ -483,7 +511,8 @@ body > .--header {
 #reviewForm > .review-container > .item > .basic.modifying {
     display: none;
 }
-#reviewForm > .review-container > .item > .modify{
+
+#reviewForm > .review-container > .item > .modify {
     display: none;
 }
 
@@ -498,3 +527,68 @@ body > .--header {
     justify-content: space-between;
 }
 
+#foldContainer {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    z-index: 2;
+
+    width: 4rem;
+    height: 5rem;
+
+    margin-left: 1rem;
+
+    border-radius: 1.2rem;
+    box-shadow: 0.2rem 0.2rem 0.1rem 0.0625rem rgba(0, 0, 0, 10%);
+}
+
+#foldContainer.open-list {
+    left: 20.5rem;
+}
+
+#foldContainer.open-details {
+    left: 43.5rem;
+}
+
+
+.modify-button {
+    text-align: center;
+    font-size: 1rem;
+    background-color: rgba(50, 203, 255, 50%);
+    color: white;
+    padding: 0.5rem;
+    border-radius: 0.325rem;
+}
+
+.delete-button, .modifyCancel {
+    text-align: center;
+    font-size: 1rem;
+    background-color: rgba(245, 54, 54, 50%);
+    color: white;
+    padding: 0.5rem;
+    border-radius: 0.325rem;
+}
+
+.image-select-button {
+    color: rgb(52, 152, 219);
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+.image-select-button:hover,
+.image-delete-button:hover{
+    text-decoration: underline;
+}
+
+.image-delete-button {
+    color: rgb(198, 98, 36);
+    font-size: 0.9rem;
+    text-decoration: none;
+}

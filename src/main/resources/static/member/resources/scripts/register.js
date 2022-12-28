@@ -85,6 +85,24 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
             form['contact'].focus();
             return;
         }
+        if (form['birthYear'].value === '') {
+            Warning.show('출생년도(년도)를 입력해주세요.')
+            form['birthYear'].focus();
+            return;
+        }
+
+        const birthMonth = document.getElementById("birthMonth");
+        const selectedValue = birthMonth.options[birthMonth.selectedIndex].value;
+        if (selectedValue === '월') {
+            Warning.show('출생년도(월)을 입력해주세요.')
+            form['birthMonth'].focus();
+            return;
+        }
+        if (form['birthDay'].value === '') {
+            Warning.show('출생년도(일)을 입력해주세요.')
+            form['birthDay'].focus();
+            return;
+        }
 
         const checkGenderMan = document.querySelector('[rel="genderMan"]');
         const checkGenderWoman = document.querySelector('[rel="genderWoman"]');
@@ -123,6 +141,9 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
         formData.append('nickname', form['nickname'].value);
         formData.append('name', form['name'].value);
         formData.append('contact', form['contact'].value);
+        formData.append('birthYear', form['birthYear'].value);
+        formData.append('birthMonth', form['birthMonth'].value);
+        formData.append('birthDay', form['birthDay'].value);
         formData.append('gender', form['gender'].value);
         formData.append('haveDog', form['haveDog'].value);
         formData.append('species', form['species'].value);
@@ -242,7 +263,6 @@ form['emailVerify'].addEventListener('click', () => {
         form['emailAuthCode'].select();
         return;
     }
-    //Cover.show('인증번호를 확인하고 있습니다.\n\n 잠시만 기다려 주세요.');
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     formData.append('email', form['email'].value);

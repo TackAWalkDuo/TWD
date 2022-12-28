@@ -26,7 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
-@Service(value = "dev.test.take_a_walk_duo.services.ShopService")
+@Service(value = "dev.twd.take_a_walk_duo.services.ShopService")
 public class ShopService {
     private final IShopMapper shopMapper;
     private final IMemberMapper memberMapper;

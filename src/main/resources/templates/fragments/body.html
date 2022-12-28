@@ -6,11 +6,10 @@
             TAKE A WALK <span class="duo">DUO</span>
         </a>
         <ul class="--menu --main" id="selected">
-            <!--/*@thymesVar id="boards" type="dev.twd.take_a_walk_duo.entities.bbs.BoardEntity[]"*/-->
             <li th:class="${'--item ' + board.getId()}" th:if="${board.getBoardId() == null}" th:each="board : ${boards}">
                 <a class="--link small"
                    th:text="${board.getText()}"
-                   th:if="${board.getId()} == 'walk'" th:href="@{/map/walk-read}"></a>
+                   th:if="${board.getId()} == 'walk'" th:href="@{/map/read}"></a>
                 <a class="--link small"
                    th:text="${board.getText()}"
                    th:if="${board.getId()} == 'shop'" th:href="@{/shop/main}">
@@ -20,16 +19,32 @@
                    th:if="${board.getId()} != 'walk' and ${board.getId()} != 'shop'"
                    th:href="@{/bbs/list(bid=${board.getId()})}"></a>
             </li>
-            <li class="--item">
-                <a class="--link border" th:if="${session.user == null}" th:href="@{/member/login}">로그인</a>
-                <a class="--link border" th:if="${session.user != null}"
-                th:href="@{/member/logout}">로그아웃</a>
+            <li class="--item" th:if="${session.user == null}">
+                <a class="--link border" th:href="@{/member/login}">
+                    <i class="icon fa-regular fa-user"></i>
+                    로그인
+                </a>
             </li>
-            <li class="--item">
-                <a class="--link border" th:href="@{/member/register}">회원가입</a>
+            <li class="--item" th:if="${session.user == null}">
+                <a class="--link border" th:href="@{/member/register}">
+                    <i class="icon fa-solid fa-user-plus"></i>
+                    회원가입
+                </a>
             </li>
-            <li class="--item">
-                <a class="--link border" th:href="@{#}">장바구니</a>
+            <li class="--item" th:if="${session.user != null}">
+                <a class="--link border" th:href="@{/member/logout}">
+                    <i class="fa-solid fa-user-minus"></i>
+                    로그아웃</a>
+            </li>
+            <li class="--item" th:if="${session.user != null}">
+                <a class="--link border" th:href="@{/member/myPage}">
+                    <i class="icon fa-solid fa-m"></i>
+                    마이페이지</a>
+            </li>
+            <li class="--item" th:if="${session.user != null}">
+                <a class="--link border" th:href="@{/member/shopping}">
+                    <i class="icon fa-solid fa-cart-shopping"></i>
+                    장바구니</a>
             </li>
         </ul>
     </div>

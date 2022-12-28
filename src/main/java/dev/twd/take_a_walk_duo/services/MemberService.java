@@ -32,7 +32,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
-@Service(value = "dev.test.take_a_walk_duo.services.MemberService")
+@Service(value = "dev.twd.take_a_walk_duo.services.MemberService")
 public class MemberService {
     private final JavaMailSender mailSender;
 
@@ -196,7 +196,7 @@ public class MemberService {
         Context context = new Context();
         context.setVariable("code", emailAuth.getCode());
 
-        String text = this.templateEngine.process("static/member/registerEmailAuth", context);
+        String text = this.templateEngine.process("member/registerEmailAuth", context);
         MimeMessage mail = this.mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mail, "UTF-8");
         helper.setFrom("rmsgh1202@gmail.com");
@@ -291,7 +291,7 @@ public class MemberService {
         context.setVariable("code", emailAuth.getCode());
         context.setVariable("salt", emailAuth.getSalt());
 
-        String text = this.templateEngine.process("static/member/recoverPasswordEmailAuth", context);
+        String text = this.templateEngine.process("member/recoverPasswordEmailAuth", context);
         MimeMessage mail = this.mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mail, "UTF-8");
         helper.setFrom("rootgo1@twd.com");

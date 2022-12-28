@@ -5,22 +5,24 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>산책 게시판 - 글쓰기</title>
+    <title>산책 게시판 - 수정하기</title>
     <th:block th:replace="~{fragments/head}"></th:block>
     <script src="https://kit.fontawesome.com/5c01421323.js" crossorigin="anonymous"></script>
     <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3dd5def9cc8bbac0d245f16beaca36c9&libraries=services"></script>
-    <script defer th:src="@{/map/resources/scripts/walkWrite.js}"></script>
+    <script defer th:src="@{/map/resources/scripts/walkModify.js}"></script>
     <link rel="stylesheet" th:href="@{/map/resources/stylesheets/walkWrite.css}">
-    <!--/*@thymesVar id="user" type="dev.twd.take_a_walk_duo.entities.member.UserEntity"*/-->
-<!--    <script th:if="${user == null}">-->
-<!--        alert('로그인 후 다시 시도해 주세요.');-->
-<!--        window.location.href='/member/login';-->
-<!--    </script>-->
+
+    <script th:if="${place == null}">
+        alert('존재하지 않는 게시글입니다..');
+        if (window.history.length > 1) window.history.back();
+        else window.close();
+    </script>
+
 
 </head>
 
-<body>
+<body th:if="${place != null}">
 <th:block th:replace="~{fragments/body :: header}"></th:block>
 
 <section class="map-container" id="mapContainer">
@@ -29,29 +31,28 @@
 
         <form class="walk-article" id="walkArticle">
             <div class="submit-container">
-                <input type="submit" class="--object-button write" value="작성">
+                <input type="submit" class="--object-button write" value="수정">
             </div>
             <input hidden accept="image/" name="images" type="file">
-            <input hidden name="lat">
-            <input hidden name="lng">
-            <input hidden name="address">
+            <input hidden name="lat" rel="lat" th:value="${place.getLatitude()}">
+            <input hidden name="lng" rel="lng" th:value="${place.getLongitude()}">
+            <input hidden name="address" th:value="${place.getAddress()}">
+            <input hidden name="userEmail" th:value="${place.getUserEmail()}">
             <div class="title-container">
-                <input name="place_title" class="title" placeholder="어디인가요?">
+                <input name="place_title" class="title" placeholder="어디인가요?" th:value="${place.getTitle()}">
             </div>
             <div class="image-container" rel="imageContainer">
-                <div class="image-menu">
+                <div class="image-button-container">
                     <a href="#" class="image-select-button" rel="imageSelectButton">이미지 선택...</a>
-                    <a href="#" class="image-delete-button" rel="imageDeleteButton">이미지 삭제</a>
-                </div>
-                <div class="no-image" rel="noImage">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    <div class="text">NO Select Image</div>
+                    <a href="#" class="image-delete-button" rel="imageDeleteButton">기본 이미지</a>
                 </div>
 
+                <img class="no-image hidden" rel="noImage" src="/resources/images/mococo.jpg">
+                <img class="image" rel="thumbnail" alt="">
             </div>
             <div class="content-container">
                 <textarea type="text" class="content" maxlength="100" name="content"
-                          placeholder="간단한 소개를 작성해주세요."></textarea>
+                          placeholder="간단한 소개를 작성해주세요." th:text="${place.getContent()}"></textarea>
             </div>
 
         </form>

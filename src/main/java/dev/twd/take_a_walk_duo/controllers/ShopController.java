@@ -27,7 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@Controller(value = "dev.test.take_a_walk_duo.controllers.ShopController")
+@Controller(value = "dev.twd.take_a_walk_duo.controllers.ShopController")
 @RequestMapping(value = "/shop")
 public class ShopController {
     private final ShopService shopService;

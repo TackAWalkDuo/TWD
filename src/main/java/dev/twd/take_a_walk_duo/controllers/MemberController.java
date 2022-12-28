@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
-@Controller(value = "dev.test.study_member_bbs.controllers.MemberController")
+@Controller(value = "dev.twd.study_member_bbs.controllers.MemberController")
 @RequestMapping(value = "member")
 public class MemberController {
     private final MemberService memberService;
@@ -27,10 +27,32 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    /**
-     * 카카오 로그인
-     * rootgo
-     */
+    // 정보수정
+    @RequestMapping(value = "changeInformation",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getChangeInformation() {
+        ModelAndView modelAndView = new ModelAndView("member/changeInformation");
+        return modelAndView;
+    }
+
+    // 탈퇴하기
+    @RequestMapping(value = "secession",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getSecession() {
+        ModelAndView modelAndView = new ModelAndView("member/secession");
+        return modelAndView;
+    }
+
+    // 마이페이지
+    @RequestMapping(value = "myPage",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getMyPage() {
+        ModelAndView modelAndView = new ModelAndView("member/myPage");
+        return modelAndView;
+    }
 
     // 카카오 로그인
     @GetMapping(value = "kakao", produces = MediaType.TEXT_PLAIN_VALUE)
@@ -61,6 +83,7 @@ public class MemberController {
         ModelAndView modelAndView = new ModelAndView("member/login");
         return modelAndView;
     }
+
     // TODO recaptcha 체크 안했을 때 로그인이 안되게 해야함.
     // 로그인 POST
     @RequestMapping(value = "login",

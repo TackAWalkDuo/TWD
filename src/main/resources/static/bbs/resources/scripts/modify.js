@@ -1,5 +1,8 @@
 const form = window.document.getElementById('form');
 
+
+
+
 let editor;
 ClassicEditor
     .create(form['content'], {

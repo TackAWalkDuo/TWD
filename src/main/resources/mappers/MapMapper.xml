@@ -57,6 +57,49 @@
         GROUP BY `article`.`index`
     </select>
 
+    <select id="selectPlace"
+            resultType="dev.twd.take_a_walk_duo.vos.map.PlaceVo">
+        SELECT `article`.`index`          AS 'index',
+               `article`.`user_email`     AS 'userEmail',
+               `article`.`board_id`       AS 'boardId',
+               `article`.`title`          AS 'title',
+               `article`.`content`        AS 'content',
+               `article`.`thumbnail`      AS 'thumbnail',
+               `article`.`thumbnail_type` AS 'thumbnailType',
+               `article`.`view`           AS 'view',
+               `article`.`written_on`     AS 'writtenOn',
+               `article`.`modified_on`    AS 'modifiedOn',
+               `location`.`address`       AS 'address',
+               `location`.`latitude`      AS 'latitude',
+               `location`.`longitude`     AS 'longitude'
+        FROM `twd_bbs`.`articles` AS `article`
+                 LEFT JOIN `twd_bbs`.`location` ON `article`.`index` = `location`.`article_index`
+        WHERE `article`.`index` = #{index}
+
+    </select>
+
+    <select id="selectLocationByArticleIndex"
+            resultType="dev.twd.take_a_walk_duo.entities.bbs.map.LocationEntity">
+        SELECT `index`         AS 'index',
+               `article_index` AS 'articleIndex',
+               `address`       AS 'address',
+               `latitude`      AS 'latitude',
+               `longitude`     AS 'longitude'
+        FROM `twd_bbs`.`location`
+        WHERE article_index = #{articleIndex}
+    </select>
+
+    <update id="updateLocation"
+            parameterType="dev.twd.take_a_walk_duo.entities.bbs.map.LocationEntity">
+        UPDATE `twd_bbs`.`location`
+        SET `article_index` = #{articleIndex},
+            `address`       = #{address},
+            `latitude`      = #{latitude},
+            `longitude`     = #{longitude}
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
+
 </mapper>
 
 

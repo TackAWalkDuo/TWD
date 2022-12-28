@@ -43,6 +43,7 @@ form.onsubmit = (e) => {
     formData.append('email', form['email'].value);
     formData.append('password', form['password'].value);
     xhr.open('POST', './login');
+    console.log("확인");
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             // Cover.hide();
@@ -50,7 +51,11 @@ form.onsubmit = (e) => {
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
                     case 'success':
-                        window.location.href = '/';
+                        console.log(document.referrer);
+                        if (window.history.length > 2) window.location.href = document.referrer;
+                        else {
+                            window.location.href = '/';
+                        }
                         break;
                     default:
                         Warning.show('이메일 혹은 비밀번호가 올바르지 않습니다.');
