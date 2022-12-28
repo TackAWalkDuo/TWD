@@ -473,7 +473,7 @@ const loadReview = (articleIndex) => {
                             // formData.append("userEmail", reviewForm['userEmail'].value);
                             formData.append("userEmail", reviewObject['userEmail']);
                             formData.append("content", itemElement.querySelector('[rel="modifyContent"]').value);
-                            formData.append("articleIndex", reviewForm['articleIndex'].value);
+                            // formData.append("articleIndex", reviewForm['articleIndex'].value);
                             formData.append("index", itemElement.querySelector('[rel="commentIndex"]').value);
                             formData.append("modifyFlag", imageModifyFlag);
 
@@ -632,11 +632,4 @@ function foldChangeIcon(flag) {
         foldIcon.classList.add("fa-greater-than");
     }
 }
-
-
-//<i class="fa-solid fa-greater-than"></i>
-//<i class="fa-solid fa-less-than"></i>
-
-
-
 

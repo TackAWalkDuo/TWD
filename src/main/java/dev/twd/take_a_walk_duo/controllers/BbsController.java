@@ -323,7 +323,7 @@ public class BbsController {
     @ResponseBody
     public String postCommentModify(@SessionAttribute(value = "user") UserEntity user,
                              CommentEntity comment,
-                             @RequestParam(value = "modifyFlag") Boolean modifyFlag,
+                             @RequestParam(value = "modifyFlag", required = false) Boolean modifyFlag,
                              @RequestParam(value = "images", required = false) MultipartFile[] images)
             throws IOException {
         JSONObject responseObject = new JSONObject();

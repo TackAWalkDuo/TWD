@@ -35,7 +35,7 @@ public class MapController {
     @ResponseBody
     public String postWalkWrite(ArticleEntity article,
                                 LocationEntity location,
-                                @RequestParam(value = "images", required = false) MultipartFile[] images,
+                                @RequestParam(value = "images", required = false, defaultValue = "false") MultipartFile[] images,
                                 @SessionAttribute(value = "user", required = false) UserEntity user)
             throws IOException {
         Enum<?> result = this.mapService.addWalkArticle(article, location, images, user);

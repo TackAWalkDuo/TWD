@@ -51,12 +51,10 @@ form.onsubmit = (e) => {
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
                     case 'success':
-                        if (window.document.referrer && window.document.referrer.indexOf("http://localhost:8080/") !== -1) {
-                            // 뒤로 갈 히스토리가 있는 경우 및 우리 시스템에서 링크를 통해 유입된 경우
-                            // todo url 주소로 변경해야함
-                            window.history.back();
-                        } else {
-                            window.location.href = '/member';
+                        console.log(document.referrer);
+                        if (window.history.length > 2) window.location.href = document.referrer;
+                        else {
+                            window.location.href = '/';
                         }
                         break;
                     default:

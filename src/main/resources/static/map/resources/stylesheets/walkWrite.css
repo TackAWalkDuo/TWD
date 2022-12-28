@@ -90,7 +90,8 @@ body > .--header {
     width: 18rem;
 }
 
-#writeContainer > .walk-article > .image-container > .no-image {
+#writeContainer > .walk-article > .image-container > .no-image,
+#writeContainer > .walk-article > .image-container > .image {
     font-size: 1.2rem;
     background-color: rgb(234, 236, 238);
     border-radius: 0.5rem;
@@ -98,11 +99,13 @@ body > .--header {
     padding: 1rem;
 }
 
-#writeContainer > .walk-article > .image-container > .no-image > * {
+#writeContainer > .walk-article > .image-container > .no-image > *,
+#writeContainer > .walk-article > .image-container > .image > * {
     font-size: 1.8rem;
 }
 
-#writeContainer > .walk-article > .image-container > .no-image > * + * {
+#writeContainer > .walk-article > .image-container > .no-image > * + *,
+#writeContainer > .walk-article > .image-container > .image > * + * {
     margin-top: 0.7rem;
 }
 
@@ -110,17 +113,32 @@ body > .--header {
     display: none;
 }
 
-#writeContainer > .walk-article > .image-container > .image-select-button,
+#writeContainer > .walk-article > .image-container > .image-menu {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    width: 80%;
+}
+
+#writeContainer > .walk-article > .image-container > .image-menu > .image-select-button,
+#writeContainer > .walk-article > .image-container > .image-menu > .image-delete-button,
 #writeContainer > .walk-article > .image-container > .image-button-container > .image-select-button {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: rgb(52, 152, 219);
     text-decoration: none;
     margin-bottom: 0.3rem;
 }
 
-#writeContainer > .walk-article > .image-container > .image-select-button:active,
+#writeContainer > .walk-article > .image-container > .image-menu > .image-select-button:active,
+#writeContainer > .walk-article > .image-container > .image-menu > .image-delete-button-button:active,
 #writeContainer > .walk-article > .image-container > .image-button-container > .image-select-button:active {
     color: inherit;
+}
+
+#writeContainer > .walk-article > .image-container > .image-menu > .image-delete-button {
+    color: rgb(198, 98, 31);
 }
 
 #writeContainer > .walk-article > .image-container > .image-button-container {
@@ -132,8 +150,8 @@ body > .--header {
 }
 
 #writeContainer > .walk-article > .image-container > .image {
-    width: 60%;
-    aspect-ratio: 4 / 3;
+    width: 70%;
+    aspect-ratio: 1 / 1;
     cursor: pointer;
     border: 0.0625rem solid rgb(234, 236, 238);
     object-fit: cover;

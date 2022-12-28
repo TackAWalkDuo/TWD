@@ -1,5 +1,6 @@
 const map = window.document.getElementById("map");
 const walkArticle = window.document.getElementById("walkArticle");
+const imageContainerElement = walkArticle.querySelector('[rel="imageContainer"]');
 
 let mapObject;
 
@@ -110,7 +111,6 @@ walkArticle.querySelector('[rel="imageSelectButton"]').addEventListener('click',
 
 //이미지 찾기에서 이미지를 선택할 경우.
 walkArticle['images'].addEventListener('input', () => {
-    const imageContainerElement = walkArticle.querySelector('[rel="imageContainer"]');
     imageContainerElement.querySelectorAll('img.image').forEach(x => x.remove());
     if (walkArticle['images'].files.length > 0) {
         walkArticle.querySelector('[rel="noImage"]').classList.add('hidden')
@@ -187,7 +187,11 @@ walkArticle.onsubmit = e => {
     xhr.send(formData);
 };
 
-
+walkArticle.querySelector('[rel="imageDeleteButton"]').addEventListener('click', ()=> {
+    walkArticle['images'].files = null;
+    imageContainerElement.querySelectorAll('img.image').forEach(x => x.remove());
+    walkArticle.querySelector('[rel="noImage"]').classList.remove('hidden')
+});
 
 
 

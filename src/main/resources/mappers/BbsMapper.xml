@@ -130,7 +130,7 @@
         VALUES (#{commentIndex}, #{data}, #{type})
     </insert>
 
-    <select id="selectCommentByIndex"
+    <select id="selectCommentsByIndex"
             resultType="dev.twd.take_a_walk_duo.vos.bbs.CommentVo">
         SELECT `comment`.`index`         AS 'index',
                `comment`.`comment_index` AS 'commentIndex',
@@ -143,6 +143,22 @@
                  LEFT JOIN `twd_member`.`users` AS `user` ON `comment`.`user_email` = `user`.`email`
         WHERE `comment`.`article_index` = #{index}
     </select>
+
+    <select id="selectCommentByIndex"
+            resultType="dev.twd.take_a_walk_duo.vos.bbs.CommentVo">
+        SELECT `comment`.`index`         AS 'index',
+               `comment`.`comment_index` AS 'commentIndex',
+               `comment`.`user_email`    AS 'userEmail',
+               `comment`.`content`       AS 'content',
+               `comment`.`article_index` AS 'articleIndex',
+               `comment`.`written_on`    AS 'writtenOn',
+               `user`.`nickname`         AS 'nickname'
+        FROM `twd_bbs`.`comments` AS `comment`
+                 LEFT JOIN `twd_member`.`users` AS `user` ON `comment`.`user_email` = `user`.`email`
+        WHERE `comment`.`index` = #{index}
+        LIMIT 1
+    </select>
+
 
     <select id="selectCommentImagesByCommentIndexExceptData"
             resultType="dev.twd.take_a_walk_duo.entities.bbs.CommentImageEntity">
@@ -194,7 +210,8 @@
         SET `comment_index` = #{commentIndex},
             `user_email`    = #{userEmail},
             `content`       = #{content},
-            `article_index` = #{articleIndex}
+            `article_index` = #{articleIndex},
+            `written_on`    = #{writtenOn}
         WHERE `index` = #{index}
         LIMIT 1
     </update>

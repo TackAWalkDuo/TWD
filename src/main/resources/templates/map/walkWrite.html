@@ -12,7 +12,11 @@
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3dd5def9cc8bbac0d245f16beaca36c9&libraries=services"></script>
     <script defer th:src="@{/map/resources/scripts/walkWrite.js}"></script>
     <link rel="stylesheet" th:href="@{/map/resources/stylesheets/walkWrite.css}">
-
+    <!--/*@thymesVar id="user" type="dev.twd.take_a_walk_duo.entities.member.UserEntity"*/-->
+    <script th:if="${user == null}">
+        alert('로그인 후 다시 시도해 주세요.');
+        window.location.href='/member/login';
+    </script>
 
 </head>
 
@@ -35,7 +39,10 @@
                 <input name="place_title" class="title" placeholder="어디인가요?">
             </div>
             <div class="image-container" rel="imageContainer">
-                <a href="#" class="image-select-button" rel="imageSelectButton">이미지 선택...</a>
+                <div class="image-menu">
+                    <a href="#" class="image-select-button" rel="imageSelectButton">이미지 선택...</a>
+                    <a href="#" class="image-delete-button" rel="imageDeleteButton">이미지 삭제</a>
+                </div>
                 <div class="no-image" rel="noImage">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                     <div class="text">NO Select Image</div>

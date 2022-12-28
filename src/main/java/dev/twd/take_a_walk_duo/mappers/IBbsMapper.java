@@ -68,7 +68,8 @@ public interface IBbsMapper {
     ImageEntity selectImageByIndex(@Param(value = "index") int index);
 
     // 게시글 댓글
-    CommentVo[] selectCommentByIndex(@Param(value = "index") int index);
+    CommentVo[] selectCommentsByIndex(@Param(value = "index") int index);
+    CommentVo selectCommentByIndex(@Param(value = "index") int index);
     //댓글의 이미지 가져오기(map 에서 사용)
     CommentImageEntity[] selectCommentImagesByCommentIndexExceptData(@Param(value = "commentIndex") int commentIndex);
 

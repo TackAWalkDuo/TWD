@@ -197,7 +197,7 @@ public class BbsService {
     //댓글 불러오기 and 이미지 index 가져오기
 
     public CommentVo[] getComment(int index) {
-        CommentVo[] comments = this.bbsMapper.selectCommentByIndex(index);
+        CommentVo[] comments = this.bbsMapper.selectCommentsByIndex(index);
         for(CommentVo comment : comments){
             CommentImageEntity[] commentImage = this.bbsMapper.selectCommentImagesByCommentIndexExceptData(comment.getIndex());
             int[] reviewImageIndexes = Arrays.stream(commentImage).mapToInt(CommentImageEntity::getIndex).toArray();
@@ -216,28 +216,31 @@ public class BbsService {
     @Transactional
     public Enum<? extends IResult> modifyComment(UserEntity user, CommentEntity comment,
                                                  MultipartFile[] images, Boolean modifyFlag) throws IOException {
+        CommentVo existingComment = this.bbsMapper.selectCommentByIndex(comment.getIndex());
         //로그인 안했을 경우.
         if(user == null) return CommonResult.NOT_SIGNED;
         //로그인 사용자와 댓글 작성자가 다를 경우.
         if(!user.getEmail().equals(comment.getUserEmail()))
             return WriteResult.NOT_SAME;
+
         //존재하지 않는 댓글일 경우.
-        if(this.bbsMapper.selectCommentByIndex(comment.getIndex()) == null)
+        if(this.bbsMapper.selectCommentsByIndex(comment.getIndex()) == null)
             return ReadResult.NO_SUCH_COMMENT;
 
-        comment.setWrittenOn(new Date()); // 날짜를 현재 날짜로 변경.
+        existingComment.setContent(comment.getContent());
+        existingComment.setWrittenOn(new Date()); // 날짜를 현재 날짜로 변경.
         //update 시작.
-        if(this.bbsMapper.updateComment(comment) < 0 )
+        if(this.bbsMapper.updateComment(existingComment) < 0 )
             return CommonResult.FAILURE;
 
         if(modifyFlag){
             //변경되었다면 기존의 이미지는 전부 삭제.
-            this.bbsMapper.deleteCommentImage(comment.getIndex());
+            this.bbsMapper.deleteCommentImage(existingComment.getIndex());
 
             if (images != null && images.length > 0) {
                 for (MultipartFile image : images) {
                     CommentImageEntity commentImage = new CommentImageEntity();
-                    commentImage.setCommentIndex(comment.getIndex());
+                    commentImage.setCommentIndex(existingComment.getIndex());
                     commentImage.setData(image.getBytes());
                     commentImage.setType(image.getContentType());
                     if (this.bbsMapper.insertCommentImage(commentImage) == 0) {
