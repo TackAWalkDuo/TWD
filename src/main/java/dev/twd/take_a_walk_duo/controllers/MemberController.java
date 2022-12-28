@@ -5,6 +5,7 @@ import dev.twd.take_a_walk_duo.entities.member.KakaoUserEntity;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
 import dev.twd.take_a_walk_duo.services.MemberService;
+import dev.twd.take_a_walk_duo.vos.member.UserInfoVo;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -36,7 +37,7 @@ public class MemberController {
         return modelAndView;
     }
 
-    // 탈퇴하기
+    // 회원 탈퇴
     @RequestMapping(value = "secession",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
@@ -44,13 +45,27 @@ public class MemberController {
         ModelAndView modelAndView = new ModelAndView("member/secession");
         return modelAndView;
     }
+    //todo 탈퇴 post 만들어야함
+//    @RequestMapping(value = "secession",
+//            method = RequestMethod.POST,
+//            produces = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseBody
+//    public String postSecession(UserEntity user, EmailAuthEntity emailAuth) {
+//        Enum<?> result = this.memberService.register(user, emailAuth);
+//        JSONObject responseObject = new JSONObject();
+//        responseObject.put("result", result.name().toLowerCase());
+//        return responseObject.toString();
+//    }
 
     // 마이페이지
     @RequestMapping(value = "myPage",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getMyPage() {
+    public ModelAndView getMyPage(
+            @SessionAttribute(value = "user", required = false) UserEntity user
+    ) {
         ModelAndView modelAndView = new ModelAndView("member/myPage");
+        modelAndView.addObject("users", this.memberService.getUsers(user.getNickname(), user.getHaveDog()));
         return modelAndView;
     }
 
@@ -112,7 +127,6 @@ public class MemberController {
     public ModelAndView getLogout(HttpSession session) {
         session.setAttribute("user", null);
         ModelAndView modelAndView = new ModelAndView("redirect:/");
-        // TODO 로그아웃 하면 바로 전 단계로 가야함
         return modelAndView;
     }
 

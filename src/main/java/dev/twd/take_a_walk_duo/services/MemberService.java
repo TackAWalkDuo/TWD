@@ -10,6 +10,7 @@ import dev.twd.take_a_walk_duo.enums.member.VerifyEmailAuthResult;
 import dev.twd.take_a_walk_duo.interfaces.IResult;
 import dev.twd.take_a_walk_duo.mappers.IMemberMapper;
 import dev.twd.take_a_walk_duo.utils.CryptoUtils;
+import dev.twd.take_a_walk_duo.vos.member.UserInfoVo;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.json.JSONObject;
@@ -32,7 +33,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
-@Service(value = "dev.test.take_a_walk_duo.services.MemberService")
+@Service(value = "dev.twd.take_a_walk_duo.services.MemberService")
 public class MemberService {
     private final JavaMailSender mailSender;
 
@@ -45,6 +46,14 @@ public class MemberService {
         this.mailSender = mailSender;
         this.templateEngine = templateEngine;
         this.memberMapper = MemberMapper;
+    }
+
+    // 유저 정보
+    public UserInfoVo[] getUsers(String nickname, String haveDog) {
+        return this.memberMapper.selectUserByNickname(
+                nickname,
+                haveDog
+        );
     }
 
     // 카카오 access token 발급 받는 getKakaoAccessToken
@@ -127,6 +136,7 @@ public class MemberService {
         user.setAdmin(existingUser.getAdmin());
         return CommonResult.SUCCESS;
     }
+
     // 회원가입
     // 1. 'emailAuth'가 가진 'email', 'code', 'salt' 값 기준으로 새로운 'EmailAuthEntity' SELECT 해서 가져옴
     // 2. <1>에서 가져온 새로운 객체가 null 이거나 이가 가진 inExpired() 호출 결과가 false 인 경우 'RegisterResult.EMAIL_NOT_VERIFIED'를 결과로 반환.

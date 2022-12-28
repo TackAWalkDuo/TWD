@@ -56,20 +56,20 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
         form.classList.remove('step1');// step1 글씨는 사라지게 됨
         form.classList.add('step2');
     } else if (form.classList.contains('step2')) {
-        if (!form['emailSend'].disabled || !form['emailVerify'].disabled) {
-            Warning.show('이메일 인증을 완료해 주세요.');
-            return;
-        }
-        if (form['password'].value === '') {
-            Warning.show('비밀번호를 입력해주세요.')
-            form['password'].focus();
-            return;
-        }
-        if (form['password'].value !== form['passwordCheck'].value) {
-            Warning.show('비밀번호가 서로 일치하지 않습니다.')
-            form['password'].focus();
-            return;
-        }
+        // if (!form['emailSend'].disabled || !form['emailVerify'].disabled) {
+        //     Warning.show('이메일 인증을 완료해 주세요.');
+        //     return;
+        // }
+        // if (form['password'].value === '') {
+        //     Warning.show('비밀번호를 입력해주세요.')
+        //     form['password'].focus();
+        //     return;
+        // }
+        // if (form['password'].value !== form['passwordCheck'].value) {
+        //     Warning.show('비밀번호가 서로 일치하지 않습니다.')
+        //     form['password'].focus();
+        //     return;
+        // }
         if (form['name'].value === '') {
             Warning.show('이름을 입력해주세요.')
             form['name'].focus();

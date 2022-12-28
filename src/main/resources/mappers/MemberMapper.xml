@@ -154,5 +154,13 @@
         WHERE BINARY `index` = #{index}
         LIMIT 1
     </update>
+    
+    <delete id="deleteUser"
+            parameterType="dev.twd.take_a_walk_duo.entities.member.UserEntity">
+        DELETE
+        FROM `twd_member`.`users`
+        WHERE `email` = #{email}
+        LIMIT 1
+    </delete>
 
 </mapper>
