@@ -91,7 +91,6 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
             return;
         }
 
-        // todo selected 수정
         const birthMonth = document.getElementById("birthMonth");
         const selectedValue = birthMonth.options[birthMonth.selectedIndex].value;
         if (selectedValue === '월') {
@@ -264,7 +263,6 @@ form['emailVerify'].addEventListener('click', () => {
         form['emailAuthCode'].select();
         return;
     }
-    //Cover.show('인증번호를 확인하고 있습니다.\n\n 잠시만 기다려 주세요.');
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     formData.append('email', form['email'].value);

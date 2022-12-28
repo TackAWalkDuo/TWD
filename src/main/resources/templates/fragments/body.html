@@ -6,7 +6,6 @@
             TAKE A WALK <span class="duo">DUO</span>
         </a>
         <ul class="--menu --main" id="selected">
-            <!--/*@thymesVar id="boards" type="dev.twd.take_a_walk_duo.entities.bbs.BoardEntity[]"*/-->
             <li th:class="${'--item ' + board.getId()}" th:if="${board.getBoardId() == null}" th:each="board : ${boards}">
                 <a class="--link small"
                    th:text="${board.getText()}"
@@ -19,11 +18,6 @@
                    th:text="${board.getText()}"
                    th:if="${board.getId()} != 'walk' and ${board.getId()} != 'shop'"
                    th:href="@{/bbs/list(bid=${board.getId()})}"></a>
-            </li>
-            <li class="--item" th:if="${session.user == null}">
-                <a class="--link border" th:href="@{/}">
-                    <i class="icon fa-solid fa-house"></i>
-                </a>
             </li>
             <li class="--item" th:if="${session.user == null}">
                 <a class="--link border" th:href="@{/member/login}">

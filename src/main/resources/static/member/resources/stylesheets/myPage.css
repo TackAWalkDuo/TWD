@@ -186,8 +186,13 @@ body {
     height: 15rem;
     background-color: rgb(255, 255, 255);
     border-radius: 0.5rem;
-    border: 0.125rem solid rgb(211, 211, 211);
-    box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+    border: 0.0125rem solid rgb(211, 211, 211);
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 #searchForm {
