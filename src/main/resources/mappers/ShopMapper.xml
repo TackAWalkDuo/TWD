@@ -15,18 +15,19 @@
             resultType="int">
         SELECT COUNT(0)
         FROM `twd_bbs`.`articles` AS `article`
-        LEFT JOIN `twd_shop`.`sale_product` AS `product`
-        ON `article`.`index` = `product`.`article_index`
-        LEFT JOIN `twd_shop`.`product_categories` AS `cotegory`
-        ON `cotegory`.`id` = `product`.`category_text`
+            LEFT JOIN `twd_shop`.`sale_product` AS `product`
+                ON `article`.`index` = `product`.`article_index`
+            LEFT JOIN `twd_shop`.`product_categories` AS `cotegory`
+                ON `cotegory`.`id` = `product`.`category_text`
         WHERE `article`.`board_id` = 'shop' AND `product`.category_text = #{boardId}
-        <if test="criterion !=null and criterion.equals('title')">
+        <if test="criterion != null and criterion.equals('title')">
             AND REPLACE(`article`.`title`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%')
         </if>
-        <if test="criterion !=null and criterion.equals('all')">
+        <if test="criterion != null and criterion.equals('all')">
             AND (REPLACE(`article`.`title`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%')
             OR REPLACE(`article`.`content`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%'))
         </if>
+        ORDER BY `article`.`index` DESC
     </select>
 
     <!--    <select id="selectArticlesByBoardId"-->

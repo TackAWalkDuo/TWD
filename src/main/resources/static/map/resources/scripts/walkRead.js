@@ -86,7 +86,7 @@ detailContainer.show = (placeObject, placeElement) => {
     list.innerHTML =''; // level 을 변경할 경우 zoom_changed event 가 발생하기 때문에 list를 한번 초기화해줍니다.
     setTimeout(()=>{
         loadPlaces();
-    }, 50);
+    }, 300);
 
 }
 // 현재 보고 있는 게시글 list 또는 marker 를 클릭하면 닫힘.

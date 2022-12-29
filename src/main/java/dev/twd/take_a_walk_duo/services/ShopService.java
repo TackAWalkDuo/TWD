@@ -58,7 +58,7 @@ public class ShopService {
     }
 
     public int getArticleCount(BoardEntity board, String criterion, String keyword) {
-        return this.shopMapper.selectArticleCountByBoardId(board.getId(), criterion, keyword);
+        return this.shopMapper.selectArticleCountByBoardId(board.getId(), keyword, criterion);
     }
 
     public ProductVo[] getArticles(BoardEntity board, PagingModel paging, String criterion, String keyword) {

@@ -51,17 +51,18 @@ public class MapService {
                 article.setThumbnailType(image.getContentType());
             }
         } else {
+            System.out.println("check image ");
             byte[] imageInByte;
-            File defaultImage = new File("src/main/resources/static/resources/images/TAWD_logo.png");
+            File defaultImage = new File("src/main/resources/static/resources/images/mococo.jpg");
             BufferedImage originalImage = ImageIO.read(defaultImage);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(originalImage, "png", baos);
+            ImageIO.write(originalImage, "jpg", baos);
             baos.flush();
 
             imageInByte = baos.toByteArray();
 
             article.setThumbnail(imageInByte);
-            article.setThumbnailType("image/png");
+            article.setThumbnailType("image/jpg");
             baos.close();
         }
 

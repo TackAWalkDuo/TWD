@@ -84,7 +84,7 @@ public class ShopController {
         BoardEntity board = this.shopService.getBoard(bid);
         modelAndView.addObject("board", board);
         if (board != null) {
-            int totalCount = this.shopService.getArticleCount(board, criterion, keyword);
+              int totalCount = this.shopService.getArticleCount(board, criterion, keyword);
 
             PagingModel paging = new PagingModel(totalCount, page);
             modelAndView.addObject("paging", paging);
