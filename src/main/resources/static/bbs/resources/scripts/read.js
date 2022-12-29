@@ -387,8 +387,6 @@ likeA.addEventListener('click', e => {
                         } else if (!likeA.classList.contains('visible')) {
                             likeA.classList.add('visible');
                             form.querySelector("[rel='likeCount']").innerText = Number(form.querySelector("[rel='likeCount']").innerText) + 1;
-
-                            // form.querySelector("[rel='likeCount']").innerText = "fuckyou";
                         }
                         break;
                     case 'not_allowed':
