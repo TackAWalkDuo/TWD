@@ -14,8 +14,8 @@ public interface IShopMapper {
     SaleProductEntity selectProductByArticleIndex(@Param(value = "aid") int aid);
 
     int selectArticleCountByBoardId(@Param(value = "boardId") String boardId,
-                                    @Param(value = "keyword") String keyword,
-                                    @Param(value = "criterion") String criterion);
+                                    @Param(value = "criterion") String criterion,
+                                    @Param(value = "keyword") String keyword);
 
 //    ProductVo[] selectArticleCountByBoardId(@Param(value = "boardText") String boardText,
 //                                        @Param(value = "limit") int limit,

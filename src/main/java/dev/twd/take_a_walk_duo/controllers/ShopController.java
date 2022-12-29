@@ -252,5 +252,19 @@ public class ShopController {
         return responseObject.toString();
     }
 
+    // 장바구니
+    @GetMapping(value = "cart",
+            produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getCart(@SessionAttribute(value = "user", required = false) UserEntity user) {
+        ModelAndView modelAndView = new ModelAndView("shop/cart");
+        ProductVo[] products = this.shopService.getAllArticles();
+        modelAndView.addObject("products", products);
+        if (user != null) {
+            modelAndView.addObject("user", user);
+        }
+        return modelAndView;
+    }
+
+
 
 }
