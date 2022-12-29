@@ -9,6 +9,17 @@ public class ArticleReadVo extends ArticleEntity {
     private int articleLikedCount;
     private boolean isSigned;
 
+    private int commentsCount;
+
+    public int getCommentsCount() {
+        return commentsCount;
+    }
+
+    public ArticleReadVo setCommentsCount(int commentsCount) {
+        this.commentsCount = commentsCount;
+        return this;
+    }
+
     public boolean isSigned() {
         return isSigned;
     }

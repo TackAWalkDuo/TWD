@@ -254,6 +254,23 @@ public class BbsService {
         return CommonResult.SUCCESS;
     }
 
+
+    public Enum<? extends IResult> likedComment(CommentLikeEntity commentLikeEntity, UserEntity user) {
+        CommentVo existingComment = this.bbsMapper.selectCommentByIndex(commentLikeEntity.getCommentIndex());
+        if (existingComment == null) {
+            return CommonResult.FAILURE;
+        }
+        if (this.bbsMapper.selectCommentLikeByIndex(commentLikeEntity.getCommentIndex(), user.getEmail()) != null) {
+            return this.bbsMapper.deleteByCommentLiked(commentLikeEntity.getCommentIndex()) > 0
+                    ? CommonResult.SUCCESS
+                    : CommonResult.FAILURE;
+        }
+        commentLikeEntity.setUserEmail(user.getEmail());
+        commentLikeEntity.setCreatedOn(new Date());
+        return this.bbsMapper.insertCommentLike(commentLikeEntity) > 0
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
+    }
     public Enum<? extends IResult> deleteComment(UserEntity user, CommentEntity comment) {
         if(user == null) return CommonResult.NOT_SIGNED;
         if(!user.getEmail().equals(comment.getUserEmail())) return WriteResult.NOT_SAME;

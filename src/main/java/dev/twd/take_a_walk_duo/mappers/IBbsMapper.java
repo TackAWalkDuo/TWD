@@ -33,6 +33,9 @@ public interface IBbsMapper {
     ArticleLikeEntity selectArticleLikeByIndex(@Param(value = "articleIndex") int index,
                                                @Param(value = "userEmail") String email);
 
+    CommentLikeEntity selectCommentLikeByIndex(@Param(value = "commentIndex")int index,
+                                               @Param(value = "userEmail") String email);
+
     //Mr.m
     //ArticleEntity(수정)조회수 만들기
     int updateArticle(ArticleEntity articleEntity);
@@ -48,6 +51,11 @@ public interface IBbsMapper {
     int deleteCommentImage(@Param(value = "commentIndex") int commentIndex);
     //댓글 삭제
     int deleteComment(@Param(value = "index") int index);
+
+    //댓글 좋아요 삭제
+    int insertCommentLike(CommentLikeEntity commentLikeEntity);
+    int deleteByCommentLiked(@Param(value = "commentIndex") int index);
+
 
     int deleteArticle(int index);
 

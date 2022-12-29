@@ -337,6 +337,23 @@ public class BbsController {
         return responseObject.toString();
     }
 
+    @RequestMapping(value = "comment-liked", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postCommentLike(@SessionAttribute(value = "user", required = false) UserEntity user,
+                                  CommentLikeEntity commentLikeEntity) {
+        Enum<?> result;
+        if (user == null) {
+            result = WriteResult.NOT_ALLOWED;
+        } else if (commentLikeEntity.getCommentIndex() == 0) {
+            result = WriteResult.NO_SUCH_BOARD;
+        } else {
+            result = this.bbsService.likedComment(commentLikeEntity, user);
+        }
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("result", result.name().toLowerCase());
+        return responseObject.toString();
+    }
+
     @DeleteMapping(value = "comment", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String deleteComment(@SessionAttribute(value = "user") UserEntity user,
