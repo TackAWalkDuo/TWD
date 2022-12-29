@@ -62,10 +62,12 @@ public class MemberController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getMyPage(
-            @SessionAttribute(value = "user", required = false) UserEntity user
-    ) {
+            @RequestParam(value = "nickname", required = false) String nickname,
+            @RequestParam(value = "haveDog", required = false) String haveDog) {
         ModelAndView modelAndView = new ModelAndView("member/myPage");
-        modelAndView.addObject("users", this.memberService.getUsers(user.getNickname(), user.getHaveDog()));
+        UserEntity user = this.memberService.getUsers(nickname, haveDog);
+        modelAndView.addObject("user", user);
+
         return modelAndView;
     }
 

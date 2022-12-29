@@ -49,11 +49,9 @@ public class MemberService {
     }
 
     // 유저 정보
-    public UserInfoVo[] getUsers(String nickname, String haveDog) {
-        return this.memberMapper.selectUserByNickname(
-                nickname,
-                haveDog
-        );
+    public UserEntity getUsers(String nickname, String haveDog) {
+        UserEntity userEntity = this.memberMapper.selectUserByEmail(nickname);
+        return userEntity;
     }
 
     // 카카오 access token 발급 받는 getKakaoAccessToken
