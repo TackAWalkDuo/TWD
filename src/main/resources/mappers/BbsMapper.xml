@@ -281,7 +281,7 @@
                `articles`.`modified_on`             AS `modifiedOn`,
                `users`.`nickname`                   AS `userNickname`,
                COUNT(`aLikedCount`.`article_index`) AS `articleLikedCount`,
-               COUNT(`comment`.`index`)     AS `commentsCount`
+               COUNT(`comment`.`index`)             AS `commentsCount`
         FROM `twd_bbs`.`articles`
                  LEFT JOIN twd_member.users on articles.user_email = users.email
                  LEFT JOIN `twd_bbs`.`boards` AS `board`

@@ -9,6 +9,7 @@ public class PaymentEntity {
     private int productIndex;
     private int salePrice;
     private int quantity;
+    private String address;
     private int deliveryFee;
     private Date registrationOn;
     private int deliveryStatus;
@@ -56,6 +57,14 @@ public class PaymentEntity {
     public PaymentEntity setQuantity(int quantity) {
         this.quantity = quantity;
         return this;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public int getDeliveryFee() {
