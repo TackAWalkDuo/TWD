@@ -259,7 +259,8 @@ public class BbsService {
         CommentVo existingComment = this.bbsMapper.selectCommentByIndex(commentLikeEntity.getCommentIndex());
         if (existingComment == null) {
             return CommonResult.FAILURE;
-        } else if (this.bbsMapper.selectArticleLikeByIndex(commentLikeEntity.getCommentIndex(), user.getEmail()) != null) {
+        }
+        if (this.bbsMapper.selectCommentLikeByIndex(commentLikeEntity.getCommentIndex(), user.getEmail()) != null) {
             return this.bbsMapper.deleteByCommentLiked(commentLikeEntity.getCommentIndex()) > 0
                     ? CommonResult.SUCCESS
                     : CommonResult.FAILURE;

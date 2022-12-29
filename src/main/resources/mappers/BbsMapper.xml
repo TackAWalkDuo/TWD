@@ -141,17 +141,17 @@
 
     <select id="selectCommentsByIndex"
             resultType="dev.twd.take_a_walk_duo.vos.bbs.CommentVo">
-        SELECT `comment`.`index`         AS `index`,
-               `comment`.`comment_index` AS `commentIndex`,
-               `comment`.`user_email`    AS `userEmail`,
-               `comment`.`content`       AS `content`,
-               `comment`.`article_index` AS `articleIndex`,
-               `comment`.`written_on`    AS `writtenOn`,
-               (#{email} IS NOT NULL)    AS `isSigned`,
+        SELECT `comment`.`index`                                      AS `index`,
+               `comment`.`comment_index`                              AS `commentIndex`,
+               `comment`.`user_email`                                 AS `userEmail`,
+               `comment`.`content`                                    AS `content`,
+               `comment`.`article_index`                              AS `articleIndex`,
+               `comment`.`written_on`                                 AS `writtenOn`,
+               (#{email} IS NOT NULL)                                 AS `isSigned`,
                (BINARY IFNULL(#{email}, '') = `comment`.`user_email`) AS `isMine`,
-               `user`.`nickname`         AS `nickname`,
-               COUNT(`commentLike`.`comment_index`) > 0                   AS `isLiked`,
-               COUNT(`commentLikeCount`.`comment_index`)                  AS `likeCommentCount`
+               `user`.`nickname`                                      AS `nickname`,
+               COUNT(`commentLike`.`comment_index`) > 0               AS `isLiked`,
+               COUNT(`commentLikeCount`.`comment_index`)              AS `likeCommentCount`
         FROM `twd_bbs`.`comments` AS `comment`
                  LEFT JOIN `twd_member`.`users` AS `user` ON `comment`.`user_email` = `user`.`email`
                  LEFT JOIN `twd_bbs`.`comment_likes` AS `commentLike`
@@ -201,11 +201,24 @@
     </select>
     <select id="selectArticleLikeByIndex"
             resultType="dev.twd.take_a_walk_duo.entities.bbs.ArticleLikeEntity">
-        SELECT `user_email`  AS `userEmail`,
-               article_index AS articleIndex,
-               created_on    AS createdOn
+        SELECT `user_email`    AS `userEmail`,
+               `article_index` AS `articleIndex`,
+               `created_on`    AS `createdOn`
         FROM `twd_bbs`.`article_likes`
         WHERE `article_index` = #{articleIndex}
+          AND `user_email` = #{userEmail}
+        LIMIT 1;
+    </select>
+
+    <select id="selectCommentLikeByIndex"
+            resultType="dev.twd.take_a_walk_duo.entities.bbs.CommentLikeEntity">
+        SELECT `user_email`    AS `userEmail`,
+               `comment_index` AS `commentIndex`,
+               `created_on`    AS `creadtedOn`
+        FROM `twd_bbs`.`comment_likes`
+        WHERE `comment_index` = #{commentIndex}
+          AND `user_email` = #{userEmail}
+        LIMIT 1;
     </select>
     <insert id="insertArticleLike"
             parameterType="dev.twd.take_a_walk_duo.entities.bbs.ArticleLikeEntity">
@@ -254,7 +267,7 @@
         DELETE
         FROM `twd_bbs`.`comment_likes`
         WHERE (`twd_bbs`.`comment_likes`.`comment_index` = #{commentIndex})
-            LIMIT 1;
+        LIMIT 1;
     </delete>
 
     <select id="selectArticlesByBoardId"
@@ -267,17 +280,18 @@
                `articles`.`written_on`              AS `writtenOn`,
                `articles`.`modified_on`             AS `modifiedOn`,
                `users`.`nickname`                   AS `userNickname`,
-               COUNT(`aLikedCount`.`article_index`) AS `articleLikedCount`
+               COUNT(`aLikedCount`.`article_index`) AS `articleLikedCount`,
+               COUNT(`comment`.`index`)     AS `commentsCount`
         FROM `twd_bbs`.`articles`
                  LEFT JOIN twd_member.users on articles.user_email = users.email
                  LEFT JOIN `twd_bbs`.`boards` AS `board`
                            ON board.`board_id` = #{boardId} OR board.`id` = #{boardId}
                  LEFT JOIN `twd_bbs`.`article_likes` AS `aLikedCount`
                            on `articles`.`index` = `aLikedCount`.`article_index`
+                 LEFT JOIN `twd_bbs`.`comments` AS `comment` on `articles`.`index` = `comment`.`article_index`
         WHERE `articles`.`board_id` = board.id
         GROUP BY `articles`.`index`
         ORDER BY `articles`.`index` DESC
-
         LIMIT #{limit} OFFSET #{offset};
     </select>
     <select id="selectArticleCountByBoardId"
