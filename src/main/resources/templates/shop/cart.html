@@ -34,7 +34,7 @@
                 <th colspan="2">상품정보</th>
                 <th>수량</th>
                 <th>상품금액</th>
-                <th>배송비</th>
+                <th>합계</th>
             </tr>
             <tr>
                 <td>
@@ -64,19 +64,85 @@
                 <td>
                     <label class="label">
                         <span hidden>상품 배송비</span>
-                        <input class="--object-input input" min="3000" max="5000" value="3000" name="delivery"
-                               placeholder="상품 배송비를 입력해주세요. (3000 ~ 5000)"
-                               type="number">
+                        <div>3000원</div>
                     </label>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="6">
-
                 </td>
             </tr>
             </tbody>
         </table>
+        <table class="table" id="table">
+            <tbody>
+            <tr>
+                <td>
+                    <input type="checkbox" name="checkBox" value="checkBox">
+                </td>
+                <td class="image">
+                    <span hidden>상품 이미지</span>
+                    <div class="image-container" rel="imageContainer">
+                        <img class="product-image" src="/resources/images/item1.jpg">
+                    </div>
+                </td>
+                <td class="product-info">
+                    <a>상품</a>
+                </td>
+                <td>
+                    <div>
+                        <div>1</div>
+                        <button class="--object-button" type="button">주문수정</button>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <div>1원</div>
+                        <button class="--object-button" type="button">주문하기</button>
+                    </div>
+                </td>
+                <td>
+                    <label class="label">
+                        <span hidden>상품 배송비</span>
+                        <div>3000원</div>
+                    </label>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <table class="table" id="table">
+            <tbody>
+            <tr>
+                <td>
+                    <input type="checkbox" name="checkBox" value="checkBox">
+                </td>
+                <td class="image">
+                    <span hidden>상품 이미지</span>
+                    <div class="image-container" rel="imageContainer">
+                        <img class="product-image" src="/resources/images/item1.jpg">
+                    </div>
+                </td>
+                <td class="product-info">
+                    <a>상품</a>
+                </td>
+                <td>
+                    <div>
+                        <div>1</div>
+                        <button class="--object-button" type="button">주문수정</button>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <div>1원</div>
+                        <button class="--object-button" type="button">주문하기</button>
+                    </div>
+                </td>
+                <td>
+                    <label class="label">
+                        <span hidden>상품 배송비</span>
+                        <div>3000원</div>
+                    </label>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
         <table class="delete-container">
             <tr>
                 <td>
@@ -84,7 +150,57 @@
                 </td>
             </tr>
         </table>
-
+<!--        <table>-->
+<!--            <tr class="info-container">-->
+<!--                <td colspan="6">-->
+<!--                    <div class="info">-->
+<!--                        <div>-->
+<!--                            <span>상품금액</span>-->
+<!--                            <div>3000원</div>-->
+<!--                        </div>-->
+<!--                        <i class="fa-solid fa-plus"></i>-->
+<!--                        <div>-->
+<!--                            <span>배송비</span>-->
+<!--                            <div>3000원</div>-->
+<!--                        </div>-->
+<!--                        <i class="fa-solid fa-equals"></i>-->
+<!--                        <div>-->
+<!--                            <span>주문금액</span>-->
+<!--                            <span>6000원</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--        </table>-->
+        <div class="info-footer">
+            <div>
+                <table>
+                    <tr class="info-container">
+                        <td colspan="6">
+                            <div class="info">
+                                <div>
+                                    <span>상품금액</span>
+                                    <div>3000원</div>
+                                </div>
+                                <i class="fa-solid fa-plus"></i>
+                                <div>
+                                    <span>배송비</span>
+                                    <div>3000원</div>
+                                </div>
+                                <i class="fa-solid fa-equals"></i>
+                                <div>
+                                    <span>주문금액</span>
+                                    <span>6000원</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <button type="button" class="--object-button">주문하기
+                <span class="info-quantity">1</span>
+                </button>
+            </div>
+        </div>
     </form>
 </main>
 <!-- cover -->
