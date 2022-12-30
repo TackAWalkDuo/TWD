@@ -22,22 +22,38 @@ body > .--header {
     z-index: 0;
 }
 
-
-#container {
+#foldContainer{
     position: absolute;
     height: 85%;
     z-index: 3;
 
     top: 10%;
-    left: 1rem;
+    left: 2rem;
 
-    overflow: hidden auto;
+    /*overflow: hidden auto;*/
 
-    align-items: start;
-    display: none;
+    align-items: center;
+    display: flex;
     flex-direction: row;
     justify-content: flex-start;
     border-radius: 0.7rem;
+}
+
+#container {
+    /*position: absolute;*/
+    height: 100%;
+    z-index: 3;
+
+    /*top: 10%;*/
+    /*left: 1rem;*/
+
+    overflow: hidden auto;
+
+    /*align-items: start;*/
+    display: none;
+    /*flex-direction: row;*/
+    /*justify-content: flex-start;*/
+    /*border-radius: 0.7rem;*/
 }
 
 #container.fold {
@@ -527,34 +543,24 @@ body > .--header {
     justify-content: space-between;
 }
 
-#foldContainer {
+#fold{
     text-align: center;
     align-items: center;
     justify-content: center;
     display: flex;
     flex-direction: column;
 
+    margin-left: -1rem;
     background-color: white;
-    position: absolute;
-    top: 50%;
-    left: 1rem;
     z-index: 2;
 
     width: 4rem;
     height: 5rem;
 
-    margin-left: 1rem;
+    /*margin-left: 1rem;*/
 
     border-radius: 1.2rem;
     box-shadow: 0.2rem 0.2rem 0.1rem 0.0625rem rgba(0, 0, 0, 10%);
-}
-
-#foldContainer.open-list {
-    left: 20.5rem;
-}
-
-#foldContainer.open-details {
-    left: 43.5rem;
 }
 
 
