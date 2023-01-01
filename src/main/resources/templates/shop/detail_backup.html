@@ -86,7 +86,7 @@
                     </div>
                     <div class="product-button">
                         <input class="buy --object-button" value="구매하기" type="submit">
-                        <input class="cart --object-button" value="장바구니" type="submit">
+                        <input rel="addCart" class="cart --object-button" value="장바구니" type="submit">
                     </div>
                     <div class="admin-product-button">
                         <a th:if="${user?.getAdmin() == true}" class=" modify --object-button" th:href="@{/shop/modify(aid=${product.getIndex()})}"

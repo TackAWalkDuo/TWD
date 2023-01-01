@@ -14,7 +14,8 @@ const productPrice = window.document.querySelector('[rel="infoPrice"]').value;
 const chargeQuantity = window.document.querySelector('[rel="chargeQuantity"]');
 // 총 주문 금액
 const chargePrice = window.document.querySelector('[rel="chargePrice"]');
-
+// 장바구니 담기
+const addCart = window.document.querySelector('[rel="addCart"]');
 
 // +버튼 누를시 실행
 orderForm['plusButton'].onclick = () => {
