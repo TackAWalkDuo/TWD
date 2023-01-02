@@ -100,6 +100,7 @@ infoNum.onkeyup = e => {
     }
 }
 
+// 삭제
 const deleteButton = window.document.getElementById('deleteButton');
 deleteButton?.addEventListener('click', e => {
     e.preventDefault();
@@ -128,6 +129,51 @@ deleteButton?.addEventListener('click', e => {
         }
     };
     xhr.send();
+});
+
+// 장바구니
+addCart.addEventListener('click', e => {
+    e.preventDefault();
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+    formData.append("salePrice", orderForm['infoPrice'].value.replace('원', ''));
+    formData.append("quantity", orderForm['infoNumber'].value);
+    xhr.open('POST', window.location.href);
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                const responseObject = JSON.parse(xhr.responseText);
+                switch (responseObject['result']) {
+                    case 'success' :
+                        if (confirm('장바구니 등록이 완료되었습니다. \n\n확인 : 장바구니로 이동 \n취소 : 쇼핑 계속하기')) {
+                            window.location.href = `./main`
+                        } else {
+                            window.location.href;
+                        }
+                        break;
+
+                    case 'cart_not_signed':
+                        alert('로그인 후 이용해 주세요.');
+                        break;
+
+                    case 'cart_not_allowed' :
+                        alert('존재하지 않는 상품입니다.');
+                        break;
+
+                    case 'cart_duplicated' :
+                        alert('이미 장바구니에 등록된 상품입니다.');
+                        break;
+
+                    default :
+                        alert('알 수 없는 이유로 장바구니에 등록하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                }
+
+            } else {
+                alert('서버 연결 실패');
+            }
+        }
+    };
+    xhr.send(formData);
 });
 
 

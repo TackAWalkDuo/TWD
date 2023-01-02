@@ -13,6 +13,14 @@
         alert('로그인 후 이용해 주세요.');
         window.location.href = '/member/login';
     </script>
+    <script th:if="${user.getEmail() != userEmail}">
+        alert('권한이 없습니다.');
+        if (window.history.length > 1) {
+            window.history.back();
+        } else {
+            window.close();
+        }
+    </script>
 </head>
 <body th:if="${user != null}">
 <th:block th:replace="~{fragments/body :: header}"></th:block>
@@ -36,7 +44,7 @@
                 <th>상품금액</th>
                 <th>합계</th>
             </tr>
-            <tr>
+            <tr th:each="cart : ${carts}" th:if="${board.getId() == 'shop'}">
                 <td>
                     <input type="checkbox" name="checkBox" value="checkBox">
                 </td>

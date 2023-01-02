@@ -9,6 +9,7 @@ public class ShoppingCartEntity {
     private int productIndex;
     private int salePrice;
     private int quantity;
+    private int deliveryFee;
     private Date registrationOn;
 
     public int getIndex() {
@@ -53,6 +54,15 @@ public class ShoppingCartEntity {
 
     public ShoppingCartEntity setQuantity(int quantity) {
         this.quantity = quantity;
+        return this;
+    }
+
+    public int getDeliveryFee() {
+        return deliveryFee;
+    }
+
+    public ShoppingCartEntity setDeliveryFee(int deliveryFee) {
+        this.deliveryFee = deliveryFee;
         return this;
     }
 

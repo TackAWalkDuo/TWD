@@ -4,21 +4,21 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dev.twd.take_a_walk_duo.mappers.IShopMapper">
 
-<!--    <select id="selectArticleCountByBoardId"-->
-<!--            resultType="int">-->
-<!--        SELECT COUNT(0)-->
-<!--        FROM `twd_bbs`.`articles`-->
-<!--        WHERE `board_id` = #{boardId}-->
-<!--    </select>-->
+    <!--    <select id="selectArticleCountByBoardId"-->
+    <!--            resultType="int">-->
+    <!--        SELECT COUNT(0)-->
+    <!--        FROM `twd_bbs`.`articles`-->
+    <!--        WHERE `board_id` = #{boardId}-->
+    <!--    </select>-->
 
     <select id="selectArticleCountByBoardId"
             resultType="int">
         SELECT COUNT(0)
         FROM `twd_bbs`.`articles` AS `article`
-            LEFT JOIN `twd_shop`.`sale_product` AS `product`
-                ON `article`.`index` = `product`.`article_index`
-            LEFT JOIN `twd_shop`.`product_categories` AS `cotegory`
-                ON `cotegory`.`id` = `product`.`category_text`
+        LEFT JOIN `twd_shop`.`sale_product` AS `product`
+        ON `article`.`index` = `product`.`article_index`
+        LEFT JOIN `twd_shop`.`product_categories` AS `cotegory`
+        ON `cotegory`.`id` = `product`.`category_text`
         WHERE `article`.`board_id` = 'shop' AND `product`.category_text = #{boardId}
         <if test="criterion != null and criterion.equals('title')">
             AND REPLACE(`article`.`title`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%')
@@ -63,45 +63,45 @@
     <!--    </select>-->
 
     <!--위에꺼 수정한거임-->
-<!--    <select id="selectArticlesByBoardId"-->
-<!--            resultType="dev.twd.take_a_walk_duo.vos.shop.ProductVo">-->
-<!--        SELECT `article`.`index`         AS `index`,-->
-<!--               `article`.`user_email`    AS `userEmail`,-->
-<!--               `article`.`board_id`      AS `boardID`,-->
-<!--               `article`.`title`         AS `title`,-->
-<!--               `article`.`thumbnail`     AS `thumbnail`,-->
-<!--               `article`.`view`          AS `view`,-->
-<!--               `article`.`written_on`    AS `writtenOn`,-->
-<!--               `article`.`modified_on`   AS `modifiedOn`,-->
-<!--               `product`.`quantity`      AS `qunantity`,-->
-<!--               `product`.`price`         AS `price`,-->
-<!--               `product`.`category_text` AS 'categoryText'-->
-<!--        FROM `twd_bbs`.`articles` AS `article`-->
-<!--                 LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`-->
-<!--                 LEFT JOIN `twd_shop`.`sale_product` AS `product` ON `article`.`index` = `product`.`article_index`-->
-<!--        WHERE `board_id` = 'shop'-->
-<!--          AND `product`.`category_text` = #{boardText}-->
-<!--        GROUP BY `index`-->
-<!--        ORDER BY `index` DESC-->
-<!--        LIMIT #{limit} OFFSET #{offset}-->
-<!--    </select>-->
-<!--    되면 위에꺼 삭제-->
+    <!--    <select id="selectArticlesByBoardId"-->
+    <!--            resultType="dev.twd.take_a_walk_duo.vos.shop.ProductVo">-->
+    <!--        SELECT `article`.`index`         AS `index`,-->
+    <!--               `article`.`user_email`    AS `userEmail`,-->
+    <!--               `article`.`board_id`      AS `boardID`,-->
+    <!--               `article`.`title`         AS `title`,-->
+    <!--               `article`.`thumbnail`     AS `thumbnail`,-->
+    <!--               `article`.`view`          AS `view`,-->
+    <!--               `article`.`written_on`    AS `writtenOn`,-->
+    <!--               `article`.`modified_on`   AS `modifiedOn`,-->
+    <!--               `product`.`quantity`      AS `qunantity`,-->
+    <!--               `product`.`price`         AS `price`,-->
+    <!--               `product`.`category_text` AS 'categoryText'-->
+    <!--        FROM `twd_bbs`.`articles` AS `article`-->
+    <!--                 LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`-->
+    <!--                 LEFT JOIN `twd_shop`.`sale_product` AS `product` ON `article`.`index` = `product`.`article_index`-->
+    <!--        WHERE `board_id` = 'shop'-->
+    <!--          AND `product`.`category_text` = #{boardText}-->
+    <!--        GROUP BY `index`-->
+    <!--        ORDER BY `index` DESC-->
+    <!--        LIMIT #{limit} OFFSET #{offset}-->
+    <!--    </select>-->
+    <!--    되면 위에꺼 삭제-->
     <select id="selectArticlesByBoardId"
             resultType="dev.twd.take_a_walk_duo.vos.shop.ProductVo">
-        SELECT `article`.`index`         AS `index`,
-               `article`.`user_email`    AS `userEmail`,
-               `article`.`board_id`      AS `boardId`,
-               `article`.`title`         AS `title`,
-               `article`.`thumbnail`     AS `thumbnail`,
-               `article`.`view`          AS `view`,
-               `article`.`written_on`    AS `writtenOn`,
-               `article`.`modified_on`   AS `modifiedOn`,
-               `product`.`quantity`      AS `qunantity`,
-               `product`.`price`         AS `price`,
-               `product`.`category_text` AS 'categoryText'
+        SELECT `article`.`index` AS `index`,
+        `article`.`user_email` AS `userEmail`,
+        `article`.`board_id` AS `boardId`,
+        `article`.`title` AS `title`,
+        `article`.`thumbnail` AS `thumbnail`,
+        `article`.`view` AS `view`,
+        `article`.`written_on` AS `writtenOn`,
+        `article`.`modified_on` AS `modifiedOn`,
+        `product`.`quantity` AS `qunantity`,
+        `product`.`price` AS `price`,
+        `product`.`category_text` AS 'categoryText'
         FROM `twd_bbs`.`articles` AS `article`
-                 LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`
-                 LEFT JOIN `twd_shop`.`sale_product` AS `product` ON `article`.`index` = `product`.`article_index`
+        LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`
+        LEFT JOIN `twd_shop`.`sale_product` AS `product` ON `article`.`index` = `product`.`article_index`
         WHERE `product`.`category_text` = #{boardId}
         <if test="criterion !=null and criterion.equals('title')">
             AND REPLACE(`article`.`title`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%')
@@ -317,6 +317,47 @@
         WHERE `index` = #{index}
         LIMIT 1
     </update>
+
+    <select id="selectArticles"
+            resultType="dev.twd.take_a_walk_duo.vos.shop.CartVo">
+        SELECT `cart`.`index`           AS `index`,
+               `cart`.`user_email`      AS `userEmail`,
+               `cart`.`product_index`   AS `productIndex`,
+               `cart`.`sale_price`      AS `salePrice`,
+               `cart`.`quantity`        AS `quantity`,
+               `cart`.`delivery_fee`    AS `deliveryFee`,
+               `cart`.`registration_on` AS `registrationOn`,
+               `article`.`board_id`     AS `boardId`,
+               `article`.`title`        AS `title`
+        FROM `twd_shop`.`shopping_cart` AS `cart`
+                 LEFT JOIN `twd_bbs`.`articles` AS `article` ON `article`.`user_email` = `cart`.`user_email`
+        WHERE `cart`.`user_email` = #{userEmail}
+        AND `article`.`board_id` = 'shop'
+    </select>
+
+    <select id="selectArticleByArticleIndexUserEmail"
+            resultType="dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity">
+        SELECT `index`         AS `index`,
+               user_email      AS `userEmail`,
+               product_index   AS `productIndex`,
+               sale_price      AS `salePrice`,
+               quantity        AS `quantity`,
+               delivery_fee    AS `deliveryFee`,
+               registration_on AS `registrationOn`
+        FROM `twd_shop`.`shopping_cart`
+        WHERE `product_index` = #{aid}
+          AND `user_email` = #{userEmail}
+        LIMIT 1
+    </select>
+
+    <insert id="insertCart"
+            useGeneratedKeys="true"
+            keyProperty="index"
+            keyColumn="index">
+        INSERT INTO `twd_shop`.`shopping_cart`(`user_email`, `product_index`, `sale_price`, `quantity`, `delivery_fee`,
+                                               `registration_on`)
+        VALUES (#{userEmail}, #{productIndex}, #{salePrice}, #{quantity}, #{deliveryFee}, #{registrationOn})
+    </insert>
 
 
 </mapper>
