@@ -62,7 +62,6 @@ form.onsubmit = e => {
     formData.append('title', form['title'].value);
     formData.append('content', editor.getData());
     xhr.open('POST', './write');
-    // './write?bid=' + form['id'].value);
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             // Cover.hide();

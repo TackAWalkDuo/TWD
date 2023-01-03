@@ -10,7 +10,6 @@ import dev.twd.take_a_walk_duo.services.BbsService;
 import dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import dev.twd.take_a_walk_duo.vos.bbs.CommentVo;
 import org.apache.ibatis.annotations.Param;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -23,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 
 @Controller(value = "dev.twd.take_a_walk_duo.controllers.bbsController")
 @RequestMapping(value = "/bbs")
@@ -183,21 +181,29 @@ public class BbsController {
                                 String criterion,
                                 @RequestParam(value = "keyword", required = false)
                                 String keyword) {
-        ArticleReadVo[] articles;
-
         page = Math.max(1, page);
+        //공지사항이 아닌 id가 들어오면 공지사항 게시글 3개 검색. 리스트
+
         ModelAndView modelAndView = new ModelAndView("bbs/list");
         BoardEntity board = bid == null ? null : this.bbsService.getBoard(bid);
+        BoardEntity noticeBoard = this.bbsService.getNoticeBoard();
         modelAndView.addObject("board", board);
-        if (board != null) {
+        if (board != null && noticeBoard != null) {
             int totalCount = this.bbsService.getArticleCount(board, criterion, keyword);
             PagingModel paging = new PagingModel(totalCount, page);
             modelAndView.addObject("paging", paging);
 
-            articles = this.bbsService.getArticles(board, paging);
-            modelAndView.addObject("articles", articles);
+            ArticleReadVo noticeArticle = this.bbsService.getNoticeArticle(noticeBoard);
+            ArticleReadVo[] hotArticles = this.bbsService.getHotArticle(board);
+            ArticleReadVo[] articles = this.bbsService.getArticles(board, paging);
 
-            System.out.println(articles.length);
+            //리스트 배열합치기
+            ArticleReadVo[] articleMerge = new ArticleReadVo[articles.length + hotArticles.length + 1];
+            articleMerge[0] = noticeArticle;
+            System.arraycopy(hotArticles, 0 ,articleMerge, 1, hotArticles.length);
+            System.arraycopy(articles, 0 ,articleMerge, 1+hotArticles.length ,articles.length);
+            modelAndView.addObject("articles",articleMerge);
+
             BoardEntity[] boardList = this.bbsService.chartBoardId(board.getBoardId() == null ? board.getId() : board.getBoardId());
             BoardEntity[] boardTitle = this.bbsService.getBoardEntities();
             modelAndView.addObject("boardList", boardList);

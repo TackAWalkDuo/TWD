@@ -11,6 +11,8 @@ public interface IBbsMapper {
 
     BoardEntity selectBoardById(@Param(value = "bid") String id);
 
+    BoardEntity selectNoticeBoardById();
+
     //Mr.g
     //    글쓰기
     int insertArticle(ArticleEntity articleEntity);
@@ -66,6 +68,12 @@ public interface IBbsMapper {
                                             @Param(value = "limit") int limit,
                                             @Param(value = "offset") int offSet);
 
+    //hot 게시물
+    ArticleReadVo[] selectHotArticlesByBoardId(@Param(value = "boardId")String boardId);
+
+    ArticleReadVo selectNoticeArticleByBoardId(@Param(value = "boardId")String boardId);
+
+
     int selectArticleCountByBoardId(@Param(value = "boardId") String boardId,
                                     @Param(value = "criterion") String criterion,
                                     @Param(value = "keyword") String keyword);
@@ -87,5 +95,7 @@ public interface IBbsMapper {
 
     CommentImageEntity selectCommentImageByIndex(@Param(value = "index") int index);
     BoardEntity[] selectBoardByBoardId(@Param(value = "bid") String bid);
+
+
 
 }

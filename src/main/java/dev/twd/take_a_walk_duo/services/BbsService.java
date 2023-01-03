@@ -41,9 +41,10 @@ public class BbsService {
     //1.write boardId 값 끌고오기
     //mr.s
     public BoardEntity getBoard(String id) {
-        BoardEntity boardEntity = this.bbsMapper.selectBoardById(id);
-        System.out.println(boardEntity.getId());
-        return boardEntity;
+        return this.bbsMapper.selectBoardById(id);
+    }
+    public BoardEntity getNoticeBoard(){
+        return this.bbsMapper.selectNoticeBoardById();
     }
 
 
@@ -54,6 +55,7 @@ public class BbsService {
         if (board == null) {
             return WriteResult.NO_SUCH_BOARD;
         }
+        System.out.println(board.getId() + "이게문제인가?");
 
         if (images != null) {
             for (MultipartFile image : images) {
@@ -298,6 +300,13 @@ public class BbsService {
         return this.bbsMapper.selectArticlesByBoardId(
                 board.getId(),paging.countPerPage,
                 (paging.requestPage - 1) * paging.countPerPage);
+    }
+
+    public ArticleReadVo[] getHotArticle(BoardEntity board){
+        return this.bbsMapper.selectHotArticlesByBoardId(board.getId());
+    }
+    public ArticleReadVo getNoticeArticle(BoardEntity board){
+        return this.bbsMapper.selectNoticeArticleByBoardId(board.getId());
     }
     public int getArticleCount(BoardEntity board, String criterion, String keyword) {
         return this.bbsMapper.selectArticleCountByBoardId(board.getId(), criterion, keyword);
