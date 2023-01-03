@@ -27,22 +27,48 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    // 정보수정
-    @RequestMapping(value = "changeInformation",
+    // 회원 정보수정
+    @RequestMapping(value = "modifyUser",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getChangeInformation() {
-        ModelAndView modelAndView = new ModelAndView("member/changeInformation");
+    public ModelAndView getModifyUser() {
+        ModelAndView modelAndView = new ModelAndView("member/modifyUser");
         return modelAndView;
     }
 
-    // 탈퇴하기
+    // 회원 정보수정하기 patch
+    @RequestMapping(value = "modifyUser",
+            method = RequestMethod.PATCH,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String patchUser(@SessionAttribute(value = "user", required = false) UserEntity user) {
+        Enum<?> result = this.memberService.modifyUser(user);
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("result", result.name().toLowerCase());
+        return responseObject.toString();
+    }
+
+
+    // 회원 탈퇴
     @RequestMapping(value = "secession",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getSecession() {
         ModelAndView modelAndView = new ModelAndView("member/secession");
         return modelAndView;
+    }
+
+    @RequestMapping(value = "secession",
+            method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String deleteUser(@SessionAttribute(value = "user", required = false) UserEntity user) {
+        EmailAuthEntity emailAuth = new EmailAuthEntity();
+        emailAuth.setEmail(user.getEmail());
+        Enum<?> result = this.memberService.deleteUser(user, emailAuth);
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("result", result.name().toLowerCase());
+        return responseObject.toString();
     }
 
     // 마이페이지
@@ -114,7 +140,6 @@ public class MemberController {
     public ModelAndView getLogout(HttpSession session) {
         session.setAttribute("user", null);
         ModelAndView modelAndView = new ModelAndView("redirect:/");
-        // TODO 로그아웃 하면 바로 전 단계로 가야함
         return modelAndView;
     }
 

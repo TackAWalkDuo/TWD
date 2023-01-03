@@ -1,5 +1,4 @@
 const form = window.document.getElementById('form');
-
 const Warning = {
     // 묶어준다.
     show: (text) => {

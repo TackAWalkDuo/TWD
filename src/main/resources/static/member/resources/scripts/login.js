@@ -37,7 +37,6 @@ form.onsubmit = (e) => {
         form['password'].focus();
         return false;
     }
-    // Cover.show('로그인 중입니다.\n 잠시만 기다려 주세요.');
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     formData.append('email', form['email'].value);

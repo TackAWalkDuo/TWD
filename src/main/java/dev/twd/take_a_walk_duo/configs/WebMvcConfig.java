@@ -15,5 +15,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/**/resources/**");
     }
     @Bean
-    public CommonInterceptor commonInterceptor() {return new CommonInterceptor();}
+    public CommonInterceptor commonInterceptor() {
+        return new CommonInterceptor();}
 }
