@@ -5,7 +5,6 @@ import dev.twd.take_a_walk_duo.entities.member.KakaoUserEntity;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
 import dev.twd.take_a_walk_duo.services.MemberService;
-import dev.twd.take_a_walk_duo.vos.member.UserInfoVo;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -28,14 +27,27 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    // 정보수정
-    @RequestMapping(value = "changeInformation",
+    // 회원 정보수정
+    @RequestMapping(value = "modifyUser",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getChangeInformation() {
-        ModelAndView modelAndView = new ModelAndView("member/changeInformation");
+    public ModelAndView getModifyUser() {
+        ModelAndView modelAndView = new ModelAndView("member/modifyUser");
         return modelAndView;
     }
+
+    // 회원 정보수정하기 patch
+    @RequestMapping(value = "modifyUser",
+            method = RequestMethod.PATCH,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String patchUser(@SessionAttribute(value = "user", required = false) UserEntity user) {
+        Enum<?> result = this.memberService.modifyUser(user);
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("result", result.name().toLowerCase());
+        return responseObject.toString();
+    }
+
 
     // 회원 탈퇴
     @RequestMapping(value = "secession",
@@ -45,29 +57,26 @@ public class MemberController {
         ModelAndView modelAndView = new ModelAndView("member/secession");
         return modelAndView;
     }
-    //todo 탈퇴 post 만들어야함
-//    @RequestMapping(value = "secession",
-//            method = RequestMethod.POST,
-//            produces = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseBody
-//    public String postSecession(UserEntity user, EmailAuthEntity emailAuth) {
-//        Enum<?> result = this.memberService.register(user, emailAuth);
-//        JSONObject responseObject = new JSONObject();
-//        responseObject.put("result", result.name().toLowerCase());
-//        return responseObject.toString();
-//    }
+
+    @RequestMapping(value = "secession",
+            method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String deleteUser(@SessionAttribute(value = "user", required = false) UserEntity user) {
+        EmailAuthEntity emailAuth = new EmailAuthEntity();
+        emailAuth.setEmail(user.getEmail());
+        Enum<?> result = this.memberService.deleteUser(user, emailAuth);
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("result", result.name().toLowerCase());
+        return responseObject.toString();
+    }
 
     // 마이페이지
     @RequestMapping(value = "myPage",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getMyPage(
-            @RequestParam(value = "nickname", required = false) String nickname,
-            @RequestParam(value = "haveDog", required = false) String haveDog) {
+    public ModelAndView getMyPage() {
         ModelAndView modelAndView = new ModelAndView("member/myPage");
-        UserEntity user = this.memberService.getUsers(nickname, haveDog);
-        modelAndView.addObject("user", user);
-
         return modelAndView;
     }
 

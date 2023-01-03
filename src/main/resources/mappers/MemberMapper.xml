@@ -4,6 +4,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dev.twd.take_a_walk_duo.mappers.IMemberMapper">
 
+    <delete id="deleteUserByEmail"
+            parameterType="dev.twd.take_a_walk_duo.entities.member.UserEntity">
+        DELETE
+        FROM `twd_member`.`users`
+        WHERE `email` = #{email}
+        LIMIT 1
+    </delete>
+
     <insert id="insertUser"
             keyColumn="email"
             keyProperty="email"
@@ -140,7 +148,7 @@
             `address_secondary` = #{addressSecondary},
             `registered_on`     = #{registeredOn}
         WHERE BINARY `email` = #{email}
-            LIMIT 1
+        LIMIT 1
     </update>
 
     <update id="updateEmailAuth"
@@ -153,9 +161,9 @@
             `expires_on`   = #{expiresOn},
             `expired_flag` = #{isExpired}
         WHERE BINARY `index` = #{index}
-            LIMIT 1
+        LIMIT 1
     </update>
-    
+
     <delete id="deleteUser"
             parameterType="dev.twd.take_a_walk_duo.entities.member.UserEntity">
         DELETE

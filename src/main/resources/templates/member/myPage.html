@@ -19,7 +19,7 @@
             <span hidden>사용자</span>
         </label>
         <div class="button-container">
-            <span class="button" th:text="${user}">고근호님
+            <span class="button">고근호님
                 <i class="fa-solid fa-chevron-right"></i>
             </span>
         </div>
@@ -86,7 +86,7 @@
         </div>
         <div class="list-container">
             <a class="list"
-               th:href="@{/member/changeInformation}"
+               th:href="@{/member/modifyUser.html}"
                th:if="${session.user != null}"
                target="_blank">정보 수정</a>
         </div>

@@ -10,10 +10,11 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface IMemberMapper {
 
-
     int insertUser(UserEntity user);
 
     int deleteUser(UserEntity user);
+
+    int deleteUserByEmail(@Param(value = "email") String email);
 
     int insertKakaoUser(KakaoUserEntity kakaoUser);
 
@@ -38,7 +39,5 @@ public interface IMemberMapper {
 
     EmailAuthEntity selectEmailAuthByIndex(@Param(value = "index") int index);
 
-    UserInfoVo[] selectUserByNickname(
-            @Param(value = "nickname") String nickname,
-            @Param(value = "haveDog") String haveDog);
+    UserEntity selectUserByNickname(@Param(value = "nickname") String nickname);
 }
