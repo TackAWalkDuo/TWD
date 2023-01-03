@@ -45,7 +45,7 @@ public interface IShopMapper {
     // get write
     ProductVo selectArticle();
 
-    CartVo[] selectArticles(@Param(value = "userEmail")String userEmail);
+    CartVo[] selectCartsByUserEmail(@Param(value = "userEmail")String userEmail);
     ShoppingCartEntity selectArticleByArticleIndexUserEmail(@Param(value = "aid") int aid, @Param(value = "userEmail") String userEmail);
 
     // 상품 수정

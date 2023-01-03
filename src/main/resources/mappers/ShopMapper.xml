@@ -318,7 +318,7 @@
         LIMIT 1
     </update>
 
-    <select id="selectArticles"
+    <select id="selectCartsByUserEmail"
             resultType="dev.twd.take_a_walk_duo.vos.shop.CartVo">
         SELECT `cart`.`index`           AS `index`,
                `cart`.`user_email`      AS `userEmail`,
@@ -332,7 +332,9 @@
         FROM `twd_shop`.`shopping_cart` AS `cart`
                  LEFT JOIN `twd_bbs`.`articles` AS `article` ON `article`.`user_email` = `cart`.`user_email`
         WHERE `cart`.`user_email` = #{userEmail}
-        AND `article`.`board_id` = 'shop'
+          AND `article`.`board_id` = 'shop'
+        GROUP BY `cart`.`index` DESC
+        ORDER BY `cart`.`index` DESC
     </select>
 
     <select id="selectArticleByArticleIndexUserEmail"

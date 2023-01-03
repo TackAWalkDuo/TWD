@@ -268,18 +268,16 @@ public class ShopController {
     // 장바구니 호출(2트)
     @GetMapping(value = "cart",
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getCart(@SessionAttribute(value = "user", required = false) UserEntity user, @RequestParam(value = "userEmail", required = false) String userEmail) {
+    public ModelAndView getCart(@SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView("shop/cart");
         BoardEntity board = this.shopService.getBoard("shop");
-        if (user == null) {
-            modelAndView = new ModelAndView("redirect:/member/login");
-        }
-        modelAndView.addObject("userEmail", userEmail);
         modelAndView.addObject("user", user);
-        CartVo[] carts = this.shopService.getArticles(userEmail);
-        modelAndView.addObject("carts", carts);
         modelAndView.addObject("board", board);
-        System.out.println("보드?"+board.getId());
+        if (user != null) {
+            CartVo[] carts = this.shopService.getArticles(user.getEmail());
+            modelAndView.addObject("carts", carts);
+        }
+        System.out.println("보드?" + board.getId());
 
         return modelAndView;
     }

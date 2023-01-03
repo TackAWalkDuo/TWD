@@ -146,7 +146,7 @@ addCart.addEventListener('click', e => {
                 switch (responseObject['result']) {
                     case 'success' :
                         if (confirm('장바구니 등록이 완료되었습니다. \n\n확인 : 장바구니로 이동 \n취소 : 쇼핑 계속하기')) {
-                            window.location.href = `./main`
+                            window.location.href = `./cart`
                         } else {
                             window.location.href;
                         }

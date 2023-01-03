@@ -83,7 +83,7 @@ public class ShopService {
 
     // 상품 가져오기(cart)
     public CartVo[] getArticles(String userEmail){
-        return this.shopMapper.selectArticles(userEmail);
+        return this.shopMapper.selectCartsByUserEmail(userEmail);
     }
     // 상품 가져오기 (cart) 2트
 //    public Enum<? extends  IResult> getCart(ArticleEntity article, UserEntity user, ShoppingCartEntity cart){
