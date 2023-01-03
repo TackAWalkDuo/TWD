@@ -330,7 +330,7 @@
                `article`.`board_id`     AS `boardId`,
                `article`.`title`        AS `title`
         FROM `twd_shop`.`shopping_cart` AS `cart`
-                 LEFT JOIN `twd_bbs`.`articles` AS `article` ON `article`.`user_email` = `cart`.`user_email`
+                 LEFT JOIN `twd_bbs`.`articles` AS `article` ON `article`.`index` = `cart`.`product_index`
         WHERE `cart`.`user_email` = #{userEmail}
           AND `article`.`board_id` = 'shop'
         GROUP BY `cart`.`index` DESC

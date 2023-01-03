@@ -1,6 +1,6 @@
 const form = window.document.getElementById('form');
 // const checkAll = window.document.getElementsByName('checkAll');
-const modifyButton = window.document.getElementById('modifyButton');
+const modifyButton = window.document.querySelectorAll('[rel="modifyButton"]');
 const modifyContainer = window.document.getElementById('modifyContainer');
 const modifyFrame = window.document.getElementById('modifyFrame');
 const cancelButton = window.document.querySelector('[rel="cancelButton"]');
@@ -16,17 +16,20 @@ selectAll = checkAll =>  {
     })
 }
 
-modifyButton.addEventListener('click', e => {
-    e.preventDefault();
-    modifyContainer.classList.add('visible');
-});
+const proId = window.document.getElementById('proId').innerText;
+    modifyButton?.addEventListener('click', e => {
+        e.preventDefault();
+        console.log("test");
+        alert(proId);
+        modifyContainer.classList.add('visible');
+    });
 
-modifyCancelButton.addEventListener('click', e => {
+modifyCancelButton?.addEventListener('click', e => {
     e.preventDefault();
     modifyContainer.classList.remove('visible');
 });
 
-cancelButton.addEventListener('click', e => {
+cancelButton?.addEventListener('click', e => {
     e.preventDefault();
     modifyContainer.classList.remove('visible');
 })

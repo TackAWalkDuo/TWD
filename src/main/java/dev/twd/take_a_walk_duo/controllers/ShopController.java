@@ -276,6 +276,7 @@ public class ShopController {
         if (user != null) {
             CartVo[] carts = this.shopService.getArticles(user.getEmail());
             modelAndView.addObject("carts", carts);
+            modelAndView.addObject("isCart",carts.length);
         }
         System.out.println("보드?" + board.getId());
 
