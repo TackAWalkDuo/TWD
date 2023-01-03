@@ -183,6 +183,8 @@ public class BbsController {
                                 String criterion,
                                 @RequestParam(value = "keyword", required = false)
                                 String keyword) {
+        ArticleReadVo[] articles;
+
         page = Math.max(1, page);
         ModelAndView modelAndView = new ModelAndView("bbs/list");
         BoardEntity board = bid == null ? null : this.bbsService.getBoard(bid);
@@ -192,7 +194,7 @@ public class BbsController {
             PagingModel paging = new PagingModel(totalCount, page);
             modelAndView.addObject("paging", paging);
 
-            ArticleReadVo[] articles = this.bbsService.getArticles(board, paging);
+            articles = this.bbsService.getArticles(board, paging);
             modelAndView.addObject("articles", articles);
 
             System.out.println(articles.length);
