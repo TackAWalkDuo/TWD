@@ -2,8 +2,8 @@ package dev.twd.take_a_walk_duo.controllers;
 
 import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
+import dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
-import dev.twd.take_a_walk_duo.interfaces.IResult;
 import dev.twd.take_a_walk_duo.models.PagingModel;
 import dev.twd.take_a_walk_duo.services.MemberService;
 import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
@@ -11,7 +11,7 @@ import dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.services.BbsService;
 import dev.twd.take_a_walk_duo.services.ShopService;
-import dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo;
+import dev.twd.take_a_walk_duo.vos.shop.CartVo;
 import dev.twd.take_a_walk_duo.vos.shop.ProductVo;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @Controller(value = "dev.twd.take_a_walk_duo.controllers.ShopController")
@@ -48,7 +47,7 @@ public class ShopController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getShop(@SessionAttribute(value = "user", required = false) UserEntity user) {
-        ModelAndView modelAndView = new ModelAndView("shop/main_backup");
+        ModelAndView modelAndView = new ModelAndView("shop/main");
         ProductVo[] products = this.shopService.getAllArticles();
         modelAndView.addObject("products", products);
         if (user != null) {
@@ -80,7 +79,7 @@ public class ShopController {
                                 @RequestParam(value = "keyword", required = false) String keyword) {
 
         page = Math.max(1, page); // 1과 page값 중 더 큰 값 반환. 마이너스 값을 방지하기 위해 if문 대신 이렇게 작성했음
-        ModelAndView modelAndView = new ModelAndView("shop/list_backup");
+        ModelAndView modelAndView = new ModelAndView("shop/list");
         BoardEntity board = this.shopService.getBoard(bid);
         modelAndView.addObject("board", board);
         if (board != null) {
@@ -108,7 +107,7 @@ public class ShopController {
     @GetMapping(value = "detail", produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getDetail(@SessionAttribute(value = "user", required = false) UserEntity user, @RequestParam(value = "aid", required = false) int aid) {
         ModelAndView modelAndView;
-        modelAndView = new ModelAndView("shop/detail_backup");
+        modelAndView = new ModelAndView("shop/detail");
         ProductVo product = this.shopService.detailArticle(aid);
         modelAndView.addObject("product", product);
 //        if (product != null) {
@@ -119,7 +118,7 @@ public class ShopController {
         return modelAndView;
     }
 
-    // 상품 수정 호중
+    // 상품 수정 호출
     @GetMapping(value = "modify",
             produces = MediaType.TEXT_HTML_VALUE)
     // modelandview 쓸때는 responsebody 어노테이션 쓰는거 아님.
@@ -188,7 +187,7 @@ public class ShopController {
     public ModelAndView getWrite(@SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView;
 
-        modelAndView = new ModelAndView("shop/write_backup");
+        modelAndView = new ModelAndView("shop/write");
         ProductVo product = this.shopService.getArticle();
         modelAndView.addObject("product", product);
         if (user != null) {
@@ -211,8 +210,6 @@ public class ShopController {
 
         return responseObject.toString();
     }
-
-    // 상품 수정
 
 
     // 이미지 다운로드(화면에 보이게하는 매핑)
@@ -252,5 +249,63 @@ public class ShopController {
         return responseObject.toString();
     }
 
+//    // 장바구니 호출
+//    @GetMapping(value = "cart",
+//            produces = MediaType.TEXT_HTML_VALUE)
+//    public ModelAndView getCart(@SessionAttribute(value = "user", required = false) UserEntity user) {
+//        ModelAndView modelAndView = new ModelAndView("shop/cart");
+////        user.setEmail(userEmail);
+////        System.out.println("유저 이메일은?"+user.getEmail());
+//        CartVo[] products = this.shopService.getArticles(user);
+//        modelAndView.addObject("products", products);
+//
+//        if (user != null) {
+//            modelAndView.addObject("user", user);
+//        }
+//        return modelAndView;
+//    }
+
+    // 장바구니 호출(2트)
+    @GetMapping(value = "cart",
+            produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getCart(@SessionAttribute(value = "user", required = false) UserEntity user) {
+        ModelAndView modelAndView = new ModelAndView("shop/cart");
+        BoardEntity board = this.shopService.getBoard("shop");
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("board", board);
+        if (user != null) {
+            CartVo[] carts = this.shopService.getArticles(user.getEmail());
+            modelAndView.addObject("carts", carts);
+        }
+        System.out.println("보드?" + board.getId());
+
+        return modelAndView;
+    }
+
+    //장바구니 등록
+    @PostMapping(value = "detail",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postCart(@SessionAttribute(value = "user", required = false) UserEntity user,
+                           @RequestParam(value = "aid", required = false) int aid,
+                           ShoppingCartEntity cart, ArticleEntity article) {
+        //물품 수량 필요
+//        CartVo cart = new CartVo();
+//        cart.setIndex(aid);
+
+        // 매개변수 user , aid , quantity
+        // user 는 로그인 확인
+        // aid 상품 확인
+        // user, aid cart 에 동일한 상품을 등록하였는가?
+        // quantity cart 에 담아서 insert
+        Enum<?> result = this.shopService.addCart(article, cart, user, aid);
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("result", result.name().toLowerCase());
+        System.out.println("장바구니 번호는?" + cart.getIndex());
+        if (result == CommonResult.SUCCESS) {
+            responseObject.put("aid", aid);
+        }
+        return responseObject.toString();
+    }
 
 }

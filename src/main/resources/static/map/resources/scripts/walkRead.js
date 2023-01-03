@@ -74,9 +74,6 @@ detailContainer.show = (placeObject, placeElement) => {
 
     if (!container.classList.contains("fold")) container.classList.add("fold");
 
-    foldElement.classList.add("open-list"); // fold controller
-    foldElement.classList.add("open-details"); // fold controller
-
     foldChangeIcon(container.classList.contains("fold"));
 
     loadReview(placeObject['index']);
@@ -86,7 +83,7 @@ detailContainer.show = (placeObject, placeElement) => {
     list.innerHTML =''; // level 을 변경할 경우 zoom_changed event 가 발생하기 때문에 list를 한번 초기화해줍니다.
     setTimeout(()=>{
         loadPlaces();
-    }, 50);
+    }, 500);
 
 }
 // 현재 보고 있는 게시글 list 또는 marker 를 클릭하면 닫힘.
@@ -94,7 +91,6 @@ detailContainer.hide = () => {
     detailContainer.classList.remove("visible");
     detailContainer.querySelector('[rel="addressText"]').innerText = '';  // address 를 기준으로 하기때문에 기준점만 초기화
 
-    foldElement.classList.remove("open-details"); // fold controller
     foldChangeIcon(container.classList.contains("fold"));
 
 }
@@ -601,7 +597,7 @@ if (loginUserEmailElement !== null) {
     });
 }
 
-const foldElement = window.document.getElementById("foldContainer");
+const foldElement = window.document.getElementById("fold");
 
 
 //fold controller
@@ -609,12 +605,9 @@ foldElement.addEventListener('click', () => {
 
     if (container.classList.contains("fold")) {
         container.classList.remove("fold");
-        foldElement.classList.remove("open-list");
-        foldElement.classList.remove("open-details");
         detailContainer.classList.remove("visible");
     } else {
         container.classList.add("fold");
-        foldElement.classList.add("open-list");
     }
 
     foldChangeIcon(container.classList.contains("fold"));

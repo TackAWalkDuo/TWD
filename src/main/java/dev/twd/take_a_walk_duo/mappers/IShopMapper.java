@@ -4,6 +4,8 @@ import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
 import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
 import dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity;
+import dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity;
+import dev.twd.take_a_walk_duo.vos.shop.CartVo;
 import dev.twd.take_a_walk_duo.vos.shop.ProductVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -11,11 +13,12 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface IShopMapper {
     ArticleEntity selectArticleByIndex(@Param(value = "aid") int aid);
+
     SaleProductEntity selectProductByArticleIndex(@Param(value = "aid") int aid);
 
     int selectArticleCountByBoardId(@Param(value = "boardId") String boardId,
-                                    @Param(value = "keyword") String keyword,
-                                    @Param(value = "criterion") String criterion);
+                                    @Param(value = "criterion") String criterion,
+                                    @Param(value = "keyword") String keyword);
 
 //    ProductVo[] selectArticleCountByBoardId(@Param(value = "boardText") String boardText,
 //                                        @Param(value = "limit") int limit,
@@ -31,7 +34,7 @@ public interface IShopMapper {
                                         @Param(value = "keyword") String keyword);
 
     // detail page
-    ProductVo selectArticleByArticleIndex(@Param(value = "aid")int aid);
+    ProductVo selectArticleByArticleIndex(@Param(value = "aid") int aid);
 
     ProductVo[] selectAllArticles();
 
@@ -41,6 +44,9 @@ public interface IShopMapper {
 
     // get write
     ProductVo selectArticle();
+
+    CartVo[] selectCartsByUserEmail(@Param(value = "userEmail")String userEmail);
+    ShoppingCartEntity selectArticleByArticleIndexUserEmail(@Param(value = "aid") int aid, @Param(value = "userEmail") String userEmail);
 
     // 상품 수정
     int updateProduct(SaleProductEntity product);
@@ -58,4 +64,6 @@ public interface IShopMapper {
 
     // 이미지 등록
     int insertImage(ImageEntity image);
+
+    int insertCart(ShoppingCartEntity cart);
 }

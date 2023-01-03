@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Take a walk duo</title>
     <th:block th:replace="~{fragments/head}"></th:block>
-    <link rel="stylesheet" th:href="@{/shop/resources/stylesheets/detail_backup.css}">
+    <link rel="stylesheet" th:href="@{/shop/resources/stylesheets/detail.css}">
     <script defer th:src="@{/shop/resources/scripts/detail.js}"></script>
     <script th:if="${product == null || product.getBoardId() != 'shop'}">
         alert('존재하지 않는 상품입니다.');
@@ -86,7 +86,7 @@
                     </div>
                     <div class="product-button">
                         <input class="buy --object-button" value="구매하기" type="submit">
-                        <input class="cart --object-button" value="장바구니" type="submit">
+                        <input rel="addCart" class="cart --object-button" value="장바구니" type="submit">
                     </div>
                     <div class="admin-product-button">
                         <a th:if="${user?.getAdmin() == true}" class=" modify --object-button" th:href="@{/shop/modify(aid=${product.getIndex()})}"

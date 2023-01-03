@@ -4,12 +4,12 @@ import dev.twd.take_a_walk_duo.entities.member.EmailAuthEntity;
 import dev.twd.take_a_walk_duo.entities.member.KakaoUserEntity;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
-import dev.twd.take_a_walk_duo.enums.member.RegisterResult;
-import dev.twd.take_a_walk_duo.enums.member.SendEmailAuthResult;
-import dev.twd.take_a_walk_duo.enums.member.VerifyEmailAuthResult;
+import dev.twd.take_a_walk_duo.enums.member.*;
 import dev.twd.take_a_walk_duo.interfaces.IResult;
 import dev.twd.take_a_walk_duo.mappers.IMemberMapper;
 import dev.twd.take_a_walk_duo.utils.CryptoUtils;
+import dev.twd.take_a_walk_duo.vos.member.UserInfoVo;
+import org.apache.catalina.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.json.JSONObject;
@@ -45,6 +45,43 @@ public class MemberService {
         this.mailSender = mailSender;
         this.templateEngine = templateEngine;
         this.memberMapper = MemberMapper;
+    }
+
+//    // 유저 정보
+//    public UserEntity getUser(UserEntity user) {
+//        return this.memberMapper.selectUserByEmail(user.getNickname());
+//    }
+
+    // 회원정보 수정하기
+    public Enum<? extends IResult> modifyUser(UserEntity user) {
+        UserEntity existingUser = this.memberMapper.selectUserByEmail(
+                user.getEmail());
+        if (existingUser == null) {
+            // 유저가 존재하지 않는 경우
+            return ModifyUserResult.NO_SUCH_USER;
+        }
+        if (user == null || !user.getEmail().equals(existingUser.getEmail())) {
+            return ModifyUserResult.NOT_ALLOWED;
+        }
+        return this.memberMapper.updateUser(existingUser) > 0
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
+    }
+
+    // 회원 탈퇴하기
+    public Enum<? extends IResult> deleteUser(UserEntity user, EmailAuthEntity emailAuth) {
+        UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
+        if (existingUser == null) {
+            // 유저가 존재하지 않는 경우
+            return CommonResult.FAILURE;
+        }
+        if (emailAuth == null || !emailAuth.getEmail().equals(existingUser.getEmail())) {
+            return CommonResult.FAILURE;
+        }
+        user.setEmail(existingUser.getEmail());
+        return this.memberMapper.deleteUserByEmail(user.getEmail()) > 0
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
     }
 
     // 카카오 access token 발급 받는 getKakaoAccessToken
@@ -127,6 +164,7 @@ public class MemberService {
         user.setAdmin(existingUser.getAdmin());
         return CommonResult.SUCCESS;
     }
+
     // 회원가입
     // 1. 'emailAuth'가 가진 'email', 'code', 'salt' 값 기준으로 새로운 'EmailAuthEntity' SELECT 해서 가져옴
     // 2. <1>에서 가져온 새로운 객체가 null 이거나 이가 가진 inExpired() 호출 결과가 false 인 경우 'RegisterResult.EMAIL_NOT_VERIFIED'를 결과로 반환.

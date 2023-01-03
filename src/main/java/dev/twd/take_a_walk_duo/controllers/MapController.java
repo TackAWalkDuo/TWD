@@ -33,14 +33,14 @@ public class MapController {
 
     @PostMapping(value = "write", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String postWalkWrite(ArticleEntity article,
+    public String postWrite(ArticleEntity article,
                                 LocationEntity location,
-                                @RequestParam(value = "images", required = false, defaultValue = "false") MultipartFile[] images,
+                                @RequestParam(value = "images", required = false) MultipartFile[] images,
                                 @SessionAttribute(value = "user", required = false) UserEntity user)
             throws IOException {
         Enum<?> result = this.mapService.addWalkArticle(article, location, images, user);
 
-        System.out.println("check mpa writesdfsdfsdfsdfsdf");
+        System.out.println("check map writesdfsdfsdfsdfsdf");
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
 
@@ -101,5 +101,4 @@ public class MapController {
 
         return responseObject.toString();
     }
-
 }
