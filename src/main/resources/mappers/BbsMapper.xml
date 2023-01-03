@@ -21,6 +21,14 @@
         WHERE BINARY `id` = #{bid}
         LIMIT 1;
     </select>
+    <select id="selectNoticeBoardById" resultType="dev.twd.take_a_walk_duo.entities.bbs.BoardEntity">
+        SELECT `id`       AS `id`,
+               `text`     AS `text`,
+               `board_id` AS `boardId`,
+               `order`    AS `order`
+        FROM `twd_bbs`.`boards`
+        WHERE BINARY `id` = 'notice'
+    </select>
     <insert id="insertArticle"
             useGeneratedKeys="true"
             keyColumn="index"
@@ -294,6 +302,56 @@
         ORDER BY `articles`.`index` DESC
         LIMIT #{limit} OFFSET #{offset};
     </select>
+
+    <select id="selectHotArticlesByBoardId"
+            resultType="dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo">
+        SELECT `articles`.`index`                                         AS `index`,
+               `articles`.`user_email`                                    AS `userEmail`,
+               `articles`.`board_id`                                      AS `boardId`,
+               `articles`.`title`                                         AS `title`,
+               `articles`.`view`                                          AS `view`,
+               `articles`.`written_on`                                    AS `writtenOn`,
+               `articles`.`modified_on`                                   AS `modifiedOn`,
+               `users`.`nickname`                                         AS `userNickname`,
+               COUNT(`comment`.`index`)                                   AS `commentsCount`,
+               (SELECT COUNT(0)
+                FROM `twd_bbs`.`article_likes` AS `aLikedCount`
+                WHERE `articles`.`index` = `aLikedCount`.`article_index`) AS `articleLikedCount`
+        FROM `twd_bbs`.`articles`
+                 LEFT JOIN twd_member.users on articles.user_email = users.email
+                 LEFT JOIN `twd_bbs`.`boards` AS `board`
+                           ON board.`board_id` = #{boardId} OR board.`id` = #{boardId}
+                 LEFT JOIN `twd_bbs`.`comments` AS `comment` on `articles`.`index` = `comment`.`article_index`
+        WHERE `articles`.`board_id` = board.id
+        GROUP BY `articles`.`index`
+        ORDER BY `articleLikedCount` DESC
+        LIMIT 3;
+    </select>
+    <select id="selectNoticeArticleByBoardId"
+            resultType="dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo">
+        SELECT `articles`.`index`                                         AS `index`,
+               `articles`.`user_email`                                    AS `userEmail`,
+               `articles`.`board_id`                                      AS `boardId`,
+               `articles`.`title`                                         AS `title`,
+               `articles`.`view`                                          AS `view`,
+               `articles`.`written_on`                                    AS `writtenOn`,
+               `articles`.`modified_on`                                   AS `modifiedOn`,
+               `users`.`nickname`                                         AS `userNickname`,
+               COUNT(`comment`.`index`)                                   AS `commentsCount`,
+               (SELECT COUNT(0)
+                FROM `twd_bbs`.`article_likes` AS `aLikedCount`
+                WHERE `articles`.`index` = `aLikedCount`.`article_index`) AS `articleLikedCount`
+        FROM `twd_bbs`.`articles`
+                 LEFT JOIN twd_member.users on articles.user_email = users.email
+                 LEFT JOIN `twd_bbs`.`boards` AS `board`
+                           ON board.`board_id` = #{boardId} OR board.`id` = #{boardId}
+                 LEFT JOIN `twd_bbs`.`comments` AS `comment` on `articles`.`index` = `comment`.`article_index`
+        WHERE `articles`.`board_id` = board.id
+        GROUP BY `articles`.`index`
+        ORDER BY `articles`.`index` DESC
+        LIMIT 1;
+    </select>
+
     <select id="selectArticleCountByBoardId"
             resultType="int">
         SELECT COUNT(0)
