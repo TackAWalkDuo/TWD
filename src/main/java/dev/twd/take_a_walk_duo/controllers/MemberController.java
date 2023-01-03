@@ -76,6 +76,7 @@ public class MemberController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getMyPage() {
+        System.out.println("???");
         ModelAndView modelAndView = new ModelAndView("member/myPage");
         return modelAndView;
     }
