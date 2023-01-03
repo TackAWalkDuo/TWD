@@ -104,9 +104,25 @@
                 </tr>
                 </thead>
                 <tbody>
-<!--                <tr class="notice-userArticle" th:="${hotArticle}>-->
-<!--                <tr class="hot-userArticle" th:each="hotArticle :${hotA}">-->
-                <tr class="userArticle" th:each="article :${articles}">
+<!--                <tr class="userArticle" th:each="index : ${#numbers.sequence(0, articles.length - 1)}"-->
+<!--                    th:classappend="${index < 3 ? 'hot-userArticle' : ''}"-->
+<!--                    th:with="article = ${articles[index]}">-->
+<!--                    <td>갱얼쥐</td>-->
+<!--                    <td th:text="${article.getIndex()}">3</td>-->
+<!--                    <td>-->
+<!--                        <a class="title" th:href="@{/bbs/read(aid=${article.getIndex()})}">-->
+<!--                            <span class="text" th:text="${article.getTitle()}">세번째 게시글</span>-->
+<!--                            <span class="comment" th:text="${'['+article.getCommentsCount()+']'}"></span>-->
+<!--                        </a>-->
+<!--                    </td>-->
+<!--                    <td th:text="${article.getUserNickname()}">레너드</td>-->
+<!--                    <td th:text="${article.getView()}">17</td>-->
+<!--                    <td th:text="${article.getArticleLikedCount()}">추천수</td>-->
+<!--                    <td th:text="${#dates.format(article.getModifiedOn(), 'yyyy-MM-dd HH:mm:ss')}">2022-01-03 00:00:00-->
+<!--                    </td>-->
+<!--                </tr>-->
+
+                <tr th:each="article :${articles}" th:class="${'userArticle' + (article.isHot() ? ' hot-userArticle' : '') + (article.isNotice() ? ' notice-userArticle': '')}"  >
                     <td>갱얼쥐</td>
                     <td th:text="${article.getIndex()}">3</td>
                     <td>

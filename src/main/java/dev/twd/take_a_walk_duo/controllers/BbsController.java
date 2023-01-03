@@ -192,17 +192,26 @@ public class BbsController {
             int totalCount = this.bbsService.getArticleCount(board, criterion, keyword);
             PagingModel paging = new PagingModel(totalCount, page);
             modelAndView.addObject("paging", paging);
+            ArticleReadVo[] articles;
 
-            ArticleReadVo noticeArticle = this.bbsService.getNoticeArticle(noticeBoard);
-            ArticleReadVo[] hotArticles = this.bbsService.getHotArticle(board);
-            ArticleReadVo[] articles = this.bbsService.getArticles(board, paging);
-
-            //리스트 배열합치기
-            ArticleReadVo[] articleMerge = new ArticleReadVo[articles.length + hotArticles.length + 1];
-            articleMerge[0] = noticeArticle;
-            System.arraycopy(hotArticles, 0 ,articleMerge, 1, hotArticles.length);
-            System.arraycopy(articles, 0 ,articleMerge, 1+hotArticles.length ,articles.length);
-            modelAndView.addObject("articles",articleMerge);
+                ArticleReadVo noticeArticle = this.bbsService.getNoticeArticle(noticeBoard);
+                noticeArticle.setNotice(true);
+                ArticleReadVo[] hotArticles = this.bbsService.getHotArticle(board);
+                for (ArticleReadVo hotArticle : hotArticles) {
+                    hotArticle.setHot(true);
+                }
+                articles = this.bbsService.getArticles(board, paging);
+            if (!board.getId().equals("notice")) {
+                //리스트 배열합치기
+                ArticleReadVo[] articleMerge = new ArticleReadVo[articles.length + hotArticles.length + 1];
+                articleMerge[0] = noticeArticle;
+                System.arraycopy(hotArticles, 0, articleMerge, 1, hotArticles.length);
+                System.arraycopy(articles, 0, articleMerge, 1 + hotArticles.length, articles.length);
+                modelAndView.addObject("articles", articleMerge);
+                System.out.println(articleMerge.length);
+            } else {
+                modelAndView.addObject("articles", articles);
+            }
 
             BoardEntity[] boardList = this.bbsService.chartBoardId(board.getBoardId() == null ? board.getId() : board.getBoardId());
             BoardEntity[] boardTitle = this.bbsService.getBoardEntities();

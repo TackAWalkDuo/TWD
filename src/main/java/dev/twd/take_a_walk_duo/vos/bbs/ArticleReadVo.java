@@ -11,6 +11,28 @@ public class ArticleReadVo extends ArticleEntity {
 
     private int commentsCount;
 
+    private boolean isNotice;
+
+    private boolean isHot;
+
+    public boolean isNotice() {
+        return isNotice;
+    }
+
+    public ArticleReadVo setNotice(boolean notice) {
+        isNotice = notice;
+        return this;
+    }
+
+    public boolean isHot() {
+        return isHot;
+    }
+
+    public ArticleReadVo setHot(boolean hot) {
+        isHot = hot;
+        return this;
+    }
+
     public int getCommentsCount() {
         return commentsCount;
     }
