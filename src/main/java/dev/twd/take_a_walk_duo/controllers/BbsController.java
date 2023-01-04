@@ -200,7 +200,7 @@ public class BbsController {
                 for (ArticleReadVo hotArticle : hotArticles) {
                     hotArticle.setHot(true);
                 }
-                articles = this.bbsService.getArticles(board, paging);
+                articles = this.bbsService.getArticles(board, paging,criterion,keyword);
             if (!board.getId().equals("notice")) {
                 //리스트 배열합치기
                 ArticleReadVo[] articleMerge = new ArticleReadVo[articles.length + hotArticles.length + 1];

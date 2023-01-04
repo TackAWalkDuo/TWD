@@ -296,10 +296,12 @@ public class BbsService {
         return this.bbsMapper.deleteArticle(article.getIndex()) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
 
-    public ArticleReadVo[] getArticles(BoardEntity board,PagingModel paging)  {
+    public ArticleReadVo[] getArticles(BoardEntity board,PagingModel paging,String criterion,String keyword)  {
         return this.bbsMapper.selectArticlesByBoardId(
                 board.getId(),paging.countPerPage,
-                (paging.requestPage - 1) * paging.countPerPage);
+                (paging.requestPage - 1) * paging.countPerPage,
+                criterion,
+                keyword);
     }
 
     public ArticleReadVo[] getHotArticle(BoardEntity board){

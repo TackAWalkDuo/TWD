@@ -298,6 +298,16 @@
                            ON board.`board_id` = #{boardId} OR board.`id` = #{boardId}
                  LEFT JOIN `twd_bbs`.`comments` AS `comment` on `articles`.`index` = `comment`.`article_index`
         WHERE `articles`.`board_id` = board.id
+        <if test="criterion !=null and criterion.equals('title')">
+            AND REPLACE(`articles`.`title`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%')
+        </if>
+        <if test="criterion !=null and criterion.equals('all')">
+            AND (REPLACE(`articles`.`title`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%')
+            OR REPLACE(`articles`.`content`,' ','') LIKE CONCAT('%',REPLACE(#{keyword},' ',''),'%'))
+        </if>
+        <if test="criterion !=null and criterion.equals('nickname')">
+            AND BINARY `users`.`nickname` = #{keyword}
+        </if>
         GROUP BY `articles`.`index`
         ORDER BY `articles`.`index` DESC
         LIMIT #{limit} OFFSET #{offset};
