@@ -1,8 +1,10 @@
 package dev.twd.take_a_walk_duo.mappers;
 
 import dev.twd.take_a_walk_duo.entities.bbs.*;
+import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import dev.twd.take_a_walk_duo.vos.bbs.CommentVo;
+import org.apache.catalina.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -98,6 +100,6 @@ public interface IBbsMapper {
     CommentImageEntity selectCommentImageByIndex(@Param(value = "index") int index);
     BoardEntity[] selectBoardByBoardId(@Param(value = "bid") String bid);
 
-
+    UserEntity selectAdminAccountByUser(@Param(value = "email")String email);
 
 }

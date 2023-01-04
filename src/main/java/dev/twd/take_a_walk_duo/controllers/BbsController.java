@@ -41,15 +41,19 @@ public class BbsController {
     public ModelAndView getWrite(@SessionAttribute(value = "user", required = false) UserEntity user,
                                  @RequestParam(value = "bid", required = false) String bid) {
         ModelAndView modelAndView;
+        UserEntity adminAccount = this.bbsService.getUser(user);
         if (user == null) {
             modelAndView = new ModelAndView("redirect:/member/login");
         } else {
             BoardEntity board = bid == null ? null : this.bbsService.getBoard(bid);
-            BoardEntity[] boardList = this.bbsService.chartBoardId(bid);
-            modelAndView = new ModelAndView("bbs/write");
-            modelAndView.addObject("board", board);
-            modelAndView.addObject("boardList", boardList);
-
+            if(bid.equals("notice") && (!adminAccount.getAdmin())){
+                modelAndView = new ModelAndView("/bbs/notFindArticle");
+            }else {
+                BoardEntity[] boardList = this.bbsService.chartBoardId(bid);
+                modelAndView = new ModelAndView("bbs/write");
+                modelAndView.addObject("board", board);
+                modelAndView.addObject("boardList", boardList);
+            }
 
         }
         return modelAndView;

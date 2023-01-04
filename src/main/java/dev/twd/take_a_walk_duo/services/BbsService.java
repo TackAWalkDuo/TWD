@@ -47,6 +47,11 @@ public class BbsService {
         return this.bbsMapper.selectNoticeBoardById();
     }
 
+    //Notice게시판 adminAccount 찾기
+    public UserEntity getUser(UserEntity user){
+        return this.bbsMapper.selectAdminAccountByUser(user.getEmail());
+    }
+
 
     //1.write boardId 값 끌고오기
     //mr.s

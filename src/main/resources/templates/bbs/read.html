@@ -141,7 +141,7 @@
                                     <div id="commentForm" class="comment-form">
                                         <label class="label">
                                             <span hidden>댓글작성</span>
-                                            <textarea class="--object-input" maxlength="300" name="content"
+                                            <textarea class="--object-input" onkeydown="resize(this)" onkeyup="resize(this)" maxlength="300" name="content"
                                                       placeholder="댓글을 입력해 주세요"></textarea>
                                         </label>
                                         <input class="--object-button" type="submit" value="작성">
