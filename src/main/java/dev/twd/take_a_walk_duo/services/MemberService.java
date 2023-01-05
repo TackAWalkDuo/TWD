@@ -48,45 +48,11 @@ public class MemberService {
         this.memberMapper = MemberMapper;
     }
 
-    @Transactional
+
     public UserEntity getUser(String email) {
-        UserEntity userEntity = this.memberMapper.selectUserByEmail(email);
-        return userEntity;
+        return this.memberMapper.selectUserByEmail(email);
     }
 
-//    // 유저 정보
-//    public UserEntity getUser(UserEntity user) {
-//        return this.memberMapper.selectUserByEmail(user.getNickname());
-//    }
-    // 회원정보 수정하기
-    public Enum<? extends IResult> prepareModifyUser(UserEntity user) {
-        // 유저 확인
-        if (user == null) {
-            return ModifyUserResult.NOT_SIGNED;
-        }
-        UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
-        // 변화된 회원정보가 있는지 확인
-        if (existingUser == null) {
-            return ModifyUserResult.NO_SUCH_USER;
-        }
-        // 이메일 비교
-        if (!existingUser.getEmail().equals(user.getEmail())) {
-            return ModifyUserResult.NOT_ALLOWED;
-        }
-        user.setName(existingUser.getName());
-        user.setNickname(existingUser.getNickname());
-        user.setContact(existingUser.getContact());
-        user.setBirthYear(existingUser.getBirthYear());
-        user.setBirthMonth(existingUser.getBirthMonth());
-        user.setBirthDay(existingUser.getBirthDay());
-        user.setGender(existingUser.getGender());
-        user.setHaveDog(existingUser.getHaveDog());
-        user.setSpecies(existingUser.getSpecies());
-        user.setAddressPostal(existingUser.getAddressPostal());
-        user.setAddressPrimary(existingUser.getAddressPrimary());
-        user.setAddressSecondary(existingUser.getAddressSecondary());
-        return CommonResult.SUCCESS;
-    }
 
     // 회원정보 수정하기
     public Enum<? extends IResult> modifyUser(UserEntity user) {
@@ -99,8 +65,12 @@ public class MemberService {
         if (!existingUser.getEmail().equals(user.getEmail())) {
             return ModifyUserResult.NOT_ALLOWED;
         }
-        user.setEmail(existingUser.getEmail());
-        return this.memberMapper.modifyUserByEmail(user.getEmail()) > 0
+
+        //부족한 부분 채우는 작업
+        user.setRegisteredOn(existingUser.getRegisteredOn());
+        user.setPassword(existingUser.getPassword());
+
+        return this.memberMapper.updateUser(user) > 0
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
@@ -179,12 +149,14 @@ public class MemberService {
         JSONObject kakaoObject = responseObject.getJSONObject("kakao_account");
         String id = String.valueOf(responseObject.getLong("id"));
         KakaoUserEntity kakaoUser = this.memberMapper.selectUserById(id);
+
         if (kakaoUser == null) {
             kakaoUser = new KakaoUserEntity();
             kakaoUser.setId(id);
             kakaoUser.setNickname(propertyObject.getString("nickname"));
             this.memberMapper.insertKakaoUser(kakaoUser);
         }
+
         return kakaoUser;
     }
 

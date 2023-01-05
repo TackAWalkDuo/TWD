@@ -33,12 +33,7 @@ public class MemberController {
             produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getModifyUser(@SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView("member/modifyUser");
-        Enum<?> result = this.memberService.prepareModifyUser(user);
-        modelAndView.addObject("user", user);
-        modelAndView.addObject("result", result.name());
-        if (result == CommonResult.SUCCESS) {
-            modelAndView.addObject("user", this.memberService.getUser(user.getEmail()));
-        }
+        modelAndView.addObject("modifyUser", this.memberService.getUser(user.getEmail()));
         return modelAndView;
     }
 
@@ -47,11 +42,14 @@ public class MemberController {
             method = RequestMethod.PATCH,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String patchUser(@SessionAttribute(value = "user", required = false) UserEntity user) {
-        Enum<?> result = this.memberService.modifyUser(user);
+    public String patchUser(@SessionAttribute(value = "user", required = false) UserEntity user,
+                            UserEntity modifyUser) {
+        modifyUser.setEmail(user.getEmail());
+        Enum<?> result = this.memberService.modifyUser(modifyUser);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
-        return responseObject.toString();
+        return null;
+//        return responseObject.toString();
     }
 
 
@@ -84,6 +82,7 @@ public class MemberController {
     public ModelAndView getMyPage() {
         System.out.println("???");
         ModelAndView modelAndView = new ModelAndView("member/myPage");
+        //user 검색해서 값 넘겨주기.
         return modelAndView;
     }
 

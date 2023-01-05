@@ -1,5 +1,9 @@
 const form = window.document.getElementById('form');
 // '여' 체크 했을때 견종선택 나오도록
+
+
+
+
 form.querySelector('[rel="haveDog"]').addEventListener('click', () => {
     document.getElementById('checkSpecies').style.display = "flex";
 });
@@ -119,10 +123,6 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
 
         const xhr = new XMLHttpRequest();
         const formData = new FormData();
-        // formData.append('email', form['email'].value);
-        // formData.append('code', form['emailAuthCode'].value);
-        // formData.append('salt', form['emailAuthSalt'].value);
-        // formData.append('password', form['password'].value);
         formData.append('nickname', form['nickname'].value);
         formData.append('name', form['name'].value);
         formData.append('contact', form['contact'].value);
