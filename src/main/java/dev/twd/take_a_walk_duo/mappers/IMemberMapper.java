@@ -20,6 +20,8 @@ public interface IMemberMapper {
 
     int updateUser(UserEntity user);
 
+    int modifyUserByEmail(@Param(value = "email") String email);
+
     int updateEmailAuth(EmailAuthEntity emailAuth);
 
     int insertEmailAuth(EmailAuthEntity emailAuth);
