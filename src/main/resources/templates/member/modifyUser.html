@@ -20,6 +20,10 @@
 <main class="--main main" th:if="${modifyUser!=null}">
   <div class="--content content">
     <form class="form step1" id="form">
+      <input hidden name="initBirthMonth" th:value="${modifyUser.getBirthMonth()}">
+      <input hidden name="initHaveDog" th:value="${modifyUser.getHaveDog()}">
+      <input hidden name="initSpecies" th:value="${modifyUser.getSpecies()}">
+      <input hidden name="initGender" th:value="${modifyUser.getGender()}">
       <div class="title-container">
         <h2 class="title">정보수정</h2>
         <div class="step-container">

@@ -1,8 +1,17 @@
 const form = window.document.getElementById('form');
 // '여' 체크 했을때 견종선택 나오도록
 
+let initialization = false;
 
 
+//TODO 회원정보수정.
+if(!initialization) {
+    console.log(form['initBirthMonth'].value);
+    console.log(form['initHaveDog'].value);
+    console.log(form['initSpecies'].value);
+    console.log(form['initGender'].value);
+    initialization = true;
+}
 
 form.querySelector('[rel="haveDog"]').addEventListener('click', () => {
     document.getElementById('checkSpecies').style.display = "flex";
