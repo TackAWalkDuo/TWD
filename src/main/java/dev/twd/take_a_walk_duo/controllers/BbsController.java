@@ -47,9 +47,9 @@ public class BbsController {
         } else {
             UserEntity adminAccount = this.bbsService.getUser(user);
             BoardEntity board = bid == null ? null : this.bbsService.getBoard(bid);
-            if(bid.equals("notice") && (!adminAccount.getAdmin())){
+            if (bid.equals("notice") && (!adminAccount.getAdmin())) {
                 modelAndView = new ModelAndView("/bbs/notFindArticle");
-            }else {
+            } else {
                 BoardEntity[] boardList = this.bbsService.chartBoardId(bid);
                 modelAndView = new ModelAndView("bbs/write");
                 modelAndView.addObject("board", board);
@@ -199,19 +199,23 @@ public class BbsController {
             modelAndView.addObject("paging", paging);
             ArticleReadVo[] articles;
 
+            articles = this.bbsService.getArticles(board, paging, criterion, keyword);
+            if (!board.getId().equals("notice")) {
                 ArticleReadVo noticeArticle = this.bbsService.getNoticeArticle(noticeBoard);
-                noticeArticle.setNotice(true);
+                int noticeSize = 0;
+                if(noticeArticle != null) {     //공지사항이 없을 경우를 대비.
+                    noticeArticle.setNotice(true);
+                    noticeSize = 1;
+                }
                 ArticleReadVo[] hotArticles = this.bbsService.getHotArticle(board);
                 for (ArticleReadVo hotArticle : hotArticles) {
                     hotArticle.setHot(true);
                 }
-                articles = this.bbsService.getArticles(board, paging,criterion,keyword);
-            if (!board.getId().equals("notice")) {
                 //리스트 배열합치기
-                ArticleReadVo[] articleMerge = new ArticleReadVo[articles.length + hotArticles.length + 1];
-                articleMerge[0] = noticeArticle;
-                System.arraycopy(hotArticles, 0, articleMerge, 1, hotArticles.length);
-                System.arraycopy(articles, 0, articleMerge, 1 + hotArticles.length, articles.length);
+                ArticleReadVo[] articleMerge = new ArticleReadVo[articles.length + hotArticles.length + noticeSize];
+                if(noticeArticle != null) articleMerge[0] = noticeArticle;
+                System.arraycopy(hotArticles, 0, articleMerge, noticeSize, hotArticles.length);
+                System.arraycopy(articles, 0, articleMerge, noticeSize + hotArticles.length, articles.length);
                 modelAndView.addObject("articles", articleMerge);
                 System.out.println(articleMerge.length);
             } else {

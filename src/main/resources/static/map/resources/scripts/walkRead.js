@@ -609,9 +609,7 @@ foldElement.addEventListener('click', () => {
     } else {
         container.classList.add("fold");
     }
-
     foldChangeIcon(container.classList.contains("fold"));
-
 });
 
 function foldChangeIcon(flag) {
