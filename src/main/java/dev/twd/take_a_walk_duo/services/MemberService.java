@@ -27,6 +27,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.UnknownServiceException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -47,10 +48,45 @@ public class MemberService {
         this.memberMapper = MemberMapper;
     }
 
+    @Transactional
+    public UserEntity getUser(String email) {
+        UserEntity userEntity = this.memberMapper.selectUserByEmail(email);
+        return userEntity;
+    }
+
 //    // 유저 정보
 //    public UserEntity getUser(UserEntity user) {
 //        return this.memberMapper.selectUserByEmail(user.getNickname());
 //    }
+    // 회원정보 수정하기
+    public Enum<? extends IResult> prepareModifyUser(UserEntity user) {
+        // 유저 확인
+        if (user == null) {
+            return ModifyUserResult.NOT_SIGNED;
+        }
+        UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
+        // 변화된 회원정보가 있는지 확인
+        if (existingUser == null) {
+            return ModifyUserResult.NO_SUCH_USER;
+        }
+        // 이메일 비교
+        if (!existingUser.getEmail().equals(user.getEmail())) {
+            return ModifyUserResult.NOT_ALLOWED;
+        }
+        user.setName(existingUser.getName());
+        user.setNickname(existingUser.getNickname());
+        user.setContact(existingUser.getContact());
+        user.setBirthYear(existingUser.getBirthYear());
+        user.setBirthMonth(existingUser.getBirthMonth());
+        user.setBirthDay(existingUser.getBirthDay());
+        user.setGender(existingUser.getGender());
+        user.setHaveDog(existingUser.getHaveDog());
+        user.setSpecies(existingUser.getSpecies());
+        user.setAddressPostal(existingUser.getAddressPostal());
+        user.setAddressPrimary(existingUser.getAddressPrimary());
+        user.setAddressSecondary(existingUser.getAddressSecondary());
+        return CommonResult.SUCCESS;
+    }
 
     // 회원정보 수정하기
     public Enum<? extends IResult> modifyUser(UserEntity user) {
@@ -60,10 +96,11 @@ public class MemberService {
             // 유저가 존재하지 않는 경우
             return ModifyUserResult.NO_SUCH_USER;
         }
-        if (user == null || !user.getEmail().equals(existingUser.getEmail())) {
+        if (!existingUser.getEmail().equals(user.getEmail())) {
             return ModifyUserResult.NOT_ALLOWED;
         }
-        return this.memberMapper.updateUser(existingUser) > 0
+        user.setEmail(existingUser.getEmail());
+        return this.memberMapper.modifyUserByEmail(user.getEmail()) > 0
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
@@ -139,6 +176,7 @@ public class MemberService {
         System.out.println("응답 내용 : " + responseBuilder);
         JSONObject responseObject = new JSONObject(responseBuilder.toString());
         JSONObject propertyObject = responseObject.getJSONObject("properties");
+        JSONObject kakaoObject = responseObject.getJSONObject("kakao_account");
         String id = String.valueOf(responseObject.getLong("id"));
         KakaoUserEntity kakaoUser = this.memberMapper.selectUserById(id);
         if (kakaoUser == null) {

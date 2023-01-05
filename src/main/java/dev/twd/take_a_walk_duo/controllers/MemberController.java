@@ -31,8 +31,14 @@ public class MemberController {
     @RequestMapping(value = "modifyUser",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getModifyUser() {
+    public ModelAndView getModifyUser(@SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView("member/modifyUser");
+        Enum<?> result = this.memberService.prepareModifyUser(user);
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("result", result.name());
+        if (result == CommonResult.SUCCESS) {
+            modelAndView.addObject("user", this.memberService.getUser(user.getEmail()));
+        }
         return modelAndView;
     }
 
@@ -76,6 +82,7 @@ public class MemberController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getMyPage() {
+        System.out.println("???");
         ModelAndView modelAndView = new ModelAndView("member/myPage");
         return modelAndView;
     }
