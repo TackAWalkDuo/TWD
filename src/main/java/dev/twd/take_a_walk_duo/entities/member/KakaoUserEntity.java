@@ -8,6 +8,7 @@ public class KakaoUserEntity {
     private String id;
     private String nickname;
     private Date registeredOn;
+    private boolean isUser;
 
     public String getEmail() {
         return email;
@@ -43,6 +44,14 @@ public class KakaoUserEntity {
     public KakaoUserEntity setRegisteredOn(Date registeredOn) {
         this.registeredOn = registeredOn;
         return this;
+    }
+
+    public boolean isUser() {
+        return isUser;
+    }
+
+    public void setUser(boolean user) {
+        isUser = user;
     }
 
     @Override

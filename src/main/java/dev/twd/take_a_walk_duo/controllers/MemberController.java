@@ -95,6 +95,9 @@ public class MemberController {
         String accessToken = this.memberService.getKakaoAccessToken(code);
         // 2번 인증코드로 토큰 전달
         KakaoUserEntity user = this.memberService.getKakaoUserInfo(accessToken);
+        if(user.isUser()) {
+            return new ModelAndView("member/register");
+        }
         session.setAttribute("user", user);
         return new ModelAndView("memeber/kakao");
     }

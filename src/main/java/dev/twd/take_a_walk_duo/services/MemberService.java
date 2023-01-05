@@ -148,12 +148,15 @@ public class MemberService {
         JSONObject propertyObject = responseObject.getJSONObject("properties");
         JSONObject kakaoObject = responseObject.getJSONObject("kakao_account");
         String id = String.valueOf(responseObject.getLong("id"));
+        String email = String.valueOf(responseObject.getLong("email"));
         KakaoUserEntity kakaoUser = this.memberMapper.selectUserById(id);
 
         if (kakaoUser == null) {
             kakaoUser = new KakaoUserEntity();
             kakaoUser.setId(id);
+            kakaoUser.setEmail(email);
             kakaoUser.setNickname(propertyObject.getString("nickname"));
+            kakaoUser.setUser(false);
             this.memberMapper.insertKakaoUser(kakaoUser);
         }
 
