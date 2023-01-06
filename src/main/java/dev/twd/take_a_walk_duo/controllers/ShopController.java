@@ -287,7 +287,7 @@ public class ShopController {
     @PostMapping(value = "detail",
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String postCart(@SessionAttribute(value = "user", required = false) UserEntity user,
+    public String postDetail(@SessionAttribute(value = "user", required = false) UserEntity user,
                            @RequestParam(value = "aid", required = false) int aid,
                            ShoppingCartEntity cart, ArticleEntity article) {
         //물품 수량 필요
@@ -306,6 +306,18 @@ public class ShopController {
         if (result == CommonResult.SUCCESS) {
             responseObject.put("aid", aid);
         }
+        return responseObject.toString();
+    }
+    @PatchMapping(value = "cart",
+    produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String patchCart(@SessionAttribute(value = "user", required = false) UserEntity user, ShoppingCartEntity cart) {
+        Enum<?> result = this.shopService.modifyCart(cart, user);
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("result", result.name().toLowerCase());
+//        if (result == CommonResult.SUCCESS) {
+//            responseObject.put("aid", aid);
+//        }
         return responseObject.toString();
     }
 

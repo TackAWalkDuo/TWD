@@ -16,6 +16,8 @@ public interface IShopMapper {
 
     SaleProductEntity selectProductByArticleIndex(@Param(value = "aid") int aid);
 
+    ShoppingCartEntity selectCartByIndex(@Param(value = "index") int index, @Param(value = "userEmail") String userEmail);
+
     int selectArticleCountByBoardId(@Param(value = "boardId") String boardId,
                                     @Param(value = "criterion") String criterion,
                                     @Param(value = "keyword") String keyword);
@@ -53,6 +55,7 @@ public interface IShopMapper {
 
     int updateArticle(ArticleEntity article);
 
+    int updateCart(ShoppingCartEntity cart);
     // SaleProductEntity 등록용
     int insertProduct(SaleProductEntity product);
 

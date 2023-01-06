@@ -352,6 +352,34 @@
         LIMIT 1
     </select>
 
+    <select id="selectCartByIndex"
+            resultType="dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity">
+        SELECT `index`         AS `index`,
+               user_email      AS `userEmail`,
+               product_index   AS `productIndex`,
+               sale_price      AS `salePrice`,
+               quantity        AS `quantity`,
+               delivery_fee    AS `deliveryFee`,
+               registration_on AS `registrationOn`
+        FROM `twd_shop`.`shopping_cart`
+        WHERE `index` = #{index}
+          AND `user_email` = #{userEmail}
+        LIMIT 1
+    </select>
+
+    <update id="updateCart"
+            parameterType="dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity">
+        UPDATE `twd_shop`.`shopping_cart`
+        SET `user_email`      = #{userEmail},
+            `product_index`   = #{productIndex},
+            `sale_price`      = #{salePrice},
+            `quantity`        = #{quantity},
+            `delivery_fee`    = #{deliveryFee},
+            `registration_on` = #{registrationOn}
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
+
     <insert id="insertCart"
             useGeneratedKeys="true"
             keyProperty="index"
@@ -360,6 +388,5 @@
                                                `registration_on`)
         VALUES (#{userEmail}, #{productIndex}, #{salePrice}, #{quantity}, #{deliveryFee}, #{registrationOn})
     </insert>
-
 
 </mapper>

@@ -40,6 +40,7 @@
             <tr rel="cart-item" th:each="cart : ${carts}" th:if="${board.getId() == 'shop'}">
                 <td hidden rel="productIndex" th:text="${cart.getProductIndex()}"></td>
                 <td hidden rel="productQuantity" th:text="${cart.getQuantity()}"></td>
+                <td hidden rel="cartIndex" th:text="${cart.getIndex()}"></td>
                 <td>
                     <input type="checkbox" name="checkBox" value="checkBox">
                 </td>
@@ -61,7 +62,7 @@
                 </td>
                 <td>
                     <div>
-                        <div th:text="${cart.getSalePrice()}">1원</div>
+                        <div rel="salePrice" th:text="${cart.getSalePrice()}">1원</div>
                         <button class="--object-button" type="button">주문하기</button>
                     </div>
                 </td>
@@ -71,6 +72,57 @@
                         <div rel="itemPriceSum" th:text="${cart.getSalePrice() * cart.getQuantity()}">3000원</div>
                     </label>
                 </td>
+                <form rel="orderForm">
+
+                    <div class="modify-container" id="modifyContainer">
+                        <div class="modify-frame" id="modifyFrame">
+                            <div class="modify-title">
+                                <div>주문 변경</div>
+                                <button rel="cancelButton" type="button" class="cancel-button">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                            <div class="modify-body">
+                                <div>
+                                    <img rel="modifyImage" class="detail-img" alt="" th:src="|/bbs/thumbnail?index=${205}|">
+                                </div>
+                                <div class="product-info">
+                                    <div rel="modifyTitle">상품</div>
+                                    <div rel="modifyPrice">3000</div>
+                                </div>
+                            </div>
+                            <div class="detail-order-container">
+                                <!--옵션 넣을꺼면 옵션 이름이 출력되게 수정해야함-->
+                                <!--                        <p rel="modifyTitle" class="order-text">제목</p>-->
+                                <p class="order-text">수량</p>
+                                <div class="detail-info-container">
+                                    <div class="info-quantity-box">
+                                        <button disabled class="info-button" name="minusButton" rel="minusButton" type="button">-</button>
+                                        <input class="info-number" min="1" max="100" name="infoNumber" rel="infoNumber"
+                                               value="1"
+                                               type="number">
+                                        <button class="info-button" name="plusButton" rel="plusButton" type="button">+</button>
+                                        <div class="just-space"></div>
+                                        <input disabled class="info-price" rel="infoPrice" name="infoPrice"
+                                               value="1">
+                                    </div>
+                                </div>
+                                <div class="detail-charge-container">
+                                <span class="charge-info">
+                                총 상품 금액
+                                </span>
+                                    <span class="charge-quantity" rel="chargeQuantity">총 수량 1개</span>
+                                    <span class="charge-price"
+                                          rel="chargePrice">22,700원</span>
+                                </div>
+                            </div>
+                            <div class="select-button">
+                                <button rel="modifyCancelButton" class="cancel --object-button" type="button">취소</button>
+                                <button rel="modifyConfirmButton" class="confirm --object-button" type="button">확인</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </tr>
             </tbody>
         </table>
@@ -131,56 +183,6 @@
                     <span class="info-quantity">1</span>
                 </button>
             </div>
-            <form rel="orderForm">
-                <div class="modify-container" id="modifyContainer">
-                    <div class="modify-frame" id="modifyFrame">
-                        <div class="modify-title">
-                            <div>주문 변경</div>
-                            <button rel="cancelButton" type="button" class="cancel-button">
-                                <i class="fa-solid fa-xmark"></i>
-                            </button>
-                        </div>
-                        <div class="modify-body">
-                            <div>
-                                <img rel="modifyImage" class="detail-img" alt="" th:src="|/bbs/thumbnail?index=${205}|">
-                            </div>
-                            <div class="product-info">
-                                <div rel="modifyTitle">상품</div>
-                                <div rel="modifyPrice">3000</div>
-                            </div>
-                        </div>
-                        <div class="detail-order-container">
-                            <!--옵션 넣을꺼면 옵션 이름이 출력되게 수정해야함-->
-                            <!--                        <p rel="modifyTitle" class="order-text">제목</p>-->
-                            <p class="order-text">수량</p>
-                            <div class="detail-info-container">
-                                <div class="info-quantity-box">
-                                    <button disabled class="info-button" name="minusButton" type="button">-</button>
-                                    <input class="info-number" min="1" max="100" name="infoNumber" rel="infoNumber"
-                                           value="1"
-                                           type="number">
-                                    <button class="info-button" name="plusButton" rel="plusButton" type="button">+</button>
-                                    <div class="just-space"></div>
-                                    <input disabled class="info-price" rel="infoPrice" name="infoPrice"
-                                    value="1">
-                                </div>
-                            </div>
-                            <div class="detail-charge-container">
-                                <span class="charge-info">
-                                총 상품 금액
-                                </span>
-                                <span class="charge-quantity" rel="chargeQuantity">총 수량 1개</span>
-                                <span class="charge-price"
-                                      rel="chargePrice">22,700원</span>
-                            </div>
-                        </div>
-                        <div class="select-button">
-                            <button rel="modifyCancelButton" class="cancel --object-button" type="button">취소</button>
-                            <button rel="modifyConfirmButton" class="confirm --object-button" type="button">확인</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
         </div>
     </form>
 </main>

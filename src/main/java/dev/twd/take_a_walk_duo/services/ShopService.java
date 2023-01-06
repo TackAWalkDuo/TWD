@@ -383,5 +383,13 @@ public class ShopService {
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
+    public Enum<? extends IResult> modifyCart(ShoppingCartEntity cart, UserEntity user) {
+        ShoppingCartEntity existingCart = this.shopMapper.selectCartByIndex(cart.getIndex(), user.getEmail());
+        existingCart.setQuantity(cart.getQuantity());
+
+        return this.shopMapper.updateCart(existingCart) > 0
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
+    }
 }
 
