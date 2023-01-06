@@ -184,7 +184,6 @@ public class MemberService {
     // 5. 위 과정 전체를 거친 후 'CommonResult.SUCCESS' 반환하기.
     public Enum<? extends IResult> register(
             UserEntity user,
-            KakaoUserEntity kakaoUser,
             EmailAuthEntity emailAuth) {
         EmailAuthEntity existingEmailAuth = this.memberMapper.selectEmailAuthByEmailCodeSalt(
                 emailAuth.getEmail(),
@@ -194,10 +193,9 @@ public class MemberService {
         //kakao 계정 검색
         KakaoUserEntity existingKakaoUser = this.memberMapper.selectKakaoUserByEmail(
                 user.getEmail());
-        System.out.println(kakaoUser.getEmail());
         System.out.println(existingKakaoUser);
-        if(existingKakaoUser == null) {
-            if (existingEmailAuth == null || !existingEmailAuth.isExpired() ) {
+        if (existingKakaoUser == null) {
+            if (existingEmailAuth == null || !existingEmailAuth.isExpired()) {
                 // || kakaoUser == null
                 System.out.println(existingEmailAuth == null);
                 System.out.println(existingEmailAuth.isExpired());
@@ -216,7 +214,14 @@ public class MemberService {
             return CommonResult.FAILURE;
         }
 
-        //kakao email ->> isUser(ture)..
+        // kakao email ->> isUser(ture)..
+
+        existingKakaoUser.setUser(true);
+        if (this.memberMapper.updateKakaoUser(existingKakaoUser) <= 0) {
+            return CommonResult.FAILURE;
+        }
+        ;
+
         return CommonResult.SUCCESS;
     }
 

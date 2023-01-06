@@ -19,6 +19,7 @@ public interface IMemberMapper {
     int insertKakaoUser(KakaoUserEntity kakaoUser);
 
     int updateUser(UserEntity user);
+    int updateKakaoUser(KakaoUserEntity kakaoUser);
 
     int updateEmailAuth(EmailAuthEntity emailAuth);
 

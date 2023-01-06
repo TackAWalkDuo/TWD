@@ -153,16 +153,11 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
                     const responseObject = JSON.parse(xhr.responseText);
                     switch (responseObject['result']) {
                         case 'success':
-                            form.querySelector('[rel="stepText"]').innerText = '회원가입 완료';
-                            form.querySelector('[rel="nextButton"]').innerText = '로그인하러 가기';
-                            form.classList.remove('step2');
-                            form.classList.add('step3');
+                            alert('카카오 회원가입 성공');
+                            window.close();
                             break;
-                        // case 'email_not_verified':
-                        //     Warning.show('이메일 인증이 완료되지 않았습니다.');
-                        //     break;
                         default:
-                            Warning.show('알 수 없는 이유로 회원가입에 실패하였습니다. 잠시 후 다시 시도해 주세요.');
+                            Warning.show('알 수 없는 이유로 카카오 회원가입에 실패하였습니다. 잠시 후 다시 시도해 주세요.');
                     }
                 } else {
                     Warning.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');

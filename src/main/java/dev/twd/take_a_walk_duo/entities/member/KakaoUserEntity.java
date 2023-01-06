@@ -50,6 +50,7 @@ public class KakaoUserEntity {
         return isUser;
     }
 
+
     public void setUser(boolean user) {
         isUser = user;
     }

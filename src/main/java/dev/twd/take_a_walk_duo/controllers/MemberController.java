@@ -99,7 +99,8 @@ public class MemberController {
             modelAndView.addObject("kakaoUser", this.memberService.getKakaoUserInfo(accessToken));
             return modelAndView;
         }
-        session.setAttribute("user", user);
+
+        session.setAttribute("user", this.memberService.getUser(user.getEmail()));
         return new ModelAndView("member/kakao");
     }
 
@@ -115,7 +116,8 @@ public class MemberController {
     @RequestMapping(value = "login",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getLogin() {
+    public ModelAndView getLogin(@SessionAttribute(value = "user", required = false) UserEntity user) {
+        if(user != null) {return new ModelAndView("redirect:/");}
         ModelAndView modelAndView = new ModelAndView("member/login");
         return modelAndView;
     }
@@ -167,8 +169,8 @@ public class MemberController {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String postRegister(UserEntity user, KakaoUserEntity kakaoUser ,EmailAuthEntity emailAuth) {
-        Enum<?> result = this.memberService.register(user, kakaoUser, emailAuth);
+    public String postRegister(UserEntity user, EmailAuthEntity emailAuth) {
+        Enum<?> result = this.memberService.register(user, emailAuth);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
         return responseObject.toString();
