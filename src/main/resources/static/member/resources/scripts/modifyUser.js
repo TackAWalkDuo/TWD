@@ -11,6 +11,7 @@ if (!initialization) {
             form['birthMonth'][i].selected = true;
         }
     }
+
     //애견 보유 여부
     form['initHaveDog'].value === 'notHave' ?
         form.querySelector('[rel="notHaveDog"]').checked = true :
@@ -64,17 +65,6 @@ window.document.getElementById('xButton').addEventListener('click', () => {
     }
 });
 
-const EmailWarning = {
-    show: (text) => {
-        const emailWarning = form.querySelector('[rel="emailWarning"]');
-        emailWarning.innerText = text;
-        emailWarning.classList.add('visible');
-    },
-    hide: () => {
-        form.querySelector('[rel="emailWarning"]').classList.remove('visible');
-    }
-};
-
 // 이전 버튼
 form.querySelector('[rel="beforeButton"]').addEventListener('click', () => {
     if (window.history.length > 1) {
@@ -85,11 +75,13 @@ form.querySelector('[rel="beforeButton"]').addEventListener('click', () => {
 // 다음 버튼
 form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
     // 다 입력후 다음버튼을 눌렀을 때
-    form.querySelector('[rel="warning"]').classList.remove('visible');
-    form.querySelector('[rel="stepText"]').innerText = '개인정보 입력';
-    form.classList.remove('step1');// step1 글씨는 사라지게 됨
-    form.classList.add('step2');
-    if (form.classList.contains('step2')) {
+    if (form.classList.contains('step1')) {
+        form.querySelector('[rel="warning"]').classList.remove('visible');
+        form.querySelector('[rel="stepText"]').innerText = '개인정보 입력';
+        form.classList.remove('step1');// step1 글씨는 사라지게 됨
+        form.classList.add('step2');
+    }
+    else if (form.classList.contains('step2')) {
         if (form['name'].value === '') {
             Warning.show('이름을 입력해주세요.')
             form['name'].focus();

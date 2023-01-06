@@ -48,8 +48,7 @@ public class MemberController {
         Enum<?> result = this.memberService.modifyUser(modifyUser);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
-        return null;
-//        return responseObject.toString();
+        return responseObject.toString();
     }
 
     // 회원 탈퇴
