@@ -58,8 +58,8 @@ body > .--main {
 }
 
 .table th:first-of-type {
-    border-right: none;
-    width: 1.5rem;
+    /*border-right: none;*/
+    /*width: 1.5rem;*/
     align-items: center;
     display: flex;
     flex-direction: row;
