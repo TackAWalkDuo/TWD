@@ -4,12 +4,14 @@ const form = window.document.getElementById('form');
 let initialization = false;
 
 if (!initialization) {
-    console.log(form['initBirthMonth'].value);
-
-
-    console.log(form['initHaveDog'].value);
-    console.log(form['initSpecies'].value);
-
+    //생년월일 중 월 선택.
+    for(let i = 1; i < form['birthMonth'].length; i++) {
+        if(form['birthMonth'][i].value === form['initBirthMonth'].value) {
+            console.log(form['birthMonth'][i].value);
+            form['birthMonth'][i].selected = true;
+        }
+    }
+    //애견 보유 여부
     form['initHaveDog'].value === 'notHave' ?
         form.querySelector('[rel="notHaveDog"]').checked = true :
         initializationHaveDog();
