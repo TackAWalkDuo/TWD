@@ -14,18 +14,17 @@
 <body>
 <section class="list-container" id="listContainer">
     <form class="search-form" id="searchForm">
-        <span class="title">산책해듀오</span>
+        <span class="title"></span>
         <label class="label">
             <span hidden>사용자</span>
         </label>
         <div class="button-container">
-            <span class="button">고근호님
-                <i class="fa-solid fa-chevron-right"></i>
+            <span class="button" th:text="${myPage.getNickname()}+' 님'">
             </span>
+            <i class="icon fa-solid fa-chevron-right"></i>
         </div>
         <div class="button-container">
-            <span class="button">대형견 소유주
-                <i class="fa-solid fa-dog"></i>
+            <span class="button" th:text="${'애완견 소유 : '+myPage.getSpecies()}">
             </span>
         </div>
         <div class="button-container">

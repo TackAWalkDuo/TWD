@@ -4,8 +4,8 @@ import java.util.Date;
 import java.util.Objects;
 
 public class KakaoUserEntity {
-    private String email;
     private String id;
+    private String email;
     private String nickname;
     private Date registeredOn;
     private boolean isUser;

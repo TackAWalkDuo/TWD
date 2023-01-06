@@ -247,12 +247,19 @@ body {
     justify-content: flex-start;
 }
 
-#searchForm > .button-container > .button {
+#searchForm > .button-container > .button{
     background-color: rgb(44, 62, 80);
     color: rgb(255, 255, 255);
     flex: 1;
     padding: 0.75rem;
     text-align: end;
+    text-decoration: none;
+}
+
+#searchForm > .button-container > .icon {
+    background-color: rgb(44, 62, 80);
+    color: rgb(255, 255, 255);
+    padding: 0.75rem;
     text-decoration: none;
 }
 

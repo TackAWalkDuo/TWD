@@ -29,8 +29,8 @@
             keyColumn="id"
             keyProperty="id"
             parameterType="dev.twd.take_a_walk_duo.entities.member.KakaoUserEntity">
-        INSERT INTO `twd_member`.`kakao_users`(`id`, `nickname`, `email`, `registered_on`, user_flag)
-        VALUES (#{id}, #{nickname}, #{email}, IFNULL(#{registeredOn}, DEFAULT(`registered_on`)), #{isUser})
+        INSERT INTO `twd_member`.`kakao_users`(`id`, `email`, `nickname`, `registered_on`, `user_flag`)
+        VALUES (#{id}, #{email}, #{nickname}, IFNULL(#{registeredOn}, DEFAULT(`registered_on`)), #{isUser})
     </insert>
 
     <insert id="insertEmailAuth"
@@ -44,14 +44,29 @@
 
     <select id="selectUserById"
             resultType="dev.twd.take_a_walk_duo.entities.member.KakaoUserEntity">
-        SELECT `email`         AS `email`,
-               `id`            AS `id`,
+        SELECT `id`            AS `id`,
+               `email`         AS `email`,
                `nickname`      AS `nickname`,
-               `registered_on` AS `registeredOn`
+               `registered_on` AS `registeredOn`,
+               `user_flag`     AS `userFlag`
         FROM `twd_member`.`kakao_users`
         WHERE `id` = #{id}
         LIMIT 1
     </select>
+
+    <select id="selectKakaoUserByEmail"
+            resultType="dev.twd.take_a_walk_duo.entities.member.KakaoUserEntity">
+        SELECT `id`            AS `id`,
+               `email`         AS `email`,
+               `nickname`      AS `nickname`,
+               `registered_on` AS `registeredOn`,
+               `user_flag`     AS `userFlag`
+        FROM `twd_member`.`kakao_users`
+        WHERE `email` = #{email}
+        LIMIT 1
+    </select>
+
+
 
     <select id="selectUserByEmail"
             resultType="dev.twd.take_a_walk_duo.entities.member.UserEntity">

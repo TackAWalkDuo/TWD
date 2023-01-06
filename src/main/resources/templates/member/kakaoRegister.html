@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>산책해듀오 - 회원가입</title>
-    <th:block th:replace="~{fragments/head :: common}"></th:block>
-    <link rel="stylesheet" th:href="@{/member/resources/stylesheets/register.css}">
-    <script defer th:src="@{/member/resources/scripts/register.js}"></script>
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>산책해듀오 - 카카오 회원가입</title>
+  <th:block th:replace="~{fragments/head :: common}"></th:block>
+  <link rel="stylesheet" th:href="@{/member/resources/stylesheets/kakaoRegister.css}">
+  <script defer th:src="@{/member/resources/scripts/kakaoRegister.js}"></script>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 <div class="xButton" id="xButton">
@@ -18,24 +18,24 @@
         </span>
 </div>
 <main class="--main main">
-    <div class="--content content">
-        <form class="form step1" id="form">
-            <div class="title-container">
-                <h2 class="title">회원가입</h2>
-                <div class="step-container">
-                    <span class="text" rel="stepText">이용약관 및 개인정보 처리방침</span>
-                    <span class="step step1">1</span>
-                    <span class="line"></span>
-                    <span class="step step2">2</span>
-                    <span class="line"></span>
-                    <span class="step step3">3</span>
-                </div>
-            </div>
-            <div class="step step1">
-                <label class="label">
-                    <h2 class="title"><i class="fa-solid fa-quote-left"></i> 서비스 이용약관 <i
-                            class="fa-solid fa-quote-right"></i></h2>
-                    <textarea class="--object-input term" readonly>여러분을 환영합니다.
+  <div class="--content content">
+    <form class="form step1" id="form">
+      <div class="title-container">
+        <h2 class="title">카카오 회원가입</h2>
+        <div class="step-container">
+          <span class="text" rel="stepText">이용약관 및 개인정보 처리방침</span>
+          <span class="step step1">1</span>
+          <span class="line"></span>
+          <span class="step step2">2</span>
+          <span class="line"></span>
+          <span class="step step3">3</span>
+        </div>
+      </div>
+      <div class="step step1">
+        <label class="label">
+          <h2 class="title"><i class="fa-solid fa-quote-left"></i> 서비스 이용약관 <i
+                  class="fa-solid fa-quote-right"></i></h2>
+          <textarea class="--object-input term" readonly>여러분을 환영합니다.
 산책해듀오 서비스 및 제품(이하 ‘서비스’)을 이용해 주셔서 감사합니다. 본 약관은 다양한 산책해듀오 서비스의 이용과 관련하여 산책해듀오 서비스를 제공하는 산책해듀오 주식회사(이하 ‘산책해듀오’)와 이를 이용하는 산책해듀오 서비스 회원(이하 ‘회원’) 또는 비회원과의 관계를 설명하며, 아울러 여러분의 산책해듀오 서비스 이용에 도움이 될 수 있는 유익한 정보를 포함하고 있습니다.
 
 산책해듀오 서비스를 이용하시거나 산책해듀오 서비스 회원으로 가입하실 경우 여러분은 본 약관 및 관련 운영 정책을 확인하거나 동의하게 되므로, 잠시 시간을 내시어 주의 깊게 살펴봐 주시기 바랍니다.
@@ -152,11 +152,11 @@
 
 공지 일자: 2018년 3월 30일
 적용 일자: 2018년 5월 1일</textarea>
-                </label>
-                <label class="label">
-                    <h2 class="title"><i class="fa-solid fa-quote-left"></i> 개인정보 처리방침 <i
-                            class="fa-solid fa-quote-right"></i></h2>
-                    <textarea class="--object-input term" readonly>개인정보보호법에 따라 산책해듀오에 회원가입 신청하시는 분께 수집하는 개인정보의 항목, 개인정보의 수집 및 이용목적, 개인정보의 보유 및 이용기간, 동의 거부권 및 동의 거부 시 불이익에 관한 사항을 안내 드리오니 자세히 읽은 후 동의하여 주시기 바랍니다.
+        </label>
+        <label class="label">
+          <h2 class="title"><i class="fa-solid fa-quote-left"></i> 개인정보 처리방침 <i
+                  class="fa-solid fa-quote-right"></i></h2>
+          <textarea class="--object-input term" readonly>개인정보보호법에 따라 산책해듀오에 회원가입 신청하시는 분께 수집하는 개인정보의 항목, 개인정보의 수집 및 이용목적, 개인정보의 보유 및 이용기간, 동의 거부권 및 동의 거부 시 불이익에 관한 사항을 안내 드리오니 자세히 읽은 후 동의하여 주시기 바랍니다.
 
 1. 수집하는 개인정보
 이용자는 회원가입을 하지 않아도 정보 검색, 뉴스 보기 등 대부분의 산책해듀오 서비스를 회원과 동일하게 이용할 수 있습니다. 이용자가 메일, 캘린더, 카페, 블로그 등과 같이 개인화 혹은 회원제 서비스를 이용하기 위해 회원가입을 할 경우, 산책해듀오는 서비스 이용을 위해 필요한 최소한의 개인정보를 수집합니다.
@@ -222,231 +222,225 @@ eXpert 서비스 및 eXpert 센터 가입 등록정보 : 신청일로부터 6개
 
 
 </textarea>
-                </label>
-                <label class="--object-check">
-                    <input name="termAgree" type="checkbox">
-                    <span class="--checkbox">
+        </label>
+        <label class="--object-check">
+          <input name="termAgree" type="checkbox">
+          <span class="--checkbox">
                         <i class="fa-solid fa-check"></i>
                     </span>
-                    <span class="--text">위 서비스 이용약관 및 개인정보 처리방침을 <br> 읽어보았고 이해하였으며 동의합니다.</span>
-                </label>
-            </div>
-            <div class="step step2" id="step2">
-                <table class="table">
-                    <tbody>
-                    <tr>
-                        <th><i class="fa-solid fa-envelope"></i> 이메일</th>
-                        <td>
-                            <label class="label email">
-                                <span hidden>이메일</span>
-                                <input class="--object-input input" maxlength="50" name="email"
-                                       placeholder="이메일 주소를 입력해 주세요." type="email">
-                                <input class="--object-button" name="emailSend" value="인증번호 전송" type="button">
-                            </label>
-                            <label class="label email">
-                                <span hidden>인증번호</span>
-                                <input class="--object-input input" disabled maxlength="6" name="emailAuthCode"
-                                       placeholder="이메일 인증번호를 입력해 주세요." type="text">
-                                <input name="emailAuthSalt" type="hidden">
-                                <input class="--object-button" disabled name="emailVerify" value="인증번호 확인"
-                                       type="button">
-                            </label>
-                            <span class="warning" rel="emailWarning">이메일 주소를 입력해 주세요.</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><i class="fa-solid fa-key"></i> 비밀번호</th>
-                        <td>
-                            <label class="label password">
-                                <span hidden>비밀번호</span>
-                                <input class="--object-input input" maxlength="50" name="password"
-                                       placeholder="비밀번호를 입력해 주세요." type="password">
-                            </label>
-                            <label class="label password">
-                                <span hidden>비밀번호 재입력</span>
-                                <input class="--object-input input" maxlength="50" name="passwordCheck"
-                                       placeholder="비밀번호를 한 번 더 입력해 주세요." type="password">
-                            </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><i class="fa-regular fa-face-smile"></i> 이름</th>
-                        <td>
-                            <label class="label">
-                                <span hidden>이름</span>
-                                <input class="--object-input input" maxlength="50" name="name"
-                                       placeholder="이름을 입력해 주세요." type="text">
-                            </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><i class="fa-solid fa-face-smile"></i> 닉네임</th>
-                        <td>
-                            <label class="label">
-                                <span hidden>닉네임</span>
-                                <input class="--object-input input" maxlength="10" name="nickname"
-                                       placeholder="닉네임을 입력해 주세요." type="text">
-                            </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><i class="fa-solid fa-address-card"></i> 연락처</th>
-                        <td>
-                            <label class="label">
-                                <span hidden>연락처</span>
-                                <input class="--object-input input" maxlength="12" name="contact"
-                                       placeholder="연락처를 ' - ' 없이 입력해주세요" type="text">
-                            </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><i class="fa-solid fa-cake-candles"></i> 생년월일</th>
-                        <td class="birth">
-                            <label class="birth">
-                                <span hidden>연락처</span>
-                                <input class="--object-input input" id="year" maxlength="4" name="birthYear"
-                                       placeholder="년(4자)" type="text">
-                                <br>
-                                <select name="birthMonth" id="birthMonth">
-                                    <option selected>월</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
-                                    <option value="11">11</option>
-                                    <option value="12">12</option>
-                                </select>
-                                <br>
-                                <input class="--object-input input" id="day" maxlength="4" name="birthDay"
-                                       placeholder="일" type="text">
-                            </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><i class="fa-solid fa-venus-mars"></i> 성별</th>
-                        <td class="gender">
-                            <label class="--object-gender">
-                                <span hidden>남</span>
-                                <input id="genderCheck" type="radio" name="gender" value="man" rel="genderMan">
-                                <span class="--text">남&nbsp</span>
-                                <span class="--checkbox">
+          <span class="--text">위 서비스 이용약관 및 개인정보 처리방침을 <br> 읽어보았고 이해하였으며 동의합니다.</span>
+        </label>
+      </div>
+      <div class="step step2" id="step2">
+        <table class="table">
+          <tbody>
+          <tr>
+            <th><i class="fa-solid fa-envelope"></i> 이메일</th>
+            <td>
+              <label class="label email">
+                <span hidden>이메일</span>
+                <input class="--object-input input" disabled maxlength="6" name="emailAuthCode"
+                       th:value="${kakaoUser.getEmail()}" type="text">
+                <input name="emailAuthSalt" type="hidden">
+                <input class="--object-button" disabled name="emailVerify" value="이메일 확인"
+                       type="button">
+              </label>
+              <span class="warning" rel="emailWarning">이메일 주소를 입력해 주세요.</span>
+            </td>
+          </tr>
+          <tr>
+            <th><i class="fa-solid fa-key"></i> 비밀번호</th>
+            <td>
+              <label class="label password">
+                <span hidden>비밀번호</span>
+                <input class="--object-input input" maxlength="50" name="password"
+                       placeholder="비밀번호를 입력해 주세요." type="password">
+              </label>
+              <label class="label password">
+                <span hidden>비밀번호 재입력</span>
+                <input class="--object-input input" maxlength="50" name="passwordCheck"
+                       placeholder="비밀번호를 한 번 더 입력해 주세요." type="password">
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <th><i class="fa-regular fa-face-smile"></i> 이름</th>
+            <td>
+              <label class="label">
+                <span hidden>이름</span>
+                <input class="--object-input input" maxlength="50" name="name"
+                       placeholder="이름을 입력해 주세요." type="text">
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <th><i class="fa-solid fa-face-smile"></i> 닉네임</th>
+            <td>
+              <label class="label">
+                <span hidden>닉네임</span>
+                <input class="--object-input input" maxlength="10" name="nickname"
+                       th:value="${kakaoUser.getNickname()}" type="text">
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <th><i class="fa-solid fa-address-card"></i> 연락처</th>
+            <td>
+              <label class="label">
+                <span hidden>연락처</span>
+                <input class="--object-input input" maxlength="12" name="contact"
+                       placeholder="연락처를 ' - ' 없이 입력해주세요" type="text">
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <th><i class="fa-solid fa-cake-candles"></i> 생년월일</th>
+            <td class="birth">
+              <label class="birth">
+                <span hidden>연락처</span>
+                <input class="--object-input input" id="year" maxlength="4" name="birthYear"
+                       placeholder="년(4자)" type="text">
+                <br>
+                <select name="birthMonth" id="birthMonth">
+                  <option selected>월</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                </select>
+                <br>
+                <input class="--object-input input" id="day" maxlength="4" name="birthDay"
+                       placeholder="일" type="text">
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <th><i class="fa-solid fa-venus-mars"></i> 성별</th>
+            <td class="gender">
+              <label class="--object-gender">
+                <span hidden>남</span>
+                <input id="genderCheck" type="radio" name="gender" value="man" rel="genderMan">
+                <span class="--text">남&nbsp</span>
+                <span class="--checkbox">
                                 <i class="fa-solid fa-check"></i>
                                 </span>
-                            </label>
-                            <label class="--object-gender">
-                                <span hidden>여</span>
-                                <input type="radio" name="gender" value="woman" rel="genderWoman">
-                                <span class="--text">여&nbsp</span>
-                                <span class="--checkbox">
+              </label>
+              <label class="--object-gender">
+                <span hidden>여</span>
+                <input type="radio" name="gender" value="woman" rel="genderWoman">
+                <span class="--text">여&nbsp</span>
+                <span class="--checkbox">
                                 <i class="fa-solid fa-check"></i>
                                 </span>
-                            </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><i class="fa-solid fa-bone"></i> 애완견 여/부</th>
-                        <td class="have">
-                            <label class="--object-have">
-                                <span hidden>애완견 여</span>
-                                <input id="haveCheck" type="radio" name="haveDog" value="have" rel="havedog">
-                                <span class="--text">여&nbsp</span>
-                                <span class="--checkbox">
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <th><i class="fa-solid fa-bone"></i> 애완견 여/부</th>
+            <td class="have">
+              <label class="--object-have">
+                <span hidden>애완견 여</span>
+                <input id="haveCheck" type="radio" name="haveDog" value="have" rel="havedog">
+                <span class="--text">여&nbsp</span>
+                <span class="--checkbox">
                                 <i class="fa-solid fa-check"></i>
                                 </span>
-                            </label>
-                            <label class="--object-have">
-                                <span hidden>애완견 부</span>
-                                <input type="radio" name="haveDog" value="notHave" rel="notHaveDog">
-                                <span class="--text">부&nbsp</span>
-                                <span class="--checkbox">
+              </label>
+              <label class="--object-have">
+                <span hidden>애완견 부</span>
+                <input type="radio" name="haveDog" value="notHave" rel="notHaveDog">
+                <span class="--text">부&nbsp</span>
+                <span class="--checkbox">
                                 <i class="fa-solid fa-check"></i>
                                 </span>
-                            </label>
-                        </td>
-                    </tr>
-                    <tr class="species" id="checkSpecies">
-                        <th><i class="fa-solid fa-dog"></i> 견종 선택</th>
-                        <td class="size">
-                            <label class="--object-size">
-                                <span hidden>소형견</span>
-                                <input type="radio" name="species" value="소형견" rel="small">
-                                <span class="--text">소형견&nbsp</span>
-                                <span class="--checkbox">
+              </label>
+            </td>
+          </tr>
+          <tr class="species" id="checkSpecies">
+            <th><i class="fa-solid fa-dog"></i> 견종 선택</th>
+            <td class="size">
+              <label class="--object-size">
+                <span hidden>소형견</span>
+                <input type="radio" name="species" value="소형견" rel="small">
+                <span class="--text">소형견&nbsp</span>
+                <span class="--checkbox">
                                 <i class="fa-solid fa-check"></i>
                                 </span>
-                            </label>
-                            <label class="--object-size">
-                                <span hidden>중형견</span>
-                                <input type="radio" name="species" value="중형견" rel="middle">
-                                <span class="--text">중형견&nbsp</span>
-                                <span class="--checkbox">
+              </label>
+              <label class="--object-size">
+                <span hidden>중형견</span>
+                <input type="radio" name="species" value="중형견" rel="middle">
+                <span class="--text">중형견&nbsp</span>
+                <span class="--checkbox">
                                 <i class="fa-solid fa-check"></i>
                                 </span>
-                            </label>
-                            <label class="--object-size">
-                                <span hidden>대형견</span>
-                                <input type="radio" name="species" value="대형견" rel="big">
-                                <span class="--text">대형견&nbsp</span>
-                                <span class="--checkbox">
+              </label>
+              <label class="--object-size">
+                <span hidden>대형견</span>
+                <input type="radio" name="species" value="대형견" rel="big">
+                <span class="--text">대형견&nbsp</span>
+                <span class="--checkbox">
                                 <i class="fa-solid fa-check"></i>
                                 </span>
-                            </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><i class="fa-solid fa-location-dot"></i> 주소</th>
-                        <td>
-                            <label class="label address">
-                                <span hidden>우편번호</span>
-                                <input class="--object-input input" maxlength="6" name="addressPostal"
-                                       placeholder="우편번호" readonly type="text">
-                                <input class="--object-button" name="addressFind" value="주소 찾기" type="button">
-                            </label>
-                            <label class="label address">
-                                <span hidden>기본 주소</span>
-                                <input class="--object-input input" maxlength="100" name="addressPrimary"
-                                       placeholder="주소 찾기를 통해 주소를 입력해 주세요" readonly type="text">
-                            </label>
-                            <label class="label address">
-                                <span hidden>상세 주소</span>
-                                <input class="--object-input input" maxlength="100" name="addressSecondary"
-                                       placeholder="상세주소를 입력해 주세요" type="text">
-                            </label>
-                            <div class="panel address" rel="addressFindPanel">
-                                <div class="dialog" rel="addressFindPanelDialog" style="display:block"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="step step3">
-                <span class="title">회원가입 완료</span>
-                <span class="message"><b>산책해듀오</b>에 회원가입해 주셔서 감사드립니다.<br>아래 <b>로그인하러 가기</b> 버튼을 클릭하여 로그인해주세요.</span>
-            </div>
-            <div class="warning" rel="warning">
-                <i class=" icon fa-solid fa-circle-exclamation"></i>
-                <div class="text" rel="warningText">서비스 이용약관 및 개인정보 처리방침을 읽고 동의해 주세요.</div>
-            </div>
-            <!-- 이전 / 다음 버튼 -->
-            <div class="button-container">
-                <div class="button green" rel="beforeButton">
-                    <i class="fa-solid fa-chevron-left"></i>
-                    <span class="text">이전</span>
-                </div>
-                <div class="button green" rel="nextButton">
-                    <span class="text">다음</span>
-                    <i class="fa-solid fa-chevron-right"></i>
-                </div>
-            </div>
-        </form>
-    </div>
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <th><i class="fa-solid fa-location-dot"></i> 주소</th>
+            <td>
+              <label class="label address">
+                <span hidden>우편번호</span>
+                <input class="--object-input input" maxlength="6" name="addressPostal"
+                       placeholder="우편번호" readonly type="text">
+                <input class="--object-button" name="addressFind" value="주소 찾기" type="button">
+              </label>
+              <label class="label address">
+                <span hidden>기본 주소</span>
+                <input class="--object-input input" maxlength="100" name="addressPrimary"
+                       placeholder="주소 찾기를 통해 주소를 입력해 주세요" readonly type="text">
+              </label>
+              <label class="label address">
+                <span hidden>상세 주소</span>
+                <input class="--object-input input" maxlength="100" name="addressSecondary"
+                       placeholder="상세주소를 입력해 주세요" type="text">
+              </label>
+              <div class="panel address" rel="addressFindPanel">
+                <div class="dialog" rel="addressFindPanelDialog" style="display:block"></div>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="step step3">
+        <span class="title">회원가입 완료</span>
+        <span class="message"><b>산책해듀오</b>에 회원가입해 주셔서 감사드립니다.<br>아래 <b>로그인하러 가기</b> 버튼을 클릭하여 로그인해주세요.</span>
+      </div>
+      <div class="warning" rel="warning">
+        <i class=" icon fa-solid fa-circle-exclamation"></i>
+        <div class="text" rel="warningText">서비스 이용약관 및 개인정보 처리방침을 읽고 동의해 주세요.</div>
+      </div>
+      <!-- 이전 / 다음 버튼 -->
+      <div class="button-container">
+        <div class="button green" rel="beforeButton">
+          <i class="fa-solid fa-chevron-left"></i>
+          <span class="text">이전</span>
+        </div>
+        <div class="button green" rel="nextButton">
+          <span class="text">다음</span>
+          <i class="fa-solid fa-chevron-right"></i>
+        </div>
+      </div>
+    </form>
+  </div>
 </main>
 </body>
 </html>

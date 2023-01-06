@@ -148,18 +148,16 @@ public class MemberService {
         JSONObject propertyObject = responseObject.getJSONObject("properties");
         JSONObject kakaoObject = responseObject.getJSONObject("kakao_account");
         String id = String.valueOf(responseObject.getLong("id"));
-        String email = String.valueOf(responseObject.getLong("email"));
         KakaoUserEntity kakaoUser = this.memberMapper.selectUserById(id);
-
         if (kakaoUser == null) {
             kakaoUser = new KakaoUserEntity();
             kakaoUser.setId(id);
-            kakaoUser.setEmail(email);
+            kakaoUser.setEmail(kakaoObject.getString("email"));
             kakaoUser.setNickname(propertyObject.getString("nickname"));
             kakaoUser.setUser(false);
+            // 이메일 인증
             this.memberMapper.insertKakaoUser(kakaoUser);
         }
-
         return kakaoUser;
     }
 
@@ -186,25 +184,39 @@ public class MemberService {
     // 5. 위 과정 전체를 거친 후 'CommonResult.SUCCESS' 반환하기.
     public Enum<? extends IResult> register(
             UserEntity user,
+            KakaoUserEntity kakaoUser,
             EmailAuthEntity emailAuth) {
         EmailAuthEntity existingEmailAuth = this.memberMapper.selectEmailAuthByEmailCodeSalt(
                 emailAuth.getEmail(),
                 emailAuth.getCode(),
                 emailAuth.getSalt());
-        if (existingEmailAuth == null || !existingEmailAuth.isExpired()) {
-            System.out.println(existingEmailAuth == null);
-            System.out.println(existingEmailAuth.isExpired());
-            return RegisterResult.EMAIL_NOT_VERIFIED;
+        System.out.println("여기까지 실행");
+        //kakao 계정 검색
+        KakaoUserEntity existingKakaoUser = this.memberMapper.selectKakaoUserByEmail(
+                user.getEmail());
+        System.out.println(kakaoUser.getEmail());
+        System.out.println(existingKakaoUser);
+        if(existingKakaoUser == null) {
+            if (existingEmailAuth == null || !existingEmailAuth.isExpired() ) {
+                // || kakaoUser == null
+                System.out.println(existingEmailAuth == null);
+                System.out.println(existingEmailAuth.isExpired());
+                return RegisterResult.EMAIL_NOT_VERIFIED;
+            }
         }
+
+        System.out.println("kakao db존재");
         // haveDog 결과가 notHave 이면 none 을 넣어준다.
         if (user.getHaveDog().equals("notHave")) {
-            user.setSpecies("none");
+            user.setSpecies("예비견주");
         }
         // 비밀번호 해싱
         user.setPassword(CryptoUtils.hashSha512(user.getPassword()));
         if (this.memberMapper.insertUser(user) == 0) {
             return CommonResult.FAILURE;
         }
+
+        //kakao email ->> isUser(ture)..
         return CommonResult.SUCCESS;
     }
 
