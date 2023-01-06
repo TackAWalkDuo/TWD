@@ -3,14 +3,34 @@ const form = window.document.getElementById('form');
 
 let initialization = false;
 
-
-//TODO 회원정보수정.
-if(!initialization) {
+if (!initialization) {
     console.log(form['initBirthMonth'].value);
+
+
     console.log(form['initHaveDog'].value);
     console.log(form['initSpecies'].value);
-    console.log(form['initGender'].value);
+
+    form['initHaveDog'].value === 'notHave' ?
+        form.querySelector('[rel="notHaveDog"]').checked = true :
+        initializationHaveDog();
+
+    //성별 여부 기본값 check
+    form['initGender'].value === 'man' ?
+        form.querySelector('[rel="genderMan"]').checked = true
+        : form.querySelector('[rel="genderWoman"]').checked = true;
     initialization = true;
+}
+
+function initializationHaveDog() {
+    window.document.getElementById('checkSpecies').style.display = "flex";
+    form.querySelector('[rel="haveDog"]').checked = true;
+
+    form['initSpecies'].value === '소형견' ?
+        form.querySelector('[rel="small"]').checked = true :
+        (form['initSpecies'].value === '중형견' ?
+                form.querySelector('[rel="middle"]').checked = true :
+                form.querySelector('[rel="big"]').checked = true
+        );
 }
 
 form.querySelector('[rel="haveDog"]').addEventListener('click', () => {
@@ -64,9 +84,9 @@ form.querySelector('[rel="beforeButton"]').addEventListener('click', () => {
 form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
     // 다 입력후 다음버튼을 눌렀을 때
     form.querySelector('[rel="warning"]').classList.remove('visible');
-        form.querySelector('[rel="stepText"]').innerText = '개인정보 입력';
-        form.classList.remove('step1');// step1 글씨는 사라지게 됨
-        form.classList.add('step2');
+    form.querySelector('[rel="stepText"]').innerText = '개인정보 입력';
+    form.classList.remove('step1');// step1 글씨는 사라지게 됨
+    form.classList.add('step2');
     if (form.classList.contains('step2')) {
         if (form['name'].value === '') {
             Warning.show('이름을 입력해주세요.')
