@@ -52,7 +52,6 @@ public class MemberController {
 //        return responseObject.toString();
     }
 
-
     // 회원 탈퇴
     @RequestMapping(value = "secession",
             method = RequestMethod.GET,
@@ -79,10 +78,10 @@ public class MemberController {
     @RequestMapping(value = "myPage",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getMyPage() {
-        System.out.println("???");
+    public ModelAndView getMyPage(@SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView("member/myPage");
         //user 검색해서 값 넘겨주기.
+        modelAndView.addObject("myPage", this.memberService.getUser(user.getEmail()));
         return modelAndView;
     }
 
@@ -95,11 +94,13 @@ public class MemberController {
         String accessToken = this.memberService.getKakaoAccessToken(code);
         // 2번 인증코드로 토큰 전달
         KakaoUserEntity user = this.memberService.getKakaoUserInfo(accessToken);
-        if(user.isUser()) {
-            return new ModelAndView("member/register");
+        if(!user.isUser()) {
+            ModelAndView modelAndView = new ModelAndView("member/kakaoRegister");
+            modelAndView.addObject("kakaoUser", this.memberService.getKakaoUserInfo(accessToken));
+            return modelAndView;
         }
         session.setAttribute("user", user);
-        return new ModelAndView("memeber/kakao");
+        return new ModelAndView("member/kakao");
     }
 
     // 카카오 로그아웃
@@ -156,7 +157,7 @@ public class MemberController {
     @RequestMapping(value = "register",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getRegister() {
+    public ModelAndView getRegister(@SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView("member/register");
         return modelAndView;
     }
@@ -166,8 +167,8 @@ public class MemberController {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String postRegister(UserEntity user, EmailAuthEntity emailAuth) {
-        Enum<?> result = this.memberService.register(user, emailAuth);
+    public String postRegister(UserEntity user, KakaoUserEntity kakaoUser ,EmailAuthEntity emailAuth) {
+        Enum<?> result = this.memberService.register(user, kakaoUser, emailAuth);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
         return responseObject.toString();

@@ -25,6 +25,7 @@ public interface IMemberMapper {
     int insertEmailAuth(EmailAuthEntity emailAuth);
 
     KakaoUserEntity selectUserById(@Param(value = "id") String id);
+    KakaoUserEntity selectKakaoUserByEmail(@Param(value = "email") String email);
 
     UserEntity selectUserByEmail(@Param(value = "email") String email);
 

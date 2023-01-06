@@ -45,7 +45,6 @@ form.onsubmit = (e) => {
     console.log("확인");
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
-            // Cover.hide();
             if (xhr.status >= 200 && xhr.status < 300) {
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
