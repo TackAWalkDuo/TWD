@@ -18,6 +18,8 @@ public interface IShopMapper {
 
     ShoppingCartEntity selectCartByIndex(@Param(value = "index") int index, @Param(value = "userEmail") String userEmail);
 
+    ShoppingCartEntity selectCartByCartIndex(@Param(value = "index") int index);
+
     int selectArticleCountByBoardId(@Param(value = "boardId") String boardId,
                                     @Param(value = "criterion") String criterion,
                                     @Param(value = "keyword") String keyword);
@@ -69,4 +71,6 @@ public interface IShopMapper {
     int insertImage(ImageEntity image);
 
     int insertCart(ShoppingCartEntity cart);
+
+    int deleteCartByIndex(ShoppingCartEntity cart);
 }

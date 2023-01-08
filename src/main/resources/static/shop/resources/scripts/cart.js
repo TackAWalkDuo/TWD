@@ -9,17 +9,36 @@ const modifyCancelButton = window.document.querySelector('[rel="modifyCancelButt
 const orderForm = window.document.querySelector('[rel="orderForm"]');
 const plusButton = window.document.querySelector('[rel="plusButton"]');
 const minusButton = window.document.querySelector('[rel="minusButton"]');
+const maxQuantity = window.document.querySelectorAll('[rel="maxQuantity"]');
+
+
+cancelButton?.addEventListener('click', () => {
+    window.location.reload();
+});
+modifyCancelButton?.addEventListener('click', () => {
+    window.location.reload();
+});
 
 
 // 전체 선택 체크시 모든 항목 체크
-selectAll = checkAll => {
-    const checkboxes
-        = document.getElementsByName('checkBox');
+// selectAll = checkAll => {
+//     const checkboxes
+//         = document.getElementsByName('checkBox');
+//     checkboxes.forEach((checkbox) => {
+//         checkbox.checked = checkAll.checked;
+//     })
+// }
 
-    checkboxes.forEach((checkbox) => {
-        checkbox.checked = checkAll.checked;
-    })
-}
+const selectAll = window.document.querySelector('[rel="selectAll"]');
+const checkboxes
+    = document.getElementsByName('checkBox');
+// selectAll.addEventListener('click', checkAll => {
+//     alert('선택됨');
+//     alert('체크박스 갯수?' + checkboxes.length);
+//     checkboxes.forEach((checkbox) => {
+//         checkbox.checked = checkAll.checked;
+//     })
+// })
 
 // 각 tr의 주문수정 버튼 누를시 해당 td의 값들을 주문수정 창에 전달한다.
 const cartItem = window.document.querySelectorAll('[rel="cart-item"]');
@@ -29,9 +48,87 @@ const modifyPrice = window.document.querySelector('[rel="modifyPrice"]');
 const productQuantity = window.document.querySelectorAll('[rel="productQuantity"]');
 const infoNumber = window.document.querySelector('[rel="infoNumber"]');
 const infoPrice = window.document.querySelector('[rel="infoPrice"]');
+const deleteButton = window.document.querySelector('[rel="deleteButton"]');
 
 cartItem.forEach(x => {
-    x.querySelector('[rel="modifyButton"]').addEventListener('click', () => {
+    x.querySelector('[rel="checkBox"]').addEventListener('click', () => {
+        if (!x.querySelector('[rel="checkBox"]').classList.contains('checked')) {
+            x.querySelector('[rel="checkBox"]').setAttribute('checked', 'checked');
+            x.querySelector('[rel="checkBox"]').classList.add('checked');
+        } else {
+            x.querySelector('[rel="checkBox"]').classList.remove('checked');
+            x.querySelector('[rel="checkBox"]').removeAttribute('checked');
+        }
+        if (x.querySelector('[rel="checkBox"]').classList.contains("checked")) {
+            deleteButton.addEventListener('click', e => {
+                e.preventDefault();
+                // if (!confirm("정말로 장바구니를 삭제할까요?")) {
+                //     return;
+                // }
+                const xhr = new XMLHttpRequest();
+                const formData = new FormData();
+                formData.append("index", x.querySelector('[rel="cartIndex"]').innerText);
+                xhr.open('DELETE', window.location.href);
+                xhr.onreadystatechange = () => {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status >= 200 && xhr.status < 300) {
+                            const responseObject = JSON.parse(xhr.responseText);
+                            switch (responseObject['result']) {
+                                case 'success':
+                                    window.location.reload();
+                                    break;
+                                default:
+
+                            }
+                        } else {
+
+                        }
+                    }
+                }
+                xhr.send(formData);
+            })
+        }
+    })
+    selectAll.addEventListener('click', checkAll => {
+        if (!x.querySelector('[rel="checkBox"]').classList.contains('checked')) {
+            x.querySelector('[rel="checkBox"]').setAttribute('checked', 'checked');
+            x.querySelector('[rel="checkBox"]').classList.add('checked');
+        } else {
+            x.querySelector('[rel="checkBox"]').classList.remove('checked');
+            x.querySelector('[rel="checkBox"]').removeAttribute('checked');
+        }
+
+        if (x.querySelector('[rel="checkBox"]').classList.contains("checked")) {
+            deleteButton.addEventListener('click', e => {
+                e.preventDefault();
+                // if (!confirm("정말로 장바구니를 삭제할까요?")) {
+                //     return;
+                // }
+                const xhr = new XMLHttpRequest();
+                const formData = new FormData();
+                formData.append("index", x.querySelector('[rel="cartIndex"]').innerText);
+                xhr.open('DELETE', window.location.href);
+                xhr.onreadystatechange = () => {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status >= 200 && xhr.status < 300) {
+                            const responseObject = JSON.parse(xhr.responseText);
+                            switch (responseObject['result']) {
+                                case 'success':
+                                    window.location.reload();
+                                    break;
+                                default:
+
+                            }
+                        } else {
+
+                        }
+                    }
+                }
+                xhr.send(formData);
+            })
+        }
+    });
+    x.querySelector('[rel="modifyButton"]')?.addEventListener('click', () => {
         // alert(x.querySelector('[rel="productIndex"]').innerText);
         // alert(x.querySelector('[rel="proId"]').innerText);
         modifyTitle.innerText = x.querySelector('[rel="proId"]').innerText;
@@ -39,10 +136,11 @@ cartItem.forEach(x => {
         console.log(infoNumber.value);
         console.log(productQuantity.value);
         // infoNumber.value = x.querySelector('[rel="productQuantity"]').innerText;
+        alert("총 수량은?" + x.querySelector('[rel="maxQuantity"]').innerText);
         modifyFunction(x);
         infoPrice.value = x.querySelector('[rel="salePrice"]').innerText * infoNumber.value;
+        chargePrice.innerText = infoNumber.value * x.querySelector('[rel="salePrice"]').innerText + '원';
         if (infoNumber.value > 1) {
-            alert('1보다 크다');
             minusButton.removeAttribute('disabled');
             // removeDisabled();
         }
@@ -80,8 +178,13 @@ cartItem.forEach(x => {
         // }
     });
 });
+const productPrice = window.document.querySelector('[rel="infoPrice"]').value;
+const chargeQuantity = window.document.querySelector('[rel="chargeQuantity"]');
+const chargePrice = window.document.querySelector('[rel="chargePrice"]');
+const modifyConfirmButton = window.document.querySelector('[rel="modifyConfirmButton"]');
 
 const modifyFunction = (x) => {
+    chargePrice.innerText = infoNumber.value * x.querySelector('[rel="salePrice"]').innerText + '원';
     modifyContainer.classList.add('visible');
     const quantity = window.document.querySelector('[rel="productQuantity"]').value;
     const setDisabled = () => orderForm['minusButton'].setAttribute('disabled', 'disabled');
@@ -90,25 +193,20 @@ const modifyFunction = (x) => {
     // const setDisabled = () => x.querySelector('[rel="minusButton"]').setAttribute('disabled', 'disabled');
     // const removeDisabled = () => x.querySelector('[rel="minusButton"]').removeAttribute('disabled');
 
-    const productPrice = window.document.querySelector('[rel="infoPrice"]').value;
-    const chargeQuantity = window.document.querySelector('[rel="chargeQuantity"]');
-    const chargePrice = window.document.querySelector('[rel="chargePrice"]');
-    const modifyConfirmButton = window.document.querySelector('[rel="modifyConfirmButton"]');
+
     infoNumber.value = x.querySelector('[rel="productQuantity"]').innerText;
     console.log("function up");
     console.log(x);
 
-    plusButton.addEventListener('click', (e) => {
-        e.preventDefault();
+    plusButton.addEventListener('click', () => {
         // 값이 1보다 클 때 -버튼 활성화
+        infoNumber.value = parseInt(infoNumber.value) + 1;
         if (infoNumber.value > 1) {
             minusButton.removeAttribute('disabled');
             // removeDisabled();
         }
-        infoNumber.value = parseInt(infoNumber.value) + 1;
         console.log("plusButton");
         infoPrice.value = infoNumber.value * x.querySelector('[rel="salePrice"]').innerText;
-        console.log(infoNumber.value);
         // orderForm['infoPrice'].value = x.querySelector("infoNumber") * 1000;
         chargePrice.innerText = infoNumber.value * x.querySelector('[rel="salePrice"]').innerText + '원';
         chargeQuantity.innerText = '총 수량 ' + infoNumber.value + '개';
@@ -116,18 +214,82 @@ const modifyFunction = (x) => {
 
 
         // 주문수량이 재고량보다 많을 때 경고창 출력 및 갯수 1개로 초기화
-        if (parseInt(infoNumber.value) > quantity) {
+        if (parseInt(infoNumber.value) > x.querySelector('[rel="maxQuantity"]').innerText) {
             alert('주문 수량이 재고량을 초과했습니다.');
             infoNumber.value = 1;
-            setDisabled();
+            if (infoNumber.value > 1) {
+                minusButton.removeAttribute('disabled');
+                // removeDisabled();
+            }
         }
-        console.log('내부 수량' + infoNumber.value);
-        console.log('외부수량 ' + x.querySelector('[rel="productQuantity"]').innerText);
-        x.querySelector('[rel="productQuantity"]').innerText = infoNumber.value;
-        x.querySelector('[rel="itemPriceSum"]').innerText = parseInt(infoNumber.value) * 3000;
+        // console.log('내부 수량' + infoNumber.value);
+        // console.log('외부수량 ' + x.querySelector('[rel="productQuantity"]').innerText);
+        // x.querySelector('[rel="productQuantity"]').innerText = infoNumber.value;
     });
 
     console.log("function down");
+
+    minusButton.addEventListener('click', () => {
+        // -버튼 누를시 갯수 1씩 빼고 가격 조정
+        infoNumber.value = parseInt(infoNumber.value) - 1;
+        infoPrice.value = infoNumber.value * x.querySelector('[rel="salePrice"]').innerText;
+        chargePrice.innerText = infoNumber.value * x.querySelector('[rel="salePrice"]').innerText + '원';
+        chargeQuantity.innerText = '총 수량 ' + infoNumber.value + '개';
+        // 값이 1보다 클 때 -버튼 활성화
+        if (infoNumber.value > 1) {
+            minusButton.removeAttribute('disabled');
+            // orderForm['minusButton'].removeAttribute('disabled');
+        }
+        // 값이 1일 때 -버튼 비활성화
+        if (parseInt(infoNumber.value) === 1) {
+            minusButton.setAttribute('disabled', 'disabled');
+            // orderForm['minusButton'].setAttribute('disabled', 'disabled');
+        }
+    });
+
+    // input란 값 변동시 실행
+    infoNumber.onkeyup = e => {
+        chargeQuantity.innerText = '총 수량 ' + infoNumber.value + '개';
+        chargePrice.innerText = infoNumber.value * x.querySelector('[rel="salePrice"]').innerText + '원';
+        // input이 공란이면 총 갯수 0개로 지정
+        if (infoNumber.value == '') {
+            e.preventDefault();
+            infoPrice.value = 0 + '원';
+            chargeQuantity.innerText = '총 수량 ' + 0 + '개';
+            chargePrice.innerText = 0 + '원';
+            return;
+        }
+        // 숫자, backspace, enter제외 키 입력 방지
+        if (!((e.keyCode >= 48 && e.keyCode <= 57) || e.keyCode === 8 || e.keyCode === 13 || e.keyCode === 38 || e.keyCode === 40)) {
+            e.preventDefault();
+        }
+        // infoNumber 값이 1 미만일 때 경고창 출력 및 갯수 1개로 초기화
+        if (infoNumber.value < 1) {
+            alert('1개 이상부터 구매하실 수 있습니다.');
+            infoNumber.value = 1;
+            chargeQuantity.innerText = '총 수량 ' + infoNumber.value + '개';
+            infoPrice.value = infoNumber.value * x.querySelector('[rel="salePrice"]').innerText;
+            chargePrice.innerText = infoNumber.value * x.querySelector('[rel="salePrice"]').innerText + '원';
+            minusButton.setAttribute('disabled', 'disabled');
+        }
+        // 값이 1 이상일 때 가격 연산 및 값이 1일때 disabled 추가
+        if (infoNumber.value >= 1) {
+            infoPrice.value = infoNumber.value * x.querySelector('[rel="salePrice"]').innerText;
+            minusButton.removeAttribute('disabled');
+            if (parseInt(infoNumber.value) === 1) {
+                minusButton.setAttribute('disabled', 'disabled');
+            }
+        }
+        // 주문수량이 재고량보다 많을 때 경고창 출력 및 갯수 1개로 초기화
+        if (parseInt(infoNumber.value) > x.querySelector('[rel="maxQuantity"]').innerText) {
+            alert('주문 수량이 재고량을 초과했습니다.');
+            infoNumber.value = 1;
+            infoPrice.value = productPrice;
+            chargeQuantity.innerText = '총 수량 ' + infoNumber.value + '개';
+            chargePrice.innerText = infoNumber.value * x.querySelector('[rel="salePrice"]').innerText + '원';
+            minusButton.setAttribute('disabled', 'disabled');
+        }
+    }
 
     modifyConfirmButton.addEventListener('click', e => {
         alert('클릭함');
@@ -145,16 +307,16 @@ const modifyFunction = (x) => {
                     const responseObject = JSON.parse(xhr.responseText);
                     switch (responseObject['result']) {
                         case 'success' :
-                            alert('성공');
+                            alert('수정 성공');
                             window.location.reload();
                             break;
 
                         default :
-                            alert('으악');
+                            alert('수정 오류');
                     }
 
                 } else {
-                    alert('멸망');
+                    alert('상품 갯수를 다시 확인해 주세요.');
                 }
             }
         };
@@ -184,5 +346,38 @@ cancelButton?.addEventListener('click', e => {
     e.preventDefault();
     modifyContainer.classList.remove('visible');
 })
+
+// const checkBox = window.document.querySelector('[rel="checkBox"]');
+// const deleteButton = window.document.querySelector('[rel="deleteButton"]');
+// if (checkBox)) {
+//     deleteButton.addEventListener('click', e => {
+//         e.preventDefault();
+//         alert('삭제 클릭함');
+//         if (!confirm("정말로 장바구니를 삭제할까요?")) {
+//             return;
+//         }
+//         const xhr = new XMLHttpRequest();
+//         xhr.open('DELETE', window.location.href);
+//         xhr.onreadystatechange = () => {
+//             if (xhr.readyState === XMLHttpRequest.DONE) {
+//                 if (xhr.status >= 200 && xhr.status < 300) {
+//                     const responseObject = JSON.parse(xhr.responseText);
+//                     switch (responseObject['result']) {
+//                         case 'success':
+//                             alert('성공');
+//                             window.location.reload();
+//                             break;
+//                         default:
+//                             alert('알 수 없는 이유');
+//                     }
+//                 } else {
+//                     alert('else');
+//                 }
+//             }
+//         }
+//         xhr.send();
+//     })
+// }
+
 
 

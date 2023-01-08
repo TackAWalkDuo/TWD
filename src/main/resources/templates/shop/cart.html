@@ -30,7 +30,7 @@
             <tbody>
             <tr class="imageLine">
                 <th>
-                    <input type="checkbox" name="checkAll" value="checkAll" onclick="selectAll(this);">
+                    <input rel="selectAll" type="checkbox" name="checkAll" value="checkAll">
                 </th>
                 <th colspan="2">상품정보</th>
                 <th>수량</th>
@@ -39,10 +39,10 @@
             </tr>
             <tr rel="cart-item" th:each="cart : ${carts}" th:if="${board.getId() == 'shop'}">
                 <td hidden rel="productIndex" th:text="${cart.getProductIndex()}"></td>
-                <td hidden rel="productQuantity" th:text="${cart.getQuantity()}"></td>
+                <td hidden rel="maxQuantity" th:text="${cart.getMaxQuantity()}"></td>
                 <td hidden rel="cartIndex" th:text="${cart.getIndex()}"></td>
                 <td>
-                    <input type="checkbox" name="checkBox" value="checkBox">
+                    <input rel="checkBox" type="checkbox" name="checkBox" value="checkBox">
                 </td>
                 <td class="image">
                     <span hidden>상품 이미지</span>
@@ -129,7 +129,7 @@
         <table class="delete-container">
             <tr>
                 <td>
-                    <button class="--object-button" type="button">선택 삭제</button>
+                    <button id="deleteButton" rel="deleteButton" class="--object-button" type="button">선택 삭제</button>
                 </td>
             </tr>
         </table>

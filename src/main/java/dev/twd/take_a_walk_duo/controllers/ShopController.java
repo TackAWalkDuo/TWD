@@ -207,7 +207,9 @@ public class ShopController {
         JSONObject responseObject = new JSONObject();
         result = this.shopService.write(article, product, images, user);
         responseObject.put("result", result.name().toLowerCase());
-
+        if (result == CommonResult.SUCCESS) {
+            responseObject.put("aid", product.getArticleIndex());
+        }
         return responseObject.toString();
     }
 
@@ -321,4 +323,13 @@ public class ShopController {
         return responseObject.toString();
     }
 
+    @DeleteMapping(value = "cart",
+    produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String deleteCart(ShoppingCartEntity cart, @SessionAttribute(value = "user", required = false)UserEntity user){
+        Enum<?> result = this.shopService.deleteCarts(cart,user);
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("result", result.name().toLowerCase());
+        return responseObject.toString();
+    }
 }
