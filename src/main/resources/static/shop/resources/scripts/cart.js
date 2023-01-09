@@ -50,84 +50,56 @@ const infoNumber = window.document.querySelector('[rel="infoNumber"]');
 const infoPrice = window.document.querySelector('[rel="infoPrice"]');
 const deleteButton = window.document.querySelector('[rel="deleteButton"]');
 
-cartItem.forEach(x => {
-    x.querySelector('[rel="checkBox"]').addEventListener('click', () => {
-        if (!x.querySelector('[rel="checkBox"]').classList.contains('checked')) {
-            x.querySelector('[rel="checkBox"]').setAttribute('checked', 'checked');
-            x.querySelector('[rel="checkBox"]').classList.add('checked');
-        } else {
-            x.querySelector('[rel="checkBox"]').classList.remove('checked');
-            x.querySelector('[rel="checkBox"]').removeAttribute('checked');
-        }
-        if (x.querySelector('[rel="checkBox"]').classList.contains("checked")) {
-            deleteButton.addEventListener('click', e => {
-                e.preventDefault();
-                // if (!confirm("정말로 장바구니를 삭제할까요?")) {
-                //     return;
-                // }
-                const xhr = new XMLHttpRequest();
-                const formData = new FormData();
-                formData.append("index", x.querySelector('[rel="cartIndex"]').innerText);
-                xhr.open('DELETE', window.location.href);
-                xhr.onreadystatechange = () => {
-                    if (xhr.readyState === XMLHttpRequest.DONE) {
-                        if (xhr.status >= 200 && xhr.status < 300) {
-                            const responseObject = JSON.parse(xhr.responseText);
-                            switch (responseObject['result']) {
-                                case 'success':
-                                    window.location.reload();
-                                    break;
-                                default:
+selectAll.addEventListener('click', () => {
+    if (!selectAll.checked) {
+        cartItem.forEach(x => {
+            x.querySelector('[rel="checkBox"]').checked = false;
+        });
+    } else {
+        cartItem.forEach(x => {
+            x.querySelector('[rel="checkBox"]').checked = true;
+        });
+    }
+});
 
-                            }
-                        } else {
+deleteButton.addEventListener('click', e => {
+    e.preventDefault();
+    // if (!confirm("정말로 장바구니를 삭제할까요?")) {
+    //     return;
+    // }
+    cartItem.forEach(x => {
+        if(x.querySelector('[rel="checkBox"]').checked) {
+            const xhr = new XMLHttpRequest();
+            const formData = new FormData();
+            formData.append("index", x.querySelector('[rel="cartIndex"]').innerText);
+            xhr.open('DELETE', window.location.href);
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        const responseObject = JSON.parse(xhr.responseText);
+                        switch (responseObject['result']) {
+                            case 'success':
+                                window.location.reload();
+                                break;
+                            default:
 
                         }
+                    } else {
+
                     }
                 }
-                xhr.send(formData);
-            })
+            }
+            xhr.send(formData);
         }
     })
-    selectAll.addEventListener('click', checkAll => {
-        if (!x.querySelector('[rel="checkBox"]').classList.contains('checked')) {
-            x.querySelector('[rel="checkBox"]').setAttribute('checked', 'checked');
-            x.querySelector('[rel="checkBox"]').classList.add('checked');
-        } else {
-            x.querySelector('[rel="checkBox"]').classList.remove('checked');
-            x.querySelector('[rel="checkBox"]').removeAttribute('checked');
-        }
+})
 
-        if (x.querySelector('[rel="checkBox"]').classList.contains("checked")) {
-            deleteButton.addEventListener('click', e => {
-                e.preventDefault();
-                // if (!confirm("정말로 장바구니를 삭제할까요?")) {
-                //     return;
-                // }
-                const xhr = new XMLHttpRequest();
-                const formData = new FormData();
-                formData.append("index", x.querySelector('[rel="cartIndex"]').innerText);
-                xhr.open('DELETE', window.location.href);
-                xhr.onreadystatechange = () => {
-                    if (xhr.readyState === XMLHttpRequest.DONE) {
-                        if (xhr.status >= 200 && xhr.status < 300) {
-                            const responseObject = JSON.parse(xhr.responseText);
-                            switch (responseObject['result']) {
-                                case 'success':
-                                    window.location.reload();
-                                    break;
-                                default:
 
-                            }
-                        } else {
+cartItem.forEach(x => {
+    x.querySelector('[rel="checkBox"]').addEventListener('click', () => {
+        selectAll.checked = false;          // 전체선택중 하나 이상이 체크가 해제될 경우 전체 체크 해제
+    })
 
-                        }
-                    }
-                }
-                xhr.send(formData);
-            })
-        }
-    });
     x.querySelector('[rel="modifyButton"]')?.addEventListener('click', () => {
         // alert(x.querySelector('[rel="productIndex"]').innerText);
         // alert(x.querySelector('[rel="proId"]').innerText);
