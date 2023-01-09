@@ -50,7 +50,7 @@ const infoNumber = window.document.querySelector('[rel="infoNumber"]');
 const infoPrice = window.document.querySelector('[rel="infoPrice"]');
 const deleteButton = window.document.querySelector('[rel="deleteButton"]');
 
-selectAll.addEventListener('click', () => {
+selectAll?.addEventListener('click', () => {
     if (!selectAll.checked) {
         cartItem.forEach(x => {
             x.querySelector('[rel="checkBox"]').checked = false;
@@ -62,7 +62,7 @@ selectAll.addEventListener('click', () => {
     }
 });
 
-deleteButton.addEventListener('click', e => {
+deleteButton?.addEventListener('click', e => {
     e.preventDefault();
     // if (!confirm("정말로 장바구니를 삭제할까요?")) {
     //     return;
@@ -98,6 +98,18 @@ deleteButton.addEventListener('click', e => {
 cartItem.forEach(x => {
     x.querySelector('[rel="checkBox"]').addEventListener('click', () => {
         selectAll.checked = false;          // 전체선택중 하나 이상이 체크가 해제될 경우 전체 체크 해제
+
+
+        if(x.querySelector('[rel="checkBox"]').checked) {//선택된 경우
+
+        }
+        else { // 선택되지 않은 경우
+
+        }
+
+        window.document.querySelector('[rel="deliveryFee"]').innerText =
+            window.document.querySelector('[rel="deliveryFee"]').innerText + 3000;
+
     })
 
     x.querySelector('[rel="modifyButton"]')?.addEventListener('click', () => {
@@ -150,7 +162,7 @@ cartItem.forEach(x => {
         // }
     });
 });
-const productPrice = window.document.querySelector('[rel="infoPrice"]').value;
+const productPrice = window.document.querySelector('[rel="infoPrice"]')?.value;
 const chargeQuantity = window.document.querySelector('[rel="chargeQuantity"]');
 const chargePrice = window.document.querySelector('[rel="chargePrice"]');
 const modifyConfirmButton = window.document.querySelector('[rel="modifyConfirmButton"]');
