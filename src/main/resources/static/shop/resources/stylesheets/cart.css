@@ -10,7 +10,13 @@
 /*    background-position: center;*/
 /*    background-attachment: fixed;*/
 /*}*/
-
+.empty-icon{
+    font-size: 5rem;
+    white-space: nowrap;
+}
+.empty-icon > span{
+    margin-left: 0.75rem;
+}
 
 body > .--main {
     display: flex;
@@ -52,8 +58,8 @@ body > .--main {
 }
 
 .table th:first-of-type {
-    border-right: none;
-    width: 1.5rem;
+    /*border-right: none;*/
+    /*width: 1.5rem;*/
     align-items: center;
     display: flex;
     flex-direction: row;

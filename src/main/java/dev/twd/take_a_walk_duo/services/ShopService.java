@@ -361,7 +361,6 @@ public class ShopService {
         System.out.println("머임?" + existingCart);
         System.out.println("aid는?" + aid);
         System.out.println("이메일은?" + user.getEmail());
-
         cart.setProductIndex(aid);
         System.out.println("카트의 aid는?"+cart.getProductIndex());
         cart.setUserEmail(user.getEmail());
@@ -380,6 +379,28 @@ public class ShopService {
 //        System.out.println("인덱스는?" + existingCart.getIndex());
 //        System.out.println("제목은?" + article.getTitle());
         return this.shopMapper.insertCart(cart) > 0
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
+    }
+    public Enum<? extends IResult> modifyCart(ShoppingCartEntity cart, UserEntity user) {
+        ShoppingCartEntity existingCart = this.shopMapper.selectCartByIndex(cart.getIndex(), user.getEmail());
+        existingCart.setQuantity(cart.getQuantity());
+
+        return this.shopMapper.updateCart(existingCart) > 0
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
+    }
+
+    public Enum<? extends IResult> deleteCarts(ShoppingCartEntity cart, UserEntity user){
+        ShoppingCartEntity existingCart = this.shopMapper.selectCartByCartIndex(cart.getIndex());
+        if (existingCart == null) {
+            return CommonResult.FAILURE;
+        }
+        if (!user.getEmail().equals(existingCart.getUserEmail())) {
+            return CommonResult.FAILURE;
+        }
+        existingCart.setIndex(cart.getIndex());
+        return this.shopMapper.deleteCartByIndex(existingCart) > 0
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }

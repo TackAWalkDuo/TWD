@@ -77,8 +77,9 @@ form.onsubmit = e => {
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
                     case 'success' :
-                        if(confirm('상품이 등록되었습니다. \n\n확인 : 메인 페이지로 이동 \n취소 : 상품 등록 페이지로 이동')){
-                            window.location.href=`./main`
+                        if(confirm('상품이 등록되었습니다. \n\n확인 : 상품 상세보기 페이지로 이동 \n취소 : 계속 등록하기')){
+                            const aid = responseObject['aid'];
+                            window.location.href=`detail?aid=${aid}`;
                         }else {
                             window.location.href=`./write`
                         }

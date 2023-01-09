@@ -136,8 +136,9 @@ addCart.addEventListener('click', e => {
     e.preventDefault();
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
-    formData.append("salePrice", orderForm['infoPrice'].value.replace('원', ''));
+    formData.append("salePrice", (orderForm['infoPrice'].value.replace('원', '')) / orderForm['infoNumber'].value);
     formData.append("quantity", orderForm['infoNumber'].value);
+    formData.append("maxQuantity", quantity);
     xhr.open('POST', window.location.href);
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
