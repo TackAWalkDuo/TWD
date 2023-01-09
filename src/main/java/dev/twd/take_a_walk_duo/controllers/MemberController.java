@@ -65,9 +65,7 @@ public class MemberController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String deleteUser(@SessionAttribute(value = "user", required = false) UserEntity user) {
-        EmailAuthEntity emailAuth = new EmailAuthEntity();
-        emailAuth.setEmail(user.getEmail());
-        Enum<?> result = this.memberService.deleteUser(user, emailAuth);
+        Enum<?> result = this.memberService.deleteUser(user);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
         return responseObject.toString();

@@ -76,17 +76,21 @@ public class MemberService {
     }
 
     // 회원 탈퇴하기
-    public Enum<? extends IResult> deleteUser(UserEntity user, EmailAuthEntity emailAuth) {
+    @Transactional
+    public Enum<? extends IResult> deleteUser(UserEntity user) {
         UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
-        if (existingUser == null) {
+        KakaoUserEntity existingKakaoUser = this.memberMapper.selectKakaoUserByEmail(user.getEmail());
+        EmailAuthEntity emailAuth = new EmailAuthEntity();
+        emailAuth.setEmail(user.getEmail());
+        if (existingUser == null || existingKakaoUser == null) {
             // 유저가 존재하지 않는 경우
             return CommonResult.FAILURE;
         }
-        if (emailAuth == null || !emailAuth.getEmail().equals(existingUser.getEmail())) {
+        if (emailAuth == null || !emailAuth.getEmail().equals(existingUser.getEmail()) || !emailAuth.getEmail().equals(existingKakaoUser.getEmail())) {
             return CommonResult.FAILURE;
         }
-        user.setEmail(existingUser.getEmail());
-        return this.memberMapper.deleteUserByEmail(user.getEmail()) > 0
+
+        return (this.memberMapper.deleteUserByEmail(user.getEmail()) > 0) && (this.memberMapper.deleteKakaoUserByEmail(user.getEmail()) > 0)
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
