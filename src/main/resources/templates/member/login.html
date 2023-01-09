@@ -107,7 +107,7 @@
                         <a class="kakaoButton" id="kakaoLoginButton"
                            href="https://kauth.kakao.com/oauth/authorize?client_id=6da80eef1101bb3318ba1f6bde584ab1&redirect_uri=http://localhost:8080/member/kakao&response_type=code"
                            target="_blank" th:if="${session.user == null}">카카오로 로그인하기</a>
-                        <a class="kakaoButton" id="kakaoLogoutButton" th:href="@{'./member/logout'}"
+                        <a class="kakaoButton" id="kakaoLogoutButton" th:href="@{'./logout'}"
                            th:if="${session.user != null}">카카오 로그아웃</a>
                     </div>
                 </td>

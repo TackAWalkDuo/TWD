@@ -48,7 +48,7 @@
                `email`         AS `email`,
                `nickname`      AS `nickname`,
                `registered_on` AS `registeredOn`,
-               `user_flag`     AS `userFlag`
+               `user_flag`     AS `isUser`
         FROM `twd_member`.`kakao_users`
         WHERE `id` = #{id}
         LIMIT 1
@@ -60,12 +60,11 @@
                `email`         AS `email`,
                `nickname`      AS `nickname`,
                `registered_on` AS `registeredOn`,
-               `user_flag`     AS `userFlag`
+               `user_flag`     AS `isUser`
         FROM `twd_member`.`kakao_users`
         WHERE `email` = #{email}
         LIMIT 1
     </select>
-
 
 
     <select id="selectUserByEmail"
@@ -162,6 +161,18 @@
             `address_primary`   = #{addressPrimary},
             `address_secondary` = #{addressSecondary},
             `registered_on`     = #{registeredOn}
+        WHERE BINARY `email` = #{email}
+        LIMIT 1
+    </update>
+
+    <update id="updateKakaoUser"
+            parameterType="dev.twd.take_a_walk_duo.entities.member.KakaoUserEntity">
+        UPDATE `twd_member`.`kakao_users`
+        SET `id`            = #{id},
+            `email`         = #{email},
+            `nickname`      = #{nickname},
+            `registered_on` = #{registeredOn},
+            `user_flag`     = #{isUser}
         WHERE BINARY `email` = #{email}
         LIMIT 1
     </update>
