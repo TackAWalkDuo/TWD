@@ -154,7 +154,8 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
                     switch (responseObject['result']) {
                         case 'success':
                             alert('카카오로 회원가입을 성공하였습니다. 로그인 페이지로 이동합니다.');
-                            window.close();
+                            // window.close();
+                            window.location.href = "/member/login";
                             break;
                         default:
                             Warning.show('알 수 없는 이유로 카카오 회원가입에 실패하였습니다. 잠시 후 다시 시도해 주세요.');
