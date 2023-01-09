@@ -167,7 +167,7 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
                     switch (responseObject['result']) {
                         case 'success':
                             form.querySelector('[rel="stepText"]').innerText = '정보수정 완료';
-                            form.querySelector('[rel="nextButton"]').innerText = '로그인하러 가기';
+                            form.querySelector('[rel="nextButton"]').innerText = '홈화면 가기';
                             form.classList.remove('step2');
                             form.classList.add('step3');
                             break;

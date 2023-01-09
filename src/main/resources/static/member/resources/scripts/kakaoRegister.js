@@ -153,7 +153,7 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
                     const responseObject = JSON.parse(xhr.responseText);
                     switch (responseObject['result']) {
                         case 'success':
-                            alert('카카오 회원가입 성공');
+                            alert('카카오로 회원가입을 성공하였습니다. 로그인 페이지로 이동합니다.');
                             window.close();
                             break;
                         default:
