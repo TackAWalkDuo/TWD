@@ -1,7 +1,8 @@
 const form = window.document.getElementById('loginForm');
 
-const loginButton = document.getElementById('kakaoLoginButton');
+const kakaoLoginButton = document.getElementById('kakaoLoginButton');
 // 카카오 로그인하기 버튼
+const NaverLoginButton = document.getElementById('naverLoginButton');
 const loginContainer = document.getElementById('loginContainer');
 
 const Warning = {
@@ -69,7 +70,7 @@ form.onsubmit = (e) => {
 }
 
 // 카카오로 로그인하기 눌렀을 때
-loginButton?.addEventListener('click', e => {
+kakaoLoginButton?.addEventListener('click', e => {
     e.preventDefault();
     loginContainer.classList.add('visible');
     // window.location.href = '/member/register';
@@ -78,6 +79,13 @@ loginButton?.addEventListener('click', e => {
 
 });
 
+// 네이버로 로그인하기 눌렀을 때
+NaverLoginButton?.addEventListener('click', e => {
+    e.preventDefault();
+    loginContainer.classList.add('visible');
+    window.open('https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=bkuhxnOKDZAYExqHJzN1&state=STATE_STRING&redirect_uri=http://localhost:8080/member/naver', '로그인', 'width=500; height=750');
+
+});
 
 
 
