@@ -265,7 +265,7 @@ public class MemberService {
                 user.getEmail());
 
         System.out.println(existingKakaoUser);
-        if (existingKakaoUser != null || existingNaverUser != null) {
+        if (existingKakaoUser == null && existingNaverUser == null) {
             if (existingEmailAuth == null || !existingEmailAuth.isExpired()) {
                 // || kakaoUser == null
                 System.out.println(existingEmailAuth == null);
