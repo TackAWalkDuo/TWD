@@ -25,7 +25,7 @@ import java.io.IOException;
 
 @Controller(value = "dev.twd.take_a_walk_duo.controllers.bbsController")
 @RequestMapping(value = "/bbs")
-public class BbsController {
+public class BbsController extends GeneralController{
     private final BbsService bbsService;
 
     @Autowired

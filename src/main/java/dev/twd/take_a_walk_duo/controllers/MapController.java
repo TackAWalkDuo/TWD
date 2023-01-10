@@ -18,7 +18,7 @@ import java.io.IOException;
 
 @Controller(value = "dev.twd.take_a_walk_duo.controllers.MapController")
 @RequestMapping(value = "map")
-public class MapController {
+public class MapController extends GeneralController {
     private final MapService mapService;
 
     @Autowired

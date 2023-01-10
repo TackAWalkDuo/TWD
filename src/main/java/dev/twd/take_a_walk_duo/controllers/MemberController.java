@@ -21,7 +21,7 @@ import java.security.NoSuchAlgorithmException;
 
 @Controller(value = "dev.twd.study_member_bbs.controllers.MemberController")
 @RequestMapping(value = "member")
-public class MemberController {
+public class MemberController extends GeneralController{
     private final MemberService memberService;
 
     @Autowired
