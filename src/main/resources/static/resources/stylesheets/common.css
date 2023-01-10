@@ -240,7 +240,7 @@ body > .--header > .-top > .--logo-container {
 
 .duo {
     color: rgb(139, 145, 126);
-    font-family: 'Permanent Marker', cursive;
+    /*font-family: 'Permanent Marker', cursive;*/
 }
 
 
@@ -282,7 +282,7 @@ body > .--header > .--content > .--menu > .--item + .--item {
 
     padding-left: 0.25rem;
     color: rgb(128, 139, 150);
-    letter-spacing: 0px;
+    /*letter-spacing: 0px;*/
 }
 
 /*보고 있는 페이지의 a태그 활성화*/
