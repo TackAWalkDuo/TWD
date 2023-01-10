@@ -80,3 +80,13 @@ body {
     font-size: 1rem;
     color: rgb(105, 105, 105);
 }
+
+.errorText > .goMain {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+}
+
+.errorText > .goMain > a {
+    text-decoration: none;
+    color: inherit;
+}

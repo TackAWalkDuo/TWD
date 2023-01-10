@@ -66,10 +66,12 @@ public class MemberController extends GeneralController{
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String deleteUser(@SessionAttribute(value = "user", required = false) UserEntity user) {
+    public String deleteUser(@SessionAttribute(value = "user", required = false) UserEntity user,
+                             HttpSession session) {
         Enum<?> result = this.memberService.deleteUser(user);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
+        session.setAttribute("user", null);
         return responseObject.toString();
     }
 
@@ -79,7 +81,7 @@ public class MemberController extends GeneralController{
             produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getMyPage(@SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView("member/myPage");
-        //user 검색해서 값 넘겨주기.
+        // user 검색해서 값 넘겨주기.
         modelAndView.addObject("myPage", this.memberService.getUser(user.getEmail()));
         return modelAndView;
     }
@@ -101,7 +103,7 @@ public class MemberController extends GeneralController{
         return new ModelAndView("member/naver");
     }
 
-//
+
 //    // 네이버 로그아웃
 //    @GetMapping(value = "logout")
 //    public ModelAndView getNaverLogout(HttpSession session) {

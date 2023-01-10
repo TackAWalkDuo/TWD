@@ -15,6 +15,7 @@ public interface IMemberMapper {
     int deleteUser(UserEntity user);
 
     int deleteUserByEmail(@Param(value = "email") String email);
+    int deleteNaverUserByEmail(@Param(value = "email") String email);
 
     int deleteKakaoUserByEmail(@Param(value = "email") String email);
 
