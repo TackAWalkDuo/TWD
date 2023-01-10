@@ -260,8 +260,12 @@ public class MemberService {
         // kakao 계정 검색
         KakaoUserEntity existingKakaoUser = this.memberMapper.selectKakaoUserByEmail(
                 user.getEmail());
+
+        NaverUserEntity existingNaverUser = this.memberMapper.selectNaverUserByEmail(
+                user.getEmail());
+
         System.out.println(existingKakaoUser);
-        if (existingKakaoUser == null) {
+        if (existingKakaoUser != null || existingNaverUser != null) {
             if (existingEmailAuth == null || !existingEmailAuth.isExpired()) {
                 // || kakaoUser == null
                 System.out.println(existingEmailAuth == null);
@@ -270,9 +274,7 @@ public class MemberService {
             }
         }
 
-//        NaverUserEntity existingNaverUser = this.memberMapper.selectNaverUserByEmail(
-//                user.getEmail());
-//        System.out.println(existingNaverUser);
+        System.out.println(existingNaverUser);
 //        if (existingNaverUser == null) {
 //            if (existingEmailAuth == null || !existingEmailAuth.isExpired()) {
 //                System.out.println(existingEmailAuth == null);
@@ -293,15 +295,19 @@ public class MemberService {
 
         // kakao email ->> isUser(ture)..
 
-        existingKakaoUser.setUser(true);
-        if (this.memberMapper.updateKakaoUser(existingKakaoUser) <= 0) {
-            return CommonResult.FAILURE;
+        if (existingKakaoUser != null) {
+            existingKakaoUser.setUser(true);
+            if (this.memberMapper.updateKakaoUser(existingKakaoUser) <= 0) {
+                return CommonResult.FAILURE;
+            }
         }
 
-//        existingNaverUser.setUser(true);
-//        if(this.memberMapper.updateNaverUser(existingNaverUser) <= 0) {
-//            return CommonResult.FAILURE;
-//        }
+        if (existingNaverUser != null) {
+            existingNaverUser.setUser(true);
+            if(this.memberMapper.updateNaverUser(existingNaverUser) <= 0) {
+                return CommonResult.FAILURE;
+            }
+        }
 
         return CommonResult.SUCCESS;
     }

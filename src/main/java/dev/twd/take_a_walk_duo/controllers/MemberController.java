@@ -97,7 +97,7 @@ public class MemberController {
             modelAndView.addObject("naverUser", this.memberService.getNaverUserInfo(accessToken));
             return modelAndView;
         }
-        session.setAttribute("user", user);
+        session.setAttribute("user", this.memberService.getUser(user.getEmail()));
         return new ModelAndView("member/naver");
     }
 
