@@ -101,7 +101,7 @@ public class MemberController {
         return new ModelAndView("member/naver");
     }
 
-//
+
 //    // 네이버 로그아웃
 //    @GetMapping(value = "logout")
 //    public ModelAndView getNaverLogout(HttpSession session) {

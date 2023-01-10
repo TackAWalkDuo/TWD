@@ -77,17 +77,23 @@ public class MemberService {
     public Enum<? extends IResult> deleteUser(UserEntity user) {
         UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
         KakaoUserEntity existingKakaoUser = this.memberMapper.selectKakaoUserByEmail(user.getEmail());
-        EmailAuthEntity emailAuth = new EmailAuthEntity();
-        emailAuth.setEmail(user.getEmail());
-        if (existingUser == null || existingKakaoUser == null) {
+        NaverUserEntity existingNaverUser = this.memberMapper.selectNaverUserByEmail(user.getEmail());
+
+        if (existingUser == null) {
             // 유저가 존재하지 않는 경우
             return CommonResult.FAILURE;
         }
-        if (emailAuth == null || !emailAuth.getEmail().equals(existingUser.getEmail()) || !emailAuth.getEmail().equals(existingKakaoUser.getEmail())) {
+
+        if (existingKakaoUser != null && this.memberMapper.deleteKakaoUserByEmail(user.getEmail()) <= 0)
+            return CommonResult.FAILURE;
+
+
+        if (existingNaverUser != null && this.memberMapper.deleteNaverUserByEmail(user.getEmail()) <= 0) {
             return CommonResult.FAILURE;
         }
 
-        return (this.memberMapper.deleteUserByEmail(user.getEmail()) > 0) && (this.memberMapper.deleteKakaoUserByEmail(user.getEmail()) > 0)
+
+        return (this.memberMapper.deleteUserByEmail(user.getEmail()) > 0)
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
@@ -304,7 +310,7 @@ public class MemberService {
 
         if (existingNaverUser != null) {
             existingNaverUser.setUser(true);
-            if(this.memberMapper.updateNaverUser(existingNaverUser) <= 0) {
+            if (this.memberMapper.updateNaverUser(existingNaverUser) <= 0) {
                 return CommonResult.FAILURE;
             }
         }
