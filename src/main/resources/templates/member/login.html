@@ -119,9 +119,11 @@
                 <td>
                     <div class="naver">
                         <i class="icon fa-solid fa-n"></i>
-                        <input class="naver-button" id="naver-button" name="naverButton"
-                               type="submit" value="네이버로 로그인하기" href="#">
-                        <div></div>
+                        <a class="naverButton" id="naverLoginButton"
+                           href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=bkuhxnOKDZAYExqHJzN1&state=STATE_STRING&redirect_uri=http://localhost:8080/member/naver"
+                           target="_blank" th:if="${session.user == null}">네이버로 로그인하기</a>
+                        <a class="naverButton" id="naverLogoutButton" th:href="@{'./logout'}"
+                           th:if="${session.user != null}">네이버 로그아웃</a>
                     </div>
                 </td>
             </tr>
