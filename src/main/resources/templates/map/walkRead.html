@@ -29,6 +29,8 @@
             </div>
             <input id="loginUserEmail" type="hidden" name="userEmail" th:if="${session.user != null}"
                    th:value="${session.user.getEmail()}">
+            <input id="adminFlag" type="hidden" name="adminFlag" th:if="${session.user != null}"
+                   th:value="${session.user.getAdmin()}">
 
             <ul class="list" id="list">
                 <li class="item" rel="item">

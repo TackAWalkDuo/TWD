@@ -8,9 +8,12 @@ const likeIcon = detailContainer.querySelector('[rel="likeIcon"]');
 const imageContainerElement = reviewForm.querySelector('[rel="imageContainer"]');
 const modifyMenuTopElement = window.document.getElementById("modifyMenuTop");
 const loginUserEmailElement = window.document.getElementById("loginUserEmail");
+const adminElement = window.document.getElementById("adminFlag");
 
 let mapObject;
 let places = [];        // db 에서 list 를 가져와서 담아줄 변수.
+
+console.log(adminElement?.value);
 
 //list 의 게시글 또는 marker 클릭 시 해당 게시글을 보여줌.
 detailContainer.show = (placeObject, placeElement) => {
@@ -40,9 +43,27 @@ detailContainer.show = (placeObject, placeElement) => {
         likeIcon.classList.add("mine");
     }
 
+    modifyMenuTopElement.classList.remove("visible");
+    modifyMenuTopElement.querySelector('[rel="articleDelete"]').classList.remove("visible");
+    modifyMenuTopElement.querySelector('[rel="articleModify"]').classList.remove("visible");
+
     // 로그인이 안되있는 상태일때  loginUserEmailElement 의 undefined 처리.
-    if ((loginUserEmailElement !== null) && (placeObject['userEmail'] === loginUserEmailElement.value)) {
+    console.log("modifyMenuTopElement 값 확인");
+    console.log(loginUserEmailElement !== null);
+    console.log(placeObject['userEmail'] === loginUserEmailElement.value);
+    console.log("어드민 확인 ");
+    console.log( adminElement?.value === 'true');
+    console.log((loginUserEmailElement !== null) && ((placeObject['userEmail'] === loginUserEmailElement.value) || adminElement?.value === true));
+    console.log("modifyMenuTopElement 값 끝");
+    if ((loginUserEmailElement !== null) &&
+        ((placeObject['userEmail'] === loginUserEmailElement.value) || adminElement?.value === 'true') ) {
         modifyMenuTopElement.classList.add("visible");
+        modifyMenuTopElement.querySelector('[rel="articleDelete"]').classList.add("visible");
+
+        if(placeObject['userEmail'] === loginUserEmailElement.value) {
+            modifyMenuTopElement.querySelector('[rel="articleModify"]').classList.add("visible");
+        }
+
     }
 
     // list 에서 선택한 게시글의 index 번호 저장.
@@ -358,8 +379,9 @@ const loadReview = (articleIndex) => {
                          ${reviewObject['userEmail'] === (loginUserEmailElement === null ?
                             '' : loginUserEmailElement.value) ?
                             `<a class="basic modify-button" rel="actionModify" href="#">수정</a>` : ` `}
-                         
-                            <a class="basic delete-button" rel="actionDelete" href="#">삭제</a>
+                         ${(reviewObject['userEmail'] === (loginUserEmailElement === null ?
+                            '' : loginUserEmailElement.value)) || adminElement.value ?
+                            `<a class="basic delete-button" rel="actionDelete" href="#">삭제</a>` : ` `}
                          </div>
                         <div class="image-container basic" rel="imageContainer"></div>
                         <span class="content basic" rel="contentContainer">${reviewObject['content']}</span>

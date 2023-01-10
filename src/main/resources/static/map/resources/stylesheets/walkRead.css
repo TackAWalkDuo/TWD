@@ -22,7 +22,7 @@ body > .--header {
     z-index: 0;
 }
 
-#foldContainer{
+#foldContainer {
     position: absolute;
     height: 85%;
     z-index: 3;
@@ -179,7 +179,7 @@ body > .--header {
     margin-bottom: 1rem;
 }
 
-#list > .item >.address {
+#list > .item > .address {
     padding-top: 0.3rem;
 }
 
@@ -219,6 +219,18 @@ body > .--header {
 
 #detailContainer > .modifyMenu.visible {
     display: flex;
+}
+
+#detailContainer > .modifyMenu > .modify-button,
+#detailContainer > .modifyMenu.visible > .modify-button,
+#detailContainer > .modifyMenu > .delete-button,
+#detailContainer > .modifyMenu.visible > .delete-button {
+    display: none;
+}
+
+#detailContainer > .modifyMenu.visible > .modify-button.visible,
+#detailContainer > .modifyMenu.visible > .delete-button.visible {
+    display: block;
 }
 
 #detailContainer > .title-container {
@@ -543,7 +555,7 @@ body > .--header {
     justify-content: space-between;
 }
 
-#fold{
+#fold {
     text-align: center;
     align-items: center;
     justify-content: center;
@@ -589,7 +601,7 @@ body > .--header {
 }
 
 .image-select-button:hover,
-.image-delete-button:hover{
+.image-delete-button:hover {
     text-decoration: underline;
 }
 
