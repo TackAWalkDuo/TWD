@@ -87,11 +87,9 @@ public class MemberService {
         if (existingKakaoUser != null && this.memberMapper.deleteKakaoUserByEmail(user.getEmail()) <= 0)
             return CommonResult.FAILURE;
 
-
         if (existingNaverUser != null && this.memberMapper.deleteNaverUserByEmail(user.getEmail()) <= 0) {
             return CommonResult.FAILURE;
         }
-
 
         return (this.memberMapper.deleteUserByEmail(user.getEmail()) > 0)
                 ? CommonResult.SUCCESS
