@@ -115,11 +115,10 @@ public class BbsController extends GeneralController{
 
 //    Mr.m
 //    게시글 수정하기 구현
-
     @RequestMapping(value = "modify", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getModify(@SessionAttribute(value = "user", required = false) UserEntity user, @RequestParam(value = "aid") int articleIndex) {
         ModelAndView modelAndView;
-        ArticleReadVo article = this.bbsService.getModifyArticles(articleIndex, user);
+        ArticleReadVo article = this.bbsService.getModifyArticles(articleIndex);
         if (user == null) {
             //↑로그인 확인 조건
             modelAndView = new ModelAndView("redirect:/member/login");
