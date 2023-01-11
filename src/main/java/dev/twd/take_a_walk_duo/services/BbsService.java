@@ -70,7 +70,7 @@ public class BbsService {
         } else {
             byte[] imageInByte;
             File defaultImage = new File("src/main/resources/static/resources/images/TAWD_logo.png");
-            defaultImage.setReadable(true, false);
+//            defaultImage.setReadable(true, false);
 
             System.out.println("file 권한  : " + defaultImage.canRead());
             System.out.println("file exit  : " + defaultImage.exists());
@@ -177,7 +177,7 @@ public class BbsService {
 
     //Mr.m
     //게시물 수정하기 (get)서비스
-    public ArticleReadVo getModifyArticles(int articleIndex, UserEntity user) {
+    public ArticleReadVo getModifyArticles(int articleIndex) {
         return this.bbsMapper.selectArticleByIndex(articleIndex);
     }
 
@@ -279,8 +279,12 @@ public class BbsService {
                 : CommonResult.FAILURE;
     }
     public Enum<? extends IResult> deleteComment(UserEntity user, CommentEntity comment) {
+        CommentEntity existingComment = this.bbsMapper.selectCommentByIndex(comment.getIndex());
+        if(existingComment == null) return  ReadResult.NO_SUCH_COMMENT;
         if(user == null) return CommonResult.NOT_SIGNED;
-        if(!user.getEmail().equals(comment.getUserEmail())) return WriteResult.NOT_SAME;
+        if(!user.getEmail().equals(comment.getUserEmail()) || user.getAdmin() ) {
+            return WriteResult.NOT_SAME;
+        }
         return this.bbsMapper.deleteComment(comment.getIndex()) > 0 ?
                 CommonResult.SUCCESS : CommonResult.FAILURE;
     }
@@ -296,7 +300,7 @@ public class BbsService {
         if (user == null || !(user.getEmail().equals(existingArticle.getUserEmail()) || user.getAdmin())) {
             return ReadResult.NOT_ALLOWED;
         }
-//        article.setBoardId(existingArticle.getBoardId());
+        article.setBoardId(existingArticle.getBoardId());
 
         return this.bbsMapper.deleteArticle(article.getIndex()) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }

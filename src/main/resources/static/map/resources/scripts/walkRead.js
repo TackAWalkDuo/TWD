@@ -34,27 +34,22 @@ detailContainer.show = (placeObject, placeElement) => {
         likeIcon.classList.add("prohibited");
     }
 
-    if (likeIcon.classList.contains("mine")) {          // 이전 게시글의 mine 이 남아 있을 경우를 대비한. mine 삭제 조치.
+    // 이전 게시글의 mine 이 남아 있을 경우를 대비한. mine 삭제 조치.
+    // if (likeIcon.classList.contains("mine")) {
         likeIcon.classList.remove("mine");
-    }
+    // }
 
     // 로그인된 계정으로 좋아요를 눌렀을 경우.
     if (placeObject['mine']) {
         likeIcon.classList.add("mine");
     }
 
+    // 다른 게시글을 볼때 modifyMenuTopElement 가 활성화 되어 있는 상황에 대한 예외처리
     modifyMenuTopElement.classList.remove("visible");
     modifyMenuTopElement.querySelector('[rel="articleDelete"]').classList.remove("visible");
     modifyMenuTopElement.querySelector('[rel="articleModify"]').classList.remove("visible");
 
     // 로그인이 안되있는 상태일때  loginUserEmailElement 의 undefined 처리.
-    console.log("modifyMenuTopElement 값 확인");
-    console.log(loginUserEmailElement !== null);
-    console.log(placeObject['userEmail'] === loginUserEmailElement.value);
-    console.log("어드민 확인 ");
-    console.log( adminElement?.value === 'true');
-    console.log((loginUserEmailElement !== null) && ((placeObject['userEmail'] === loginUserEmailElement.value) || adminElement?.value === true));
-    console.log("modifyMenuTopElement 값 끝");
     if ((loginUserEmailElement !== null) &&
         ((placeObject['userEmail'] === loginUserEmailElement.value) || adminElement?.value === 'true') ) {
         modifyMenuTopElement.classList.add("visible");
@@ -97,6 +92,7 @@ detailContainer.show = (placeObject, placeElement) => {
 
     foldChangeIcon(container.classList.contains("fold"));
 
+    //댓글 불러오기.
     loadReview(placeObject['index']);
 
     mapObject.setLevel(3) // 클릭 할 경우 지도 확대 레벨 변경
@@ -355,6 +351,7 @@ reviewForm.onsubmit = e => {
     xhr.send(formData);
 };
 
+//댓글 불러오기
 const loadReview = (articleIndex) => {
         reviewContainer.innerHTML = '';
         const xhr = new XMLHttpRequest();
@@ -445,7 +442,7 @@ const loadReview = (articleIndex) => {
                                 };
                                 xhr.send(formData);
                             });
-                        };
+                        }
 
 
                         const commentImageSelect = itemElement.querySelector('[rel="imagesModify"]');
@@ -489,10 +486,8 @@ const loadReview = (articleIndex) => {
                             const xhr = new XMLHttpRequest();
 
                             const formData = new FormData();
-                            // formData.append("userEmail", reviewForm['userEmail'].value);
                             formData.append("userEmail", reviewObject['userEmail']);
                             formData.append("content", itemElement.querySelector('[rel="modifyContent"]').value);
-                            // formData.append("articleIndex", reviewForm['articleIndex'].value);
                             formData.append("index", itemElement.querySelector('[rel="commentIndex"]').value);
                             formData.append("modifyFlag", imageModifyFlag);
 
@@ -501,6 +496,7 @@ const loadReview = (articleIndex) => {
                                 formData.append('images', file);
                             }
 
+                            //댓글 수정
                             xhr.open("POST", '/bbs/comment-modify');
                             xhr.onreadystatechange = () => {
                                 if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -535,13 +531,14 @@ const loadReview = (articleIndex) => {
                         modifyElement?.addEventListener('click', (e) => {
                             e.preventDefault();
 
-                            for (element of basicElement) {      // 원래 댓글 숨김
+                            for (let element of basicElement) {      // 원래 댓글 숨김
                                 element.classList.add("modifying");
                             }
-                            for (element of modifyElementAll) {     // 수정 화면 꺼냄.
+                            for (let element of modifyElementAll) {     // 수정 화면 꺼냄.
                                 element.classList.add("modifying");
                             }
-                            //
+                            
+                            //기존 댓글 이미지 setting
                             const imageModifyContainerElement = itemElement.querySelector('[rel="imageContainerModify"]');
                             if (reviewObject['imageIndexes'].length > 0) {
                                 for (const imageIndex of reviewObject['imageIndexes']) {
