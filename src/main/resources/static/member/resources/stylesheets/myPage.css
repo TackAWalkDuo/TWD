@@ -5,10 +5,12 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    background-image: url("https://img.freepik.com/free-photo/back-view-young-man-with-dog-seaside_23-2148885059.jpg?w=1800&t=st=1673404036~exp=1673404636~hmac=441724cedcb6a91c013e0a9ebc54111b5ca3bc34d98f89f42ecc50447fc21e56");
 }
 
 #listContainer {
-    background-color: rgb(139, 145, 121);
+    margin-top: 15rem;
+    margin-left: 7.5rem;
     flex-basis: 15rem;
     z-index: 1;
 }
@@ -164,35 +166,76 @@ body {
     object-position: center;
 }
 
-#pageContainer > .cover {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(255, 255, 255);
-    color: rgb(86, 101, 115);
-    font-size: 1.25rem;
-    position: absolute;
-    z-index: 1;
-    margin-top: 8.5rem;
-    align-items: flex-start;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
+/*#pageContainer > .cover {*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    background-color: rgb(255, 255, 255);*/
+/*    color: rgb(86, 101, 115);*/
+/*    font-size: 1.25rem;*/
+/*    position: absolute;*/
+/*    z-index: 1;*/
+/*    margin-top: 8.5rem;*/
+/*    align-items: flex-start;*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    justify-content: center;*/
+/*}*/
 
 #pageContainer > .cover > .page {
-    width: 65rem;
-    height: 15rem;
-    background-color: rgb(255, 255, 255);
-    border-radius: 0.5rem;
+    width: 40rem;
+    height: 20rem;
+    background-color: rgb(245, 245, 221, 70%);
     border: 0.0125rem solid rgb(211, 211, 211);
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-
+    padding: 1.25rem;
+    margin-top: 15rem;
+    margin-left: 10rem;
     align-items: flex-start;
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+#pageContainer > .cover > .page > .page > .pageOne {
+    width: 38rem;
+    /*margin-top: 7.5rem;*/
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: solid;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#pageContainer > .cover > .page > .page > .pageOne > h1 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+    color: rgb(0,0,0);
+}
+
+#pageContainer > .cover > .page > .page > .pageOne > span {
+    color: rgb(0, 0, 0);
+}
+
+#pageContainer > .cover > .page > .page > .pageTwo {
+    width: 38rem;
+    padding: 1rem;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#pageContainer > .cover > .page > .page > .pageTwo > h1 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+    color: rgb(0,0,0);
+}
+
+#pageContainer > .cover > .page > .page > .pageTwo > span {
+    color: rgb(0, 0, 0);
 }
 
 #searchForm {
@@ -200,6 +243,8 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    margin-bottom: 2.5rem;
+
 }
 
 #searchForm > .title {
@@ -247,41 +292,8 @@ body {
     justify-content: flex-start;
 }
 
-#searchForm > .button-container > .button{
-    background-color: rgb(47, 79, 79);
-    color: rgb(255, 255, 255);
-    flex: 1;
-    padding: 0.75rem;
-    text-align: end;
-    text-decoration: none;
-}
-
-#searchForm > .button-container > .icon {
-    background-color: rgb(44, 62, 80);
-    color: rgb(255, 255, 255);
-    padding: 0.75rem;
-    text-decoration: none;
-}
-
-
-#searchForm > .button-container > .button:hover {
-    background-color: rgb(64, 82, 100);
-}
-
-#searchForm > .button-container > .button:active {
-    background-color: rgb(44, 62, 80);
-}
-
-/* listForm */
-#listForm > .list-container {
-    align-items: stretch;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-}
-
-#listForm > .list-container > .list {
-    background-color: rgb(139, 145, 121);
+#searchForm > .button-container > .button-title {
+    background-color: rgb(139, 145, 121, 70%);
     color: rgb(255, 255, 255);
     flex: 1;
     padding: 0.75rem;
@@ -289,12 +301,69 @@ body {
     text-decoration: none;
 }
 
+#searchForm > .button-container > .button {
+    background-color: rgb(245, 245, 221, 20%);
+    color: rgb(0, 0, 0);
+    flex: 1;
+    padding: 0.75rem;
+    text-align: end;
+    text-decoration: none;
+}
+
+#searchForm > .button-container > .icon {
+    background-color: rgb(245, 245, 221, 20%);
+    color: rgb(0, 0, 0);
+    padding: 0.75rem;
+    text-decoration: none;
+}
+
+#searchForm > .button-container > .icon:hover {
+    background-color: rgb(234, 227, 201);
+
+}
+
+
+#searchForm > .button-container > .button:hover {
+    background-color: rgb(234, 227, 201);
+}
+
+#searchForm > .button-container > .button:active {
+    background-color: rgb(234, 227, 201);
+}
+
+/* listForm */
+
+#listForm > .list-container {
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#listForm > .list-container > .list-title {
+    background-color: rgb(139, 145, 121, 70%);
+    color: rgb(255, 255, 255);
+    flex: 1;
+    padding: 0.75rem;
+    text-align: center;
+    text-decoration: none;
+}
+
+#listForm > .list-container > .list {
+    background-color: rgb(245, 245, 221, 70%);
+    color: rgb(0, 0, 0);
+    flex: 1;
+    padding: 0.75rem;
+    text-align: end;
+    text-decoration: none;
+}
+
 #listForm > .list-container > .list:hover {
-    background-color: rgb(44, 62, 80);
+    background-color: rgb(234, 227, 201);
 }
 
 #listForm > .list-container > .list:active {
-    background-color: rgb(44, 62, 80);
+    background-color: rgb(234, 227, 201);
 }
 
 #detailContainer {
