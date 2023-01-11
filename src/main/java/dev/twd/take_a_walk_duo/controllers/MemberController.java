@@ -103,15 +103,6 @@ public class MemberController extends GeneralController{
         return new ModelAndView("member/naver");
     }
 
-
-//    // 네이버 로그아웃
-//    @GetMapping(value = "logout")
-//    public ModelAndView getNaverLogout(HttpSession session) {
-//        session.setAttribute("user", null);
-//        session.invalidate();
-//        return new ModelAndView("redirect:/");
-//    }
-
     // 카카오 로그인
     @GetMapping(value = "kakao", produces = MediaType.TEXT_PLAIN_VALUE)
     public ModelAndView getKakaoLogin(@RequestParam(value = "code") String code,
