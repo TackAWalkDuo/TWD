@@ -371,7 +371,7 @@
     </select>
 
     <select id="selectCartByCartIndex"
-    resultType="dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity">
+            resultType="dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity">
         SELECT `index`           AS `index`,
                `user_email`      AS `userEmail`,
                `product_index`   AS `productIndex`,
@@ -409,10 +409,59 @@
                 #{registrationOn})
     </insert>
 
+    <insert id="insertPayment"
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index">
+        INSERT INTO `twd_shop`.`payment`(`user_email`, `product_index`, `sale_price`, `quantity`, delivery_fee,
+                                         `registration_on`, `address`, `delivery_status`)
+        VALUES (#{userEmail}, #{productIndex}, #{salePrice}, #{quantity}, #{deliveryFee}, #{registrationOn},
+                #{address},
+                #{deliveryStatus})
+    </insert>
+
     <delete id="deleteCartByIndex">
         DELETE
         FROM `twd_shop`.`shopping_cart`
         WHERE `index` = #{index}
     </delete>
 
+    <select id="selectPaymentsByUserEmail"
+            resultType="dev.twd.take_a_walk_duo.vos.shop.PaymentVo">
+        SELECT `payment`.`index`           AS `index`,
+               `payment`.`user_email`      AS `userEmail`,
+               `article`.`title`           AS `title`,
+               `payment`.`product_index`   AS `productIndex`,
+               `payment`.`sale_price`      AS `salePrice`,
+               `payment`.`quantity`        AS `quantity`,
+               `payment`.`delivery_fee`    AS `deliveryFee`,
+               `payment`.`registration_on` AS `registrationOn`,
+               `payment`.`address`         AS `address`,
+               `payment`.`delivery_status` AS `deliveryStatus`
+        FROM `twd_shop`.`payment` AS `payment`
+                 LEFT JOIN `twd_bbs`.`articles` AS `article` ON `article`.`index` = `payment`.`product_index`
+        WHERE `payment`.`user_email` = #{userEmail}
+        ORDER BY `index` DESC
+    </select>
+
+    <select id="selectPaymentByIndex"
+            resultType="dev.twd.take_a_walk_duo.entities.shop.PaymentEntity">
+        SELECT `index`           AS `index`,
+               `user_email`      AS `userEmail`,
+               `product_index`   AS `productIndex`,
+               `sale_price`      AS `salePrice`,
+               `quantity`        AS `quantity`,
+               `delivery_fee`    AS `deliveryFee`,
+               `registration_on` AS `registrationOn`,
+               `address`         AS `address`,
+               `delivery_status` AS `deliveryStatus`
+        FROM `twd_shop`.`payment`
+        WHERE `index` = #{index}
+    </select>
+
+    <delete id="deletePayment">
+        DELETE
+        FROM `twd_shop`.`payment`
+        WHERE `index` = #{index}
+    </delete>
 </mapper>

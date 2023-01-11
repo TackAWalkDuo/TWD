@@ -3,6 +3,7 @@ package dev.twd.take_a_walk_duo.services;
 import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
 import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
+import dev.twd.take_a_walk_duo.entities.shop.PaymentEntity;
 import dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
 import dev.twd.take_a_walk_duo.enums.shop.CartResult;
@@ -12,6 +13,7 @@ import dev.twd.take_a_walk_duo.mappers.IMemberMapper;
 import dev.twd.take_a_walk_duo.models.PagingModel;
 import dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import dev.twd.take_a_walk_duo.vos.shop.CartVo;
+import dev.twd.take_a_walk_duo.vos.shop.PaymentVo;
 import dev.twd.take_a_walk_duo.vos.shop.ProductVo;
 import dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
@@ -28,6 +30,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Service(value = "dev.twd.take_a_walk_duo.services.ShopService")
@@ -82,9 +85,14 @@ public class ShopService {
     }
 
     // 상품 가져오기(cart)
-    public CartVo[] getArticles(String userEmail){
+    public CartVo[] getArticles(String userEmail) {
         return this.shopMapper.selectCartsByUserEmail(userEmail);
     }
+
+    public PaymentVo[] getPayments(String userEmail){
+        return this.shopMapper.selectPaymentsByUserEmail(userEmail);
+    }
+
     // 상품 가져오기 (cart) 2트
 //    public Enum<? extends  IResult> getCart(ArticleEntity article, UserEntity user, ShoppingCartEntity cart){
 //
@@ -338,7 +346,7 @@ public class ShopService {
 //        System.out.println("ex이메일은?" + existingCart.getUserEmail());
 
         // 로그인 되어 있지 않으면
-        if (user == null){
+        if (user == null) {
             return CartResult.CART_NOT_SIGNED;
         }
 
@@ -346,9 +354,9 @@ public class ShopService {
         ArticleEntity existingArticle = this.shopMapper.selectArticleByIndex(aid);
         article.setBoardId(existingArticle.getBoardId());
         article.setTitle(existingArticle.getTitle());
-        System.out.println("어데 게시판입니꺼?"+article.getBoardId());
-        System.out.println("제목은?"+article.getTitle());
-        if (!article.getBoardId().equals("shop")){
+        System.out.println("어데 게시판입니꺼?" + article.getBoardId());
+        System.out.println("제목은?" + article.getTitle());
+        if (!article.getBoardId().equals("shop")) {
             return CartResult.CART_NOT_ALLOWED;
         }
 
@@ -362,7 +370,7 @@ public class ShopService {
         System.out.println("aid는?" + aid);
         System.out.println("이메일은?" + user.getEmail());
         cart.setProductIndex(aid);
-        System.out.println("카트의 aid는?"+cart.getProductIndex());
+        System.out.println("카트의 aid는?" + cart.getProductIndex());
         cart.setUserEmail(user.getEmail());
         System.out.println("카트의 유저 이메일?" + cart.getUserEmail());
 
@@ -382,6 +390,7 @@ public class ShopService {
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
+
     public Enum<? extends IResult> modifyCart(ShoppingCartEntity cart, UserEntity user) {
         ShoppingCartEntity existingCart = this.shopMapper.selectCartByIndex(cart.getIndex(), user.getEmail());
         existingCart.setQuantity(cart.getQuantity());
@@ -391,7 +400,38 @@ public class ShopService {
                 : CommonResult.FAILURE;
     }
 
-    public Enum<? extends IResult> deleteCarts(ShoppingCartEntity cart, UserEntity user){
+    @Transactional
+    public Enum<? extends IResult> addPayment(UserEntity user, ShoppingCartEntity cart, PaymentEntity payment) {
+        if (user == null) {
+            return CommonResult.FAILURE;
+        }
+        ShoppingCartEntity existingCart = this.shopMapper.selectCartByCartIndex(cart.getIndex());
+        existingCart.setIndex(cart.getIndex());
+        System.out.println("ex카트 인덱스"+ existingCart.getIndex());
+
+        if (this.shopMapper.deleteCartByIndex(existingCart) == 0){
+            return CommonResult.FAILURE;
+        }
+
+        payment.setDeliveryStatus(0);
+        System.out.println("카트 프로덕트 인덱스"+cart.getProductIndex());
+        System.out.println("ex 카트 푸로덕트 인덱스"+existingCart.getProductIndex());
+        payment.setProductIndex(existingCart.getProductIndex());
+        payment.setSalePrice(existingCart.getSalePrice());
+        payment.setUserEmail(user.getEmail());
+        payment.setQuantity(existingCart.getQuantity());
+        payment.setDeliveryFee(3000);
+        System.out.println("주소?"+user.getAddressPrimary());
+        payment.setAddress("대구");
+        System.out.println("추가 주소?"+payment.getAddress());
+        payment.setRegistrationOn(new Date());
+        if (this.shopMapper.insertPayment(payment) == 0){
+            return CommonResult.FAILURE;
+        }
+        return CommonResult.SUCCESS;
+    }
+
+    public Enum<? extends IResult> deleteCarts(ShoppingCartEntity cart, UserEntity user) {
         ShoppingCartEntity existingCart = this.shopMapper.selectCartByCartIndex(cart.getIndex());
         if (existingCart == null) {
             return CommonResult.FAILURE;
@@ -401,6 +441,20 @@ public class ShopService {
         }
         existingCart.setIndex(cart.getIndex());
         return this.shopMapper.deleteCartByIndex(existingCart) > 0
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
+    }
+
+    public Enum<? extends IResult> deletePayment(PaymentEntity payment, UserEntity user){
+        PaymentEntity existingPayment = this.shopMapper.selectPaymentByIndex(payment.getIndex());
+        if (existingPayment == null) {
+            return CommonResult.FAILURE;
+        }
+        if (!user.getEmail().equals(existingPayment.getUserEmail())) {
+            return CommonResult.FAILURE;
+        }
+        existingPayment.setIndex(payment.getIndex());
+        return this.shopMapper.deletePayment(existingPayment) > 0
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
