@@ -293,10 +293,10 @@ public class BbsService {
         if (existingArticle == null) {
             return ReadResult.NO_SUCH_ARTICLE;
         }
-        if (user == null || !user.getEmail().equals(existingArticle.getUserEmail())) {
+        if (user == null || !(user.getEmail().equals(existingArticle.getUserEmail()) || user.getAdmin())) {
             return ReadResult.NOT_ALLOWED;
         }
-        article.setBoardId(existingArticle.getBoardId());
+//        article.setBoardId(existingArticle.getBoardId());
 
         return this.bbsMapper.deleteArticle(article.getIndex()) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
