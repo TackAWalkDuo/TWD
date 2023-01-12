@@ -8,10 +8,9 @@ const nextBtn = document.querySelector(".next-btn");
 
 // 슬라이드 전체를 선택해 값을 변경해주기 위해 슬라이드 전체 선택하기
 const slideItems = document.querySelectorAll(".shop-item");
-let moveWidth = slideWidth.clientWidth;
 // 현재 슬라이드 위치가 슬라이드 개수를 넘기지 않게 하기 위한 변수
-const maxSlide = slideItems.length - 6;
-console.log(slideItems.length)
+const maxSlide = slideItems.length - 5;
+const slideSize = document.querySelector(".shop-item");
 // 버튼 클릭할 때 마다 현재 슬라이드가 어디인지 알려주기 위한 변수
 let currSlide = 0;
 
@@ -20,19 +19,16 @@ nextBtn.addEventListener("click", () => {
     console.log('넥스트버튼!');
     // 이후 버튼 누를 경우 현재 슬라이드를 변경
     currSlide++;
-    console.log(currSlide);
+    console.log("currSlide  " + currSlide);
+
     // 마지막 슬라이드 이상으로 넘어가지 않게 하기 위해서
     if (currSlide <= maxSlide) {
         // 슬라이드를 이동시키기 위한 offset 계산
         const offset = slideWidth * (currSlide / 5);  // 한 화면에 5개씩 보여주기 때문에 /5
-        console.log("currSlide  " + currSlide);
         console.log("offset  " + offset);
 
         // 각 슬라이드 아이템의 left에 offset 적용
         slideItems.forEach((i) => {
-            console.log(i.querySelector(".text").innerText);
-            // let size
-            console.log(i);
             i.setAttribute("style", `left: ${-offset}px`);
         });
     } else {
@@ -48,16 +44,25 @@ nextBtn.addEventListener("click", () => {
 prevBtn.addEventListener("click", () => {
     // 이전 버튼 누를 경우 현재 슬라이드를 변경
     currSlide--;
-    // 1번째 슬라이드 이하로 넘어가지 않게 하기 위해서
-    if (currSlide > 0) {
+    console.log("currSlide  " + currSlide);
+
+    // 마지막 슬라이드 이상으로 넘어가지 않게 하기 위해서
+    if (currSlide >= 0) {
         // 슬라이드를 이동시키기 위한 offset 계산
-        const offset = slideWidth * (currSlide - 1);
+        const offset = slideWidth * ((currSlide) / 5);  // 한 화면에 5개씩 보여주기 때문에 /5
+        console.log("offset  " + offset);
+
         // 각 슬라이드 아이템의 left에 offset 적용
         slideItems.forEach((i) => {
             i.setAttribute("style", `left: ${-offset}px`);
         });
     } else {
-        currSlide++;
+        currSlide = maxSlide;
+        let offset = slideWidth * (currSlide / 5);
+        slideItems.forEach((i) => {
+            i.setAttribute("style", `transition: ${0.3}s; left: ${-offset}px`);
+        });
+
     }
 });
 
@@ -65,21 +70,3 @@ prevBtn.addEventListener("click", () => {
 window.addEventListener("resize", () => {
     slideWidth = slide.clientWidth;
 });
-
-// 각 페이지네이션 클릭 시 해당 슬라이드로 이동하기
-// for (let i = 0; i < maxSlide; i++) {
-//     // 각 페이지네이션마다 클릭 이벤트 추가하기
-//     paginationItems[i].addEventListener("click", () => {
-//         // 클릭한 페이지네이션에 따라 현재 슬라이드 변경해주기(currSlide는 시작 위치가 1이기 때문에 + 1)
-//         currSlide = i + 1;
-//         // 슬라이드를 이동시키기 위한 offset 계산
-//         const offset = slideWidth * (currSlide - 1);
-//         // 각 슬라이드 아이템의 left에 offset 적용
-//         slideItems.forEach((i) => {
-//             i.setAttribute("style", `left: ${-offset}px`);
-//         });
-//         // 슬라이드 이동 시 현재 활성화된 pagination 변경
-//         paginationItems.forEach((i) => i.classList.remove("active"));
-//         paginationItems[currSlide - 1].classList.add("active");
-//     });
-// }
