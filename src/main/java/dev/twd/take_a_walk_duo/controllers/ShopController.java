@@ -312,6 +312,20 @@ public class ShopController extends GeneralController {
         }
         return responseObject.toString();
     }
+
+//    @PatchMapping(value = "detail",
+//    produces = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseBody
+//    public String patchDetail(@SessionAttribute(value = "user", required = false) UserEntity user, int aid){
+//        Enum<?> result = this.shopService.easeAddPayment(user, aid);
+//        JSONObject responseObject = new JSONObject();
+//        responseObject.put("result", result.name().toLowerCase());
+////        if (result == CommonResult.SUCCESS) {
+////            responseObject.put("aid", aid);
+////        }
+//        return responseObject.toString();
+//    }
+
     @PatchMapping(value = "cart",
     produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -340,7 +354,7 @@ public class ShopController extends GeneralController {
     @ResponseBody
     public String postCart(@SessionAttribute(value = "user", required = false) UserEntity user,
                            int[] cartIndex) {
-        Enum<?> result = this.shopService.test(user, cartIndex);
+        Enum<?> result = this.shopService.addPayment(user, cartIndex);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
 //        if (result == CommonResult.SUCCESS) {

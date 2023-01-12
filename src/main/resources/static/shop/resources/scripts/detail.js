@@ -3,17 +3,19 @@ const orderForm = window.document.getElementById('orderForm');
 // 주문 수량 (input란)
 const infoNum = window.document.querySelector('[rel="infoNumber"]');
 // 제품 재고량
-const quantity = window.document.querySelector('[rel="productQuantity"]').value;
+const quantity = window.document.querySelector('[rel="productQuantity"]')?.value;
 // 버튼 비활성화
 const setDisabled = () => orderForm['minusButton'].setAttribute('disabled', 'disabled');
 // 버튼 활성화
 const removeDisabled = () => orderForm['minusButton'].removeAttribute('disabled');
 // 아이템별 가격
-const productPrice = window.document.querySelector('[rel="infoPrice"]').value;
+const productPrice = window.document.querySelector('[rel="infoPrice"]')?.value;
 // 총 주문 수량
 const chargeQuantity = window.document.querySelector('[rel="chargeQuantity"]');
 // 총 주문 금액
 const chargePrice = window.document.querySelector('[rel="chargePrice"]');
+// 구매하기 버튼
+const orderButton = window.document.querySelector('[rel="orderButton"]');
 // 장바구니 담기
 const addCart = window.document.querySelector('[rel="addCart"]');
 
@@ -155,6 +157,7 @@ addCart.addEventListener('click', e => {
 
                     case 'cart_not_signed':
                         alert('로그인 후 이용해 주세요.');
+                        window.location.href ='/member/login'
                         break;
 
                     case 'cart_not_allowed' :
@@ -177,6 +180,38 @@ addCart.addEventListener('click', e => {
     xhr.send(formData);
 });
 
+
+orderButton.addEventListener('click', e => {
+    e.preventDefault();
+    if (!confirm("해당 상품을 주문하시겠습니까?")) {
+        return;
+    }
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+    const index = orderForm.querySelector('[rel="index"]').innerText;
+    formData.append("aid", index);
+    formData.append("quantity", orderForm['infoNumber'].value);
+    xhr.open('PATCH', window.location.href);
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                const responseObject = JSON.parse(xhr.responseText);
+                switch (responseObject['result']) {
+                    case 'success' :
+                        alert('주문 성공');
+                        window.location.href = `./payment`
+                        break;
+                    default :
+                        alert('실패');
+                }
+
+            } else {
+                alert('연결실패');
+            }
+        }
+    };
+    xhr.send(formData);
+})
 
 
 

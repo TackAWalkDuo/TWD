@@ -1,4 +1,13 @@
 @charset "UTF-8";
+
+.empty-icon{
+    font-size: 5rem;
+    white-space: nowrap;
+}
+.empty-icon > span{
+    margin-left: 0.75rem;
+}
+
 body > .--main {
     display: flex;
     padding: 0 8rem;

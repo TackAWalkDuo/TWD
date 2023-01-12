@@ -20,7 +20,10 @@
 </head>
 <body th:if="${product != null}">
 <th:block th:replace="~{fragments/body :: header}"></th:block>
-<main class="--main main">
+<main th:if="${product.getQuantity() == 0}" class="--main main">
+    <i th:if="${product.getQuantity() == 0}" class="empty-icon fa-solid fa-circle-exclamation"><span>품절된 상품입니다.</span></i>
+</main>
+<main class="--main main" th:if="${product.quantity > 0}">
     <div class="detail-main">
         <div>
             <img class="detail-img" alt="" th:src="|/bbs/thumbnail?index=${product.getIndex()}|">
@@ -51,6 +54,7 @@
                 <span class="text">3,000원</span>
             </div>
             <form class="order-form" id="orderForm">
+                <span hidden rel="index" th:text="${product.getIndex()}"></span>
                 <span hidden th:text="${product.getQuantity()}"></span>
                 <!--                    여유가 된다면 사료 : 맛, 갯수 등등 / 옷 : 사이즈로 나눠보자-->
                 <!--                <div class="select-container">-->
@@ -86,7 +90,7 @@
                               rel="chargePrice">22,700원</span>
                     </div>
                     <div class="product-button">
-                        <input class="buy --object-button" value="구매하기" type="submit">
+                        <input rel="orderButton" class="buy --object-button" value="구매하기" type="submit">
                         <input rel="addCart" class="cart --object-button" value="장바구니" type="submit">
                     </div>
                     <div class="admin-product-button">

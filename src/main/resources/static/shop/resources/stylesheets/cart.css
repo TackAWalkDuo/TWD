@@ -155,12 +155,13 @@ input[type=checkbox] {
 }
 
 .info-footer {
-    position: fixed;
+    position: relative;
     right: 0;
-    bottom: 1.4rem;
+    bottom: 0;
     left: 0;
-    padding: 0 8rem;
+    /*padding: 0 8rem;*/
     height: 5rem;
+    /*10rem*/
 }
 
 .info-footer > div {

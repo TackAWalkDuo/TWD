@@ -401,7 +401,7 @@ public class ShopService {
     }
 
     @Transactional
-    public Enum<? extends IResult> test(UserEntity user, int[] cartIndex) {
+    public Enum<? extends IResult> addPayment(UserEntity user, int[] cartIndex) {
         if (user == null) {
             return CommonResult.FAILURE;
         }
@@ -429,6 +429,16 @@ public class ShopService {
                 return CommonResult.FAILURE;
             }
 
+            SaleProductEntity existingProduct = this.shopMapper.selectProductByArticleIndex(existingCart.getProductIndex());
+            existingProduct.setQuantity(existingProduct.getQuantity() - existingCart.getQuantity());
+            if (this.shopMapper.updateProduct(existingProduct) == 0) {
+                return CommonResult.FAILURE;
+            }
+
+            // sale_product 검색
+            // sale_product.setQu~~(getQu~~ - ~~);
+            //update()
+
             existingCart.setIndex(cartIndex[i]);
             if (this.shopMapper.deleteCartByIndex(existingCart) == 0) {
                 return CommonResult.FAILURE;
@@ -437,46 +447,126 @@ public class ShopService {
 
         return CommonResult.SUCCESS;
     }
+    // 2트
+//    @Transactional
+//    public Enum<? extends IResult> easeAddPayment(UserEntity user, int aid) {
+//        if (user == null) {
+//            return CommonResult.FAILURE;
+//        }
+//
+//            ShoppingCartEntity existingCart = this.shopMapper.selectCartByCartIndex(e);
+//
+//            if (existingCart == null) {
+//                return CommonResult.FAILURE;
+//
+//            PaymentEntity payment = new PaymentEntity();
+//            payment.setDeliveryFee(i == 0 ? 3000 : 0);
+//            payment.setDeliveryStatus(0);
+//            payment.setProductIndex(existingCart.getProductIndex());
+//            payment.setSalePrice(existingCart.getSalePrice());
+//            payment.setUserEmail(user.getEmail());
+//            payment.setQuantity(existingCart.getQuantity());
+//            payment.setAddressPostal(user.getAddressPostal());
+//            payment.setAddressPrimary(user.getAddressPrimary());
+//            payment.setAddressSecondary(user.getAddressSecondary());
+//            payment.setRegistrationOn(new Date());
+//
+//            if (this.shopMapper.insertPayment(payment) == 0) {
+//                return CommonResult.FAILURE;
+//            }
+//
+//            SaleProductEntity existingProduct = this.shopMapper.selectProductByArticleIndex(existingCart.getProductIndex());
+//            existingProduct.setQuantity(existingProduct.getQuantity() - existingCart.getQuantity());
+//            if (this.shopMapper.updateProduct(existingProduct) == 0) {
+//                return CommonResult.FAILURE;
+//            }
+//
+//            // sale_product 검색
+//            // sale_product.setQu~~(getQu~~ - ~~);
+//            //update()
+//
+//            existingCart.setIndex(cartIndex[i]);
+//            if (this.shopMapper.deleteCartByIndex(existingCart) == 0) {
+//                return CommonResult.FAILURE;
+//            }
+//        }
+//
+//        return CommonResult.SUCCESS;
+//    }
 
-    @Transactional
-    public Enum<? extends IResult> addPayment(UserEntity user, ShoppingCartEntity cart) {
-        if (user == null) {
-            return CommonResult.FAILURE;
-        }
-        ShoppingCartEntity existingCart = this.shopMapper.selectCartByCartIndex(cart.getIndex());
-        existingCart.setIndex(cart.getIndex());
-        System.out.println("ex카트 인덱스" + existingCart.getIndex());
-
-        if (this.shopMapper.deleteCartByIndex(existingCart) == 0) {
-            return CommonResult.FAILURE;
-        }
-
-        // 현재 주문하려고하는 상품의 재고가 주문 갯수보다 작을경우 return false;
-
-//        PaymentEntity existingPayment = this.shopMapper.selectPaymentByRegistration();
-        PaymentEntity pay = new PaymentEntity();
-
-        pay.setDeliveryStatus(0);
-        pay.setProductIndex(existingCart.getProductIndex());
-        pay.setSalePrice(existingCart.getSalePrice());
-        pay.setUserEmail(user.getEmail());
-        pay.setQuantity(existingCart.getQuantity());
-        pay.setDeliveryFee(3000);
-        pay.setAddressPostal(user.getAddressPostal());
-        pay.setAddressPrimary(user.getAddressPrimary());
-        pay.setAddressSecondary(user.getAddressSecondary());
-        pay.setRegistrationOn(new Date());
-
-
-        System.out.println("카트 프로덕트 인덱스" + cart.getProductIndex());
-        System.out.println("ex 카트 푸로덕트 인덱스" + existingCart.getProductIndex());
-        System.out.println("주소?" + user.getAddressPrimary());
-
-        if (this.shopMapper.insertPayment(pay) == 0) {
-            return CommonResult.FAILURE;
-        }
-        return CommonResult.SUCCESS;
-    }
+    //1트
+//    @Transactional
+//    public Enum<? extends IResult> easeAddPayment(UserEntity user, int aid) {
+//        if (user == null) {
+//            return CommonResult.FAILURE;
+//        }
+//        SaleProductEntity existingProduct = this.shopMapper.selectProductByArticleIndex(aid);
+//
+//        if (existingProduct == null) {
+//            return CommonResult.FAILURE;
+//        }
+//
+//        PaymentEntity payment = new PaymentEntity();
+//        payment.setDeliveryFee(3000);
+//        payment.setDeliveryStatus(0);
+//        payment.setProductIndex(existingProduct.getArticleIndex());
+//        payment.setSalePrice(existingProduct.getPrice());
+//        payment.setUserEmail(user.getEmail());
+//        payment.setQuantity(existingProduct.getQuantity());
+//        payment.setAddressPostal(user.getAddressPostal());
+//        payment.setAddressPrimary(user.getAddressPrimary());
+//        payment.setAddressSecondary(user.getAddressSecondary());
+//        payment.setRegistrationOn(new Date());
+//
+//        if (this.shopMapper.insertPayment(payment) == 0) {
+//            return CommonResult.FAILURE;
+//        }
+//
+//        existingProduct.setQuantity(existingProduct.getQuantity());
+//        if (this.shopMapper.updateProduct(existingProduct) == 0) {
+//            return CommonResult.FAILURE;
+//        }
+//        return CommonResult.SUCCESS;
+//    }
+//    @Transactional
+//    public Enum<? extends IResult> addPayment(UserEntity user, ShoppingCartEntity cart) {
+//        if (user == null) {
+//            return CommonResult.FAILURE;
+//        }
+//        ShoppingCartEntity existingCart = this.shopMapper.selectCartByCartIndex(cart.getIndex());
+//        existingCart.setIndex(cart.getIndex());
+//        System.out.println("ex카트 인덱스" + existingCart.getIndex());
+//
+//        if (this.shopMapper.deleteCartByIndex(existingCart) == 0) {
+//            return CommonResult.FAILURE;
+//        }
+//
+//        // 현재 주문하려고하는 상품의 재고가 주문 갯수보다 작을경우 return false;
+//
+////        PaymentEntity existingPayment = this.shopMapper.selectPaymentByRegistration();
+//        PaymentEntity pay = new PaymentEntity();
+//
+//        pay.setDeliveryStatus(0);
+//        pay.setProductIndex(existingCart.getProductIndex());
+//        pay.setSalePrice(existingCart.getSalePrice());
+//        pay.setUserEmail(user.getEmail());
+//        pay.setQuantity(existingCart.getQuantity());
+//        pay.setDeliveryFee(3000);
+//        pay.setAddressPostal(user.getAddressPostal());
+//        pay.setAddressPrimary(user.getAddressPrimary());
+//        pay.setAddressSecondary(user.getAddressSecondary());
+//        pay.setRegistrationOn(new Date());
+//
+//
+//        System.out.println("카트 프로덕트 인덱스" + cart.getProductIndex());
+//        System.out.println("ex 카트 푸로덕트 인덱스" + existingCart.getProductIndex());
+//        System.out.println("주소?" + user.getAddressPrimary());
+//
+//        if (this.shopMapper.insertPayment(pay) == 0) {
+//            return CommonResult.FAILURE;
+//        }
+//        return CommonResult.SUCCESS;
+//    }
 
     public Enum<? extends IResult> deleteCarts(ShoppingCartEntity cart, UserEntity user) {
         ShoppingCartEntity existingCart = this.shopMapper.selectCartByCartIndex(cart.getIndex());
@@ -492,6 +582,7 @@ public class ShopService {
                 : CommonResult.FAILURE;
     }
 
+    @Transactional
     public Enum<? extends IResult> deletePayment(PaymentEntity payment, UserEntity user) {
         PaymentEntity existingPayment = this.shopMapper.selectPaymentByIndex(payment.getIndex());
         if (existingPayment == null) {
@@ -500,6 +591,14 @@ public class ShopService {
         if (!user.getEmail().equals(existingPayment.getUserEmail())) {
             return CommonResult.FAILURE;
         }
+
+        SaleProductEntity existingProduct = this.shopMapper.selectProductByArticleIndex(existingPayment.getProductIndex());
+        existingProduct.setQuantity(existingProduct.getQuantity() + existingPayment.getQuantity());
+
+        if (this.shopMapper.updateProduct(existingProduct) == 0) {
+            return CommonResult.FAILURE;
+        }
+
         existingPayment.setIndex(payment.getIndex());
         return this.shopMapper.deletePayment(existingPayment) > 0
                 ? CommonResult.SUCCESS
