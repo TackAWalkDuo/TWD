@@ -169,10 +169,13 @@ body > .--footer {
 }
 
 body > .--header > .--content,
-body > .--main > .--content,
-body > .--footer > .--content {
+body > .--main > .--content{
     width: 100%;
     max-width: 80rem;
+    margin: 0 2rem;
+}
+body > .--footer > .--content {
+    width: 100%;
     margin: 0 2rem;
 }
 
