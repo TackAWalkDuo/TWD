@@ -173,7 +173,7 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
 
 // '여' 체크 했을때 견종선택 나오도록
 form.querySelector('[rel="haveDog"]').addEventListener('click', () => {
-    document.getElementById('checkSpecies').style.display = "flex";
+    document.getElementById('checkSpecies').style.display = "table-row";
 });
 
 // '부' 체크 했을때 견종선택 안나오도록
