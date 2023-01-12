@@ -118,3 +118,9 @@ body > main > .--form > .--form--second > .shop--content > .shop--container {
     color: black;
     font-size: 0.9rem;
 }
+
+/* footer */
+
+body > .--footer {
+    padding: 1rem;
+}
