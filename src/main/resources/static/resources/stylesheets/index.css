@@ -52,7 +52,11 @@ body {
     margin-top: 2rem;
     /* height: 22rem; */
     overflow: hidden;
-    width: 80rem;
+    /* width: 80rem; */
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 .pre-btn{
@@ -107,6 +111,7 @@ body > main > .--form > .--form--second > .shop--content >.shop-list> .shop--con
     list-style-type: none;
     width: 80rem;
     padding-left: 0;
+    overflow: hidden;
 }
 
 
