@@ -249,6 +249,9 @@ public class MemberService {
             return CommonResult.FAILURE;
         }
         user.setAdmin(existingUser.getAdmin());
+        user.setAddressPostal(existingUser.getAddressPostal());
+        user.setAddressPrimary(existingUser.getAddressPrimary());
+        user.setAddressSecondary(existingUser.getAddressSecondary());
         return CommonResult.SUCCESS;
     }
 

@@ -160,6 +160,8 @@ public class MemberController extends GeneralController{
         responseObject.put("result", result.name().toLowerCase());
         System.out.println("누구냐" + user.getAdmin());
         System.out.println("누구냐" + user.getEmail());
+        System.out.println("누구냐" + user.getAddressPrimary());
+        System.out.println("누구냐" + user.getAddressSecondary());
         return responseObject.toString();
     }
 

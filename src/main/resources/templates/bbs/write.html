@@ -10,6 +10,10 @@
     <script defer th:src="@{/resources/libraries/ckeditor/ckeditor.js}"></script>
     <script defer th:src="@{/bbs/resources/scripts/write.js}"></script>
     <link rel="stylesheet" th:href="@{/bbs/resources/stylesheets/write.css}">
+    <script th:if="${board.getBoardId()}">
+
+    </script>
+
 </head>
 <body th:if="${board != null}">
 <th:block th:replace="~{fragments/body :: header}"></th:block>

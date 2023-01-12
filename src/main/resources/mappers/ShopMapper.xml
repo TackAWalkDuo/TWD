@@ -414,10 +414,10 @@
             keyColumn="index"
             keyProperty="index">
         INSERT INTO `twd_shop`.`payment`(`user_email`, `product_index`, `sale_price`, `quantity`, delivery_fee,
-                                         `registration_on`, `address`, `delivery_status`)
+                                         `registration_on`, `address_postal`, `address_primary`, `address_secondary`,
+                                         `delivery_status`)
         VALUES (#{userEmail}, #{productIndex}, #{salePrice}, #{quantity}, #{deliveryFee}, #{registrationOn},
-                #{address},
-                #{deliveryStatus})
+                #{addressPostal}, #{addressPrimary}, #{addressSecondary}, #{deliveryStatus})
     </insert>
 
     <delete id="deleteCartByIndex">
@@ -428,16 +428,18 @@
 
     <select id="selectPaymentsByUserEmail"
             resultType="dev.twd.take_a_walk_duo.vos.shop.PaymentVo">
-        SELECT `payment`.`index`           AS `index`,
-               `payment`.`user_email`      AS `userEmail`,
-               `article`.`title`           AS `title`,
-               `payment`.`product_index`   AS `productIndex`,
-               `payment`.`sale_price`      AS `salePrice`,
-               `payment`.`quantity`        AS `quantity`,
-               `payment`.`delivery_fee`    AS `deliveryFee`,
-               `payment`.`registration_on` AS `registrationOn`,
-               `payment`.`address`         AS `address`,
-               `payment`.`delivery_status` AS `deliveryStatus`
+        SELECT `payment`.`index`             AS `index`,
+               `payment`.`user_email`        AS `userEmail`,
+               `article`.`title`             AS `title`,
+               `payment`.`product_index`     AS `productIndex`,
+               `payment`.`sale_price`        AS `salePrice`,
+               `payment`.`quantity`          AS `quantity`,
+               `payment`.`delivery_fee`      AS `deliveryFee`,
+               `payment`.`registration_on`   AS `registrationOn`,
+               `payment`.`address_postal`    AS `addressPostal`,
+               `payment`.`address_primary`   AS `addressPrimary`,
+               `payment`.`address_secondary` AS `addressSecondary`,
+               `payment`.`delivery_status`   AS `deliveryStatus`
         FROM `twd_shop`.`payment` AS `payment`
                  LEFT JOIN `twd_bbs`.`articles` AS `article` ON `article`.`index` = `payment`.`product_index`
         WHERE `payment`.`user_email` = #{userEmail}
@@ -453,7 +455,7 @@
                `quantity`        AS `quantity`,
                `delivery_fee`    AS `deliveryFee`,
                `registration_on` AS `registrationOn`,
-               `address`         AS `address`,
+               address_primary   AS `address`,
                `delivery_status` AS `deliveryStatus`
         FROM `twd_shop`.`payment`
         WHERE `index` = #{index}

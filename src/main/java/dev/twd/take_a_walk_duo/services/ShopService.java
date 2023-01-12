@@ -413,18 +413,26 @@ public class ShopService {
             return CommonResult.FAILURE;
         }
 
-        payment.setDeliveryStatus(0);
+
+
+        PaymentEntity pay = new PaymentEntity();
+
+        pay.setDeliveryStatus(0);
+        pay.setProductIndex(existingCart.getProductIndex());
+        pay.setSalePrice(existingCart.getSalePrice());
+        pay.setUserEmail(user.getEmail());
+        pay.setQuantity(existingCart.getQuantity());
+        pay.setDeliveryFee(3000);
+        pay.setAddressPostal(user.getAddressPostal());
+        pay.setAddressPrimary(user.getAddressPrimary());
+        pay.setAddressSecondary(user.getAddressSecondary());
+        payment.setRegistrationOn(new Date());
+
+
         System.out.println("카트 프로덕트 인덱스"+cart.getProductIndex());
         System.out.println("ex 카트 푸로덕트 인덱스"+existingCart.getProductIndex());
-        payment.setProductIndex(existingCart.getProductIndex());
-        payment.setSalePrice(existingCart.getSalePrice());
-        payment.setUserEmail(user.getEmail());
-        payment.setQuantity(existingCart.getQuantity());
-        payment.setDeliveryFee(3000);
         System.out.println("주소?"+user.getAddressPrimary());
-        payment.setAddress("대구");
-        System.out.println("추가 주소?"+payment.getAddress());
-        payment.setRegistrationOn(new Date());
+
         if (this.shopMapper.insertPayment(payment) == 0){
             return CommonResult.FAILURE;
         }

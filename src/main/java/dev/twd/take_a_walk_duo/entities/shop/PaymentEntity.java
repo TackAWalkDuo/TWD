@@ -9,7 +9,9 @@ public class PaymentEntity {
     private int productIndex;
     private int salePrice;
     private int quantity;
-    private String address;
+    private String addressPostal;
+    private String addressPrimary;
+    private String addressSecondary;
     private int deliveryFee;
     private Date registrationOn;
     private int deliveryStatus;
@@ -59,12 +61,28 @@ public class PaymentEntity {
         return this;
     }
 
-    public String getAddress() {
-        return address;
+    public String getAddressPostal() {
+        return addressPostal;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAddressPostal(String addressPostal) {
+        this.addressPostal = addressPostal;
+    }
+
+    public String getAddressPrimary() {
+        return addressPrimary;
+    }
+
+    public void setAddressPrimary(String addressPrimary) {
+        this.addressPrimary = addressPrimary;
+    }
+
+    public String getAddressSecondary() {
+        return addressSecondary;
+    }
+
+    public void setAddressSecondary(String addressSecondary) {
+        this.addressSecondary = addressSecondary;
     }
 
     public int getDeliveryFee() {

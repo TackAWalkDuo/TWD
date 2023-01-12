@@ -68,13 +68,29 @@ selectAll?.addEventListener('click', () => {
     totalPrice.innerText = Number(salePrice.innerText) + Number(deliveryFee.innerText);
 });
 
+
 deleteButton?.addEventListener('click', e => {
     e.preventDefault();
+    let selectCheck = false;    // 선택된 제품이 없는지 확인하기 위해서.
+
+    cartItem.forEach(x => {     // 상품 선택 유무를 확인하기위한 구문.
+        if (x.querySelector('[rel="checkBox"]').checked) {
+            selectCheck = true;
+        }
+    })
+
+    if (!selectCheck) {
+        alert("선택된 상품이 없습니다.");
+        return;
+    }
+
     if (!confirm("정말로 장바구니를 삭제할까요?")) {
         return;
     }
     cartItem.forEach(x => {
         if (x.querySelector('[rel="checkBox"]').checked) {
+            selectCheck = true;
+
             const xhr = new XMLHttpRequest();
             const formData = new FormData();
             formData.append("index", x.querySelector('[rel="cartIndex"]').innerText);
@@ -99,18 +115,20 @@ deleteButton?.addEventListener('click', e => {
             xhr.send(formData);
         }
     })
+
+
 })
 
 
 cartItem.forEach(x => {
     x.querySelector('[rel="checkBox"]').addEventListener('click', () => {
         selectAll.checked = false;          // 전체선택중 하나 이상이 체크가 해제될 경우 전체 체크 해제
-
+        const priceSum =  x.querySelector('[rel="itemPriceSum"]').innerText;
 
         if (x.querySelector('[rel="checkBox"]').checked) {//선택된 경우
-            salePrice.innerText = Number(salePrice.innerText) + Number(x.querySelector('[rel="itemPriceSum"]').innerText);
+            salePrice.innerText = Number(salePrice.innerText) + Number(priceSum);
         } else { // 선택되지 않은 경우
-            salePrice.innerText = Number(salePrice.innerText) - Number(x.querySelector('[rel="itemPriceSum"]').innerText);
+            salePrice.innerText = Number(salePrice.innerText) - Number(priceSum);
         }
         totalPrice.innerText = Number(salePrice.innerText) + Number(deliveryFee.innerText);
 
