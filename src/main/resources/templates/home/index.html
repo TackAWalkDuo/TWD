@@ -8,6 +8,7 @@
     <title>Take a walk duo</title>
     <th:block th:replace="~{fragments/head}"></th:block>
     <link rel="stylesheet" th:href="@{/resources/stylesheets/index.css}">
+    <script defer th:src="@{/resources/scripts/index.js}"></script>
 </head>
 <body>
 <th:block th:replace="~{fragments/body :: header}"></th:block>
@@ -65,43 +66,61 @@
             </div>
             <div class="shop--content">
                 <a class="shop-href" th:href="a">ShoppingMAll</a>
+                <div class="shop-list">
+                <span class="pre-btn"><</span>
                 <ul class="shop--container">
-                    <li class="item">
+                    <li class="item shop-item">
                         <a class="link" th:href="@{#}">
                             <img alt="제품1" class="image" src="/resources/images/item1.jpg">
-                            <span class="text">제품1</span>
+                            <span class="text">제품11</span>
                             <span class="text-content">56,000원</span>
                         </a>
                     </li>
-                    <li class="item">
+                    <li class="item shop-item">
                         <a class="link" th:href="@{#}">
                             <img alt="제품1" class="image" src="/resources/images/item2.jpg">
                             <span class="text">제품1</span>
                             <span class="text-content">56,000원</span>
                         </a>
                     </li>
-                    <li class="item">
+                    <li class="item shop-item">
+                        <a class="link" th:href="@{#}">
+                            <img alt="제품1" class="image" src="/resources/images/item3.jpg">
+                            <span class="text">제품10</span>
+                            <span class="text-content">56,000원</span>
+                        </a>
+                    </li>
+                    <li class="item shop-item">
                         <a class="link" th:href="@{#}">
                             <img alt="제품1" class="image" src="/resources/images/item3.jpg">
                             <span class="text">제품1</span>
                             <span class="text-content">56,000원</span>
                         </a>
                     </li>
-                    <li class="item">
-                        <a class="link" th:href="@{#}">
-                            <img alt="제품1" class="image" src="/resources/images/item3.jpg">
-                            <span class="text">제품1</span>
-                            <span class="text-content">56,000원</span>
-                        </a>
-                    </li>
-                    <li class="item">
+                    <li class="item shop-item">
                         <a class="link" th:href="@{#}">
                             <img alt="제품1" class="image" src="/resources/images/item4.jpg">
-                            <span class="text">제품1</span>
+                            <span class="text">제품2</span>
+                            <span class="text-content">56,000원</span>
+                        </a>
+                    </li>
+                    <li class="item shop-item">
+                        <a class="link" th:href="@{#}">
+                            <img alt="제품1" class="image" src="/resources/images/item4.jpg">
+                            <span class="text">제품3</span>
+                            <span class="text-content">56,000원</span>
+                        </a>
+                    </li>
+                    <li class="item shop-item">
+                        <a class="link" th:href="@{#}">
+                            <img alt="제품1" class="image" src="/resources/images/item4.jpg">
+                            <span class="text">제품4</span>
                             <span class="text-content">56,000원</span>
                         </a>
                     </li>
                 </ul>
+                    <div class="next-btn">></div>
+                </div>
             </div>
             <div class="map--content">
                 <a class="map-href" th:href="a">TakeAWalk</a>
