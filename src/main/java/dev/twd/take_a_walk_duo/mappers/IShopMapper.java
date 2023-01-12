@@ -3,9 +3,11 @@ package dev.twd.take_a_walk_duo.mappers;
 import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
 import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
+import dev.twd.take_a_walk_duo.entities.shop.PaymentEntity;
 import dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity;
 import dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity;
 import dev.twd.take_a_walk_duo.vos.shop.CartVo;
+import dev.twd.take_a_walk_duo.vos.shop.PaymentVo;
 import dev.twd.take_a_walk_duo.vos.shop.ProductVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -49,7 +51,12 @@ public interface IShopMapper {
     // get write
     ProductVo selectArticle();
 
+    PaymentEntity selectPaymentByIndex(@Param(value = "index")int index);
+
     CartVo[] selectCartsByUserEmail(@Param(value = "userEmail")String userEmail);
+
+    PaymentVo[] selectPaymentsByUserEmail(@Param(value = "userEmail")String userEmail);
+
     ShoppingCartEntity selectArticleByArticleIndexUserEmail(@Param(value = "aid") int aid, @Param(value = "userEmail") String userEmail);
 
     // 상품 수정
@@ -73,4 +80,8 @@ public interface IShopMapper {
     int insertCart(ShoppingCartEntity cart);
 
     int deleteCartByIndex(ShoppingCartEntity cart);
+
+    int insertPayment(PaymentEntity payment);
+
+    int deletePayment(PaymentEntity payment);
 }

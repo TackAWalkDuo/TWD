@@ -62,8 +62,8 @@
                 </td>
                 <td>
                     <div>
-                        <div rel="salePrice" th:text="${cart.getSalePrice()}">1원</div>
-                        <button class="--object-button" type="button">주문하기</button>
+                        <div rel="eachSalePrice" th:text="${cart.getSalePrice()}">1원</div>
+<!--                        <button class="&#45;&#45;object-button" type="button">주문하기</button>-->
                     </div>
                 </td>
                 <td>
@@ -163,23 +163,23 @@
                             <div class="info">
                                 <div>
                                     <span>상품금액</span>
-                                    <div>3000원</div>
+                                    <div rel="salePrice">0</div>
                                 </div>
                                 <i class="fa-solid fa-plus"></i>
                                 <div>
                                     <span>배송비</span>
-                                    <div rel="deliveryFee">3000원</div>
+                                    <div rel="deliveryFee">3000</div>
                                 </div>
                                 <i class="fa-solid fa-equals"></i>
                                 <div>
-                                    <span>주문금액</span>
-                                    <span>6000원</span>
+                                    <span>결제금액</span>
+                                    <span rel="totalPrice">6000</span>
                                 </div>
                             </div>
                         </td>
                     </tr>
                 </table>
-                <button type="button" class="--object-button">주문하기
+                <button rel="orderButton" type="button" class="--object-button">주문하기
                     <span class="info-quantity">1</span>
                 </button>
             </div>

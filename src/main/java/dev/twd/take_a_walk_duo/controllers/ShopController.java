@@ -2,6 +2,7 @@ package dev.twd.take_a_walk_duo.controllers;
 
 import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
+import dev.twd.take_a_walk_duo.entities.shop.PaymentEntity;
 import dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
 import dev.twd.take_a_walk_duo.models.PagingModel;
@@ -12,6 +13,7 @@ import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.services.BbsService;
 import dev.twd.take_a_walk_duo.services.ShopService;
 import dev.twd.take_a_walk_duo.vos.shop.CartVo;
+import dev.twd.take_a_walk_duo.vos.shop.PaymentVo;
 import dev.twd.take_a_walk_duo.vos.shop.ProductVo;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -328,6 +330,44 @@ public class ShopController extends GeneralController {
     @ResponseBody
     public String deleteCart(ShoppingCartEntity cart, @SessionAttribute(value = "user", required = false)UserEntity user){
         Enum<?> result = this.shopService.deleteCarts(cart,user);
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("result", result.name().toLowerCase());
+        return responseObject.toString();
+    }
+
+    @PostMapping(value = "cart",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postCart(@SessionAttribute(value = "user", required = false) UserEntity user, ShoppingCartEntity cart, PaymentEntity payment) {
+        Enum<?> result = this.shopService.addPayment(user, cart, payment);
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("result", result.name().toLowerCase());
+//        if (result == CommonResult.SUCCESS) {
+//            responseObject.put("aid", aid);
+//        }
+        return responseObject.toString();
+    }
+
+    @GetMapping(value = "payment",
+    produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getPayment(@SessionAttribute(value = "user", required = false)UserEntity user){
+        ModelAndView modelAndView = new ModelAndView("shop/payment");
+        BoardEntity board = this.shopService.getBoard("shop");
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("board", board);
+        if (user != null) {
+            PaymentVo[] payments = this.shopService.getPayments(user.getEmail());
+            modelAndView.addObject("payments", payments);
+            modelAndView.addObject("isPayment",payments.length);
+        }
+        return modelAndView;
+    }
+
+    @DeleteMapping(value = "payment",
+    produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String deletePayment(PaymentEntity payment, @SessionAttribute(value = "user", required = false)UserEntity user){
+        Enum<?> result = this.shopService.deletePayment(payment,user);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
         return responseObject.toString();
