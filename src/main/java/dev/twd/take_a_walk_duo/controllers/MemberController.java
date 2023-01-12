@@ -2,11 +2,13 @@ package dev.twd.take_a_walk_duo.controllers;
 
 import dev.twd.take_a_walk_duo.entities.member.EmailAuthEntity;
 import dev.twd.take_a_walk_duo.entities.member.KakaoUserEntity;
+import dev.twd.take_a_walk_duo.entities.member.NaverUserEntity;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
 import dev.twd.take_a_walk_duo.services.MemberService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +21,7 @@ import java.security.NoSuchAlgorithmException;
 
 @Controller(value = "dev.twd.study_member_bbs.controllers.MemberController")
 @RequestMapping(value = "member")
-public class MemberController {
+public class MemberController extends GeneralController{
     private final MemberService memberService;
 
     @Autowired
@@ -64,12 +66,12 @@ public class MemberController {
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String deleteUser(@SessionAttribute(value = "user", required = false) UserEntity user) {
-        EmailAuthEntity emailAuth = new EmailAuthEntity();
-        emailAuth.setEmail(user.getEmail());
-        Enum<?> result = this.memberService.deleteUser(user, emailAuth);
+    public String deleteUser(@SessionAttribute(value = "user", required = false) UserEntity user,
+                             HttpSession session) {
+        Enum<?> result = this.memberService.deleteUser(user);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
+        session.setAttribute("user", null);
         return responseObject.toString();
     }
 
@@ -79,10 +81,36 @@ public class MemberController {
             produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getMyPage(@SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView("member/myPage");
-        //user 검색해서 값 넘겨주기.
+        // user 검색해서 값 넘겨주기.
         modelAndView.addObject("myPage", this.memberService.getUser(user.getEmail()));
         return modelAndView;
     }
+
+    // 네이버 로그인
+    @GetMapping(value = "naver", produces = MediaType.TEXT_PLAIN_VALUE)
+    public ModelAndView getNaverLogin(@RequestParam(value = "code") String code,
+                                      @RequestParam(value = "error", required = false) String error,
+                                      @RequestParam(value = "error_description", required = false) String errorDescription,
+                                      HttpSession session) throws IOException {
+        String accessToken = this.memberService.getNaverAccessToken(code);
+        NaverUserEntity user = this.memberService.getNaverUserInfo(accessToken);
+        if(!user.isUser()) {
+            ModelAndView modelAndView = new ModelAndView("member/naverRegister");
+            modelAndView.addObject("naverUser", this.memberService.getNaverUserInfo(accessToken));
+            return modelAndView;
+        }
+        session.setAttribute("user", this.memberService.getUser(user.getEmail()));
+        return new ModelAndView("member/naver");
+    }
+
+
+//    // 네이버 로그아웃
+//    @GetMapping(value = "logout")
+//    public ModelAndView getNaverLogout(HttpSession session) {
+//        session.setAttribute("user", null);
+//        session.invalidate();
+//        return new ModelAndView("redirect:/");
+//    }
 
     // 카카오 로그인
     @GetMapping(value = "kakao", produces = MediaType.TEXT_PLAIN_VALUE)

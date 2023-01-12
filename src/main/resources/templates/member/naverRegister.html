@@ -5,10 +5,10 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>산책해듀오 - 회원가입</title>
+    <title>산책해듀오 - 네이버 회원가입</title>
     <th:block th:replace="~{fragments/head :: common}"></th:block>
-    <link rel="stylesheet" th:href="@{/member/resources/stylesheets/register.css}">
-    <script defer th:src="@{/member/resources/scripts/register.js}"></script>
+    <link rel="stylesheet" th:href="@{/member/resources/stylesheets/naverRegister.css}">
+    <script defer th:src="@{/member/resources/scripts/naverRegister.js}"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
@@ -21,7 +21,7 @@
     <div class="--content content">
         <form class="form step1" id="form">
             <div class="title-container">
-                <h2 class="title">회원가입</h2>
+                <h2 class="title">네이버 회원가입</h2>
                 <div class="step-container">
                     <span class="text" rel="stepText">이용약관 및 개인정보 처리방침</span>
                     <span class="step step1">1</span>
@@ -60,16 +60,10 @@
                         <td>
                             <label class="label email">
                                 <span hidden>이메일</span>
-                                <input class="--object-input input" maxlength="50" name="email"
-                                       placeholder="이메일 주소를 입력해 주세요." type="email">
-                                <input class="--object-button" name="emailSend" value="인증번호 전송" type="button">
-                            </label>
-                            <label class="label email">
-                                <span hidden>인증번호</span>
                                 <input class="--object-input input" disabled maxlength="6" name="emailAuthCode"
-                                       placeholder="이메일 인증번호를 입력해 주세요." type="text">
+                                       th:value="${naverUser.getEmail()}" type="text">
                                 <input name="emailAuthSalt" type="hidden">
-                                <input class="--object-button" disabled name="emailVerify" value="인증번호 확인"
+                                <input class="--object-button" disabled name="emailVerify" value="이메일 확인"
                                        type="button">
                             </label>
                             <span class="warning" rel="emailWarning">이메일 주소를 입력해 주세요.</span>
@@ -106,7 +100,7 @@
                             <label class="label">
                                 <span hidden>닉네임</span>
                                 <input class="--object-input input" maxlength="10" name="nickname"
-                                       placeholder="닉네임을 입력해 주세요." type="text">
+                                       th:value="${naverUser.getNickname()}" type="text">
                             </label>
                         </td>
                     </tr>

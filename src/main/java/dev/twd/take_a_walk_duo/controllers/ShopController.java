@@ -28,7 +28,7 @@ import java.io.IOException;
 
 @Controller(value = "dev.twd.take_a_walk_duo.controllers.ShopController")
 @RequestMapping(value = "/shop")
-public class ShopController {
+public class ShopController extends GeneralController {
     private final ShopService shopService;
 
     private final BbsService bbsService;

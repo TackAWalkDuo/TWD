@@ -193,6 +193,11 @@ body > .--main > #loginForm > .table > tbody > tr > td > .naver > .icon {
     font-size: 1.5rem;
 }
 
+body > .--main > #loginForm > .table > tbody > tr > td > .naver > a {
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
+
 
 body > .--main > #loginForm > .table > tbody > tr > td > .label > .--object-input {
     margin-bottom: 1rem;

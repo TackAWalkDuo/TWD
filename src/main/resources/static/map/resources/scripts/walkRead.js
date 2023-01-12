@@ -357,8 +357,9 @@ const loadReview = (articleIndex) => {
                         <!-- 로그인 되지 않았을 때 value 를 사용하게 되면 오류가 뜨기 때문에 오류 처리-->
                          ${reviewObject['userEmail'] === (loginUserEmailElement === null ?
                             '' : loginUserEmailElement.value) ?
-                            `<a class="basic modify-button" rel="actionModify" href="#">수정</a>
-                            <a class="basic delete-button" rel="actionDelete" href="#">삭제</a>` : ` `}
+                            `<a class="basic modify-button" rel="actionModify" href="#">수정</a>` : ` `}
+                         
+                            <a class="basic delete-button" rel="actionDelete" href="#">삭제</a>
                          </div>
                         <div class="image-container basic" rel="imageContainer"></div>
                         <span class="content basic" rel="contentContainer">${reviewObject['content']}</span>

@@ -2,14 +2,13 @@ package dev.twd.take_a_walk_duo.services;
 
 import dev.twd.take_a_walk_duo.entities.member.EmailAuthEntity;
 import dev.twd.take_a_walk_duo.entities.member.KakaoUserEntity;
+import dev.twd.take_a_walk_duo.entities.member.NaverUserEntity;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
 import dev.twd.take_a_walk_duo.enums.member.*;
 import dev.twd.take_a_walk_duo.interfaces.IResult;
 import dev.twd.take_a_walk_duo.mappers.IMemberMapper;
 import dev.twd.take_a_walk_duo.utils.CryptoUtils;
-import dev.twd.take_a_walk_duo.vos.member.UserInfoVo;
-import org.apache.catalina.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.json.JSONObject;
@@ -18,7 +17,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.ModelAndView;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -27,7 +25,6 @@ import javax.mail.internet.MimeMessage;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.UnknownServiceException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -76,19 +73,98 @@ public class MemberService {
     }
 
     // 회원 탈퇴하기
-    public Enum<? extends IResult> deleteUser(UserEntity user, EmailAuthEntity emailAuth) {
+    @Transactional
+    public Enum<? extends IResult> deleteUser(UserEntity user) {
         UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
+        KakaoUserEntity existingKakaoUser = this.memberMapper.selectKakaoUserByEmail(user.getEmail());
+        NaverUserEntity existingNaverUser = this.memberMapper.selectNaverUserByEmail(user.getEmail());
+
         if (existingUser == null) {
             // 유저가 존재하지 않는 경우
             return CommonResult.FAILURE;
         }
-        if (emailAuth == null || !emailAuth.getEmail().equals(existingUser.getEmail())) {
+
+        if (existingKakaoUser != null && this.memberMapper.deleteKakaoUserByEmail(user.getEmail()) <= 0)
+            return CommonResult.FAILURE;
+
+        if (existingNaverUser != null && this.memberMapper.deleteNaverUserByEmail(user.getEmail()) <= 0) {
             return CommonResult.FAILURE;
         }
-        user.setEmail(existingUser.getEmail());
-        return this.memberMapper.deleteUserByEmail(user.getEmail()) > 0
+
+        return (this.memberMapper.deleteUserByEmail(user.getEmail()) > 0)
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
+    }
+
+    // 네이버 access token 발급 받는 getNaverAccessToken
+    public String getNaverAccessToken(String code) throws IOException {
+
+        URL url = new URL("https://nid.naver.com/oauth2.0/token");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setDoOutput(true);
+        int responseCode;
+        try (OutputStreamWriter outputStreamWriter = new OutputStreamWriter(connection.getOutputStream())) {
+            try (BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter)) {
+                StringBuilder requestBuilder = new StringBuilder();
+                requestBuilder.append("grant_type=authorization_code");
+                requestBuilder.append("&client_id=bkuhxnOKDZAYExqHJzN1");
+                requestBuilder.append("&client_secret=lHgUA8xkse");
+                requestBuilder.append("&redirect_uri=http://localhost:8080/member/naver");
+                requestBuilder.append("&code=").append(code);
+                requestBuilder.append("&state=state");
+                bufferedWriter.write(requestBuilder.toString());
+                bufferedWriter.flush();
+                responseCode = connection.getResponseCode();
+            }
+            System.out.println("응답 코드 : " + responseCode);
+        }
+        StringBuilder responseBuilder = new StringBuilder();
+        try (InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream())) {
+            try (BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    responseBuilder.append(line);
+                }
+            }
+            System.out.println("응답 내용 : " + responseBuilder);
+        }
+        JSONObject responseObject = new JSONObject(responseBuilder.toString());
+        return responseObject.getString("access_token");
+    }
+
+    // 카카오 userinfo 발급 받는 getKakaoUserInfo
+    public NaverUserEntity getNaverUserInfo(String accessToken) throws IOException {
+        URL url = new URL("https://openapi.naver.com/v1/nid/me");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestProperty("Authorization", String.format("Bearer %s", accessToken));
+        connection.setRequestMethod("GET");
+        int responseCode = connection.getResponseCode();
+        System.out.println("응답 코드 : " + responseCode);
+        StringBuilder responseBuilder = new StringBuilder();
+        try (InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream())) {
+            try (BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    responseBuilder.append(line);
+                }
+            }
+        }
+        System.out.println("응답 내용 : " + responseBuilder);
+        JSONObject responseObject = new JSONObject(responseBuilder.toString());
+        JSONObject naverObject = responseObject.getJSONObject("response");
+        String id = String.valueOf(naverObject.getString("id"));
+        NaverUserEntity naverUser = this.memberMapper.selectNaverUserById(id);
+        if (naverUser == null) {
+            naverUser = new NaverUserEntity();
+            naverUser.setId(id);
+            naverUser.setEmail(naverObject.getString("email"));
+            naverUser.setNickname(naverObject.getString("nickname"));
+            naverUser.setUser(false);
+            // 이메일 인증
+            this.memberMapper.insertNaverUser(naverUser);
+        }
+        return naverUser;
     }
 
     // 카카오 access token 발급 받는 getKakaoAccessToken
@@ -148,7 +224,7 @@ public class MemberService {
         JSONObject propertyObject = responseObject.getJSONObject("properties");
         JSONObject kakaoObject = responseObject.getJSONObject("kakao_account");
         String id = String.valueOf(responseObject.getLong("id"));
-        KakaoUserEntity kakaoUser = this.memberMapper.selectUserById(id);
+        KakaoUserEntity kakaoUser = this.memberMapper.selectKakaoUserById(id);
         if (kakaoUser == null) {
             kakaoUser = new KakaoUserEntity();
             kakaoUser.setId(id);
@@ -177,11 +253,6 @@ public class MemberService {
     }
 
     // 회원가입
-    // 1. 'emailAuth'가 가진 'email', 'code', 'salt' 값 기준으로 새로운 'EmailAuthEntity' SELECT 해서 가져옴
-    // 2. <1>에서 가져온 새로운 객체가 null 이거나 이가 가진 inExpired() 호출 결과가 false 인 경우 'RegisterResult.EMAIL_NOT_VERIFIED'를 결과로 반환.
-    // 3. 'user' 객체를 'IMemberMapper' 객체의 'insertUser' 메서드 호출시 전달인자로 하여 INSERT 하기.
-    // 4. <3>의 결과가 0이면 'CommonResult.FAILURE' 반환하기.
-    // 5. 위 과정 전체를 거친 후 'CommonResult.SUCCESS' 반환하기.
     public Enum<? extends IResult> register(
             UserEntity user,
             EmailAuthEntity emailAuth) {
@@ -189,12 +260,16 @@ public class MemberService {
                 emailAuth.getEmail(),
                 emailAuth.getCode(),
                 emailAuth.getSalt());
-        System.out.println("여기까지 실행");
-        //kakao 계정 검색
+
+        // kakao 계정 검색
         KakaoUserEntity existingKakaoUser = this.memberMapper.selectKakaoUserByEmail(
                 user.getEmail());
+
+        NaverUserEntity existingNaverUser = this.memberMapper.selectNaverUserByEmail(
+                user.getEmail());
+
         System.out.println(existingKakaoUser);
-        if (existingKakaoUser == null) {
+        if (existingKakaoUser == null && existingNaverUser == null) {
             if (existingEmailAuth == null || !existingEmailAuth.isExpired()) {
                 // || kakaoUser == null
                 System.out.println(existingEmailAuth == null);
@@ -203,7 +278,15 @@ public class MemberService {
             }
         }
 
-        System.out.println("kakao db존재");
+        System.out.println(existingNaverUser);
+//        if (existingNaverUser == null) {
+//            if (existingEmailAuth == null || !existingEmailAuth.isExpired()) {
+//                System.out.println(existingEmailAuth == null);
+//                System.out.println(existingEmailAuth.isExpired());
+//                return RegisterResult.EMAIL_NOT_VERIFIED;
+//            }
+//        }
+
         // haveDog 결과가 notHave 이면 none 을 넣어준다.
         if (user.getHaveDog().equals("notHave")) {
             user.setSpecies("예비견주");
@@ -216,11 +299,19 @@ public class MemberService {
 
         // kakao email ->> isUser(ture)..
 
-        existingKakaoUser.setUser(true);
-        if (this.memberMapper.updateKakaoUser(existingKakaoUser) <= 0) {
-            return CommonResult.FAILURE;
+        if (existingKakaoUser != null) {
+            existingKakaoUser.setUser(true);
+            if (this.memberMapper.updateKakaoUser(existingKakaoUser) <= 0) {
+                return CommonResult.FAILURE;
+            }
         }
-        ;
+
+        if (existingNaverUser != null) {
+            existingNaverUser.setUser(true);
+            if (this.memberMapper.updateNaverUser(existingNaverUser) <= 0) {
+                return CommonResult.FAILURE;
+            }
+        }
 
         return CommonResult.SUCCESS;
     }

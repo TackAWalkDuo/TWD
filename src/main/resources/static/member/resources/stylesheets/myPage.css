@@ -8,7 +8,7 @@ body {
 }
 
 #listContainer {
-    background-color: rgb(64, 82, 100);
+    background-color: rgb(139, 145, 121);
     flex-basis: 15rem;
     z-index: 1;
 }
@@ -248,7 +248,7 @@ body {
 }
 
 #searchForm > .button-container > .button{
-    background-color: rgb(44, 62, 80);
+    background-color: rgb(47, 79, 79);
     color: rgb(255, 255, 255);
     flex: 1;
     padding: 0.75rem;
@@ -281,7 +281,7 @@ body {
 }
 
 #listForm > .list-container > .list {
-    background-color: rgb(64, 82, 100);
+    background-color: rgb(139, 145, 121);
     color: rgb(255, 255, 255);
     flex: 1;
     padding: 0.75rem;

@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller(value = "dev.twd.pet_walk.controllers.HomeController")
 @RequestMapping(value = "/")
-public class HomeController {
+public class HomeController extends GeneralController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
