@@ -12,6 +12,8 @@ import dev.twd.take_a_walk_duo.vos.shop.ProductVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
+
 @Mapper
 public interface IShopMapper {
     ArticleEntity selectArticleByIndex(@Param(value = "aid") int aid);
@@ -25,6 +27,8 @@ public interface IShopMapper {
     int selectArticleCountByBoardId(@Param(value = "boardId") String boardId,
                                     @Param(value = "criterion") String criterion,
                                     @Param(value = "keyword") String keyword);
+
+    PaymentEntity selectPaymentByRegistration(@Param(value = "date")Date date);
 
 //    ProductVo[] selectArticleCountByBoardId(@Param(value = "boardText") String boardText,
 //                                        @Param(value = "limit") int limit,

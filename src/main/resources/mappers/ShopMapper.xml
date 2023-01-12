@@ -466,4 +466,40 @@
         FROM `twd_shop`.`payment`
         WHERE `index` = #{index}
     </delete>
+
+    <select id="selectPaymentByRegistration"
+    resultType="dev.twd.take_a_walk_duo.entities.shop.PaymentEntity">
+        SELECT `index`             AS `index`,
+               `user_email`        AS `userEmail`,
+               `product_index`     AS `productIndex`,
+               `sale_price`        AS `salePrice`,
+               `quantity`          AS `quantity`,
+               `delivery_fee`      AS `addressPostal`,
+               `registration_on`   AS `addressPrimary`,
+               `address_postal`    AS `addressSecondary`,
+               `address_primary`   AS `deliveryFee`,
+               `address_secondary` AS `registrationOn`,
+               `delivery_status`   AS `deliveryStatus`
+        FROM `twd_shop`.`payment`
+        WHERE `registration_on` = #{date}
+    </select>
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

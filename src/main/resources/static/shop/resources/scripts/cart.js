@@ -368,10 +368,13 @@ cancelButton?.addEventListener('click', e => {
 })
 
 orderButton?.addEventListener('click', e => {
+    e.preventDefault();
+
     if (!confirm("선택된 상품을 주문하시겠습니까?")) {
         return;
     }
-    e.preventDefault();
+
+    alert("hi?");
     cartItem.forEach(x => {
         if (x.querySelector('[rel="checkBox"]').checked) {
             const xhr = new XMLHttpRequest();
@@ -388,7 +391,6 @@ orderButton?.addEventListener('click', e => {
                                 alert('주문 성공');
                                 window.location.href = `./payment`
                                 break;
-
                             default :
                                 alert('실패');
                         }

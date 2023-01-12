@@ -400,8 +400,21 @@ public class ShopService {
                 : CommonResult.FAILURE;
     }
 
+    public Enum<? extends IResult> test(UserEntity user, int[] cartIndex) {
+
+        for(int i = 0 ; i < cartIndex.length; i++) {
+            PaymentEntity payment = new PaymentEntity();
+            payment.setDeliveryFee(i==0 ? 3000 : 0);
+
+
+
+        }
+
+        return CommonResult.SUCCESS;
+    }
+
     @Transactional
-    public Enum<? extends IResult> addPayment(UserEntity user, ShoppingCartEntity cart, PaymentEntity payment) {
+    public Enum<? extends IResult> addPayment(UserEntity user, ShoppingCartEntity cart) {
         if (user == null) {
             return CommonResult.FAILURE;
         }
@@ -413,8 +426,9 @@ public class ShopService {
             return CommonResult.FAILURE;
         }
 
+        // 현재 주문하려고하는 상품의 재고가 주문 갯수보다 작을경우 return false;
 
-
+//        PaymentEntity existingPayment = this.shopMapper.selectPaymentByRegistration();
         PaymentEntity pay = new PaymentEntity();
 
         pay.setDeliveryStatus(0);
@@ -426,14 +440,14 @@ public class ShopService {
         pay.setAddressPostal(user.getAddressPostal());
         pay.setAddressPrimary(user.getAddressPrimary());
         pay.setAddressSecondary(user.getAddressSecondary());
-        payment.setRegistrationOn(new Date());
+        pay.setRegistrationOn(new Date());
 
 
         System.out.println("카트 프로덕트 인덱스"+cart.getProductIndex());
         System.out.println("ex 카트 푸로덕트 인덱스"+existingCart.getProductIndex());
         System.out.println("주소?"+user.getAddressPrimary());
 
-        if (this.shopMapper.insertPayment(payment) == 0){
+        if (this.shopMapper.insertPayment(pay) == 0){
             return CommonResult.FAILURE;
         }
         return CommonResult.SUCCESS;
