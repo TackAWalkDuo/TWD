@@ -158,3 +158,9 @@ body > main > .--form > .--form--second > .shop--content >.shop-list> .shop--con
     /* transition */
     transition: left 0.15s;
 }
+
+/* footer */
+
+body > .--footer {
+    padding: 1rem;
+}
