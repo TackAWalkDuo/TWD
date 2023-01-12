@@ -1,12 +1,14 @@
 <!doctype html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <header class="--header" th:fragment="header">
     <div class="--content -top">
         <a class="--logo-container" th:href="@{/}">
             TAKE A WALK <span class="duo">DUO</span>
         </a>
         <ul class="--menu --main" id="selected">
-            <li th:class="${'--item ' + board.getId()}" th:if="${board.getBoardId() == null}" th:each="board : ${boards}">
+            <li th:class="${'--item ' + board.getId()}" th:if="${board.getBoardId() == null}"
+                th:each="board : ${boards}">
                 <a class="--link small"
                    th:text="${board.getText()}"
                    th:if="${board.getId()} == 'walk'" th:href="@{/map/read}"></a>
@@ -34,24 +36,53 @@
             <li class="--item" th:if="${session.user != null}">
                 <a class="--link border" th:href="@{/member/logout}">
                     <i class="fa-solid fa-user-minus"></i>
-                    </a>
+                </a>
             </li>
             <li class="--item" th:if="${session.user != null}">
                 <a class="--link border" th:href="@{/member/myPage}">
                     <i class="icon fa-solid fa-m"></i>
-                    </a>
+                </a>
             </li>
             <li class="--item" th:if="${session.user != null}">
                 <a class="--link border" th:href="@{/shop/cart}">
                     <i class="icon fa-solid fa-cart-shopping"></i>
-                    </a>
+                </a>
             </li>
         </ul>
     </div>
 </header>
 <footer class="--footer" th:fragment="footer">
     <div class="--content">
-        footer 입니다.
+        <div class="left">
+            <span class="title">
+             Take a Walk duo
+            </span>
+            <div class="content">
+                <span>
+                    산책해듀오 | Take a walk duo
+                </span>
+                <br>
+                <span>
+                    Address : 대구 중구 중앙대로 366 9층, 10층 | Contact : 053-123-1234
+                </span>
+                <br>
+                <span>
+                    ⓒ 2023 TWD All right reserved.
+                </span>
+            </div>
+        </div>
+        <div class="icon">
+            <span class="sns">
+                <i class="fa-brands fa-facebook"></i>
+                <i class="icon fa-brands fa-instagram"></i>
+                <i class="icon fa-brands fa-twitter"></i>
+                <i class="icon fa-brands fa-youtube"></i>
+            </span>
+            <br>
+            <span class="email">
+                support : twd@gmail.com
+            </span>
+        </div>
     </div>
 </footer>
 
