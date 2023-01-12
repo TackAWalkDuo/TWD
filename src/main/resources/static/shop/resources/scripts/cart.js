@@ -123,7 +123,7 @@ deleteButton?.addEventListener('click', e => {
 cartItem.forEach(x => {
     x.querySelector('[rel="checkBox"]').addEventListener('click', () => {
         selectAll.checked = false;          // 전체선택중 하나 이상이 체크가 해제될 경우 전체 체크 해제
-        const priceSum =  x.querySelector('[rel="itemPriceSum"]').innerText;
+        const priceSum = x.querySelector('[rel="itemPriceSum"]').innerText;
 
         if (x.querySelector('[rel="checkBox"]').checked) {//선택된 경우
             salePrice.innerText = Number(salePrice.innerText) + Number(priceSum);
@@ -367,47 +367,52 @@ cancelButton?.addEventListener('click', e => {
     modifyContainer.classList.remove('visible');
 })
 
+
 orderButton?.addEventListener('click', e => {
     e.preventDefault();
+    let orderCheck = false;
+    let index = [];
+    cartItem.forEach(x => {
+        if (x.querySelector('[rel="checkBox"]').checked) {
+            index.push(Number(x.querySelector('[rel="cartIndex"]').innerText));
+            orderCheck = true;
+        }
+    })
+    if (!orderCheck) {
+        alert('선택된 상품이 없습니다');
+        return;
+    }
 
     if (!confirm("선택된 상품을 주문하시겠습니까?")) {
         return;
     }
-    let indexs = [];
-    cartItem.forEach(x => {
-        indexs.push(Number(x.querySelector('[rel="cartIndex"]').innerText));
-    })
 
-    cartItem.forEach(x => {
-        if (x.querySelector('[rel="checkBox"]').checked) {
-            const xhr = new XMLHttpRequest();
-            const formData = new FormData();
-            formData.append("index", x.querySelector('[rel="cartIndex"]').innerText);
-            formData.append("indexs", indexs);
-            // formData.append("quantity", infoNumber.value);
-            xhr.open('POST', window.location.href);
-            xhr.onreadystatechange = () => {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status >= 200 && xhr.status < 300) {
-                        const responseObject = JSON.parse(xhr.responseText);
-                        switch (responseObject['result']) {
-                            case 'success' :
-                                alert('주문 성공');
-                                window.location.href = `./payment`
-                                break;
-                            default :
-                                alert('실패');
-                        }
-
-                    } else {
-                        alert('연결실패');
-                    }
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+    // formData.append("index", x.querySelector('[rel="cartIndex"]').innerText);
+    formData.append("cartIndex", index);
+    xhr.open('POST', window.location.href);
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                const responseObject = JSON.parse(xhr.responseText);
+                switch (responseObject['result']) {
+                    case 'success' :
+                        alert('주문 성공');
+                        window.location.href = `./payment`
+                        break;
+                    default :
+                        alert('실패');
                 }
-            };
-            xhr.send(formData);
+
+            } else {
+                alert('연결실패');
+            }
         }
-    })
+    };
+    xhr.send(formData);
 })
+
 
 
 

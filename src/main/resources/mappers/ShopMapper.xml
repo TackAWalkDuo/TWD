@@ -417,7 +417,7 @@
                                          `registration_on`, `address_postal`, `address_primary`, `address_secondary`,
                                          `delivery_status`)
         VALUES (#{userEmail}, #{productIndex}, #{salePrice}, #{quantity}, #{deliveryFee}, #{registrationOn},
-                #{addressPostal}, #{addressPrimary}, #{addressSecondary}, #{deliveryStatus})
+                #{addressPostal}, #{addressPrimary}, #{addressSecondary}, IFNULL(#{deliveryStatus}, DEFAULT(`delivery_status`)))
     </insert>
 
     <delete id="deleteCartByIndex">
@@ -448,15 +448,17 @@
 
     <select id="selectPaymentByIndex"
             resultType="dev.twd.take_a_walk_duo.entities.shop.PaymentEntity">
-        SELECT `index`           AS `index`,
-               `user_email`      AS `userEmail`,
-               `product_index`   AS `productIndex`,
-               `sale_price`      AS `salePrice`,
-               `quantity`        AS `quantity`,
-               `delivery_fee`    AS `deliveryFee`,
-               `registration_on` AS `registrationOn`,
-               address_primary   AS `address`,
-               `delivery_status` AS `deliveryStatus`
+        SELECT `index`             AS `index`,
+               `user_email`        AS `userEmail`,
+               `product_index`     AS `productIndex`,
+               `sale_price`        AS `salePrice`,
+               `quantity`          AS `quantity`,
+               `delivery_fee`      AS `deliveryFee`,
+               `registration_on`   AS `registrationOn`,
+               `address_postal`    AS `addressPostal`,
+               `address_primary`   AS `addressPrimary`,
+               `address_secondary` AS `addressSecondary`,
+               `delivery_status`   AS `deliveryStatus`
         FROM `twd_shop`.`payment`
         WHERE `index` = #{index}
     </select>
@@ -468,7 +470,7 @@
     </delete>
 
     <select id="selectPaymentByRegistration"
-    resultType="dev.twd.take_a_walk_duo.entities.shop.PaymentEntity">
+            resultType="dev.twd.take_a_walk_duo.entities.shop.PaymentEntity">
         SELECT `index`             AS `index`,
                `user_email`        AS `userEmail`,
                `product_index`     AS `productIndex`,
