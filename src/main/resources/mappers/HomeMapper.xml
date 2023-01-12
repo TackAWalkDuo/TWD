@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dev.twd.take_a_walk_duo.mappers.IHomeMapper">
+    <select id="selectArticlesByBoardId"
+            resultType="dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo">
+    SELECT `articles`.`index` AS `index`,
+    `articles`.`user_email` AS `userEmail`,
+    `articles`.`board_id` AS `boardId`,
+    `articles`.`title` AS `title`,
+    `articles`.`view` AS `view`,
+    `articles`.`written_on` AS `writtenOn`,
+    `articles`.`modified_on` AS `modifiedOn`,
+    `users`.`nickname` AS `userNickname`
+    FROM `twd_bbs`.`articles`
+    LEFT JOIN twd_member.users on articles.user_email = users.email
+    LEFT JOIN `twd_bbs`.`boards` AS `board`
+    ON board.`board_id` = #{boardId} OR board.`id` = #{boardId}
+    WHERE `articles`.`board_id` = board.id
+    ORDER BY `articles`.`index` DESC
+    lIMIT 5
+    </select>
+</mapper>
