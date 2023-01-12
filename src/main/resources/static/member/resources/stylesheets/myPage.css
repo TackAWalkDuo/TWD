@@ -6,6 +6,7 @@ body {
     flex-direction: row;
     justify-content: flex-start;
     background-image: url("https://img.freepik.com/free-photo/back-view-young-man-with-dog-seaside_23-2148885059.jpg?w=1800&t=st=1673404036~exp=1673404636~hmac=441724cedcb6a91c013e0a9ebc54111b5ca3bc34d98f89f42ecc50447fc21e56");
+    background-size: cover;
 }
 
 #listContainer {
@@ -25,7 +26,6 @@ body {
     max-width: 0;
     background-color: rgb(255, 255, 255);
     box-shadow: 0 0 1.5rem 0.0625rem rgba(0, 0, 0, 15%);
-    display: none;
     flex-basis: 22.5rem;
     overflow: hidden;
     transition-duration: 250ms;
