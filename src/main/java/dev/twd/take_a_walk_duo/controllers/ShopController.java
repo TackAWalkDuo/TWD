@@ -339,8 +339,8 @@ public class ShopController extends GeneralController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postCart(@SessionAttribute(value = "user", required = false) UserEntity user,
-                           ShoppingCartEntity cart) {
-        Enum<?> result = this.shopService.addPayment(user, cart);
+                           int[] cartIndex) {
+        Enum<?> result = this.shopService.test(user, cartIndex);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
 //        if (result == CommonResult.SUCCESS) {
