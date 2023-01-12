@@ -15,6 +15,7 @@ import dev.twd.take_a_walk_duo.services.ShopService;
 import dev.twd.take_a_walk_duo.vos.shop.CartVo;
 import dev.twd.take_a_walk_duo.vos.shop.PaymentVo;
 import dev.twd.take_a_walk_duo.vos.shop.ProductVo;
+import org.apache.ibatis.annotations.Param;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -339,11 +340,16 @@ public class ShopController extends GeneralController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postCart(@SessionAttribute(value = "user", required = false) UserEntity user,
-                           ShoppingCartEntity cart) {
+                           ShoppingCartEntity cart,
+                           @RequestParam(value = "indexs")int[] indexs) {
         Enum<?> result = this.shopService.addPayment(user, cart);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
-//        if (result == CommonResult.SUCCESS) {
+
+        for(int i = 0; i < indexs.length ; i++) {
+            System.out.println("indexs :  " + indexs[i]);
+        }
+        //        if (result == CommonResult.SUCCESS) {
 //            responseObject.put("aid", aid);
 //        }
         return responseObject.toString();

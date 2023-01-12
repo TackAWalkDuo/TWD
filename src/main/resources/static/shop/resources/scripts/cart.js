@@ -373,13 +373,17 @@ orderButton?.addEventListener('click', e => {
     if (!confirm("선택된 상품을 주문하시겠습니까?")) {
         return;
     }
+    let indexs = [];
+    cartItem.forEach(x => {
+        indexs.push(Number(x.querySelector('[rel="cartIndex"]').innerText));
+    })
 
-    alert("hi?");
     cartItem.forEach(x => {
         if (x.querySelector('[rel="checkBox"]').checked) {
             const xhr = new XMLHttpRequest();
             const formData = new FormData();
             formData.append("index", x.querySelector('[rel="cartIndex"]').innerText);
+            formData.append("indexs", indexs);
             // formData.append("quantity", infoNumber.value);
             xhr.open('POST', window.location.href);
             xhr.onreadystatechange = () => {
