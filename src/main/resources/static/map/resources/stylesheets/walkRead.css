@@ -24,7 +24,7 @@ body > .--header {
 
 #foldContainer {
     position: absolute;
-    height: 85%;
+    height: 72%;
     z-index: 3;
 
     top: 10%;
