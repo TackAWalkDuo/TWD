@@ -78,6 +78,8 @@
             <div class="page">
                 <div class="pageOne">
                     <h1>Profile</h1>
+                    <span th:text="'email : '+${myPage.getEmail()}">
+                    </span>
                     <span th:text="'name : '+${myPage.getName()}">
                     </span>
                     <span th:text="'nickname : '+${myPage.getNickname()}">
