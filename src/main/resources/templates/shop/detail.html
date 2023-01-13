@@ -21,7 +21,7 @@
 <body th:if="${product != null}">
 <th:block th:replace="~{fragments/body :: header}"></th:block>
 <main th:if="${product.getQuantity() == 0}" class="--main main">
-    <i th:if="${product.getQuantity() == 0}" class="empty-icon fa-solid fa-circle-exclamation"><span>품절된 상품입니다.</span></i>
+    <i rel="isSoldOut" th:if="${product.getQuantity() == 0}" class="empty-icon fa-solid fa-circle-exclamation" th:value="${product.getQuantity()}"><span>품절된 상품입니다.</span></i>
 </main>
 <main class="--main main" th:if="${product.quantity > 0}">
     <div class="detail-main">

@@ -447,52 +447,41 @@ public class ShopService {
 
         return CommonResult.SUCCESS;
     }
+
     // 2트
-//    @Transactional
-//    public Enum<? extends IResult> easeAddPayment(UserEntity user, int aid) {
-//        if (user == null) {
-//            return CommonResult.FAILURE;
-//        }
-//
-//            ShoppingCartEntity existingCart = this.shopMapper.selectCartByCartIndex(e);
-//
-//            if (existingCart == null) {
-//                return CommonResult.FAILURE;
-//
-//            PaymentEntity payment = new PaymentEntity();
-//            payment.setDeliveryFee(i == 0 ? 3000 : 0);
-//            payment.setDeliveryStatus(0);
-//            payment.setProductIndex(existingCart.getProductIndex());
-//            payment.setSalePrice(existingCart.getSalePrice());
-//            payment.setUserEmail(user.getEmail());
-//            payment.setQuantity(existingCart.getQuantity());
-//            payment.setAddressPostal(user.getAddressPostal());
-//            payment.setAddressPrimary(user.getAddressPrimary());
-//            payment.setAddressSecondary(user.getAddressSecondary());
-//            payment.setRegistrationOn(new Date());
-//
-//            if (this.shopMapper.insertPayment(payment) == 0) {
-//                return CommonResult.FAILURE;
-//            }
-//
-//            SaleProductEntity existingProduct = this.shopMapper.selectProductByArticleIndex(existingCart.getProductIndex());
-//            existingProduct.setQuantity(existingProduct.getQuantity() - existingCart.getQuantity());
-//            if (this.shopMapper.updateProduct(existingProduct) == 0) {
-//                return CommonResult.FAILURE;
-//            }
-//
-//            // sale_product 검색
-//            // sale_product.setQu~~(getQu~~ - ~~);
-//            //update()
-//
-//            existingCart.setIndex(cartIndex[i]);
-//            if (this.shopMapper.deleteCartByIndex(existingCart) == 0) {
-//                return CommonResult.FAILURE;
-//            }
-//        }
-//
-//        return CommonResult.SUCCESS;
-//    }
+    @Transactional
+    public Enum<? extends IResult> easeAddPayment(UserEntity user, PaymentEntity payment) {
+        if (user == null) {
+            return CommonResult.FAILURE;
+        }
+
+        SaleProductEntity existingProduct = this.shopMapper.selectProductByArticleIndex(payment.getProductIndex());
+
+        if (existingProduct == null) {
+            return CommonResult.FAILURE;
+        }
+
+        payment.setDeliveryFee(3000);
+        payment.setDeliveryStatus(0);
+        payment.setProductIndex(existingProduct.getArticleIndex());
+        payment.setSalePrice(existingProduct.getPrice());
+        payment.setUserEmail(user.getEmail());
+        payment.setQuantity(existingProduct.getQuantity());
+        payment.setAddressPostal(user.getAddressPostal());
+        payment.setAddressPrimary(user.getAddressPrimary());
+        payment.setAddressSecondary(user.getAddressSecondary());
+        payment.setRegistrationOn(new Date());
+
+        if (this.shopMapper.insertPayment(payment) == 0) {
+            return CommonResult.FAILURE;
+        }
+
+        existingProduct.setQuantity(existingProduct.getQuantity() - payment.getQuantity());
+        if (this.shopMapper.updateProduct(existingProduct) == 0) {
+            return CommonResult.FAILURE;
+        }
+        return CommonResult.SUCCESS;
+    }
 
     //1트
 //    @Transactional

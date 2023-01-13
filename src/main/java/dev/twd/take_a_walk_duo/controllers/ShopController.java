@@ -313,18 +313,18 @@ public class ShopController extends GeneralController {
         return responseObject.toString();
     }
 
-//    @PatchMapping(value = "detail",
-//    produces = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseBody
-//    public String patchDetail(@SessionAttribute(value = "user", required = false) UserEntity user, int aid){
-//        Enum<?> result = this.shopService.easeAddPayment(user, aid);
-//        JSONObject responseObject = new JSONObject();
-//        responseObject.put("result", result.name().toLowerCase());
-////        if (result == CommonResult.SUCCESS) {
-////            responseObject.put("aid", aid);
-////        }
-//        return responseObject.toString();
-//    }
+    @PostMapping(value = "payment",
+    produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postPayment(@SessionAttribute(value = "user", required = false) UserEntity user, PaymentEntity payment){
+        Enum<?> result = this.shopService.easeAddPayment(user, payment);
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("result", result.name().toLowerCase());
+//        if (result == CommonResult.SUCCESS) {
+//            responseObject.put("aid", aid);
+//        }
+        return responseObject.toString();
+    }
 
     @PatchMapping(value = "cart",
     produces = MediaType.APPLICATION_JSON_VALUE)
