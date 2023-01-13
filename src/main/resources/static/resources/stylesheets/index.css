@@ -88,6 +88,10 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    height: 15rem;
+    object-fit: cover;
+    margin-bottom: 0.5rem;
+    border-radius: 1rem;
 }
 
 .item {
@@ -103,7 +107,6 @@ body {
 
 body > main > .--form > .--form--second > .article--content > .article--container,
 body > main > .--form > .--form--second > .shop--content >.shop-list> .shop--container {
-    align-items: center;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -136,6 +139,7 @@ body > main > .--form > .--form--second > .shop--content >.shop-list> .shop--con
 
 .text{
     color: black;
+    font-weight: 500;
 }
 
 .text-content{

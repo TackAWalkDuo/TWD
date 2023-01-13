@@ -26,7 +26,7 @@
                 <span hidden>검색기준</span>
                 <select name="criterion" class="--object-input">
                     <option value="menu" selected disabled>분류</option>
-                    <option th:each="boards : ${boardList}" th:if="${boards.getId() != 'free'}" th:text="${boards.getText()}" th:value="${board.getId()}">일상</option>
+                    <option th:each="boards : ${boardList}" th:if="${boards.getId() != 'free'}" th:text="${boards.getText()}" th:value="${boards.getId()}">일상</option>
                 </select>
                 <div class="writeButton-container">
                     <input class="--object-button" type="button" name="back" value="돌아가기">
@@ -63,7 +63,7 @@
                     <label class="label">
                         <span hidden>내용</span>
                         <textarea class="--object-input input" maxlength="10000" name="content"
-                                  placeholder="내용을 입력해주세요 마지막 커밋입니다."
+                                  placeholder="내용을 입력해주세요"
                                   type="text"></textarea>
                     </label>
                 </td>
