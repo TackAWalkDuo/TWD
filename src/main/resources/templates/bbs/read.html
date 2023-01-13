@@ -139,7 +139,7 @@
                                 </div>
                                 <div id="commentMineForm" class="comment-mine-form">
                                     <div class="head">
-                                        <span class="writer" th:text="${article.getUserNickname()}">관리자</span>
+                                        <span class="writer" th:text="${session.user.getNickname()}">관리자</span>
                                     </div>
                                     <div id="commentForm" class="comment-form">
                                         <label class="label">
