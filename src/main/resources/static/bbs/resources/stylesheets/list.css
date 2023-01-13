@@ -178,7 +178,7 @@ body > .main > .search-form > .label {
     background-color: rgb(120, 110, 110);
     color: rgb(234, 236, 238);
     font-weight: inherit;
-    padding: 0.1rem 1rem;
+    padding: 1.1rem 1rem;
 }
 
 #table td,
@@ -190,6 +190,7 @@ body > .main > .search-form > .label {
 #table th:nth-of-type(3) {
     width: 100%;
     white-space: normal;
+
 }
 
 #table > tbody > tr > td {
@@ -227,6 +228,7 @@ body > .main > .search-form > .label {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    padding: 0.1rem;
 }
 
 #table > tfoot > tr > td > .page-container {

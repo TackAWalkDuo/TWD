@@ -21,7 +21,7 @@
         </section>
         <section class="--form--second">
             <div class="article--content">
-                <a class="article-href" th:href="a">Community</a>
+                <a class="article-href" th:href="@{/bbs/list?(bid='free')}">Community</a>
                 <ul class="article--container" >
                     <li class="item" th:each="article : ${articles}">
                         <a class="link" th:href="@{bbs/read(aid=${article.getIndex()})}">
@@ -36,57 +36,15 @@
                 <img alt="제품1" class="advertising--image" src="/resources/images/banner_cat.jpg">
             </div>
             <div class="shop--content">
-                <a class="shop-href" th:href="a">ShoppingMAll</a>
+                <a class="shop-href" th:href="@{/shop/main}">Shopping Mall</a>
                 <div class="shop-list">
                 <span class="pre-btn"><</span>
                 <ul class="shop--container">
-                    <li class="item shop-item">
-                        <a class="link" th:href="@{#}">
-                            <img alt="제품1" class="image" src="/resources/images/item1.jpg">
-                            <span class="text">제품11</span>
-                            <span class="text-content">56,000원</span>
-                        </a>
-                    </li>
-                    <li class="item shop-item">
-                        <a class="link" th:href="@{#}">
-                            <img alt="제품1" class="image" src="/resources/images/item2.jpg">
-                            <span class="text">제품1</span>
-                            <span class="text-content">56,000원</span>
-                        </a>
-                    </li>
-                    <li class="item shop-item">
-                        <a class="link" th:href="@{#}">
-                            <img alt="제품1" class="image" src="/resources/images/item3.jpg">
-                            <span class="text">제품10</span>
-                            <span class="text-content">56,000원</span>
-                        </a>
-                    </li>
-                    <li class="item shop-item">
-                        <a class="link" th:href="@{#}">
-                            <img alt="제품1" class="image" src="/resources/images/item3.jpg">
-                            <span class="text">제품1</span>
-                            <span class="text-content">56,000원</span>
-                        </a>
-                    </li>
-                    <li class="item shop-item">
-                        <a class="link" th:href="@{#}">
-                            <img alt="제품1" class="image" src="/resources/images/item4.jpg">
-                            <span class="text">제품2</span>
-                            <span class="text-content">56,000원</span>
-                        </a>
-                    </li>
-                    <li class="item shop-item">
-                        <a class="link" th:href="@{#}">
-                            <img alt="제품1" class="image" src="/resources/images/item4.jpg">
-                            <span class="text">제품3</span>
-                            <span class="text-content">56,000원</span>
-                        </a>
-                    </li>
-                    <li class="item shop-item">
-                        <a class="link" th:href="@{#}">
-                            <img alt="제품1" class="image" src="/resources/images/item4.jpg">
-                            <span class="text">제품4</span>
-                            <span class="text-content">56,000원</span>
+                    <li class="item shop-item" th:each="shopProduct : ${shopArticles}">
+                        <a class="link" th:href="@{/shop/detail(aid=${shopProduct.getIndex()})}">
+                            <img alt="제품1" class="image" th:src="|/bbs/thumbnail?index=${shopProduct.getIndex()}|">
+                            <span class="text" th:text="${shopProduct.getTitle()}"></span>
+                            <span class="text-content" th:text="${shopProduct.getPrice() + '원'}"></span>
                         </a>
                     </li>
                 </ul>
@@ -94,8 +52,10 @@
                 </div>
             </div>
             <div class="map--content">
-                <a class="map-href" th:href="a">TakeAWalk</a>
+                <a class="map-href" th:href="@{/map/read}">Take A Walk</a>
+                <a th:href="@{/map/read}">
                     <img alt="제품1" class="map--image" src="/resources/images/datingmap.jpg">
+                </a>
             </div>
         </section>
     </section>

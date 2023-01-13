@@ -2,6 +2,7 @@ package dev.twd.take_a_walk_duo.controllers;
 
 import dev.twd.take_a_walk_duo.services.HomeService;
 import dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo;
+import dev.twd.take_a_walk_duo.vos.shop.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,8 @@ public class HomeController extends GeneralController {
         ModelAndView modelAndView = new ModelAndView("home/index");
         ArticleReadVo[] recentArticle = this.homeService.getRecentArticles("free");
         modelAndView.addObject("articles", recentArticle);
+        ProductVo[] recentShopArticles = this.homeService.getArticles("shop");
+        modelAndView.addObject("shopArticles", recentShopArticles);
         return modelAndView;
     }
 }

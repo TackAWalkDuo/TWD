@@ -5,20 +5,42 @@
 <mapper namespace="dev.twd.take_a_walk_duo.mappers.IHomeMapper">
     <select id="selectArticlesByBoardId"
             resultType="dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo">
-    SELECT `articles`.`index` AS `index`,
-    `articles`.`user_email` AS `userEmail`,
-    `articles`.`board_id` AS `boardId`,
-    `articles`.`title` AS `title`,
-    `articles`.`view` AS `view`,
-    `articles`.`written_on` AS `writtenOn`,
-    `articles`.`modified_on` AS `modifiedOn`,
-    `users`.`nickname` AS `userNickname`
-    FROM `twd_bbs`.`articles`
-    LEFT JOIN twd_member.users on articles.user_email = users.email
-    LEFT JOIN `twd_bbs`.`boards` AS `board`
-    ON board.`board_id` = #{boardId} OR board.`id` = #{boardId}
-    WHERE `articles`.`board_id` = board.id
-    ORDER BY `articles`.`index` DESC
-    lIMIT 5
+        SELECT `articles`.`index`       AS `index`,
+               `articles`.`user_email`  AS `userEmail`,
+               `articles`.`board_id`    AS `boardId`,
+               `articles`.`title`       AS `title`,
+               `articles`.`view`        AS `view`,
+               `articles`.`written_on`  AS `writtenOn`,
+               `articles`.`modified_on` AS `modifiedOn`,
+               `users`.`nickname`       AS `userNickname`
+        FROM `twd_bbs`.`articles`
+                 LEFT JOIN twd_member.users on articles.user_email = users.email
+                 LEFT JOIN `twd_bbs`.`boards` AS `board`
+                           ON board.`board_id` = #{boardId} OR board.`id` = #{boardId}
+        WHERE `articles`.`board_id` = board.id
+        ORDER BY `articles`.`index` DESC
+        lIMIT 5
+    </select>
+    <select id="selectShopArticlesByBoardId"
+            resultType="dev.twd.take_a_walk_duo.vos.shop.ProductVo">
+        SELECT `article`.`index`         AS `index`,
+               `article`.`user_email`    AS `userEmail`,
+               `article`.`board_id`      AS `boardID`,
+               `article`.`title`         AS `title`,
+               `article`.`content`       AS `content`,
+               `article`.`thumbnail`     AS `thumbnail`,
+               `article`.`view`          AS `view`,
+               `article`.`written_on`    AS `writtenOn`,
+               `article`.`modified_on`   AS `modifiedOn`,
+               `product`.`quantity`      AS `qunantity`,
+               `product`.`price`         AS `price`,
+               `product`.`category_text` AS 'categoryText',
+               `product`.`text`          AS `text`
+        FROM `twd_bbs`.`articles` AS `article`
+                 LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`
+                 LEFT JOIN `twd_shop`.`sale_product` AS `product` ON `article`.`index` = `product`.`article_index`
+        WHERE `article`.`board_id` = 'shop'
+        ORDER BY `index` DESC
+        LIMIT 10
     </select>
 </mapper>
