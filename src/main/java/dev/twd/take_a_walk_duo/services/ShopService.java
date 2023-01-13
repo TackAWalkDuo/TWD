@@ -406,14 +406,21 @@ public class ShopService {
             return CommonResult.FAILURE;
         }
 
+        int groupIndex = 0;
         for (int i = 0; i < cartIndex.length; i++) {
+
             ShoppingCartEntity existingCart = this.shopMapper.selectCartByCartIndex(cartIndex[i]);
 
             if (existingCart == null) {
                 return CommonResult.FAILURE;
             }
 
+
             PaymentEntity payment = new PaymentEntity();
+
+            if (i == 0) groupIndex = cartIndex[0];
+
+            payment.setGroupIndex(groupIndex);
             payment.setDeliveryFee(i == 0 ? 3000 : 0);
             payment.setDeliveryStatus(0);
             payment.setProductIndex(existingCart.getProductIndex());

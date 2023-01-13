@@ -401,7 +401,8 @@
     <insert id="insertCart"
             useGeneratedKeys="true"
             keyProperty="index"
-            keyColumn="index">
+            keyColumn="index"
+            parameterType="dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity">
         INSERT INTO `twd_shop`.`shopping_cart`(`user_email`, `product_index`, `sale_price`, `quantity`, `maxQuantity`,
                                                `delivery_fee`,
                                                `registration_on`)
@@ -412,12 +413,15 @@
     <insert id="insertPayment"
             useGeneratedKeys="true"
             keyColumn="index"
-            keyProperty="index">
-        INSERT INTO `twd_shop`.`payment`(`user_email`, `product_index`, `sale_price`, `quantity`, delivery_fee,
-                                         `registration_on`, `address_postal`, `address_primary`, `address_secondary`,
+            keyProperty="index"
+            parameterType="dev.twd.take_a_walk_duo.entities.shop.PaymentEntity">
+        INSERT INTO `twd_shop`.`payment`(`user_email`, `group_index`, `product_index`, `sale_price`, `quantity`,
+                                         delivery_fee, `registration_on`, `address_postal`, `address_primary`, `address_secondary`,
                                          `delivery_status`)
-        VALUES (#{userEmail}, #{productIndex}, #{salePrice}, #{quantity}, #{deliveryFee}, #{registrationOn},
-                #{addressPostal}, #{addressPrimary}, #{addressSecondary}, IFNULL(#{deliveryStatus}, DEFAULT(`delivery_status`)))
+        VALUES (#{userEmail}, #{groupIndex}, #{productIndex}, #{salePrice}, #{quantity}, #{deliveryFee},
+                #{registrationOn},
+                #{addressPostal}, #{addressPrimary}, #{addressSecondary},
+                IFNULL(#{deliveryStatus}, DEFAULT(`delivery_status`)))
     </insert>
 
     <delete id="deleteCartByIndex">
@@ -450,6 +454,7 @@
             resultType="dev.twd.take_a_walk_duo.entities.shop.PaymentEntity">
         SELECT `index`             AS `index`,
                `user_email`        AS `userEmail`,
+               `group_index`       AS `groupIndex`,
                `product_index`     AS `productIndex`,
                `sale_price`        AS `salePrice`,
                `quantity`          AS `quantity`,
@@ -473,6 +478,7 @@
             resultType="dev.twd.take_a_walk_duo.entities.shop.PaymentEntity">
         SELECT `index`             AS `index`,
                `user_email`        AS `userEmail`,
+               `group_index`       AS `groupIndex`,
                `product_index`     AS `productIndex`,
                `sale_price`        AS `salePrice`,
                `quantity`          AS `quantity`,

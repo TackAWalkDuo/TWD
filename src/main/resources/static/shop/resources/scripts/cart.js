@@ -87,6 +87,8 @@ deleteButton?.addEventListener('click', e => {
     if (!confirm("정말로 장바구니를 삭제할까요?")) {
         return;
     }
+
+    //TODO index 배열로 담아서 수정.
     cartItem.forEach(x => {
         if (x.querySelector('[rel="checkBox"]').checked) {
             selectCheck = true;

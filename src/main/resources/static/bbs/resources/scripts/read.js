@@ -441,7 +441,16 @@ deleteArticle.addEventListener('click', e => {
     xhr.send();
 });
 
-function resize(obj){
+function resize(obj) {
     obj.style.height = "1px";
     obj.style.height = (12 + obj.scrollHeight) + "px";
 }
+
+window.document.getElementById("modifyArticle").addEventListener('click', () => {
+    const writeUser = window.document.getElementById("writeUser").value;
+    const loginUser = window.document.getElementById("loginUser").value;
+
+    writeUser === loginUser
+        ? window.location.href = `./modify?aid=${commentMinePicForm['aid'].value}`
+        : showDialog.show("수정 권한이 없습니다.");
+});

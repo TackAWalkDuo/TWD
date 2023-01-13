@@ -84,7 +84,6 @@ input, select, textarea {
     color: rgb(171, 178, 185);
 }
 
-/*TODO class name change*/
 .button-container > .button.green > * + * {
     padding-left: 0.5rem;
 }

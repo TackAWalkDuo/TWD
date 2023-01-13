@@ -10,3 +10,4 @@ for (let i = 0; i < aList.length; i++) {
     }
 }
 
+//TODO 쇼핑 게시판 css 수정.

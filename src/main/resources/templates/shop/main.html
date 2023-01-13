@@ -125,24 +125,6 @@
     <!--            </li>-->
     </ul>
     </section>
-    <form class="search-form" id="searchForm" method="get">
-        <label class="label">
-            <span hidden>검색 기준</span>
-            <select class="--object-input" name="criterion">
-                <option value="all">제목 + 내용</option>
-                <option value="title">제목</option>
-                <option value="nickname">작성자</option>
-            </select>
-        </label>
-        <label class="label">
-            <span hidden>검색어</span>
-            <!--주소창에서 키값이 keyword인 값을 value로 넣는다-->
-            <input class="--object-input" maxlength="50" name="keyword" placeholder="검색어를 입력해 주세요." type="text">
-        </label>
-        <!--검색 결과에 bid 필요해서 넣음-->
-        <input name="bid" type="hidden">
-        <input class="--object-button" type="submit" value="검색">
-    </form>
 </main>
 <!-- cover -->
 <th:block th:replace="~{fragments/body :: cover}"></th:block>

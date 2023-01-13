@@ -20,8 +20,9 @@ const orderButton = window.document.querySelector('[rel="orderButton"]');
 const addCart = window.document.querySelector('[rel="addCart"]');
 
 const isSoldOut = window.document.querySelector('[rel="isSoldOut"]');
+
 //  품절이 아닐 경우에만 실행
-if(isSoldOut?.value === '0'){
+if(isSoldOut === null){
     // +버튼 누를시 실행
     orderForm['plusButton'].onclick = () => {
         // +버튼 누를시 제품 갯수 1씩 더함, 가격 조정

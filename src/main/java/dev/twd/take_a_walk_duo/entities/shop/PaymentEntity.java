@@ -6,6 +6,7 @@ import java.util.Objects;
 public class PaymentEntity {
     private int index;
     private String userEmail;
+    private Integer groupIndex;
     private int productIndex;
     private int salePrice;
     private int quantity;
@@ -32,6 +33,14 @@ public class PaymentEntity {
     public PaymentEntity setUserEmail(String userEmail) {
         this.userEmail = userEmail;
         return this;
+    }
+
+    public Integer getGroupIndex() {
+        return groupIndex;
+    }
+
+    public void setGroupIndex(Integer groupIndex) {
+        this.groupIndex = groupIndex;
     }
 
     public int getProductIndex() {

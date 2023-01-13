@@ -87,6 +87,10 @@ public class BbsController extends GeneralController{
 
     //Mr.m
     //게시글 읽기 구현
+    //TODO 댓글 작성자 수정.
+    //TODO 게시글 작성 돌아가기
+    //TODO 목록으로 돌아가기 / 버튼 hover 수정.
+    //TODO 다른 유저가 수정햇을 경우 reload 가 아니게
     @RequestMapping(value = "read",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)

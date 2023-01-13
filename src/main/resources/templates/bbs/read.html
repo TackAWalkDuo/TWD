@@ -76,8 +76,10 @@
                 <table class="table">
                     <thead>
                     <tr class="title-table">
+                        <input hidden id="writeUser" th:value="${article.getUserEmail()}">
+                        <input hidden id="loginUser" th:value="${session.user.getEmail()}">
                         <th hidden>번호</th>
-                        <td th:text="${article.getIndex()}">17</td>
+                        <td name="articleIndex" th:text="${article.getIndex()}">17</td>
                         <th hidden>분류</th>
                         <td th:text="${board.getId()}">분류</td>
                         <th hidden>제목</th>
@@ -113,7 +115,8 @@
                         <th hidden class="view">조회수</th>
                         <td th:text="${'조회수 ['+article.getView() +']'}">1</td>
                         <td>
-                            <a class="modify-article" th:href="@{./modify (aid=${article.getIndex()})}">수정하기</a>
+<!--                            <a class="modify-article"  id="modifyArticle" th:href="@{./modify (aid=${article.getIndex()})}">수정하기</a>-->
+                            <a class="modify-article"  href="#" id="modifyArticle">수정하기</a>
                             <a class="delete-article" id="deleteArticle">삭제하기</a>
                         </td>
                     </tr>

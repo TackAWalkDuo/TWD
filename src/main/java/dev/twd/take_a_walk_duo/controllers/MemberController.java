@@ -140,7 +140,6 @@ public class MemberController extends GeneralController{
         return modelAndView;
     }
 
-    // TODO recaptcha 체크 안했을 때 로그인이 안되게 해야함.
     // 로그인 POST
     @RequestMapping(value = "login",
             method = RequestMethod.POST,
