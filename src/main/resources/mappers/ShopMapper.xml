@@ -416,7 +416,8 @@
             keyProperty="index"
             parameterType="dev.twd.take_a_walk_duo.entities.shop.PaymentEntity">
         INSERT INTO `twd_shop`.`payment`(`user_email`, `group_index`, `product_index`, `sale_price`, `quantity`,
-                                         delivery_fee, `registration_on`, `address_postal`, `address_primary`, `address_secondary`,
+                                         delivery_fee, `registration_on`, `address_postal`, `address_primary`,
+                                         `address_secondary`,
                                          `delivery_status`)
         VALUES (#{userEmail}, #{groupIndex}, #{productIndex}, #{salePrice}, #{quantity}, #{deliveryFee},
                 #{registrationOn},
@@ -435,6 +436,7 @@
         SELECT `payment`.`index`             AS `index`,
                `payment`.`user_email`        AS `userEmail`,
                `article`.`title`             AS `title`,
+               `payment`.`group_index`       AS `groupIndex`,
                `payment`.`product_index`     AS `productIndex`,
                `payment`.`sale_price`        AS `salePrice`,
                `payment`.`quantity`          AS `quantity`,
@@ -465,13 +467,13 @@
                `address_secondary` AS `addressSecondary`,
                `delivery_status`   AS `deliveryStatus`
         FROM `twd_shop`.`payment`
-        WHERE `index` = #{index}
+        WHERE `group_index` = #{index}
     </select>
 
     <delete id="deletePayment">
         DELETE
         FROM `twd_shop`.`payment`
-        WHERE `index` = #{index}
+        WHERE `group_index` = #{index}
     </delete>
 
     <select id="selectPaymentByRegistration"

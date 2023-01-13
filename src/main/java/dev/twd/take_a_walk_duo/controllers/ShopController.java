@@ -342,8 +342,8 @@ public class ShopController extends GeneralController {
     @DeleteMapping(value = "cart",
     produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String deleteCart(ShoppingCartEntity cart, @SessionAttribute(value = "user", required = false)UserEntity user){
-        Enum<?> result = this.shopService.deleteCarts(cart,user);
+    public String deleteCart(int[] index, @SessionAttribute(value = "user", required = false)UserEntity user){
+        Enum<?> result = this.shopService.deleteCarts(index,user);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
         return responseObject.toString();

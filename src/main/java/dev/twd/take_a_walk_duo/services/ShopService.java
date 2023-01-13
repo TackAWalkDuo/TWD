@@ -468,6 +468,11 @@ public class ShopService {
             return CommonResult.FAILURE;
         }
 
+        //카드에 담고
+        //groupIndex 담고
+        //카트 지우고
+
+//        payment.setGroupIndex();
         payment.setDeliveryFee(3000);
         payment.setDeliveryStatus(0);
         payment.setProductIndex(existingProduct.getArticleIndex());
@@ -564,23 +569,25 @@ public class ShopService {
 //        return CommonResult.SUCCESS;
 //    }
 
-    public Enum<? extends IResult> deleteCarts(ShoppingCartEntity cart, UserEntity user) {
-        ShoppingCartEntity existingCart = this.shopMapper.selectCartByCartIndex(cart.getIndex());
-        if (existingCart == null) {
-            return CommonResult.FAILURE;
+    public Enum<? extends IResult> deleteCarts(int[] index, UserEntity user) {
+        for (int i = 0; i < index.length; i++) {
+            ShoppingCartEntity existingCart = this.shopMapper.selectCartByCartIndex(index[i]);
+            if (existingCart == null) {
+                return CommonResult.FAILURE;
+            }
+            if (!user.getEmail().equals(existingCart.getUserEmail())) {
+                return CommonResult.FAILURE;
+            }
+            existingCart.setIndex(index[i]);
+            if (this.shopMapper.deleteCartByIndex(existingCart) <= 0)
+                return CommonResult.FAILURE;
         }
-        if (!user.getEmail().equals(existingCart.getUserEmail())) {
-            return CommonResult.FAILURE;
-        }
-        existingCart.setIndex(cart.getIndex());
-        return this.shopMapper.deleteCartByIndex(existingCart) > 0
-                ? CommonResult.SUCCESS
-                : CommonResult.FAILURE;
+        return CommonResult.SUCCESS;
     }
 
     @Transactional
     public Enum<? extends IResult> deletePayment(PaymentEntity payment, UserEntity user) {
-        PaymentEntity existingPayment = this.shopMapper.selectPaymentByIndex(payment.getIndex());
+        PaymentEntity existingPayment = this.shopMapper.selectPaymentByIndex(payment.getGroupIndex());
         if (existingPayment == null) {
             return CommonResult.FAILURE;
         }

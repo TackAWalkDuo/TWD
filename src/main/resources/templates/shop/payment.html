@@ -36,9 +36,10 @@
                 <th>합계</th>
                 <th>배송상태</th>
             </tr>
-            <tr rel="cart-item" th:each="payment : ${payments}" th:if="${board.getId() == 'shop'}">
+            <tr rel="payment-item" th:each="payment : ${payments}" th:if="${board.getId() == 'shop'}">
                 <td hidden rel="index" th:text="${payment.getIndex()}"></td>
                 <td hidden rel="deliveryStatus" th:text="${payment.getDeliveryStatus()}"></td>
+                <td hidden rel="groupIndex" th:text="${payment.getGroupIndex()}"></td>
                 <td th:text="${#dates.format(payment.getRegistrationOn(), 'yyyy-MM-dd')}">2023-01-01</td>
                 <td class="image">
                     <span hidden>상품 이미지</span>
