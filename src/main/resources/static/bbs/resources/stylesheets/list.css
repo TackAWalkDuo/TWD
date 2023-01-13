@@ -37,6 +37,7 @@ body > .main > .search-form {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    margin-bottom: 2rem;
 }
 
 /*공통css 조정*/
@@ -251,8 +252,9 @@ body > .main > .search-form > .label {
     display: flex;
     text-align: center;
     flex-direction: row;
-    justify-content: flex-end;
-    margin-right: 1rem;
+    justify-content: space-between;
+    margin-right: 0.75rem;
+    margin-bottom: 1rem;
 }
 .--form > .--content> .button-container>a{
     text-decoration: none;
