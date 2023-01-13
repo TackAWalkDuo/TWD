@@ -17,7 +17,7 @@ body > .--main {
 .--main > .img {
     background: url("/resources/images/dogplay.jpg") no-repeat;
     background-position: 0 -12.5rem;
-    width: 70rem;
+    width: 80%;
     height: 15rem;
     margin: 2.5rem 2rem 0 2rem;
 }
@@ -162,7 +162,7 @@ body > .main > .search-form > .label {
 
 /*그리드 부분임*/
 body > main > .box {
-    width: 100%;
+    width: 90%;
     padding: 0 8rem;
     margin: 1rem 0 4rem 0;
 

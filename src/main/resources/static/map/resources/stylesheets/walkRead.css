@@ -36,7 +36,8 @@ body > .--header {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    border-radius: 0.7rem;
+
+    /*border-radius: 0.7rem;*/
 }
 
 #container {
@@ -66,6 +67,8 @@ body > .--header {
     background-color: white;
     overflow: hidden auto;
     padding: 0 1rem;
+    border-top-left-radius: 0.7rem;
+    border-bottom-left-radius: 0.7rem;
 }
 
 
@@ -199,6 +202,9 @@ body > .--header {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+
+    border-top-right-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem;
 
 }
 
@@ -470,7 +476,7 @@ body > .--header {
 
 #detailContainer > .modifyMenu > * + *,
 #reviewForm > .review-container > .item > .modifyMenu > * + * {
-    margin-left: 1rem;
+    margin-left: 0.5rem;
 }
 
 
