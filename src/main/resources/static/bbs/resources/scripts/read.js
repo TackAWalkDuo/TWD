@@ -242,6 +242,9 @@ const loadComments = () => {
                                                 }
                                                 loadComments();
                                                 break;
+                                            case 'not_allowed':
+                                                showDialog.notLogin();
+                                                break;
                                             default:
                                                 alert('하트 실패');
                                         }
@@ -314,7 +317,8 @@ if (commentMinePicForm !== null) {
                     const responseObject = JSON.parse(xhr.responseText);
                     switch (responseObject['result']) {
                         case 'not_signed':
-                            showDialog.show('로그인이 되어있지 않습니다.');
+                            showDialog.notLogin();
+                            // window.location.href = `/member/login`;
                             break;
                         case 'success':
                             alert('성공');
@@ -346,6 +350,15 @@ const showDialog = {
             dialog.classList.remove('visible');
         });
         console.log(text);
+    },
+    notLogin: () =>{
+        const dialog = showDialog.getElement();
+        dialog.querySelector('.text').innerText = "권한이 없습니다.";
+        dialog.classList.add('visible');
+        dialog.querySelector("#ok").addEventListener("click", () => {
+            dialog.classList.remove('visible');
+            window.location.href = `/member/login`;
+        });
     }
 };
 
@@ -448,7 +461,7 @@ function resize(obj) {
 
 window.document.getElementById("modifyArticle").addEventListener('click', () => {
     const writeUser = window.document.getElementById("writeUser").value;
-    const loginUser = window.document.getElementById("loginUser").value;
+    const loginUser = window.document.getElementById("loginUser")?.value;
 
     writeUser === loginUser
         ? window.location.href = `./modify?aid=${commentMinePicForm['aid'].value}`

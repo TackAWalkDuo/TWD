@@ -77,7 +77,7 @@
                     <thead>
                     <tr class="title-table">
                         <input hidden id="writeUser" th:value="${article.getUserEmail()}">
-                        <input hidden id="loginUser" th:value="${session.user.getEmail()}">
+                        <input hidden id="loginUser" th:if="${session.user != null}" th:value="${session.user.getEmail()}">
                         <th hidden>번호</th>
                         <td name="articleIndex" th:text="${article.getIndex()}">17</td>
                         <th hidden>분류</th>
@@ -139,12 +139,13 @@
                                 </div>
                                 <div id="commentMineForm" class="comment-mine-form">
                                     <div class="head">
-                                        <span class="writer" th:text="${session.user.getNickname()}">관리자</span>
+                                        <span class="writer" th:if="${session.user != null}" th:text="${session.user.getNickname()}">관리자</span>
+                                        <span class="writer" th:if="${session.user == null}">댓글을 작성하려면 로그인이 필요합니다.</span>
                                     </div>
                                     <div id="commentForm" class="comment-form">
                                         <label class="label">
                                             <span hidden>댓글작성</span>
-                                            <textarea class="--object-input" onkeydown="resize(this)" onkeyup="resize(this)" maxlength="300" name="content"
+                                            <textarea th:disabled="${session.user == null}" class="--object-input not-login" onkeydown="resize(this)" onkeyup="resize(this)" maxlength="300" name="content"
                                                       placeholder="댓글을 입력해 주세요"></textarea>
                                         </label>
                                         <input class="--object-button" type="submit" value="작성">

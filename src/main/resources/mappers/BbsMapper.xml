@@ -292,6 +292,7 @@
         `articles`.`written_on` AS `writtenOn`,
         `articles`.`modified_on` AS `modifiedOn`,
         `users`.`nickname` AS `userNickname`,
+        `users`.species AS `userSpecies`,
         COUNT(`comment`.`index`) AS `commentsCount`,
         (SELECT COUNT(0)
         FROM `twd_bbs`.`article_likes` AS `aLikedCount`
@@ -327,6 +328,7 @@
                `articles`.`written_on`                                    AS `writtenOn`,
                `articles`.`modified_on`                                   AS `modifiedOn`,
                `users`.`nickname`                                         AS `userNickname`,
+               `users`.species                                            AS `userSpecies`,
                COUNT(`comment`.`index`)                                   AS `commentsCount`,
                (SELECT COUNT(0)
                 FROM `twd_bbs`.`article_likes` AS `aLikedCount`
@@ -351,6 +353,7 @@
                `articles`.`written_on`                                    AS `writtenOn`,
                `articles`.`modified_on`                                   AS `modifiedOn`,
                `users`.`nickname`                                         AS `userNickname`,
+               `users`.species                                            AS `userSpecies`,
                COUNT(`comment`.`index`)                                   AS `commentsCount`,
                (SELECT COUNT(0)
                 FROM `twd_bbs`.`article_likes` AS `aLikedCount`

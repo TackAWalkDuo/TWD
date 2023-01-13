@@ -12,6 +12,10 @@ ClassicEditor
     })
     .then(e => editor = e);
 
+form['menu'].addEventListener('click', () => {
+    window.location.href = `list?bid=${form['bid'].value}`;
+});
+
 form.querySelector('[rel="contentImageContainer"]').addEventListener('click', e => {
     e.preventDefault();
     form['images'].click();
