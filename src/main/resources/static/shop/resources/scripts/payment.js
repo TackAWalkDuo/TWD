@@ -2,7 +2,6 @@ const form = window.document.getElementById('form');
 const cartItem = window.document.querySelectorAll('[rel="cart-item"]');
 const cancelButton = window.document.querySelectorAll('[rel="cancelButton"]');
 
-// //TODO 상태 텍스트 변경.
 let initialization = true;
 if (initialization) {
     cartItem.forEach(x => {
