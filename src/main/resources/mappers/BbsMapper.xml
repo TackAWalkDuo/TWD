@@ -127,8 +127,9 @@
             keyProperty="index"
             keyColumn="index"
             parameterType="dev.twd.take_a_walk_duo.entities.bbs.CommentEntity">
-        INSERT INTO `twd_bbs`.`comments`(`comment_index`, `user_email`, `content`, `article_index`, `written_on`)
-        VALUES (#{commentIndex}, #{userEmail}, #{content}, #{articleIndex},
+        INSERT INTO `twd_bbs`.`comments`(`comment_index`, `user_email`, `comment_title`, `content`, `article_index`,
+                                         `written_on`)
+        VALUES (#{commentIndex}, #{userEmail}, #{commentTitle}, #{content}, #{articleIndex},
                 IFNULL(#{writtenOn}, DEFAULT(`written_on`)))
     </insert>
 
@@ -152,6 +153,7 @@
         SELECT `comment`.`index`                                      AS `index`,
                `comment`.`comment_index`                              AS `commentIndex`,
                `comment`.`user_email`                                 AS `userEmail`,
+               `comment`.`comment_title`                              AS `commentTitle`,
                `comment`.`content`                                    AS `content`,
                `comment`.`article_index`                              AS `articleIndex`,
                `comment`.`written_on`                                 AS `writtenOn`,
@@ -177,6 +179,7 @@
         SELECT `comment`.`index`         AS 'index',
                `comment`.`comment_index` AS 'commentIndex',
                `comment`.`user_email`    AS 'userEmail',
+               `comment`.`comment_title` AS `commentTitle`,
                `comment`.`content`       AS 'content',
                `comment`.`article_index` AS 'articleIndex',
                `comment`.`written_on`    AS 'writtenOn',
@@ -252,6 +255,7 @@
         UPDATE `twd_bbs`.`comments`
         SET `comment_index` = #{commentIndex},
             `user_email`    = #{userEmail},
+            `comment_title` = #{commentTitle},
             `content`       = #{content},
             `article_index` = #{articleIndex},
             `written_on`    = #{writtenOn}
