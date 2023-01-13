@@ -25,7 +25,7 @@ if (!initialization) {
 }
 
 function initializationHaveDog() {
-    window.document.getElementById('checkSpecies').style.display = "flex";
+    window.document.getElementById('checkSpecies').style.display = "table-row";
     form.querySelector('[rel="haveDog"]').checked = true;
 
     form['initSpecies'].value === '소형견' ?
@@ -37,7 +37,7 @@ function initializationHaveDog() {
 }
 
 form.querySelector('[rel="haveDog"]').addEventListener('click', () => {
-    document.getElementById('checkSpecies').style.display = "flex";
+    document.getElementById('checkSpecies').style.display = "table-row";
 });
 
 // '부' 체크 했을때 견종선택 안나오도록
