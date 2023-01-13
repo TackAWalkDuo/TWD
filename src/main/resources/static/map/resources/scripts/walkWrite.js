@@ -133,10 +133,7 @@ walkArticle.onsubmit = e => {
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
 
-    if(walkArticle['lat'].value === null || walkArticle['address'].value === null) {
-        alert("추천할 좌표를 지도에서 선택해주세요.");
-        return false;
-    }
+
     if(walkArticle['place_title'].value === '') {
         alert("추천할 장소를 작성해주세요.");
         return false;
@@ -146,6 +143,11 @@ walkArticle.onsubmit = e => {
         return false;
     }
 
+    if(walkArticle['lat'].value.length === 0 || walkArticle['address'].value.length === 0) {
+        showDialog.show("추천할 좌표를 지도에서 선택해주세요.");
+        // alert("추천할 좌표를 지도에서 선택해주세요.");
+        return false;
+    }
     //ArticleEntity 로 받을 정보
     formData.append("title", walkArticle['place_title'].value);
     formData.append("content", walkArticle['content'].value);
@@ -160,8 +162,6 @@ walkArticle.onsubmit = e => {
     for (let file of walkArticle['images'].files) {
         formData.append('images', file);
     }
-
-    console.log("check");
 
     xhr.open('POST', './write');
     xhr.onreadystatechange = () => {
