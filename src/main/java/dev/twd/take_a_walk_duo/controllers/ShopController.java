@@ -316,8 +316,8 @@ public class ShopController extends GeneralController {
     @PostMapping(value = "payment",
     produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String postPayment(@SessionAttribute(value = "user", required = false) UserEntity user, PaymentEntity payment){
-        Enum<?> result = this.shopService.easeAddPayment(user, payment);
+    public String postPayment(@SessionAttribute(value = "user", required = false) UserEntity user, PaymentEntity payment, int index, ShoppingCartEntity cart){
+        Enum<?> result = this.shopService.easeAddPayment(user, payment, index, cart);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
 //        if (result == CommonResult.SUCCESS) {

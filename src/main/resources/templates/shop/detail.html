@@ -55,7 +55,7 @@
                 <span class="text">3,000원</span>
             </div>
             <form class="order-form" id="orderForm">
-                <span hidden rel="index" th:text="${product.getIndex()}"></span>
+                <span rel="index" name="index" hidden th:text="${product.getIndex()}"></span>
                 <span hidden th:text="${product.getQuantity()}"></span>
                 <!--                    여유가 된다면 사료 : 맛, 갯수 등등 / 옷 : 사이즈로 나눠보자-->
                 <!--                <div class="select-container">-->

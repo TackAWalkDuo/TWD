@@ -18,6 +18,7 @@ import dev.twd.take_a_walk_duo.vos.shop.ProductVo;
 import dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.mappers.IShopMapper;
+import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Service(value = "dev.twd.take_a_walk_duo.services.ShopService")
 public class ShopService {
@@ -457,33 +459,65 @@ public class ShopService {
 
     // 2트
     @Transactional
-    public Enum<? extends IResult> easeAddPayment(UserEntity user, PaymentEntity payment) {
+    public Enum<? extends IResult> easeAddPayment(UserEntity user, PaymentEntity payment, int index, ShoppingCartEntity cart) {
         if (user == null) {
             return CommonResult.FAILURE;
         }
 
-        SaleProductEntity existingProduct = this.shopMapper.selectProductByArticleIndex(payment.getProductIndex());
-
+        System.out.println("인덱스?"+index);
+        SaleProductEntity existingProduct = this.shopMapper.selectProductByArticleIndex(index);
         if (existingProduct == null) {
             return CommonResult.FAILURE;
         }
+        System.out.println("ex 프로덕트?" + existingProduct.getIndex());
 
+//        ShoppingCartEntity existingCart = this.shopMapper.selectCartByCartIndex(payment.getProductIndex());
+//        payment.setGroupIndex(existingCart.getIndex());
+//        if (this.shopMapper.deleteCartByIndex(existingCart) == 0){
+//            return CommonResult.FAILURE;
+//        }
         //카드에 담고
         //groupIndex 담고
         //카트 지우고
+        cart.setProductIndex(index);
+        cart.setUserEmail(user.getEmail());
+        cart.setDeliveryFee(existingProduct.getDeliveryFee());
+        cart.setRegistrationOn(new Date());
+        if (this.shopMapper.insertCart(cart) == 0){
+            return CommonResult.FAILURE;
+        }
 
-//        payment.setGroupIndex();
+//        System.out.println("이 카트는 무엇인고"+cart.getProductIndex());
+//        ShoppingCartEntity existingCart = this.shopMapper.selectCartByProductIndex(cart.getProductIndex());
+//        System.out.println("카트 살아있니1?"+existingCart);
+//        System.out.println("카트 살아있니2?"+existingCart.getProductIndex());
+//
+//        existingCart.setProductIndex(index);
+//        existingCart.setUserEmail(user.getEmail());
+//        existingCart.setDeliveryFee(existingProduct.getDeliveryFee());
+//        existingCart.setSalePrice(existingProduct.getPrice());
+//        existingCart.setQuantity(existingProduct.getQuantity());
+//
+//        if (this.shopMapper.insertCart(existingCart) == 0){
+//            return CommonResult.FAILURE;
+//        }
+
+        payment.setGroupIndex(cart.getIndex());
+        payment.setQuantity(cart.getQuantity());
+        if (this.shopMapper.deleteCartByIndex(cart) == 0){
+            return CommonResult.FAILURE;
+        }
+
         payment.setDeliveryFee(3000);
         payment.setDeliveryStatus(0);
         payment.setProductIndex(existingProduct.getArticleIndex());
         payment.setSalePrice(existingProduct.getPrice());
         payment.setUserEmail(user.getEmail());
-        payment.setQuantity(existingProduct.getQuantity());
         payment.setAddressPostal(user.getAddressPostal());
         payment.setAddressPrimary(user.getAddressPrimary());
         payment.setAddressSecondary(user.getAddressSecondary());
         payment.setRegistrationOn(new Date());
-
+        System.out.println("payment?" + payment);
         if (this.shopMapper.insertPayment(payment) == 0) {
             return CommonResult.FAILURE;
         }
@@ -585,9 +619,12 @@ public class ShopService {
         return CommonResult.SUCCESS;
     }
 
+    // TooManyResultsException
     @Transactional
     public Enum<? extends IResult> deletePayment(PaymentEntity payment, UserEntity user) {
         PaymentEntity existingPayment = this.shopMapper.selectPaymentByIndex(payment.getGroupIndex());
+        System.out.println("페이먼트 있니?"+existingPayment.getIndex());
+        System.out.println("페이먼트 있니?"+existingPayment.getProductIndex());
         if (existingPayment == null) {
             return CommonResult.FAILURE;
         }
@@ -597,15 +634,44 @@ public class ShopService {
 
         SaleProductEntity existingProduct = this.shopMapper.selectProductByArticleIndex(existingPayment.getProductIndex());
         existingProduct.setQuantity(existingProduct.getQuantity() + existingPayment.getQuantity());
-
+        System.out.println("프로덕트 있니?"+existingProduct.getArticleIndex());
         if (this.shopMapper.updateProduct(existingProduct) == 0) {
             return CommonResult.FAILURE;
         }
-
-        existingPayment.setIndex(payment.getIndex());
+        System.out.println("페이먼트 아직 있니?"+existingPayment.getIndex());
         return this.shopMapper.deletePayment(existingPayment) > 0
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
+
+    // typeMismatch
+//    @Transactional
+//    public Enum<? extends IResult> deletePayment(int[] groupIndex, PaymentEntity payment, UserEntity user) {
+//        System.out.println("인데스 있니?"+groupIndex);
+//        for (int i = 0; i<=groupIndex.length;i++){
+//            PaymentEntity existingPayment = this.shopMapper.selectPaymentByIndex(payment.getIndex());
+//            System.out.println("페이먼트 있니?"+existingPayment.getIndex());
+//            System.out.println("페이먼트 있니?"+existingPayment.getProductIndex());
+//            if (existingPayment == null) {
+//                return CommonResult.FAILURE;
+//            }
+//            if (!user.getEmail().equals(existingPayment.getUserEmail())) {
+//                return CommonResult.FAILURE;
+//            }
+//
+//            SaleProductEntity existingProduct = this.shopMapper.selectProductByArticleIndex(existingPayment.getProductIndex());
+//            existingProduct.setQuantity(existingProduct.getQuantity() + existingPayment.getQuantity());
+//            System.out.println("프로덕트 있니?"+existingProduct.getArticleIndex());
+//            if (this.shopMapper.updateProduct(existingProduct) == 0) {
+//                return CommonResult.FAILURE;
+//            }
+//            System.out.println("페이먼트 아직 있니?"+existingPayment.getIndex());
+//            if (this.shopMapper.deletePayment(existingPayment) <= 0){
+//                return CommonResult.FAILURE;
+//            }
+//        }
+//        return CommonResult.SUCCESS;
+//    }
+
 }
 

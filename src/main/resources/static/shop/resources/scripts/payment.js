@@ -1,6 +1,6 @@
 const form = window.document.getElementById('form');
 const payment = window.document.querySelectorAll('[rel="payment-item"]');
-const cancelButton = window.document.querySelectorAll('[rel="cancelButton"]');
+const cancelButton = window.document.querySelector('[rel="cancelButton"]');
 
 let initialization = true;
 if (initialization) {

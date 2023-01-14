@@ -13,16 +13,18 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
+import java.util.List;
 
 @Mapper
 public interface IShopMapper {
     ArticleEntity selectArticleByIndex(@Param(value = "aid") int aid);
 
-    SaleProductEntity selectProductByArticleIndex(@Param(value = "aid") int aid);
+    SaleProductEntity selectProductByArticleIndex(@Param(value = "index") int index);
 
     ShoppingCartEntity selectCartByIndex(@Param(value = "index") int index, @Param(value = "userEmail") String userEmail);
 
     ShoppingCartEntity selectCartByCartIndex(@Param(value = "index") int index);
+    ShoppingCartEntity selectCartByProductIndex(@Param(value = "index")int index);
 
     int selectArticleCountByBoardId(@Param(value = "boardId") String boardId,
                                     @Param(value = "criterion") String criterion,
