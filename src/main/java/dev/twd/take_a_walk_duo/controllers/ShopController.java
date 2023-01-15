@@ -382,7 +382,9 @@ public class ShopController extends GeneralController {
     produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String deletePayment(PaymentEntity payment, @SessionAttribute(value = "user", required = false)UserEntity user){
+        System.out.println("payment controller 결과후 " + payment.getGroupIndex());
         Enum<?> result = this.shopService.deletePayment(payment,user);
+        System.out.println("payment service 결과후 " + payment.getGroupIndex());
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
         return responseObject.toString();

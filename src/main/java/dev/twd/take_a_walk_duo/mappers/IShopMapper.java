@@ -57,7 +57,7 @@ public interface IShopMapper {
     // get write
     ProductVo selectArticle();
 
-    PaymentEntity selectPaymentByIndex(@Param(value = "index")int index);
+    PaymentEntity[] selectPaymentByIndex(@Param(value = "index")int index);
 
     CartVo[] selectCartsByUserEmail(@Param(value = "userEmail")String userEmail);
 
@@ -89,5 +89,5 @@ public interface IShopMapper {
 
     int insertPayment(PaymentEntity payment);
 
-    int deletePayment(PaymentEntity payment);
+    int deletePayment(@Param(value = "groupIndex")int groupIndex);
 }

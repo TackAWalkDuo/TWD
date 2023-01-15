@@ -622,27 +622,57 @@ public class ShopService {
     // TooManyResultsException
     @Transactional
     public Enum<? extends IResult> deletePayment(PaymentEntity payment, UserEntity user) {
-        PaymentEntity existingPayment = this.shopMapper.selectPaymentByIndex(payment.getGroupIndex());
-        System.out.println("페이먼트 있니?"+existingPayment.getIndex());
-        System.out.println("페이먼트 있니?"+existingPayment.getProductIndex());
+        PaymentEntity[] existingPayment = this.shopMapper.selectPaymentByIndex(payment.getGroupIndex());
+
         if (existingPayment == null) {
             return CommonResult.FAILURE;
         }
-        if (!user.getEmail().equals(existingPayment.getUserEmail())) {
-            return CommonResult.FAILURE;
+
+        for (int i = 0; i < existingPayment.length; i++) {
+
+            System.out.println("페이먼트 있니?" + existingPayment[i].getIndex());
+            System.out.println("페이먼트 있니?" + existingPayment[i].getProductIndex());
+
+            if (!user.getEmail().equals(existingPayment[i].getUserEmail())) {
+                return CommonResult.FAILURE;
+            }
+
+            SaleProductEntity existingProduct = this.shopMapper.selectProductByArticleIndex(existingPayment[i].getProductIndex());
+            existingProduct.setQuantity(existingProduct.getQuantity() + existingPayment[i].getQuantity());
+            System.out.println("프로덕트 있니?" + existingProduct.getArticleIndex());
+            if (this.shopMapper.updateProduct(existingProduct) == 0) {
+                return CommonResult.FAILURE;
+            }
+            System.out.println("페이먼트 아직 있니?" + existingPayment[i].getIndex());
+
         }
 
-        SaleProductEntity existingProduct = this.shopMapper.selectProductByArticleIndex(existingPayment.getProductIndex());
-        existingProduct.setQuantity(existingProduct.getQuantity() + existingPayment.getQuantity());
-        System.out.println("프로덕트 있니?"+existingProduct.getArticleIndex());
-        if (this.shopMapper.updateProduct(existingProduct) == 0) {
-            return CommonResult.FAILURE;
-        }
-        System.out.println("페이먼트 아직 있니?"+existingPayment.getIndex());
-        return this.shopMapper.deletePayment(existingPayment) > 0
+        return this.shopMapper.deletePayment(payment.getGroupIndex()) > 0
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
+
+
+//        PaymentEntity existingPayment = this.shopMapper.selectPaymentByIndex(payment.getGroupIndex());
+//        System.out.println("페이먼트 있니?"+existingPayment.getIndex());
+//        System.out.println("페이먼트 있니?"+existingPayment.getProductIndex());
+//        if (existingPayment == null) {
+//            return CommonResult.FAILURE;
+//        }
+//        if (!user.getEmail().equals(existingPayment.getUserEmail())) {
+//            return CommonResult.FAILURE;
+//        }
+//
+//        SaleProductEntity existingProduct = this.shopMapper.selectProductByArticleIndex(existingPayment.getProductIndex());
+//        existingProduct.setQuantity(existingProduct.getQuantity() + existingPayment.getQuantity());
+//        System.out.println("프로덕트 있니?"+existingProduct.getArticleIndex());
+//        if (this.shopMapper.updateProduct(existingProduct) == 0) {
+//            return CommonResult.FAILURE;
+//        }
+//        System.out.println("페이먼트 아직 있니?"+existingPayment.getIndex());
+//        return this.shopMapper.deletePayment(existingPayment.getGroupIndex()) > 0
+//                ? CommonResult.SUCCESS
+//                : CommonResult.FAILURE;
 
     // typeMismatch
 //    @Transactional
