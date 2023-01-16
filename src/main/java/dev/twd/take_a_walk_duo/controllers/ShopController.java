@@ -6,11 +6,9 @@ import dev.twd.take_a_walk_duo.entities.shop.PaymentEntity;
 import dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
 import dev.twd.take_a_walk_duo.models.PagingModel;
-import dev.twd.take_a_walk_duo.services.MemberService;
 import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
 import dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
-import dev.twd.take_a_walk_duo.services.BbsService;
 import dev.twd.take_a_walk_duo.services.ShopService;
 import dev.twd.take_a_walk_duo.vos.shop.CartVo;
 import dev.twd.take_a_walk_duo.vos.shop.PaymentVo;
@@ -299,9 +297,9 @@ public class ShopController extends GeneralController {
         if (user != null) {
             PaymentVo[] payments = this.shopService.getPayments(user.getEmail());
             modelAndView.addObject("payments", Arrays.stream(payments).sorted((o1, o2) -> {
-                if (o1.getDeliveryStatus() > o2.getDeliveryStatus()) {
+                if (o1.getGroupIndex() > o2.getGroupIndex()) {
                     return 1;
-                } else if (o1.getDeliveryStatus() < o2.getDeliveryStatus()) {
+                } else if (o1.getGroupIndex() < o2.getGroupIndex()) {
                     return -1;
                 } else {
                     return 0;
