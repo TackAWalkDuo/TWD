@@ -61,15 +61,12 @@ body > .--main {
 .table > tbody > * > td:first-of-type {
     border-right: none;
     width: 1.5rem;
+    padding: 0.1rem 1rem;
 }
 
 .table > tbody > * > td {
     border: 0.01rem solid #c4c4c4;
     height: 6rem;
-}
-
-.table > tbody > * > td:first-of-type{
-    padding: 0.1rem 1rem;
 }
 
 .--object-button {

@@ -3,6 +3,10 @@
 .empty-icon {
     font-size: 5rem;
     white-space: nowrap;
+    position: absolute;
+    top:40%;
+    left:50%;
+    transform:translate(-50%, -50%);
 }
 
 .empty-icon > span {
@@ -35,7 +39,7 @@ body > .--main {
 }
 
 .table > tbody .separator td{
-    border-top: 0.6rem solid transparent;
+    border-top: 0.25rem solid rgba(169, 175, 126, 90%);
 }
 
 .table * {
