@@ -87,38 +87,37 @@ deleteButton?.addEventListener('click', e => {
     if (!confirm("정말로 장바구니를 삭제할까요?")) {
         return;
     }
-
-    //TODO index 배열로 담아서 수정.
+    let deleteCheck = false;
+    let index = [];
     cartItem.forEach(x => {
         if (x.querySelector('[rel="checkBox"]').checked) {
-            selectCheck = true;
-
-            const xhr = new XMLHttpRequest();
-            const formData = new FormData();
-            formData.append("index", x.querySelector('[rel="cartIndex"]').innerText);
-            xhr.open('DELETE', window.location.href);
-            xhr.onreadystatechange = () => {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status >= 200 && xhr.status < 300) {
-                        const responseObject = JSON.parse(xhr.responseText);
-                        switch (responseObject['result']) {
-                            case 'success':
-                                alert('장바구니 삭제 성공');
-                                window.location.reload();
-                                break;
-                            default:
-                                alert('실패');
-                        }
-                    } else {
-                        alert('연결 실패');
-                    }
-                }
-            }
-            xhr.send(formData);
+            index.push(Number(x.querySelector('[rel="cartIndex"]').innerText));
+            deleteCheck = true;
+            console.log(index);
         }
     })
-
-
+        const xhr = new XMLHttpRequest();
+        const formData = new FormData();
+        formData.append("index", index);
+        xhr.open('DELETE', window.location.href);
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    const responseObject = JSON.parse(xhr.responseText);
+                    switch (responseObject['result']) {
+                        case 'success':
+                            alert('장바구니 삭제 성공');
+                            window.location.reload();
+                            break;
+                        default:
+                            alert('실패');
+                    }
+                } else {
+                    alert('연결 실패');
+                }
+            }
+        }
+        xhr.send(formData);
 })
 
 
@@ -133,8 +132,6 @@ cartItem.forEach(x => {
             salePrice.innerText = Number(salePrice.innerText) - Number(priceSum);
         }
         totalPrice.innerText = Number(salePrice.innerText) + Number(deliveryFee.innerText);
-
-
     })
 
     x.querySelector('[rel="modifyButton"]')?.addEventListener('click', () => {
@@ -391,7 +388,6 @@ orderButton?.addEventListener('click', e => {
 
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
-    // formData.append("index", x.querySelector('[rel="cartIndex"]').innerText);
     formData.append("cartIndex", index);
     xhr.open('POST', window.location.href);
     xhr.onreadystatechange = () => {

@@ -145,7 +145,7 @@
                `text`          AS `text`,
                `delivery_fee`  AS `deliveryFee`
         FROM `twd_shop`.`sale_product`
-        WHERE `article_index` = #{aid}
+        WHERE `article_index` = #{index}
         LIMIT 1;
     </select>
 
@@ -191,7 +191,6 @@
                `product`.`category_text` AS 'categoryText',
                `product`.`text`          AS `text`,
                `category`.`text`         AS `categoryName`
-#                `user`.`admin_flag`       AS `isAdmin`
         FROM `twd_bbs`.`articles` AS `article`
                  LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`
                  LEFT JOIN `twd_shop`.`sale_product` AS `product` ON `article`.`index` = `product`.`article_index`
@@ -384,6 +383,20 @@
         WHERE `index` = #{index}
     </select>
 
+    <select id="selectCartByProductIndex"
+            resultType="dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity">
+        SELECT `index`           AS `index`,
+               `user_email`      AS `userEmail`,
+               `product_index`   AS `productIndex`,
+               `sale_price`      AS `salePrice`,
+               `quantity`        AS `quantity`,
+               `maxQuantity`     AS `maxQuantity`,
+               `delivery_fee`    AS `deliveryFee`,
+               `registration_on` AS `registrationOn`
+        FROM `twd_shop`.`shopping_cart`
+        WHERE `product_index` = #{index}
+    </select>
+
     <update id="updateCart"
             parameterType="dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity">
         UPDATE `twd_shop`.`shopping_cart`
@@ -416,7 +429,8 @@
             keyProperty="index"
             parameterType="dev.twd.take_a_walk_duo.entities.shop.PaymentEntity">
         INSERT INTO `twd_shop`.`payment`(`user_email`, `group_index`, `product_index`, `sale_price`, `quantity`,
-                                         delivery_fee, `registration_on`, `address_postal`, `address_primary`, `address_secondary`,
+                                         delivery_fee, `registration_on`, `address_postal`, `address_primary`,
+                                         `address_secondary`,
                                          `delivery_status`)
         VALUES (#{userEmail}, #{groupIndex}, #{productIndex}, #{salePrice}, #{quantity}, #{deliveryFee},
                 #{registrationOn},
@@ -435,6 +449,7 @@
         SELECT `payment`.`index`             AS `index`,
                `payment`.`user_email`        AS `userEmail`,
                `article`.`title`             AS `title`,
+               `payment`.`group_index`       AS `groupIndex`,
                `payment`.`product_index`     AS `productIndex`,
                `payment`.`sale_price`        AS `salePrice`,
                `payment`.`quantity`          AS `quantity`,
@@ -465,13 +480,13 @@
                `address_secondary` AS `addressSecondary`,
                `delivery_status`   AS `deliveryStatus`
         FROM `twd_shop`.`payment`
-        WHERE `index` = #{index}
+        WHERE `group_index` = #{index}
     </select>
 
     <delete id="deletePayment">
         DELETE
         FROM `twd_shop`.`payment`
-        WHERE `index` = #{index}
+        WHERE `group_index` = #{groupIndex}
     </delete>
 
     <select id="selectPaymentByRegistration"

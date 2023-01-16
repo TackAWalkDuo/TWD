@@ -21,7 +21,7 @@
     <i th:if="${isPayment <= 0}" class="empty-icon fa-solid fa-cart-plus"><span>주문 내역이 없습니다.</span></i>
     <form class="content --content" id="form" th:if="${isPayment > 0}">
         <input hidden multiple accept="image/*" name="images" type="file">
-        <h1 class="title">주문확인</h1>
+        <h1 class="title">구매내역</h1>
         <!--        <div class="button-container">-->
         <!--            <input class="&#45;&#45;object-button" type="button" name="back" value="돌아가기">-->
         <!--            <input class="&#45;&#45;object-button" type="submit" name="submit" value="등록하기">-->
@@ -36,9 +36,10 @@
                 <th>합계</th>
                 <th>배송상태</th>
             </tr>
-            <tr rel="cart-item" th:each="payment : ${payments}" th:if="${board.getId() == 'shop'}">
+            <tr rel="payment-item" th:each="payment : ${payments}" th:if="${board.getId() == 'shop'}">
                 <td hidden rel="index" th:text="${payment.getIndex()}"></td>
                 <td hidden rel="deliveryStatus" th:text="${payment.getDeliveryStatus()}"></td>
+                <td hidden rel="groupIndex" th:text="${payment.getGroupIndex()}"></td>
                 <td th:text="${#dates.format(payment.getRegistrationOn(), 'yyyy-MM-dd')}">2023-01-01</td>
                 <td class="image">
                     <span hidden>상품 이미지</span>

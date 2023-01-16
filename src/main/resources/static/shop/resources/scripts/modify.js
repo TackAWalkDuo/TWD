@@ -43,14 +43,6 @@ form['images'].addEventListener('input', () => {
     }
 });
 
-// const defaultImageButton = form.querySelector('[rel="defaultImageButton"]');
-// const imageContainerElement = form.querySelector('[rel="imageContainer"]');
-// defaultImageButton.addEventListener('click', () =>{
-//     imageContainerElement.querySelectorAll('img.image').forEach(x => x.remove());
-//     form['images'].remove();
-// });
-
-
  // 수정하기 누를시
 form.onsubmit = e => {
     e.preventDefault();

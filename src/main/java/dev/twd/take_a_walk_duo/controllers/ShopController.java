@@ -58,20 +58,6 @@ public class ShopController extends GeneralController {
         return modelAndView;
     }
 
-
-//     쇼핑 리스트 페이지 호출
-//    @RequestMapping(value = "/list",
-//            method = RequestMethod.GET,
-//            produces = MediaType.TEXT_HTML_VALUE)
-//    public ModelAndView getList(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
-//        page = Math.max(1, page);
-//        ModelAndView modelAndView = new ModelAndView("shop/list_backup");
-////        int totalCount = this.shopService.getboard, criterion, keyword);
-////        PagingModel paging = new PagingModel(totalCount, page);
-////        modelAndView.addObject("paging", paging);
-//        return modelAndView;
-//    }
-
     // 키워드, 크리테리온 null이면 목록, 아니면 검색 결과 뜸
     @GetMapping(value = "/list",
             produces = MediaType.TEXT_HTML_VALUE)
@@ -80,7 +66,7 @@ public class ShopController extends GeneralController {
                                 @RequestParam(value = "criterion", required = false) String criterion,
                                 @RequestParam(value = "keyword", required = false) String keyword) {
 
-        page = Math.max(1, page); // 1과 page값 중 더 큰 값 반환. 마이너스 값을 방지하기 위해 if문 대신 이렇게 작성했음
+        page = Math.max(1, page); // 1과 page값 중 더 큰 값 반환. 마이너스 값을 방지하기 위해 해당 메서드 사용
         ModelAndView modelAndView = new ModelAndView("shop/list");
         BoardEntity board = this.shopService.getBoard(bid);
         modelAndView.addObject("board", board);
@@ -93,18 +79,10 @@ public class ShopController extends GeneralController {
             ProductVo[] articles = this.shopService.getArticles(board, paging, criterion, keyword);
 
             modelAndView.addObject("articles", articles);
-            System.out.println("토탈 카운트? " + totalCount);
-            System.out.println("twd articles" + articles.length);
-            System.out.printf("이동 가능한 최소 페이지 : %d\n", paging.minPage);
-            System.out.printf("이동 가능한 최대 페이지 : %d\n", paging.maxPage);
-            System.out.printf("표시 시작 페이지 : %d\n", paging.startPage);
-            System.out.printf("표시 끝 페이지 : %d\n", paging.endPage);
         }
         return modelAndView;
     }
 
-
-    //    @RequestParam(value = "aid", required = false) int aid
     // 쇼핑 상품 상세보기 페이지 호출
     @GetMapping(value = "detail", produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getDetail(@SessionAttribute(value = "user", required = false) UserEntity user, @RequestParam(value = "aid", required = false) int aid) {
@@ -112,10 +90,6 @@ public class ShopController extends GeneralController {
         modelAndView = new ModelAndView("shop/detail");
         ProductVo product = this.shopService.detailArticle(aid);
         modelAndView.addObject("product", product);
-//        if (product != null) {
-//            BoardEntity board = this.bbsService.getBoard(product.getBoardId());
-//            modelAndView.addObject("board", board);
-//        } else
         modelAndView.addObject("user", user);
         return modelAndView;
     }
@@ -123,38 +97,32 @@ public class ShopController extends GeneralController {
     // 상품 수정 호출
     @GetMapping(value = "modify",
             produces = MediaType.TEXT_HTML_VALUE)
-    // modelandview 쓸때는 responsebody 어노테이션 쓰는거 아님.
     public ModelAndView getModify(@SessionAttribute(value = "user", required = false) UserEntity user,
                                   @RequestParam(value = "aid", required = false) int aid
     ) {
+        ModelAndView modelAndView;
         ProductVo product = new ProductVo();
         product.setIndex(aid);
-        Enum<?> result = this.shopService.prepareModifyArticle(product, user);
-        ModelAndView modelAndView;
+
+        this.shopService.prepareModifyArticle(product, user);
 
         modelAndView = new ModelAndView("shop/modify");
-//        ProductVo product = this.shopService.getArticle();
         modelAndView.addObject("product", product);
         if (user != null) {
             modelAndView.addObject("user", user);
         }
-//        modelAndView.addObject("result", result.name());
-//        if (result == CommonResult.SUCCESS) {
-//            modelAndView.addObject("board", this.bbsService.getBoard(article.getBoardId()));
-//        }
         return modelAndView;
     }
 
     // 상품 수정 등록
     @PatchMapping(value = "modify",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody // xhr로 결과를 받기위해 사용
+    @ResponseBody
     public String patchModify(ArticleEntity article,
                               SaleProductEntity product,
-                              @SessionAttribute(value = "user", required = false) UserEntity user, @RequestParam(value = "images", required = false) MultipartFile[] images,
+                              @RequestParam(value = "images", required = false) MultipartFile[] images,
                               @RequestParam(value = "aid", required = false) int aid) throws IOException {
         article.setIndex(aid);
-//        Enum<?> result = this.shopService.modifyArticle(article, product, user);
         Enum<?> result = this.shopService.modifyArticle(article, product, images);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
@@ -236,8 +204,8 @@ public class ShopController extends GeneralController {
     @PostMapping(value = "image",
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    //upload는 ckeiditor에서 정해놓으거라서 따라해야함
-    // upload용 매핑임
+    //value upload는 ckeiditor에서 정해놓은 것
+    // upload용 매핑
     public String postImage(@RequestParam(value = "upload") MultipartFile file) throws IOException {
         ImageEntity image = new ImageEntity();
         image.setFileName(file.getOriginalFilename());
@@ -253,23 +221,7 @@ public class ShopController extends GeneralController {
         return responseObject.toString();
     }
 
-//    // 장바구니 호출
-//    @GetMapping(value = "cart",
-//            produces = MediaType.TEXT_HTML_VALUE)
-//    public ModelAndView getCart(@SessionAttribute(value = "user", required = false) UserEntity user) {
-//        ModelAndView modelAndView = new ModelAndView("shop/cart");
-////        user.setEmail(userEmail);
-////        System.out.println("유저 이메일은?"+user.getEmail());
-//        CartVo[] products = this.shopService.getArticles(user);
-//        modelAndView.addObject("products", products);
-//
-//        if (user != null) {
-//            modelAndView.addObject("user", user);
-//        }
-//        return modelAndView;
-//    }
-
-    // 장바구니 호출(2트)
+    // 장바구니 호출
     @GetMapping(value = "cart",
             produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getCart(@SessionAttribute(value = "user", required = false) UserEntity user) {
@@ -282,8 +234,6 @@ public class ShopController extends GeneralController {
             modelAndView.addObject("carts", carts);
             modelAndView.addObject("isCart",carts.length);
         }
-        System.out.println("보드?" + board.getId());
-
         return modelAndView;
     }
 
@@ -294,19 +244,9 @@ public class ShopController extends GeneralController {
     public String postDetail(@SessionAttribute(value = "user", required = false) UserEntity user,
                            @RequestParam(value = "aid", required = false) int aid,
                            ShoppingCartEntity cart, ArticleEntity article) {
-        //물품 수량 필요
-//        CartVo cart = new CartVo();
-//        cart.setIndex(aid);
-
-        // 매개변수 user , aid , quantity
-        // user 는 로그인 확인
-        // aid 상품 확인
-        // user, aid cart 에 동일한 상품을 등록하였는가?
-        // quantity cart 에 담아서 insert
         Enum<?> result = this.shopService.addCart(article, cart, user, aid);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
-        System.out.println("장바구니 번호는?" + cart.getIndex());
         if (result == CommonResult.SUCCESS) {
             responseObject.put("aid", aid);
         }
@@ -316,13 +256,10 @@ public class ShopController extends GeneralController {
     @PostMapping(value = "payment",
     produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String postPayment(@SessionAttribute(value = "user", required = false) UserEntity user, PaymentEntity payment){
-        Enum<?> result = this.shopService.easeAddPayment(user, payment);
+    public String postPayment(@SessionAttribute(value = "user", required = false) UserEntity user, PaymentEntity payment, int index, ShoppingCartEntity cart){
+        Enum<?> result = this.shopService.easeAddPayment(user, payment, index, cart);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
-//        if (result == CommonResult.SUCCESS) {
-//            responseObject.put("aid", aid);
-//        }
         return responseObject.toString();
     }
 
@@ -333,17 +270,14 @@ public class ShopController extends GeneralController {
         Enum<?> result = this.shopService.modifyCart(cart, user);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
-//        if (result == CommonResult.SUCCESS) {
-//            responseObject.put("aid", aid);
-//        }
         return responseObject.toString();
     }
 
     @DeleteMapping(value = "cart",
     produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String deleteCart(ShoppingCartEntity cart, @SessionAttribute(value = "user", required = false)UserEntity user){
-        Enum<?> result = this.shopService.deleteCarts(cart,user);
+    public String deleteCart(int[] index, @SessionAttribute(value = "user", required = false)UserEntity user){
+        Enum<?> result = this.shopService.deleteCarts(index,user);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
         return responseObject.toString();
@@ -357,9 +291,6 @@ public class ShopController extends GeneralController {
         Enum<?> result = this.shopService.addPayment(user, cartIndex);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
-//        if (result == CommonResult.SUCCESS) {
-//            responseObject.put("aid", aid);
-//        }
         return responseObject.toString();
     }
 
@@ -382,7 +313,9 @@ public class ShopController extends GeneralController {
     produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String deletePayment(PaymentEntity payment, @SessionAttribute(value = "user", required = false)UserEntity user){
+        System.out.println("payment controller 결과후 " + payment.getGroupIndex());
         Enum<?> result = this.shopService.deletePayment(payment,user);
+        System.out.println("payment service 결과후 " + payment.getGroupIndex());
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
         return responseObject.toString();

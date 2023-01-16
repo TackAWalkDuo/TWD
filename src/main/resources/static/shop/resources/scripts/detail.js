@@ -192,9 +192,10 @@ if(isSoldOut === null){
         }
         const xhr = new XMLHttpRequest();
         const formData = new FormData();
-        const index = orderForm.querySelector('[rel="index"]').innerText;
-        formData.append("productIndex", index);
+        formData.append("index", window.document.querySelector('[rel="index"]').innerText);
+        formData.append("salePrice", (orderForm['infoPrice'].value.replace('원', '')) / orderForm['infoNumber'].value);
         formData.append("quantity", orderForm['infoNumber'].value);
+        formData.append("maxQuantity", quantity);
         xhr.open('POST', '/shop/payment');
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
