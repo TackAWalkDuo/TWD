@@ -22,7 +22,7 @@
         </ul>
     </div>
     <section class="box collection">
-        <h2 class="title">머릿글</h2>
+        <h2 class="title">NEW</h2>
         <div class="button" th:if="${user != null && user.getAdmin() == true}">
         <a th:href="@{write}">
         <input type="button" class="--object-button" value="상품 등록하기">
@@ -38,7 +38,7 @@
             </li>
         </ul>
     </section>
-    <section class="box scarf">
+    <section class="box second">
         <h2 class="title">머릿글</h2>
         <ul class="item-container emple">
             <li class="item big" th:each="product : ${products}"
@@ -81,49 +81,8 @@
                         </span>
                     </div>
                 </div>
-                <!--                <div class="side-image">-->
-                <!--                    <img alt="제품1" class="image side" th:src="|/bbs/thumbnail?index=${product.getIndex()}|">-->
-                <!--                    <div class="side-description">-->
-                <!--                        <div class="side header" th:text="${product.getTitle()}">뮤니쿤트 Better Together Padding - Khaki</div>-->
-                <!--                        <div class="side text">뮤니쿤트 munikund</div>-->
-                <!--                        <div class="side charge-price">97,00원</div>-->
-                <!--                    </div>-->
-                <!--                </div>-->
             </div>
         </ul>
-    </section>
-
-    <!--    <li class="item">-->
-    <!--        <a class="link" href="#">-->
-    <!--            <img alt="제품1" class="image" src="/resources/image/item1.jpg">-->
-    <!--            <span class="text">제품1</span>-->
-    <!--            <span class="price">25,000원</span>-->
-    <!--        </a>-->
-    <!--    </li>-->
-    <!--    <li class="item">-->
-    <!--        <a class="link" href="#">-->
-    <!--            <img alt="제품2" class="image" src="/resources/image/item2.jpg">-->
-    <!--            <span class="text">제품2</span>-->
-    <!--            <span class="price">37,500원</span>-->
-    <!--        </a>-->
-    <!--    </li>-->
-
-
-    <!--            <li class="item">-->
-    <!--                <a class="link" href="#">-->
-    <!--                    <img alt="제품3" class="image" src="/resources/image/item3.jpg">-->
-    <!--                    <span class="text">제품3</span>-->
-    <!--                    <span class="price">53,000</span>-->
-    <!--                </a>-->
-    <!--            </li>-->
-    <!--            <li class="item">-->
-    <!--                <a class="link" href="#">-->
-    <!--                    <img alt="제품4" class="image" src="/resources/image/item4.jpg">-->
-    <!--                    <span class="text">제품4</span>-->
-    <!--                    <span class="price">43,000</span>-->
-    <!--                </a>-->
-    <!--            </li>-->
-    </ul>
     </section>
 </main>
 <!-- cover -->

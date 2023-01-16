@@ -18,7 +18,6 @@
 <body th:if="${user != null}">
 <th:block th:replace="~{fragments/body :: header}"></th:block>
 <main class="--main main">
-    <!--    <div class="img"></div>-->
     <form class="content --content" id="form">
         <input hidden multiple accept="image/*" name="images" type="file">
         <h1 class="title">상품 수정</h1>
@@ -38,7 +37,6 @@
                             <!--이미지 들어오는 곳-->
                         </div>
                         <a class="image-select-button" href="#" rel="imageSelectButton">상품 이미지 선택...</a>
-                        <a class="image-select-button" href="#" rel="defaultImageButton">이미지 삭제</a>
                     </label>
                 </td>
             </tr>
@@ -55,8 +53,6 @@
                             <option th:if="${product.getCategoryText() != 'toy'}" value="toy">장난감</option>
                             <option th:if="${product.getCategoryText() != 'etc'}" value="etc">기타 용품</option>
                         </select>
-                        <!--            <input class="&#45;&#45;object-input input" maxlength="100" name="title" placeholder="상품 이름을 입력해주세요"-->
-                        <!--                   type="text">-->
                     </label>
                 </td>
             </tr>
@@ -118,8 +114,6 @@
                         <span hidden>상품 소개</span>
                         <textarea th:text="${product.getText()}" style="resize: none" class="--object-input input" placeholder="상품 소개를 입력해주세요"
                                   name="text" maxlength="500"></textarea>
-                        <!--            <input class="&#45;&#45;object-input input" maxlength="200" name="text" placeholder="상품 소개를 입력해주세요"-->
-                        <!--                   type="text">-->
                     </label>
                 </td>
             </tr>
@@ -128,9 +122,7 @@
                 <td>
                     <label class="label">
                         <span hidden>상품 배송비</span>
-                        <input class="--object-input input" min="3000" max="5000" value="3000" name="delivery"
-                               placeholder="상품 배송비를 입력해주세요. (3000 ~ 5000)"
-                               type="number">
+                        <input required class="--object-input input" min="3000" max="3000" value="3000" name="delivery" type="number">
                     </label>
                 </td>
             </tr>
@@ -145,18 +137,8 @@
                     </label>
                 </td>
             </tr>
-            <!--            <tr class="warning-row" rel="warningRow">-->
-            <!--              <th></th>-->
-            <!--              <td>-->
-            <!--                      <span class="warning">-->
-            <!--                              <i class="icon fa-solid fa-triangle-exclamation"></i>-->
-            <!--                              <span class="text">제목을 입력해주세요.</span>-->
-            <!--                      </span>-->
-            <!--              </td>-->
-            <!--            </tr>-->
             </tbody>
         </table>
-        <!--    <input name="bid" type="hidden" th:value="${board.getId()}">-->
     </form>
 </main>
 <!-- cover -->

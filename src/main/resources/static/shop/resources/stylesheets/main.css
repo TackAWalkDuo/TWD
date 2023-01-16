@@ -110,7 +110,6 @@ body > .main > .search-form > .label {
 
 
 /*게시판 윗부분 css*/
-
 #table td {
     background-color: rgb(255, 255, 255);
     padding: 0.5rem 1rem;
@@ -161,7 +160,7 @@ body > .main > .search-form > .label {
     margin-left: 0.5rem;
 }
 
-/*그리드 부분임*/
+/*그리드 부분*/
 body > main > .box {
     width: 90%;
     padding: 0 8rem;
@@ -265,9 +264,7 @@ body > main > .box > .item-container > .item > .link > .charge-price {
     margin-top: 0.325rem;
 }
 
-/*그리드 부분임*/
-
-/*그리드 컬럼,로우 부분임*/
+/*그리드 컬럼,로우 부분*/
 body > main > .box > .item-container > .item.big {
     height: 100%;
     user-select: none;
@@ -280,9 +277,7 @@ body > main > .box > .item-container > .item.big:hover {
     transform: scale(100%);
 }
 
-/*그리드 컬럼,로우 부분임*/
-
-/*옆으로 빠지는 이미지*/
+/*그리드 디자인 다른 부분*/
 body > main > .box > .item-container > .item-description {
     grid-column: 3/5;
 
@@ -347,5 +342,3 @@ body > main > .box > .item-container > .item-description > .side-image > .side-d
     margin-top: 0.25rem;
     font-size: 0.9rem;
 }
-
-/*옆으로 빠지는 이미지*/

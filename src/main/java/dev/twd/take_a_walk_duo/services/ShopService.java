@@ -42,7 +42,6 @@ public class ShopService {
 
     private final IBbsMapper bbsMapper;
 
-    // memberMapper 서비스도 의존성 주입함.
     @Autowired
     public ShopService(IShopMapper shopMapper, IMemberMapper memberMapper, IBbsMapper bbsMapper) {
         this.shopMapper = shopMapper;
@@ -50,15 +49,10 @@ public class ShopService {
         this.bbsMapper = bbsMapper;
     }
 
-
-    // list page
-    public BoardEntity getBoard(String id)
-    // id 는 게시판의 id임 notice 등
-    {
+    // 리스트 호출(board)
+    public BoardEntity getBoard(String id) {
         BoardEntity boardEntity = this.shopMapper.selectBoardById(id);
-        System.out.println("보드 아이디는" + boardEntity.getId());
         return boardEntity;
-//        return this.shopMapper.selectBoardById(id);
     }
 
     // 인터셉터용
@@ -66,13 +60,13 @@ public class ShopService {
         return this.shopMapper.selectBoards();
     }
 
+    // 게시글 갯수 확인
     public int getArticleCount(BoardEntity board, String criterion, String keyword) {
-        System.out.println("criterion??" + criterion);
         return this.shopMapper.selectArticleCountByBoardId(board.getId(), criterion, keyword);
     }
 
+    // 리스트 호출
     public ProductVo[] getArticles(BoardEntity board, PagingModel paging, String criterion, String keyword) {
-        System.out.println("서비스 보드 테크스트ㅡ " + board.getText());
         return this.shopMapper.selectArticlesByBoardId(
                 board.getId(),
                 paging.countPerPage,
@@ -86,26 +80,22 @@ public class ShopService {
         return this.shopMapper.selectAllArticles();
     }
 
-    // 상품 가져오기(cart)
+    // 장바구니 호출
     public CartVo[] getArticles(String userEmail) {
         return this.shopMapper.selectCartsByUserEmail(userEmail);
     }
 
+    // 주문내역 호출
     public PaymentVo[] getPayments(String userEmail) {
         return this.shopMapper.selectPaymentsByUserEmail(userEmail);
     }
 
-    // 상품 가져오기 (cart) 2트
-//    public Enum<? extends  IResult> getCart(ArticleEntity article, UserEntity user, ShoppingCartEntity cart){
-//
-//    }
-
-    // detail page
+    // 상세보기 호출
     public ProductVo detailArticle(int index) {
         return this.shopMapper.selectArticleByArticleIndex(index);
     }
 
-    // 상품 수정
+    // 상품 수정(준비)
     public Enum<? extends IResult> prepareModifyArticle(ProductVo product, UserEntity user) {
         if (user == null) {
             return CommonResult.FAILURE;
@@ -132,58 +122,26 @@ public class ShopService {
         return CommonResult.SUCCESS;
     }
 
-    // 상품 수정 2트
+    // 상품 수정(실행)
     public Enum<? extends IResult> modifyArticle(ArticleEntity article, SaleProductEntity product, @RequestParam(value = "images", required = false) MultipartFile[] images) throws IOException {
         SaleProductEntity existingProduct = this.shopMapper.selectProductByArticleIndex(article.getIndex());
-        System.out.println("프로덕트 어디니" + existingProduct.getArticleIndex());
-        System.out.println("프로덕트 뭐 가지고 있니" + product.getText());
 
         ArticleEntity existingArticle = this.shopMapper.selectArticleByIndex(article.getIndex());
-        System.out.println("아티클 어디니?" + article.getIndex());
-
-        System.out.println("아티클 타이틀 수정 전 " + existingArticle.getTitle());
         existingArticle.setTitle(article.getTitle());
         existingArticle.setContent(article.getContent());
-        System.out.println("아티클 타이틀 수정 후 " + existingArticle.getTitle());
-
         existingProduct.setCategoryText(product.getCategoryText());
         existingProduct.setCost(product.getCost());
         existingProduct.setPrice(product.getPrice());
         existingProduct.setDiscount(product.getDiscount());
-
-        System.out.println("프로덕트 수량 수정 전 " + existingProduct.getQuantity());
         existingProduct.setQuantity(product.getQuantity());
-        System.out.println("프로덕트 수량 수정 후 " + existingProduct.getQuantity());
-
         existingProduct.setText(product.getText());
 
-        System.out.println("아티클 이미지 수정 전 " + existingArticle.getThumbnail());
-
-//        existingArticle.setThumbnail(existingArticle.getThumbnail());
-        System.out.println("아티클 이미지 수정 전 중간 " + existingArticle.getThumbnail());
         if (images != null) {
             for (MultipartFile image : images) {
                 existingArticle.setThumbnail(image.getBytes());
                 existingArticle.setThumbnailType(image.getContentType());
             }
         }
-////            if (images == null){
-//            byte[] imageInByte;
-//            File defaultImage = new File("src/main/resources/static/resources/images/ingImage.jpeg");
-//            defaultImage.setReadable(true, false);
-//
-//            BufferedImage originalImage = ImageIO.read(defaultImage);
-//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//            ImageIO.write(originalImage, "jpeg", baos);
-//            baos.flush();
-//
-//            imageInByte = baos.toByteArray();
-//
-//            existingArticle.setThumbnail(imageInByte);
-//            existingArticle.setThumbnailType("image/jpeg");
-//            baos.close();
-//        }
-        System.out.println("아티클 이미지 수정 후" + existingArticle.getThumbnail());
 
         if (this.shopMapper.updateArticle(existingArticle) == 0) {
             return CommonResult.FAILURE;
@@ -195,43 +153,6 @@ public class ShopService {
 
         return CommonResult.SUCCESS;
     }
-
-//    public Enum<? extends IResult> modifyArticle(ArticleEntity article, SaleProductEntity product, @SessionAttribute(value = "user", required = false) UserEntity user) {
-//        ArticleEntity existingArticle =
-//                this.shopMapper.selectArticleByIndex(
-//                        article.getIndex());
-//
-//        SaleProductEntity existingProduct = this.shopMapper.selectProductByArticleIndex(product.getArticleIndex());
-//
-//        UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
-//
-//        if (!existingUser.getAdmin()) { // 관리자 계정이 아니라면 등록 실패
-//            return CommonResult.FAILURE;
-//        }
-//
-//
-////        product.setCategoryText(existingProduct.getCategoryText());
-////        product.setCost(existingProduct.getCost());
-////        product.setPrice(existingProduct.getPrice());
-////        product.setDiscount(existingProduct.getDiscount());
-////        product.setQuantity(existingProduct.getQuantity());
-////        product.setText(existingProduct.getText());
-//
-////        user.setAdmin(existingUser.getAdmin());
-////
-////        article.setIndex(existingArticle.getIndex());
-////        article.setUserEmail(existingArticle.getUserEmail());
-////        article.setBoardId(existingArticle.getBoardId());
-////        article.setTitle(existingArticle.getTitle());
-////        article.setContent(existingArticle.getContent());
-////        product.setCategoryName(existingProduct.getCategoryName());
-////        article.setWrittenOn(existingArticle.getWrittenOn());
-////        article.setModifiedOn(new Date());
-//        if (this.shopMapper.updateArticle(existingProduct) == 0) {
-//            return CommonResult.FAILURE;
-//        }
-//        return CommonResult.SUCCESS;
-//    }
 
     // 상품 삭제
     public Enum<? extends IResult> deleteProduct(ProductVo product, UserEntity user) {
@@ -249,7 +170,7 @@ public class ShopService {
                 : CommonResult.FAILURE;
     }
 
-    // write get
+    // 상품등록 호출
     public ProductVo getArticle() {
         return this.shopMapper.selectArticle();
     }
@@ -261,11 +182,14 @@ public class ShopService {
                                          @RequestParam(value = "images", required = false) MultipartFile[] images,
                                          @SessionAttribute(value = "user", required = false) UserEntity user) throws IOException {
         UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail()); // 로그인한 userEmail과 DB에 있는 userEmail 대조(memberMapper의 쿼리 사용)
-        if (!existingUser.getAdmin()) { // 관리자 계정이 아니라면 등록 실패
+
+        // 관리자 계정이 아니라면 등록 실패
+        if (!existingUser.getAdmin()) {
             return CommonResult.FAILURE;
         }
         article.setUserEmail(user.getEmail());
-        article.setBoardId("shop"); // BoardId shop 하나라서 고정.
+        // BoardId shop으로 고정.
+        article.setBoardId("shop");
         if (images != null) {
             for (MultipartFile image : images) {
                 article.setThumbnail(image.getBytes());
@@ -293,9 +217,7 @@ public class ShopService {
         }
 
         product.setArticleIndex(article.getIndex());
-//        product.setCost(0);
         product.setProfit(0);
-//        product.setDiscount(0);
 
         if (this.shopMapper.insertProduct(product) == 0) {
             return CommonResult.FAILURE;
@@ -318,46 +240,16 @@ public class ShopService {
 
     // 장바구니 담기
     public Enum<? extends IResult> addCart(ArticleEntity article, ShoppingCartEntity cart, UserEntity user, int aid) {
-        //email, aid 를 통해서 장바구니 검색. 있다면 "동일한 상품이 장바구니에 있습니다."
-        //없다면 입력된 aid 값의 boarID shop 관련인지 확인
-        //로그인 확인
-        // 담으려는 상품 갯수가 0이하 인지 확인 재고확인.
-//        ShoppingCartEntity existingCart = this.shopMapper.selectArticleByCartIndex(cart.getIndex());
-//        System.out.println(existingCart.getIndex());
-//        UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
-//        existingCart.setUserEmail(user.getEmail());
-
-//        if (existingCart != null){
-//            return CommonResult.FAILURE;
-//        }
-//
-//        if (user == null || !user.getEmail().equals(existingCart.getUserEmail())) {
-//            return CommonResult.FAILURE;
-//        }
-
-//        ShoppingCartEntity existingCart = this.shopMapper.selectArticleByArticleIndexUserEmail(aid, cart.getUserEmail());
-//        if (existingCart != null) {
-//            return CommonResult.FAILURE;
-//        }
-//        System.out.println("머임?" + existingCart);
-//        System.out.println("aid는?" + aid);
-//        System.out.println("카트의 유저 이메일?" + cart.getUserEmail());
-//        System.out.println("이메일은?" + user.getEmail());
-//
-//        existingCart.setUserEmail(user.getEmail());
-//        System.out.println("ex이메일은?" + existingCart.getUserEmail());
 
         // 로그인 되어 있지 않으면
         if (user == null) {
             return CartResult.CART_NOT_SIGNED;
         }
 
-        // boardId가 shop이 아니면
         ArticleEntity existingArticle = this.shopMapper.selectArticleByIndex(aid);
         article.setBoardId(existingArticle.getBoardId());
         article.setTitle(existingArticle.getTitle());
-        System.out.println("어데 게시판입니꺼?" + article.getBoardId());
-        System.out.println("제목은?" + article.getTitle());
+        // boardId가 shop이 아니면
         if (!article.getBoardId().equals("shop")) {
             return CartResult.CART_NOT_ALLOWED;
         }
@@ -368,31 +260,17 @@ public class ShopService {
         if (existingCart != null) {
             return CartResult.CART_DUPLICATED;
         }
-        System.out.println("머임?" + existingCart);
-        System.out.println("aid는?" + aid);
-        System.out.println("이메일은?" + user.getEmail());
+
         cart.setProductIndex(aid);
-        System.out.println("카트의 aid는?" + cart.getProductIndex());
         cart.setUserEmail(user.getEmail());
-        System.out.println("카트의 유저 이메일?" + cart.getUserEmail());
-
-
-        //insert ..
-//        cart.setProductIndex(aid);
-//        cart.setUserEmail(existingCart.getUserEmail());
-//        cart.setDeliveryFee(3000);
-//        cart.setRegistrationOn(new Date());
-//        existingCart.setProductIndex(aid);
-//        existingCart.setUserEmail(cart.getUserEmail());
         cart.setDeliveryFee(3000);
         cart.setRegistrationOn(new Date());
-//        System.out.println("인덱스는?" + existingCart.getIndex());
-//        System.out.println("제목은?" + article.getTitle());
         return this.shopMapper.insertCart(cart) > 0
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
 
+    // 장바구니 수정
     public Enum<? extends IResult> modifyCart(ShoppingCartEntity cart, UserEntity user) {
         ShoppingCartEntity existingCart = this.shopMapper.selectCartByIndex(cart.getIndex(), user.getEmail());
         existingCart.setQuantity(cart.getQuantity());
@@ -402,6 +280,7 @@ public class ShopService {
                 : CommonResult.FAILURE;
     }
 
+    // 장바구니에서 구매
     @Transactional
     public Enum<? extends IResult> addPayment(UserEntity user, int[] cartIndex) {
         if (user == null) {
@@ -416,7 +295,6 @@ public class ShopService {
             if (existingCart == null) {
                 return CommonResult.FAILURE;
             }
-
 
             PaymentEntity payment = new PaymentEntity();
 
@@ -440,71 +318,43 @@ public class ShopService {
 
             SaleProductEntity existingProduct = this.shopMapper.selectProductByArticleIndex(existingCart.getProductIndex());
             existingProduct.setQuantity(existingProduct.getQuantity() - existingCart.getQuantity());
+
             if (this.shopMapper.updateProduct(existingProduct) == 0) {
                 return CommonResult.FAILURE;
             }
-
-            // sale_product 검색
-            // sale_product.setQu~~(getQu~~ - ~~);
-            //update()
 
             existingCart.setIndex(cartIndex[i]);
             if (this.shopMapper.deleteCartByIndex(existingCart) == 0) {
                 return CommonResult.FAILURE;
             }
         }
-
         return CommonResult.SUCCESS;
     }
 
-    // 2트
+    // 상세보기에서 바로 구매
     @Transactional
     public Enum<? extends IResult> easeAddPayment(UserEntity user, PaymentEntity payment, int index, ShoppingCartEntity cart) {
         if (user == null) {
             return CommonResult.FAILURE;
         }
-
-        System.out.println("인덱스?"+index);
         SaleProductEntity existingProduct = this.shopMapper.selectProductByArticleIndex(index);
         if (existingProduct == null) {
             return CommonResult.FAILURE;
         }
-        System.out.println("ex 프로덕트?" + existingProduct.getIndex());
 
-//        ShoppingCartEntity existingCart = this.shopMapper.selectCartByCartIndex(payment.getProductIndex());
-//        payment.setGroupIndex(existingCart.getIndex());
-//        if (this.shopMapper.deleteCartByIndex(existingCart) == 0){
-//            return CommonResult.FAILURE;
-//        }
-        //카드에 담고
-        //groupIndex 담고
-        //카트 지우고
         cart.setProductIndex(index);
         cart.setUserEmail(user.getEmail());
         cart.setDeliveryFee(existingProduct.getDeliveryFee());
         cart.setRegistrationOn(new Date());
-        if (this.shopMapper.insertCart(cart) == 0){
+
+        if (this.shopMapper.insertCart(cart) == 0) {
             return CommonResult.FAILURE;
         }
 
-//        System.out.println("이 카트는 무엇인고"+cart.getProductIndex());
-//        ShoppingCartEntity existingCart = this.shopMapper.selectCartByProductIndex(cart.getProductIndex());
-//        System.out.println("카트 살아있니1?"+existingCart);
-//        System.out.println("카트 살아있니2?"+existingCart.getProductIndex());
-//
-//        existingCart.setProductIndex(index);
-//        existingCart.setUserEmail(user.getEmail());
-//        existingCart.setDeliveryFee(existingProduct.getDeliveryFee());
-//        existingCart.setSalePrice(existingProduct.getPrice());
-//        existingCart.setQuantity(existingProduct.getQuantity());
-//
-//        if (this.shopMapper.insertCart(existingCart) == 0){
-//            return CommonResult.FAILURE;
-//        }
-
         payment.setGroupIndex(cart.getIndex());
         payment.setQuantity(cart.getQuantity());
-        if (this.shopMapper.deleteCartByIndex(cart) == 0){
+
+        if (this.shopMapper.deleteCartByIndex(cart) == 0) {
             return CommonResult.FAILURE;
         }
 
@@ -517,7 +367,7 @@ public class ShopService {
         payment.setAddressPrimary(user.getAddressPrimary());
         payment.setAddressSecondary(user.getAddressSecondary());
         payment.setRegistrationOn(new Date());
-        System.out.println("payment?" + payment);
+
         if (this.shopMapper.insertPayment(payment) == 0) {
             return CommonResult.FAILURE;
         }
@@ -529,80 +379,7 @@ public class ShopService {
         return CommonResult.SUCCESS;
     }
 
-    //1트
-//    @Transactional
-//    public Enum<? extends IResult> easeAddPayment(UserEntity user, int aid) {
-//        if (user == null) {
-//            return CommonResult.FAILURE;
-//        }
-//        SaleProductEntity existingProduct = this.shopMapper.selectProductByArticleIndex(aid);
-//
-//        if (existingProduct == null) {
-//            return CommonResult.FAILURE;
-//        }
-//
-//        PaymentEntity payment = new PaymentEntity();
-//        payment.setDeliveryFee(3000);
-//        payment.setDeliveryStatus(0);
-//        payment.setProductIndex(existingProduct.getArticleIndex());
-//        payment.setSalePrice(existingProduct.getPrice());
-//        payment.setUserEmail(user.getEmail());
-//        payment.setQuantity(existingProduct.getQuantity());
-//        payment.setAddressPostal(user.getAddressPostal());
-//        payment.setAddressPrimary(user.getAddressPrimary());
-//        payment.setAddressSecondary(user.getAddressSecondary());
-//        payment.setRegistrationOn(new Date());
-//
-//        if (this.shopMapper.insertPayment(payment) == 0) {
-//            return CommonResult.FAILURE;
-//        }
-//
-//        existingProduct.setQuantity(existingProduct.getQuantity());
-//        if (this.shopMapper.updateProduct(existingProduct) == 0) {
-//            return CommonResult.FAILURE;
-//        }
-//        return CommonResult.SUCCESS;
-//    }
-//    @Transactional
-//    public Enum<? extends IResult> addPayment(UserEntity user, ShoppingCartEntity cart) {
-//        if (user == null) {
-//            return CommonResult.FAILURE;
-//        }
-//        ShoppingCartEntity existingCart = this.shopMapper.selectCartByCartIndex(cart.getIndex());
-//        existingCart.setIndex(cart.getIndex());
-//        System.out.println("ex카트 인덱스" + existingCart.getIndex());
-//
-//        if (this.shopMapper.deleteCartByIndex(existingCart) == 0) {
-//            return CommonResult.FAILURE;
-//        }
-//
-//        // 현재 주문하려고하는 상품의 재고가 주문 갯수보다 작을경우 return false;
-//
-////        PaymentEntity existingPayment = this.shopMapper.selectPaymentByRegistration();
-//        PaymentEntity pay = new PaymentEntity();
-//
-//        pay.setDeliveryStatus(0);
-//        pay.setProductIndex(existingCart.getProductIndex());
-//        pay.setSalePrice(existingCart.getSalePrice());
-//        pay.setUserEmail(user.getEmail());
-//        pay.setQuantity(existingCart.getQuantity());
-//        pay.setDeliveryFee(3000);
-//        pay.setAddressPostal(user.getAddressPostal());
-//        pay.setAddressPrimary(user.getAddressPrimary());
-//        pay.setAddressSecondary(user.getAddressSecondary());
-//        pay.setRegistrationOn(new Date());
-//
-//
-//        System.out.println("카트 프로덕트 인덱스" + cart.getProductIndex());
-//        System.out.println("ex 카트 푸로덕트 인덱스" + existingCart.getProductIndex());
-//        System.out.println("주소?" + user.getAddressPrimary());
-//
-//        if (this.shopMapper.insertPayment(pay) == 0) {
-//            return CommonResult.FAILURE;
-//        }
-//        return CommonResult.SUCCESS;
-//    }
-
+    // 장바구니 삭제
     public Enum<? extends IResult> deleteCarts(int[] index, UserEntity user) {
         for (int i = 0; i < index.length; i++) {
             ShoppingCartEntity existingCart = this.shopMapper.selectCartByCartIndex(index[i]);
@@ -619,7 +396,7 @@ public class ShopService {
         return CommonResult.SUCCESS;
     }
 
-    // TooManyResultsException
+    // 구매내역 삭제
     @Transactional
     public Enum<? extends IResult> deletePayment(PaymentEntity payment, UserEntity user) {
         PaymentEntity[] existingPayment = this.shopMapper.selectPaymentByIndex(payment.getGroupIndex());
@@ -629,79 +406,20 @@ public class ShopService {
         }
 
         for (int i = 0; i < existingPayment.length; i++) {
-
-            System.out.println("페이먼트 있니?" + existingPayment[i].getIndex());
-            System.out.println("페이먼트 있니?" + existingPayment[i].getProductIndex());
-
             if (!user.getEmail().equals(existingPayment[i].getUserEmail())) {
                 return CommonResult.FAILURE;
             }
 
             SaleProductEntity existingProduct = this.shopMapper.selectProductByArticleIndex(existingPayment[i].getProductIndex());
             existingProduct.setQuantity(existingProduct.getQuantity() + existingPayment[i].getQuantity());
-            System.out.println("프로덕트 있니?" + existingProduct.getArticleIndex());
             if (this.shopMapper.updateProduct(existingProduct) == 0) {
                 return CommonResult.FAILURE;
             }
-            System.out.println("페이먼트 아직 있니?" + existingPayment[i].getIndex());
-
         }
 
         return this.shopMapper.deletePayment(payment.getGroupIndex()) > 0
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
-
-
-//        PaymentEntity existingPayment = this.shopMapper.selectPaymentByIndex(payment.getGroupIndex());
-//        System.out.println("페이먼트 있니?"+existingPayment.getIndex());
-//        System.out.println("페이먼트 있니?"+existingPayment.getProductIndex());
-//        if (existingPayment == null) {
-//            return CommonResult.FAILURE;
-//        }
-//        if (!user.getEmail().equals(existingPayment.getUserEmail())) {
-//            return CommonResult.FAILURE;
-//        }
-//
-//        SaleProductEntity existingProduct = this.shopMapper.selectProductByArticleIndex(existingPayment.getProductIndex());
-//        existingProduct.setQuantity(existingProduct.getQuantity() + existingPayment.getQuantity());
-//        System.out.println("프로덕트 있니?"+existingProduct.getArticleIndex());
-//        if (this.shopMapper.updateProduct(existingProduct) == 0) {
-//            return CommonResult.FAILURE;
-//        }
-//        System.out.println("페이먼트 아직 있니?"+existingPayment.getIndex());
-//        return this.shopMapper.deletePayment(existingPayment.getGroupIndex()) > 0
-//                ? CommonResult.SUCCESS
-//                : CommonResult.FAILURE;
-
-    // typeMismatch
-//    @Transactional
-//    public Enum<? extends IResult> deletePayment(int[] groupIndex, PaymentEntity payment, UserEntity user) {
-//        System.out.println("인데스 있니?"+groupIndex);
-//        for (int i = 0; i<=groupIndex.length;i++){
-//            PaymentEntity existingPayment = this.shopMapper.selectPaymentByIndex(payment.getIndex());
-//            System.out.println("페이먼트 있니?"+existingPayment.getIndex());
-//            System.out.println("페이먼트 있니?"+existingPayment.getProductIndex());
-//            if (existingPayment == null) {
-//                return CommonResult.FAILURE;
-//            }
-//            if (!user.getEmail().equals(existingPayment.getUserEmail())) {
-//                return CommonResult.FAILURE;
-//            }
-//
-//            SaleProductEntity existingProduct = this.shopMapper.selectProductByArticleIndex(existingPayment.getProductIndex());
-//            existingProduct.setQuantity(existingProduct.getQuantity() + existingPayment.getQuantity());
-//            System.out.println("프로덕트 있니?"+existingProduct.getArticleIndex());
-//            if (this.shopMapper.updateProduct(existingProduct) == 0) {
-//                return CommonResult.FAILURE;
-//            }
-//            System.out.println("페이먼트 아직 있니?"+existingPayment.getIndex());
-//            if (this.shopMapper.deletePayment(existingPayment) <= 0){
-//                return CommonResult.FAILURE;
-//            }
-//        }
-//        return CommonResult.SUCCESS;
-//    }
-
 }
 

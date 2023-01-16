@@ -191,7 +191,6 @@
                `product`.`category_text` AS 'categoryText',
                `product`.`text`          AS `text`,
                `category`.`text`         AS `categoryName`
-#                `user`.`admin_flag`       AS `isAdmin`
         FROM `twd_bbs`.`articles` AS `article`
                  LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`
                  LEFT JOIN `twd_shop`.`sale_product` AS `product` ON `article`.`index` = `product`.`article_index`
