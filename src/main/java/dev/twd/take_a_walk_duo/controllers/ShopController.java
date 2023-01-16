@@ -325,8 +325,13 @@ public class ShopController extends GeneralController {
     @RequestMapping(value = "review",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getReview() {
+    public ModelAndView getReview(@SessionAttribute(value = "user") UserEntity user,
+                                  @RequestParam(value = "index", required = false) int paymentIndex) {
+
         ModelAndView modelAndView = new ModelAndView("shop/review");
+        PaymentEntity payment = this.shopService.getPayment(paymentIndex);
+
+
         return modelAndView;
     }
 

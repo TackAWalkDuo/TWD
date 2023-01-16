@@ -465,7 +465,7 @@
         ORDER BY `index` DESC
     </select>
 
-    <select id="selectPaymentByIndex"
+    <select id="selectPaymentByGroupIndex"
             resultType="dev.twd.take_a_walk_duo.entities.shop.PaymentEntity">
         SELECT `index`             AS `index`,
                `user_email`        AS `userEmail`,
@@ -482,6 +482,25 @@
         FROM `twd_shop`.`payment`
         WHERE `group_index` = #{index}
     </select>
+
+    <select id="selectPaymentByIndex"
+            resultType="dev.twd.take_a_walk_duo.entities.shop.PaymentEntity">
+        SELECT `index`             AS `index`,
+               `user_email`        AS `userEmail`,
+               `group_index`       AS `groupIndex`,
+               `product_index`     AS `productIndex`,
+               `sale_price`        AS `salePrice`,
+               `quantity`          AS `quantity`,
+               `delivery_fee`      AS `deliveryFee`,
+               `registration_on`   AS `registrationOn`,
+               `address_postal`    AS `addressPostal`,
+               `address_primary`   AS `addressPrimary`,
+               `address_secondary` AS `addressSecondary`,
+               `delivery_status`   AS `deliveryStatus`
+        FROM `twd_shop`.`payment`
+        WHERE `index` = #{index}
+    </select>
+
 
     <delete id="deletePayment">
         DELETE

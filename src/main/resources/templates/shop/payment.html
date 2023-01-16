@@ -51,8 +51,10 @@
                     <div class="button-container">
                     <a rel="proId" th:text="${payment.getTitle()}">상품</a>
                         <div class="just-space"></div>
-                    <button rel="cancelButton" class="--object-button" type="button" th:if="${payment.getDeliveryStatus() !=3}">주문취소</button>
-                    <button rel="modifyButton" class="--object-button shop-review" type="button" th:if="${payment.getDeliveryStatus()==3}">리뷰</button>
+                    <button rel="cancelButton" class="--object-button" type="button" th:if="${payment.getDeliveryStatus() !=2}">주문취소</button>
+                    <button rel="reviewButton" class="--object-button shop-review" type="button" th:if="${payment.getDeliveryStatus()==2}">리뷰
+                    <a th:href="@{/shop/payment(index=${payment.getIndex()})}"></a>
+                    </button>
                     </div>
                 </td>
                 <td>

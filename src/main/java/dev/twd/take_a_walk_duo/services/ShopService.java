@@ -11,14 +11,12 @@ import dev.twd.take_a_walk_duo.interfaces.IResult;
 import dev.twd.take_a_walk_duo.mappers.IBbsMapper;
 import dev.twd.take_a_walk_duo.mappers.IMemberMapper;
 import dev.twd.take_a_walk_duo.models.PagingModel;
-import dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import dev.twd.take_a_walk_duo.vos.shop.CartVo;
 import dev.twd.take_a_walk_duo.vos.shop.PaymentVo;
 import dev.twd.take_a_walk_duo.vos.shop.ProductVo;
 import dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.mappers.IShopMapper;
-import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -399,7 +397,7 @@ public class ShopService {
     // 구매내역 삭제
     @Transactional
     public Enum<? extends IResult> deletePayment(PaymentEntity payment, UserEntity user) {
-        PaymentEntity[] existingPayment = this.shopMapper.selectPaymentByIndex(payment.getGroupIndex());
+        PaymentEntity[] existingPayment = this.shopMapper.selectPaymentByGroupIndex(payment.getGroupIndex());
 
         if (existingPayment == null) {
             return CommonResult.FAILURE;
@@ -420,6 +418,10 @@ public class ShopService {
         return this.shopMapper.deletePayment(payment.getGroupIndex()) > 0
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
+    }
+
+    public PaymentEntity getPayment(int index) {
+        return this.shopMapper.selectPaymentByIndex(index);
     }
 }
 
