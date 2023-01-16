@@ -421,5 +421,6 @@ public class ShopService {
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
+
 }
 
