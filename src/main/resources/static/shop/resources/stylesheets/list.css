@@ -152,7 +152,7 @@ body > .main > .search-form > .label {
 
 #searchForm {
     margin-top: 1.5rem;
-
+    margin-bottom: 2rem;
     align-items: stretch;
     display: flex;
     flex-direction: row;
