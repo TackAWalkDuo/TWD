@@ -18,7 +18,7 @@
 <th:block th:replace="~{fragments/body :: header}"></th:block>
 <main class="--main main">
     <!--    <div class="img"></div>-->
-    <i th:if="${isPayment <= 0}" class="empty-icon fa-solid fa-cart-plus"><span>주문 내역이 없습니다.</span></i>
+    <i th:if="${isPayment <= 0}" class="empty-icon fa-solid fa-circle-exclamation"><span>주문 내역이 없습니다.</span></i>
     <form class="content --content" id="form" th:if="${isPayment > 0}">
         <input hidden multiple accept="image/*" name="images" type="file">
         <h1 class="title">구매내역</h1>
