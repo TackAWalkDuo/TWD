@@ -26,7 +26,8 @@
             <tbody>
             <tr class="imageLine">
                 <th>주문일자</th>
-                <th colspan="2">상품정보</th>
+                <th>상품정보</th>
+                <!--                <th colspan="2">상품정보</th>-->
                 <th>수량</th>
                 <th>상품금액</th>
                 <th>합계</th>
@@ -41,21 +42,46 @@
                 <td hidden rel="deliveryStatus" th:text="${payment.getDeliveryStatus()}"></td>
                 <td hidden rel="groupIndex" th:text="${payment.getGroupIndex()}"></td>
                 <td th:text="${#dates.format(payment.getRegistrationOn(), 'yyyy-MM-dd')}">2023-01-01</td>
-                <td class="image">
-                    <span hidden>상품 이미지</span>
-                    <div class="image-container" rel="imageContainer">
-                        <img class="product-image" alt="상품 이미지" th:src="@{/bbs/thumbnail(index=${payment.getProductIndex()})}">
-                    </div>
-                </td>
+                <!--                <td class="image">-->
+                <!--                    <span hidden>상품 이미지</span>-->
+                <!--                    <div class="image image-container" rel="imageContainer">-->
+                <!--                        <img class="product-image" alt="상품 이미지" th:src="@{/bbs/thumbnail(index=${payment.getProductIndex()})}">-->
+                <!--                    </div>-->
+                <!--                </td>-->
                 <td class="product-info">
-                    <div class="button-container">
-                    <a rel="proId" th:text="${payment.getTitle()}">상품</a>
-                        <div class="just-space"></div>
-                    <button rel="cancelButton" class="--object-button" type="button" th:if="${payment.getDeliveryStatus() !=2}">주문취소</button>
-                    <button rel="reviewButton" class="--object-button shop-review" type="button" th:if="${payment.getDeliveryStatus()==2}">리뷰
-                    <a th:href="@{/shop/payment(index=${payment.getIndex()})}"></a>
-                    </button>
-                    </div>
+                    <!--                    <span class="image">-->
+                    <!--                        <span hidden>상품 이미지</span>-->
+                    <!--                        <div class="image image-container" rel="imageContainer">-->
+                    <!--                            <img class="product-image" alt="상품 이미지"-->
+                    <!--                                 th:src="@{/bbs/thumbnail(index=${payment.getProductIndex()})}">-->
+                    <!--                        </div>-->
+                    <!--                    </span>-->
+                    <span class="button-container">
+                        <span class="product-title">
+                            <div class="image image-container" rel="imageContainer">
+                                <img class="product-image" alt="상품 이미지"
+                                     th:src="@{/bbs/thumbnail(index=${payment.getProductIndex()})}">
+                            </div>
+                            <span class="pro-id" rel="proId" th:text="${payment.getTitle()}">상품</span>
+                        </span>
+                        <button rel="cancelButton" class="--object-button" type="button"
+                                th:if="${payment.getDeliveryStatus() !=2}">주문취소
+                        </button>
+                        <button rel="reviewButton" class="--object-button shop-review" type="button"
+                                th:if="${payment.getDeliveryStatus()==2}">리뷰
+                            <a th:href="@{/shop/payment(index=${payment.getIndex()})}"></a>
+                        </button>
+                    </span>
+                    <!--                    <span class="button-container">-->
+                    <!--                        <a class="pro-id" rel="proId" th:text="${payment.getTitle()}">상품</a>-->
+                    <!--                        <button rel="cancelButton" class="&#45;&#45;object-button" type="button"-->
+                    <!--                                th:if="${payment.getDeliveryStatus() !=2}">주문취소-->
+                    <!--                        </button>-->
+                    <!--                        <button rel="reviewButton" class="&#45;&#45;object-button shop-review" type="button"-->
+                    <!--                                th:if="${payment.getDeliveryStatus()==2}">리뷰-->
+                    <!--                            <a th:href="@{/shop/payment(index=${payment.getIndex()})}"></a>-->
+                    <!--                        </button>-->
+                    <!--                    </span>-->
                 </td>
                 <td>
                     <div>

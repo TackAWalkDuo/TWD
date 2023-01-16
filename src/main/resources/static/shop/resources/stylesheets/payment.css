@@ -4,9 +4,9 @@
     font-size: 5rem;
     white-space: nowrap;
     position: absolute;
-    top:40%;
-    left:50%;
-    transform:translate(-50%, -50%);
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .empty-icon > span {
@@ -38,7 +38,7 @@ body > .--main {
     border-collapse: collapse;
 }
 
-.table > tbody .separator td{
+.table > tbody .separator td {
     border-top: 0.25rem solid rgba(169, 175, 126, 90%);
 }
 
@@ -99,28 +99,56 @@ input[type=checkbox] {
     height: 1.5rem;
 }
 
-.table > tbody > tr > td.image {
+.image {
     width: 5rem;
     border-right: none;
     border-left: none;
 }
 
-.table > tbody > tr > td > .image-container > .product-image {
+.table > tbody > tr > td > .image > .image-container > .product-image {
     max-width: 5rem;
 }
 
+.product-image {
+    max-width: 5rem;
+}
+
+.product-title {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.product-title > * + * {
+    margin-left: 1rem;
+}
+
+
+.table > tbody > tr > td {
+    width: 9%;
+}
+
 .table > tbody > tr > td.product-info {
-    width: 17.5rem;
-    max-width: 17.5rem;
+    width: 65%;
     border-left: none;
     text-align: left;
     padding-left: 1.5rem;
     overflow-wrap: break-word;
+
+    align-items: center;
+    flex-direction: row;
+    /*justify-content: space-between;*/
+}
+
+.pro-id {
+    padding-right: 3rem;
 }
 
 .table > tbody > tr > td.product-info > a {
     max-width: inherit;
 }
+
 
 .table > tbody > .info-container > td {
     height: 3rem;
@@ -190,7 +218,7 @@ input[type=checkbox] {
     color: black;
     padding: 0.25rem 0.5rem;
     font-size: 1.15rem;
-    font-weight: 700;
+    font-weight: 700;;
 }
 
 .info-footer > div > .--object-button > .info-quantity {
@@ -246,12 +274,17 @@ input[type=checkbox] {
 }
 
 .button-container {
-    width: inherit;
+    width: 100%;
+    /*width: inherit;*/
     max-width: inherit;
     align-items: center;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.button-container > button {
+    margin-right: 1rem;
 }
 
 .cancel-button {
