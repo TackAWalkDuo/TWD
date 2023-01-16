@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>산책해듀오 - 리뷰</title>
+
+    <th:block th:replace="~{fragments/head}"></th:block>
+    <link rel="stylesheet" th:href="@{/shop/resources/stylesheets/review.css}">
+    <script defer th:src="@{/shop/resources/scripts/review.js}"></script>
+    <script src="https://kit.fontawesome.com/12a5ab0618.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<th:block th:replace="~{fragments/body :: header}"></th:block>
+<main class="--main main">
+    <div class="table">
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>상품</th>
+                <td>
+                    <label class="label product">
+                        <span hidden>상품</span>
+                        <span>상품명</span>
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <th>리뷰</th>
+                <td class="review">
+                    <label class="--object-review">
+                        <h1>상품 어떠셨나요?</h1>
+                    </label>
+                    <br>
+                    <label class="--object-review">
+                        <span hidden>Good</span>
+                        <input id="reviewCheck" type="radio"
+                               name="review" value="good" rel="reviewGood">
+                        <span class="--checkbox">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+                        <span class="--text">좋아요.</span>
+                    </label>
+                    <br>
+                    <label class="--object-review">
+                        <span hidden>Good</span>
+                        <input type="radio" name="review" value="common" rel="reviewCommon">
+                        <span class="--checkbox">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+                        <span class="--text">보통이에요.</span>
+                    </label>
+                    <br>
+                    <label class="--object-review">
+                        <span hidden>Bad</span>
+                        <input type="radio" name="review" value="bad" rel="reviewBad">
+                        <span class="--checkbox">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+                        <span class="--text">별로에요.</span>
+
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <th>상세리뷰</th>
+                <td>
+                    <label class="label">
+                        <span hidden>내용</span>
+                        <textarea class="--object-input reviewText" maxlength="10000" name="content"
+                                  placeholder="다른 고객님에게 도움이 되도록 상품에 대한 솔직한 평가를 남겨주세요."
+                                  type="text"></textarea>
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <th>사진첨부</th>
+                <td>
+                    <div class="button-container">
+                        <div class="photo" rel="photoButton">
+                            <span class="text">사진 첨부하기</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>한줄요약</th>
+                <td>
+                    <textarea class="--object-input reviewLine" maxlength="100" name="content" placeholder="한 줄 요약을 입력해 주세요." type="text"></textarea></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="button-container">
+            <div class="button cancel" rel="cancleButton">
+                <span class="text">취소하기</span>
+            </div>
+            <div class="button register" rel="registerButton">
+                <span class="text">등록하기</span>
+            </div>
+        </div>
+    </div>
+
+</main>
+</body>
+
+</html>

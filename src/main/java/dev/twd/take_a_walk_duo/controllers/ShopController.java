@@ -387,4 +387,13 @@ public class ShopController extends GeneralController {
         responseObject.put("result", result.name().toLowerCase());
         return responseObject.toString();
     }
+
+    @RequestMapping(value = "review",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getReview() {
+        ModelAndView modelAndView = new ModelAndView("shop/review");
+        return modelAndView;
+    }
+
 }
