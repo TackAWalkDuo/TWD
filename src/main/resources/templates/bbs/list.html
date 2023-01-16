@@ -15,24 +15,7 @@
     <div class="img">
         <!--        <img class="dog-play" th:src="@{/resources/image/dogplay.jpg}" alt="갱얼쥐">-->
     </div>
-    <form class="search-form" id="searchForm" method="get">
-        <label class="label">
-            <span hidden>검색기준</span>
-            <select name="criterion" class="--object-input">
-                <option value="all">제목 + 내용</option>
-                <option value="title">제목</option>
-                <option value="nickname">작성자</option>
-            </select>
-        </label>
-        <label class="label">
-            <span hidden>검색어</span>
-            <input type="text" class="--object-input"
-                   maxlength="50" name="keyword" th:value="${#request.getParameter('keyword')}"
-                   placeholder="검색어를 입력해주세요">
-        </label>
-        <input name="bid" type="hidden" th:value="${board.getId()}">
-        <input type="submit" class="--object-button" value="검색">
-    </form>
+
     <div class="--form">
         <div class="--content content">
             <nav>
@@ -88,7 +71,26 @@
                     </li>
                 </ul>
             </nav>
+
             <div class="button-container" id="buttonContainer">
+                <form class="search-form" id="searchForm" method="get">
+                    <label class="label">
+                        <span hidden>검색기준</span>
+                        <select name="criterion" class="--object-input" th:with="criterion = ${#request.getParameter('criterion')}">
+                            <option value="all" th:selected="${criterion == null || criterion.equals('all')}">제목 + 내용</option>
+                            <option value="title" th:selected="${criterion != null && criterion.equals('title')}">제목</option>
+                            <option value="nickname"  th:selected="${criterion != null && criterion.equals('nickname')}">작성자</option>
+                        </select>
+                    </label>
+                    <label class="label">
+                        <span hidden>검색어</span>
+                        <input type="text" class="--object-input"
+                               maxlength="50" name="keyword" th:value="${#request.getParameter('keyword')}"
+                               placeholder="검색어를 입력해주세요">
+                    </label>
+                    <input name="bid" type="hidden" th:value="${board.getId()}">
+                    <input type="submit" class="--object-button" value="검색">
+                </form>
                 <a class="--object-button" th:href="@{/bbs/write(bid=${board.getId()})}">작성하기</a>
             </div>
             <table class="table" id="table">
@@ -104,10 +106,26 @@
                 </tr>
                 </thead>
                 <tbody>
-<!--                <tr class="notice-userArticle" th:="${hotArticle}>-->
-<!--                <tr class="hot-userArticle" th:each="hotArticle :${hotA}">-->
-                <tr class="userArticle" th:each="article :${articles}">
-                    <td>갱얼쥐</td>
+<!--                <tr class="userArticle" th:each="index : ${#numbers.sequence(0, articles.length - 1)}"-->
+<!--                    th:classappend="${index < 3 ? 'hot-userArticle' : ''}"-->
+<!--                    th:with="article = ${articles[index]}">-->
+<!--                    <td>갱얼쥐</td>-->
+<!--                    <td th:text="${article.getIndex()}">3</td>-->
+<!--                    <td>-->
+<!--                        <a class="title" th:href="@{/bbs/read(aid=${article.getIndex()})}">-->
+<!--                            <span class="text" th:text="${article.getTitle()}">세번째 게시글</span>-->
+<!--                            <span class="comment" th:text="${'['+article.getCommentsCount()+']'}"></span>-->
+<!--                        </a>-->
+<!--                    </td>-->
+<!--                    <td th:text="${article.getUserNickname()}">레너드</td>-->
+<!--                    <td th:text="${article.getView()}">17</td>-->
+<!--                    <td th:text="${article.getArticleLikedCount()}">추천수</td>-->
+<!--                    <td th:text="${#dates.format(article.getModifiedOn(), 'yyyy-MM-dd HH:mm:ss')}">2022-01-03 00:00:00-->
+<!--                    </td>-->
+<!--                </tr>-->
+
+                <tr th:each="article :${articles}" th:class="${'userArticle' + (article.isHot() ? ' hot-userArticle' : '') + (article.isNotice() ? ' notice-userArticle': '')}"  >
+                    <td th:text="${article.getUserSpecies()}">갱얼쥐</td>
                     <td th:text="${article.getIndex()}">3</td>
                     <td>
                         <a class="title" th:href="@{/bbs/read(aid=${article.getIndex()})}">

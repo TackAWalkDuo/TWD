@@ -25,7 +25,7 @@ import java.io.IOException;
 
 @Controller(value = "dev.twd.take_a_walk_duo.controllers.bbsController")
 @RequestMapping(value = "/bbs")
-public class BbsController {
+public class BbsController extends GeneralController{
     private final BbsService bbsService;
 
     @Autowired
@@ -41,15 +41,20 @@ public class BbsController {
     public ModelAndView getWrite(@SessionAttribute(value = "user", required = false) UserEntity user,
                                  @RequestParam(value = "bid", required = false) String bid) {
         ModelAndView modelAndView;
+
         if (user == null) {
             modelAndView = new ModelAndView("redirect:/member/login");
         } else {
+            UserEntity adminAccount = this.bbsService.getUser(user);
             BoardEntity board = bid == null ? null : this.bbsService.getBoard(bid);
-            BoardEntity[] boardList = this.bbsService.chartBoardId(bid);
-            modelAndView = new ModelAndView("bbs/write");
-            modelAndView.addObject("board", board);
-            modelAndView.addObject("boardList", boardList);
-
+            if (bid.equals("notice") && (!adminAccount.getAdmin())) {
+                modelAndView = new ModelAndView("/bbs/notFindArticle");
+            } else {
+                BoardEntity[] boardList = this.bbsService.chartBoardId(bid);
+                modelAndView = new ModelAndView("bbs/write");
+                modelAndView.addObject("board", board);
+                modelAndView.addObject("boardList", boardList);
+            }
 
         }
         return modelAndView;
@@ -102,19 +107,16 @@ public class BbsController {
             modelAndView.addObject("boardList", boardList);
             modelAndView.addObject("boardTitles", boardTitle);
             modelAndView.addObject("isSigned", article.isSigned());
-
-
         }
         return modelAndView;
     }
 
 //    Mr.m
 //    게시글 수정하기 구현
-
     @RequestMapping(value = "modify", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getModify(@SessionAttribute(value = "user", required = false) UserEntity user, @RequestParam(value = "aid") int articleIndex) {
         ModelAndView modelAndView;
-        ArticleReadVo article = this.bbsService.getModifyArticles(articleIndex, user);
+        ArticleReadVo article = this.bbsService.getModifyArticles(articleIndex);
         if (user == null) {
             //↑로그인 확인 조건
             modelAndView = new ModelAndView("redirect:/member/login");
@@ -192,17 +194,30 @@ public class BbsController {
             int totalCount = this.bbsService.getArticleCount(board, criterion, keyword);
             PagingModel paging = new PagingModel(totalCount, page);
             modelAndView.addObject("paging", paging);
+            ArticleReadVo[] articles;
 
-            ArticleReadVo noticeArticle = this.bbsService.getNoticeArticle(noticeBoard);
-            ArticleReadVo[] hotArticles = this.bbsService.getHotArticle(board);
-            ArticleReadVo[] articles = this.bbsService.getArticles(board, paging);
-
-            //리스트 배열합치기
-            ArticleReadVo[] articleMerge = new ArticleReadVo[articles.length + hotArticles.length + 1];
-            articleMerge[0] = noticeArticle;
-            System.arraycopy(hotArticles, 0 ,articleMerge, 1, hotArticles.length);
-            System.arraycopy(articles, 0 ,articleMerge, 1+hotArticles.length ,articles.length);
-            modelAndView.addObject("articles",articleMerge);
+            articles = this.bbsService.getArticles(board, paging, criterion, keyword);
+            if (!board.getId().equals("notice")) {
+                ArticleReadVo noticeArticle = this.bbsService.getNoticeArticle(noticeBoard);
+                int noticeSize = 0;
+                if(noticeArticle != null) {     //공지사항이 없을 경우를 대비.
+                    noticeArticle.setNotice(true);
+                    noticeSize = 1;
+                }
+                ArticleReadVo[] hotArticles = this.bbsService.getHotArticle(board);
+                for (ArticleReadVo hotArticle : hotArticles) {
+                    hotArticle.setHot(true);
+                }
+                //리스트 배열합치기
+                ArticleReadVo[] articleMerge = new ArticleReadVo[articles.length + hotArticles.length + noticeSize];
+                if(noticeArticle != null) articleMerge[0] = noticeArticle;
+                System.arraycopy(hotArticles, 0, articleMerge, noticeSize, hotArticles.length);
+                System.arraycopy(articles, 0, articleMerge, noticeSize + hotArticles.length, articles.length);
+                modelAndView.addObject("articles", articleMerge);
+                System.out.println(articleMerge.length);
+            } else {
+                modelAndView.addObject("articles", articles);
+            }
 
             BoardEntity[] boardList = this.bbsService.chartBoardId(board.getBoardId() == null ? board.getId() : board.getBoardId());
             BoardEntity[] boardTitle = this.bbsService.getBoardEntities();

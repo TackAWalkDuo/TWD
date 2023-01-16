@@ -9,6 +9,7 @@ public class CommentEntity {
     private int index;
     private Integer commentIndex;
     private String userEmail;
+    private String commentTitle;
     private String content;
     private int articleIndex;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm",timezone = "Asia/Seoul")
@@ -36,6 +37,14 @@ public class CommentEntity {
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+    }
+
+    public String getCommentTitle() {
+        return commentTitle;
+    }
+
+    public void setCommentTitle(String commentTitle) {
+        this.commentTitle = commentTitle;
     }
 
     public String getContent() {

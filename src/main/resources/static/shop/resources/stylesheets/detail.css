@@ -1,4 +1,14 @@
 @charset "UTF-8";
+
+.empty-icon {
+    font-size: 5rem;
+    white-space: nowrap;
+}
+
+.empty-icon > span {
+    margin-left: 0.75rem;
+}
+
 body > .--main {
     display: flex;
     padding: 0 8rem;
@@ -253,7 +263,7 @@ body > .--main > .detail-main > .detail-info > .detail-notice > .text {
     justify-content: center;
 }
 
-#orderForm > .detail-order-container > .admin-product-button > .--object-button{
+#orderForm > .detail-order-container > .admin-product-button > .--object-button {
     filter: brightness(80%);
     color: black;
     /*color: rgb(128, 139, 150);*/
@@ -638,8 +648,90 @@ body > main > .box > .item-container > .item-description > .side-image > .side-d
 }
 
 
+/*리뷰 css*/
 
+.all-review-container {
+    width: 80%;
+}
 
+#reviewTitle {
+    margin-bottom: 2rem;
+    font-size: 3rem;
+}
+
+.review-container{
+    margin-bottom: 2rem;
+}
+
+.review-main {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 0.0625rem solid rgb(216, 218, 220);
+    margin-bottom: 1rem;
+}
+.review.head > .head {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9rem;
+}
+
+.review.head > .head > .action-container > .delete {
+    text-decoration: none;
+    color: rgb(169, 175, 126);
+}
+.content{
+    margin-bottom: 2rem;
+}
+.speciesPicContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.speciesPicContainer > .speciesPic {
+    width: 3rem;
+    height: 3rem;
+}
+.body > .review-container{
+    padding-left: 0;
+}
+.body > .review-container > .item {
+    list-style: none;
+}
+
+.body > .review-container > .item > .item-title {
+    color: rgb(169, 175, 126);
+    margin-bottom: 0.3rem;
+}
+
+.image-container > .image {
+    width: 5rem;
+    height: 5rem;
+    margin-right: 0.5rem;
+}
+
+.body >.content >.text{
+    font-size: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.like-content{
+    border: 0.1rem solid;
+    text-decoration: none;
+    color: rgb(0,0,117);
+    border-radius: 0.3rem;
+    padding: 0.2rem;
+    font-size: 0.8rem;
+}
+.fa-regular{
+    color: rgb(0,0,0);
+    margin-right: 0.4rem;
+}
+.review-main > .review {
+    flex-direction: row;
+    display: flex;
+}
 
 
 

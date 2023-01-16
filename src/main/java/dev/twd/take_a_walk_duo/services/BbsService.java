@@ -47,6 +47,11 @@ public class BbsService {
         return this.bbsMapper.selectNoticeBoardById();
     }
 
+    //Notice게시판 adminAccount 찾기
+    public UserEntity getUser(UserEntity user){
+        return this.bbsMapper.selectAdminAccountByUser(user.getEmail());
+    }
+
 
     //1.write boardId 값 끌고오기
     //mr.s
@@ -65,7 +70,7 @@ public class BbsService {
         } else {
             byte[] imageInByte;
             File defaultImage = new File("src/main/resources/static/resources/images/TAWD_logo.png");
-            defaultImage.setReadable(true, false);
+//            defaultImage.setReadable(true, false);
 
             System.out.println("file 권한  : " + defaultImage.canRead());
             System.out.println("file exit  : " + defaultImage.exists());
@@ -172,7 +177,7 @@ public class BbsService {
 
     //Mr.m
     //게시물 수정하기 (get)서비스
-    public ArticleReadVo getModifyArticles(int articleIndex, UserEntity user) {
+    public ArticleReadVo getModifyArticles(int articleIndex) {
         return this.bbsMapper.selectArticleByIndex(articleIndex);
     }
 
@@ -274,8 +279,12 @@ public class BbsService {
                 : CommonResult.FAILURE;
     }
     public Enum<? extends IResult> deleteComment(UserEntity user, CommentEntity comment) {
+        CommentEntity existingComment = this.bbsMapper.selectCommentByIndex(comment.getIndex());
+        if(existingComment == null) return  ReadResult.NO_SUCH_COMMENT;
         if(user == null) return CommonResult.NOT_SIGNED;
-        if(!user.getEmail().equals(comment.getUserEmail())) return WriteResult.NOT_SAME;
+        if(!user.getEmail().equals(comment.getUserEmail()) || !user.getAdmin() ) {
+            return WriteResult.NOT_SAME;
+        }
         return this.bbsMapper.deleteComment(comment.getIndex()) > 0 ?
                 CommonResult.SUCCESS : CommonResult.FAILURE;
     }
@@ -288,7 +297,7 @@ public class BbsService {
         if (existingArticle == null) {
             return ReadResult.NO_SUCH_ARTICLE;
         }
-        if (user == null || !user.getEmail().equals(existingArticle.getUserEmail())) {
+        if (user == null || !(user.getEmail().equals(existingArticle.getUserEmail()) || user.getAdmin())) {
             return ReadResult.NOT_ALLOWED;
         }
         article.setBoardId(existingArticle.getBoardId());
@@ -296,10 +305,12 @@ public class BbsService {
         return this.bbsMapper.deleteArticle(article.getIndex()) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
 
-    public ArticleReadVo[] getArticles(BoardEntity board,PagingModel paging)  {
+    public ArticleReadVo[] getArticles(BoardEntity board,PagingModel paging,String criterion,String keyword)  {
         return this.bbsMapper.selectArticlesByBoardId(
                 board.getId(),paging.countPerPage,
-                (paging.requestPage - 1) * paging.countPerPage);
+                (paging.requestPage - 1) * paging.countPerPage,
+                criterion,
+                keyword);
     }
 
     public ArticleReadVo[] getHotArticle(BoardEntity board){

@@ -22,9 +22,9 @@ body > .--header {
     z-index: 0;
 }
 
-#foldContainer{
+#foldContainer {
     position: absolute;
-    height: 85%;
+    height: 72%;
     z-index: 3;
 
     top: 10%;
@@ -36,7 +36,8 @@ body > .--header {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    border-radius: 0.7rem;
+
+    /*border-radius: 0.7rem;*/
 }
 
 #container {
@@ -66,6 +67,8 @@ body > .--header {
     background-color: white;
     overflow: hidden auto;
     padding: 0 1rem;
+    border-top-left-radius: 0.7rem;
+    border-bottom-left-radius: 0.7rem;
 }
 
 
@@ -179,7 +182,7 @@ body > .--header {
     margin-bottom: 1rem;
 }
 
-#list > .item >.address {
+#list > .item > .address {
     padding-top: 0.3rem;
 }
 
@@ -200,6 +203,9 @@ body > .--header {
     flex-direction: column;
     justify-content: flex-start;
 
+    border-top-right-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem;
+
 }
 
 #detailContainer.visible {
@@ -219,6 +225,18 @@ body > .--header {
 
 #detailContainer > .modifyMenu.visible {
     display: flex;
+}
+
+#detailContainer > .modifyMenu > .modify-button,
+#detailContainer > .modifyMenu.visible > .modify-button,
+#detailContainer > .modifyMenu > .delete-button,
+#detailContainer > .modifyMenu.visible > .delete-button {
+    display: none;
+}
+
+#detailContainer > .modifyMenu.visible > .modify-button.visible,
+#detailContainer > .modifyMenu.visible > .delete-button.visible {
+    display: block;
 }
 
 #detailContainer > .title-container {
@@ -445,7 +463,6 @@ body > .--header {
     margin-bottom: 0.75rem;
 }
 
-
 #reviewForm > .review-container > .item > .modifyMenu,
 #reviewForm > .review-container > .item > .modifyText {
     align-items: end;
@@ -458,7 +475,7 @@ body > .--header {
 
 #detailContainer > .modifyMenu > * + *,
 #reviewForm > .review-container > .item > .modifyMenu > * + * {
-    margin-left: 1rem;
+    margin-left: 0.5rem;
 }
 
 
@@ -543,7 +560,7 @@ body > .--header {
     justify-content: space-between;
 }
 
-#fold{
+#fold {
     text-align: center;
     align-items: center;
     justify-content: center;
@@ -556,8 +573,6 @@ body > .--header {
 
     width: 4rem;
     height: 5rem;
-
-    /*margin-left: 1rem;*/
 
     border-radius: 1.2rem;
     box-shadow: 0.2rem 0.2rem 0.1rem 0.0625rem rgba(0, 0, 0, 10%);
@@ -589,7 +604,7 @@ body > .--header {
 }
 
 .image-select-button:hover,
-.image-delete-button:hover{
+.image-delete-button:hover {
     text-decoration: underline;
 }
 

@@ -12,6 +12,22 @@
         LIMIT 1
     </delete>
 
+    <delete id="deleteKakaoUserByEmail"
+            parameterType="dev.twd.take_a_walk_duo.entities.member.KakaoUserEntity">
+        DELETE
+        FROM `twd_member`.`kakao_users`
+        WHERE `email` = #{email}
+        LIMIT 1
+    </delete>
+
+    <delete id="deleteNaverUserByEmail"
+            parameterType="dev.twd.take_a_walk_duo.entities.member.NaverUserEntity">
+        DELETE
+        FROM `twd_member`.`naver_users`
+        WHERE `email` = #{email}
+        LIMIT 1
+    </delete>
+
     <insert id="insertUser"
             keyColumn="email"
             keyProperty="email"
@@ -29,8 +45,16 @@
             keyColumn="id"
             keyProperty="id"
             parameterType="dev.twd.take_a_walk_duo.entities.member.KakaoUserEntity">
-        INSERT INTO `twd_member`.`kakao_users`(`id`, `nickname`, `registered_on`)
-        VALUES (#{id}, #{nickname}, IFNULL(#{registeredOn}, DEFAULT(`registered_on`)))
+        INSERT INTO `twd_member`.`kakao_users`(`id`, `email`, `nickname`, `registered_on`, `user_flag`)
+        VALUES (#{id}, #{email}, #{nickname}, IFNULL(#{registeredOn}, DEFAULT(`registered_on`)), #{isUser})
+    </insert>
+
+    <insert id="insertNaverUser"
+            keyColumn="id"
+            keyProperty="id"
+            parameterType="dev.twd.take_a_walk_duo.entities.member.NaverUserEntity">
+        INSERT INTO `twd_member`.`naver_users`(`id`, `email`, `nickname`, `registered_on`, `user_flag`)
+        VALUES (#{id}, #{email}, #{nickname}, IFNULL(#{registeredOn}, DEFAULT(`registered_on`)), #{isUser})
     </insert>
 
     <insert id="insertEmailAuth"
@@ -42,16 +66,54 @@
         VALUES (#{email}, #{code}, #{salt}, #{createdOn}, #{expiresOn}, #{isExpired})
     </insert>
 
-    <select id="selectUserById"
-            resultType="dev.twd.take_a_walk_duo.entities.member.KakaoUserEntity">
-        SELECT `email`         AS `email`,
-               `id`            AS `id`,
+    <select id="selectNaverUserById"
+            resultType="dev.twd.take_a_walk_duo.entities.member.NaverUserEntity">
+        SELECT `id`            AS `id`,
+               `email`         AS `email`,
                `nickname`      AS `nickname`,
-               `registered_on` AS `registeredOn`
+               `registered_on` AS `registeredOn`,
+               `user_flag`     AS `isUser`
+        FROM `twd_member`.`naver_users`
+        WHERE `id` = #{id}
+        LIMIT 1
+    </select>
+
+    <select id="selectKakaoUserById"
+            resultType="dev.twd.take_a_walk_duo.entities.member.KakaoUserEntity">
+        SELECT `id`            AS `id`,
+               `email`         AS `email`,
+               `nickname`      AS `nickname`,
+               `registered_on` AS `registeredOn`,
+               `user_flag`     AS `isUser`
         FROM `twd_member`.`kakao_users`
         WHERE `id` = #{id}
         LIMIT 1
     </select>
+
+    <select id="selectNaverUserByEmail"
+            resultType="dev.twd.take_a_walk_duo.entities.member.NaverUserEntity">
+        SELECT `id`            AS `id`,
+               `email`         AS `email`,
+               `nickname`      AS `nickname`,
+               `registered_on` AS `registeredOn`,
+               `user_flag`     AS `isUser`
+        FROM `twd_member`.`naver_users`
+        WHERE `email` = #{email}
+        LIMIT 1
+    </select>
+
+    <select id="selectKakaoUserByEmail"
+            resultType="dev.twd.take_a_walk_duo.entities.member.KakaoUserEntity">
+        SELECT `id`            AS `id`,
+               `email`         AS `email`,
+               `nickname`      AS `nickname`,
+               `registered_on` AS `registeredOn`,
+               `user_flag`     AS `isUser`
+        FROM `twd_member`.`kakao_users`
+        WHERE `email` = #{email}
+        LIMIT 1
+    </select>
+
 
     <select id="selectUserByEmail"
             resultType="dev.twd.take_a_walk_duo.entities.member.UserEntity">
@@ -147,6 +209,30 @@
             `address_primary`   = #{addressPrimary},
             `address_secondary` = #{addressSecondary},
             `registered_on`     = #{registeredOn}
+        WHERE BINARY `email` = #{email}
+        LIMIT 1
+    </update>
+
+    <update id="updateNaverUser"
+            parameterType="dev.twd.take_a_walk_duo.entities.member.NaverUserEntity">
+        UPDATE `twd_member`.`naver_users`
+        SET `id`            = #{id},
+            `email`         = #{email},
+            `nickname`      = #{nickname},
+            `registered_on` = #{registeredOn},
+            `user_flag`     = #{isUser}
+        WHERE BINARY `email` = #{email}
+        LIMIT 1
+    </update>
+
+    <update id="updateKakaoUser"
+            parameterType="dev.twd.take_a_walk_duo.entities.member.KakaoUserEntity">
+        UPDATE `twd_member`.`kakao_users`
+        SET `id`            = #{id},
+            `email`         = #{email},
+            `nickname`      = #{nickname},
+            `registered_on` = #{registeredOn},
+            `user_flag`     = #{isUser}
         WHERE BINARY `email` = #{email}
         LIMIT 1
     </update>

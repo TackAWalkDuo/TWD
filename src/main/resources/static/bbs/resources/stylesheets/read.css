@@ -335,6 +335,8 @@ tfoot > .comment-row > td > .comment-container > .reply-form >.reply-mine-pic-fo
 tfoot > .comment-row > td > .comment-mine-pic-form > .comment-mine-form > .comment-form > .label > .--object-input,
 tfoot > .comment-row > td > .comment-container > .reply-form >.reply-mine-pic-form> .reply-mine-form >.body >.label >.--object-input{
     flex: 1;
+    min-height: 2rem;
+    resize: none;
 }
 
 

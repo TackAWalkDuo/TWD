@@ -11,15 +11,19 @@
   <script defer th:src="@{/member/resources/scripts/modifyUser.js}"></script>
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
-<body>
+<body >
 <div class="xButton" id="xButton">
         <span class="xButton">
             <i class="icon fa-solid fa-x"></i>
         </span>
 </div>
-<main class="--main main">
+<main class="--main main" th:if="${modifyUser!=null}">
   <div class="--content content">
     <form class="form step1" id="form">
+      <input hidden name="initBirthMonth" th:value="${modifyUser.getBirthMonth()}">
+      <input hidden name="initHaveDog" th:value="${modifyUser.getHaveDog()}">
+      <input hidden name="initSpecies" th:value="${modifyUser.getSpecies()}">
+      <input hidden name="initGender" th:value="${modifyUser.getGender()}">
       <div class="title-container">
         <h2 class="title">정보수정</h2>
         <div class="step-container">
@@ -45,28 +49,12 @@
         <table class="table">
           <tbody>
           <tr>
-            <th><i class="fa-solid fa-key"></i> 비밀번호</th>
-            <td>
-              <label class="label password">
-                <span hidden>비밀번호</span>
-                <input class="--object-input input" disabled maxlength="50" name="password"
-                       placeholder="비밀번호를 입력해 주세요." type="password">
-              </label>
-              <label class="label password">
-                <span hidden>비밀번호 재입력</span>
-                <input class="--object-input input" disabled maxlength="50" name="passwordCheck"
-                       placeholder="비밀번호를 한 번 더 입력해 주세요." type="password">
-              </label>
-              <input class="--object-button" disabled name="emailVerify" value="비밀번호 재설정"
-                     type="button">
-            </td>
-          </tr>
-          <tr>
             <th><i class="fa-regular fa-face-smile"></i> 이름</th>
             <td>
               <label class="label">
                 <span hidden>이름</span>
-                <input class="--object-input input" maxlength="50" name="name"
+                <input th:value="${modifyUser.getName()}"
+                       class="--object-input input" maxlength="50" name="name"
                        placeholder="이름을 수정해 주세요." type="text">
               </label>
             </td>
@@ -76,7 +64,8 @@
             <td>
               <label class="label">
                 <span hidden>닉네임</span>
-                <input class="--object-input input" maxlength="10" name="nickname"
+                <input th:value="${modifyUser.getNickname()}"
+                       class="--object-input input" maxlength="10" name="nickname"
                        placeholder="닉네임을 수정해 주세요." type="text">
               </label>
             </td>
@@ -86,7 +75,8 @@
             <td>
               <label class="label">
                 <span hidden>연락처</span>
-                <input class="--object-input input" maxlength="12" name="contact"
+                <input th:value="${modifyUser.getContact()}"
+                       class="--object-input input" maxlength="12" name="contact"
                        placeholder="연락처를 ' - ' 없이 수정해주세요" type="text">
               </label>
             </td>
@@ -96,7 +86,8 @@
             <td class="birth">
               <label class="birth">
                 <span hidden>연락처</span>
-                <input class="--object-input input" id="year" maxlength="4" name="birthYear"
+                <input th:value="${modifyUser.getBirthYear()}"
+                        class="--object-input input" id="year" maxlength="4" name="birthYear"
                        placeholder="년(4자)" type="text">
                 <br>
                 <select name="birthMonth" id="birthMonth">
@@ -115,7 +106,8 @@
                   <option value="12">12</option>
                 </select>
                 <br>
-                <input class="--object-input input" id="day" maxlength="4" name="birthDay"
+                <input th:value="${modifyUser.getBirthDay()}"
+                        class="--object-input input" id="day" maxlength="4" name="birthDay"
                        placeholder="일" type="text">
               </label>
             </td>
@@ -146,7 +138,7 @@
             <td class="have">
               <label class="--object-have">
                 <span hidden>애완견 여</span>
-                <input id="haveCheck" type="radio" name="haveDog" value="have" rel="havedog">
+                <input id="haveCheck" type="radio" name="haveDog" value="have" rel="haveDog">
                 <span class="--text">여&nbsp</span>
                 <span class="--checkbox">
                                 <i class="fa-solid fa-check"></i>
@@ -167,7 +159,7 @@
             <td class="size">
               <label class="--object-size">
                 <span hidden>소형견</span>
-                <input type="radio" name="species" value="small" rel="small">
+                <input type="radio" name="species" value="소형견" rel="small">
                 <span class="--text">소형견&nbsp</span>
                 <span class="--checkbox">
                                 <i class="fa-solid fa-check"></i>
@@ -175,7 +167,7 @@
               </label>
               <label class="--object-size">
                 <span hidden>중형견</span>
-                <input type="radio" name="species" value="middle" rel="middle">
+                <input type="radio" name="species" value="중형견" rel="middle">
                 <span class="--text">중형견&nbsp</span>
                 <span class="--checkbox">
                                 <i class="fa-solid fa-check"></i>
@@ -183,7 +175,7 @@
               </label>
               <label class="--object-size">
                 <span hidden>대형견</span>
-                <input type="radio" name="species" value="big" rel="big">
+                <input type="radio" name="species" value="대형견" rel="big">
                 <span class="--text">대형견&nbsp</span>
                 <span class="--checkbox">
                                 <i class="fa-solid fa-check"></i>
@@ -196,22 +188,26 @@
             <td>
               <label class="label address">
                 <span hidden>우편번호</span>
-                <input class="--object-input input" maxlength="6" name="addressPostal"
+                <input th:value="${modifyUser.getAddressPostal()}"
+                        class="--object-input input" maxlength="6" name="addressPostal"
                        placeholder="우편번호" readonly type="text">
                 <input class="--object-button" name="addressFind" value="주소 찾기" type="button">
               </label>
               <label class="label address">
                 <span hidden>기본 주소</span>
-                <input class="--object-input input" maxlength="100" name="addressPrimary"
+                <input th:value="${modifyUser.getAddressPrimary()}"
+                        class="--object-input input" maxlength="100" name="addressPrimary"
                        placeholder="주소 찾기를 통해 주소를 입력해 주세요" readonly type="text">
               </label>
               <label class="label address">
                 <span hidden>상세 주소</span>
-                <input class="--object-input input" maxlength="100" name="addressSecondary"
+                <input th:value="${modifyUser.getAddressSecondary()}"
+                        class="--object-input input" maxlength="100" name="addressSecondary"
                        placeholder="상세주소를 입력해 주세요" type="text">
               </label>
               <div class="panel address" rel="addressFindPanel">
-                <div class="dialog" rel="addressFindPanelDialog"></div>
+                <div class="dialog" rel="addressFindPanelDialog"
+                style="display: block"></div>
               </div>
             </td>
           </tr>
@@ -220,7 +216,7 @@
       </div>
       <div class="step step3">
         <span class="title">회원수정 완료</span>
-        <span class="message"><b>산책해듀오</b>에 정보수정이 완료되었습니다.<br>아래 <b>로그인하러 가기</b> 버튼을 클릭하여 로그인해주세요.</span>
+        <span class="message"><b>산책해듀오</b>에 정보수정이 완료되었습니다.<br>아래 <b>홈화면 가기</b> 버튼을 클릭하여 주세요.</span>
       </div>
       <div class="warning" rel="warning">
         <i class=" icon fa-solid fa-circle-exclamation"></i>

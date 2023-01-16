@@ -1,7 +1,43 @@
 const form = window.document.getElementById('form');
 // '여' 체크 했을때 견종선택 나오도록
+
+let initialization = false;
+
+if (!initialization) {
+    //생년월일 중 월 선택.
+    for(let i = 1; i < form['birthMonth'].length; i++) {
+        if(form['birthMonth'][i].value === form['initBirthMonth'].value) {
+            console.log(form['birthMonth'][i].value);
+            form['birthMonth'][i].selected = true;
+        }
+    }
+
+    //애견 보유 여부
+    form['initHaveDog'].value === 'notHave' ?
+        form.querySelector('[rel="notHaveDog"]').checked = true :
+        initializationHaveDog();
+
+    //성별 여부 기본값 check
+    form['initGender'].value === 'man' ?
+        form.querySelector('[rel="genderMan"]').checked = true
+        : form.querySelector('[rel="genderWoman"]').checked = true;
+    initialization = true;
+}
+
+function initializationHaveDog() {
+    window.document.getElementById('checkSpecies').style.display = "table-row";
+    form.querySelector('[rel="haveDog"]').checked = true;
+
+    form['initSpecies'].value === '소형견' ?
+        form.querySelector('[rel="small"]').checked = true :
+        (form['initSpecies'].value === '중형견' ?
+                form.querySelector('[rel="middle"]').checked = true :
+                form.querySelector('[rel="big"]').checked = true
+        );
+}
+
 form.querySelector('[rel="haveDog"]').addEventListener('click', () => {
-    document.getElementById('checkSpecies').style.display = "flex";
+    document.getElementById('checkSpecies').style.display = "table-row";
 });
 
 // '부' 체크 했을때 견종선택 안나오도록
@@ -29,17 +65,6 @@ window.document.getElementById('xButton').addEventListener('click', () => {
     }
 });
 
-const EmailWarning = {
-    show: (text) => {
-        const emailWarning = form.querySelector('[rel="emailWarning"]');
-        emailWarning.innerText = text;
-        emailWarning.classList.add('visible');
-    },
-    hide: () => {
-        form.querySelector('[rel="emailWarning"]').classList.remove('visible');
-    }
-};
-
 // 이전 버튼
 form.querySelector('[rel="beforeButton"]').addEventListener('click', () => {
     if (window.history.length > 1) {
@@ -50,11 +75,13 @@ form.querySelector('[rel="beforeButton"]').addEventListener('click', () => {
 // 다음 버튼
 form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
     // 다 입력후 다음버튼을 눌렀을 때
-    form.querySelector('[rel="warning"]').classList.remove('visible');
+    if (form.classList.contains('step1')) {
+        form.querySelector('[rel="warning"]').classList.remove('visible');
         form.querySelector('[rel="stepText"]').innerText = '개인정보 입력';
         form.classList.remove('step1');// step1 글씨는 사라지게 됨
         form.classList.add('step2');
-    if (form.classList.contains('step2')) {
+    }
+    else if (form.classList.contains('step2')) {
         if (form['name'].value === '') {
             Warning.show('이름을 입력해주세요.')
             form['name'].focus();
@@ -119,10 +146,6 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
 
         const xhr = new XMLHttpRequest();
         const formData = new FormData();
-        // formData.append('email', form['email'].value);
-        // formData.append('code', form['emailAuthCode'].value);
-        // formData.append('salt', form['emailAuthSalt'].value);
-        // formData.append('password', form['password'].value);
         formData.append('nickname', form['nickname'].value);
         formData.append('name', form['name'].value);
         formData.append('contact', form['contact'].value);
@@ -144,7 +167,7 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
                     switch (responseObject['result']) {
                         case 'success':
                             form.querySelector('[rel="stepText"]').innerText = '정보수정 완료';
-                            form.querySelector('[rel="nextButton"]').innerText = '로그인하러 가기';
+                            form.querySelector('[rel="nextButton"]').innerText = '홈화면 가기';
                             form.classList.remove('step2');
                             form.classList.add('step3');
                             break;
