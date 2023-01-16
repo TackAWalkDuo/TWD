@@ -27,21 +27,16 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 @Controller(value = "dev.twd.take_a_walk_duo.controllers.ShopController")
 @RequestMapping(value = "/shop")
 public class ShopController extends GeneralController {
     private final ShopService shopService;
 
-    private final BbsService bbsService;
-    private final MemberService memberService;
-
-
     @Autowired
-    public ShopController(ShopService shopService, BbsService bbsService, MemberService memberService) {
+    public ShopController(ShopService shopService) {
         this.shopService = shopService;
-        this.bbsService = bbsService;
-        this.memberService = memberService;
     }
 
     // 쇼핑 메인 페이지 호출
@@ -303,7 +298,15 @@ public class ShopController extends GeneralController {
         modelAndView.addObject("board", board);
         if (user != null) {
             PaymentVo[] payments = this.shopService.getPayments(user.getEmail());
-            modelAndView.addObject("payments", payments);
+            modelAndView.addObject("payments", Arrays.stream(payments).sorted((o1, o2) -> {
+                if (o1.getDeliveryStatus() > o2.getDeliveryStatus()) {
+                    return 1;
+                } else if (o1.getDeliveryStatus() < o2.getDeliveryStatus()) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }).toArray(PaymentVo[]::new));
             modelAndView.addObject("isPayment",payments.length);
         }
         return modelAndView;

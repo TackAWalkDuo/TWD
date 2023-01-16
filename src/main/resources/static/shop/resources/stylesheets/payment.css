@@ -34,6 +34,10 @@ body > .--main {
     border-collapse: collapse;
 }
 
+.table > tbody .separator td{
+    border-top: 0.6rem solid transparent;
+}
+
 .table * {
     text-align: center;
     max-width: inherit;
@@ -242,10 +246,10 @@ input[type=checkbox] {
     justify-content: center;
 }
 
-.button-container{
+.button-container {
     width: inherit;
     max-width: inherit;
-    align-items : center;
+    align-items: center;
     display: flex;
     flex-direction: row;
     justify-content: space-between;

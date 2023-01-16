@@ -22,10 +22,6 @@
     <form class="content --content" id="form" th:if="${isPayment > 0}">
         <input hidden multiple accept="image/*" name="images" type="file">
         <h1 class="title">구매내역</h1>
-        <!--        <div class="button-container">-->
-        <!--            <input class="&#45;&#45;object-button" type="button" name="back" value="돌아가기">-->
-        <!--            <input class="&#45;&#45;object-button" type="submit" name="submit" value="등록하기">-->
-        <!--        </div>-->
         <table class="table" id="table">
             <tbody>
             <tr class="imageLine">
@@ -36,7 +32,11 @@
                 <th>합계</th>
                 <th>배송상태</th>
             </tr>
-            <tr rel="payment-item" th:each="payment : ${payments}" th:if="${board.getId() == 'shop'}">
+
+            <tr rel="payment-item" th:if="${(board.getId() == 'shop')}"
+                th:each="i : ${#numbers.sequence(0, payments.length - 1)}"
+                th:with="payment = ${payments[i]}"
+                th:class="${i > 0 && payment.getDeliveryStatus() != payments[i - 1].getDeliveryStatus() ? 'separator' : ''}">
                 <td hidden rel="index" th:text="${payment.getIndex()}"></td>
                 <td hidden rel="deliveryStatus" th:text="${payment.getDeliveryStatus()}"></td>
                 <td hidden rel="groupIndex" th:text="${payment.getGroupIndex()}"></td>
@@ -44,14 +44,15 @@
                 <td class="image">
                     <span hidden>상품 이미지</span>
                     <div class="image-container" rel="imageContainer">
-                        <img class="product-image" alt="상품 이미지" th:src="|/bbs/thumbnail?index=${payment.getProductIndex()}|">
+                        <img class="product-image" alt="상품 이미지" th:src="@{/bbs/thumbnail(index=${payment.getProductIndex()})}">
                     </div>
                 </td>
                 <td class="product-info">
                     <div class="button-container">
                     <a rel="proId" th:text="${payment.getTitle()}">상품</a>
                         <div class="just-space"></div>
-                    <button rel="cancelButton" class="--object-button" type="button" id="modifyButton">주문취소</button>
+                    <button rel="cancelButton" class="--object-button" type="button" th:if="${payment.getDeliveryStatus() !=3}">주문취소</button>
+                    <button rel="modifyButton" class="--object-button shop-review" type="button" th:if="${payment.getDeliveryStatus()==3}">리뷰</button>
                     </div>
                 </td>
                 <td>
@@ -77,6 +78,7 @@
                     </label>
                 </td>
             </tr>
+
             </tbody>
         </table>
     </form>

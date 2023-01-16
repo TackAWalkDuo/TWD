@@ -3,6 +3,10 @@
 .empty-icon{
     font-size: 5rem;
     white-space: nowrap;
+    position: absolute;
+    top:40%;
+    left:50%;
+    transform:translate(-50%, -50%);
 }
 .empty-icon > span{
     margin-left: 0.75rem;

@@ -45,7 +45,7 @@ payment.forEach(x => {
                     const responseObject = JSON.parse(xhr.responseText);
                     switch (responseObject['result']) {
                         case 'success':
-                            alert('주문 취소 성공');
+                            alert('동시에 주문한 상품 전체가 취소되었습니다.');
                             window.location.reload();
                             break;
                         default:
