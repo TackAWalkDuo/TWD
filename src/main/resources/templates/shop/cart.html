@@ -17,15 +17,10 @@
 <body th:if="${user != null}">
 <th:block th:replace="~{fragments/body :: header}"></th:block>
 <main class="--main main">
-    <!--    <div class="img"></div>-->
     <i th:if="${isCart <= 0}" class="empty-icon fa-solid fa-cart-plus"><span>장바구니가 비어 있습니다.</span></i>
     <form class="content --content" id="form" th:if="${isCart > 0}">
         <input hidden multiple accept="image/*" name="images" type="file">
         <h1 class="title">장바구니</h1>
-        <!--        <div class="button-container">-->
-        <!--            <input class="&#45;&#45;object-button" type="button" name="back" value="돌아가기">-->
-        <!--            <input class="&#45;&#45;object-button" type="submit" name="submit" value="등록하기">-->
-        <!--        </div>-->
         <table class="table" id="table">
             <tbody>
             <tr class="imageLine">
@@ -63,7 +58,6 @@
                 <td>
                     <div>
                         <div rel="eachSalePrice" th:text="${cart.getSalePrice()}">1원</div>
-<!--                        <button class="&#45;&#45;object-button" type="button">주문하기</button>-->
                     </div>
                 </td>
                 <td>
@@ -92,8 +86,6 @@
                                 </div>
                             </div>
                             <div class="detail-order-container">
-                                <!--옵션 넣을꺼면 옵션 이름이 출력되게 수정해야함-->
-                                <!--                        <p rel="modifyTitle" class="order-text">제목</p>-->
                                 <p class="order-text">수량</p>
                                 <div class="detail-info-container">
                                     <div class="info-quantity-box">
@@ -133,28 +125,6 @@
                 </td>
             </tr>
         </table>
-        <!--        <table>-->
-        <!--            <tr class="info-container">-->
-        <!--                <td colspan="6">-->
-        <!--                    <div class="info">-->
-        <!--                        <div>-->
-        <!--                            <span>상품금액</span>-->
-        <!--                            <div>3000원</div>-->
-        <!--                        </div>-->
-        <!--                        <i class="fa-solid fa-plus"></i>-->
-        <!--                        <div>-->
-        <!--                            <span>배송비</span>-->
-        <!--                            <div>3000원</div>-->
-        <!--                        </div>-->
-        <!--                        <i class="fa-solid fa-equals"></i>-->
-        <!--                        <div>-->
-        <!--                            <span>주문금액</span>-->
-        <!--                            <span>6000원</span>-->
-        <!--                        </div>-->
-        <!--                    </div>-->
-        <!--                </td>-->
-        <!--            </tr>-->
-        <!--        </table>-->
         <div class="info-footer">
             <div>
                 <table>

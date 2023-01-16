@@ -26,14 +26,6 @@ payment.forEach(x => {
             return;
         }
 
-        // let deleteCheck = false;
-        // let index = [];
-        // payment.forEach(x => {
-        //     index.push(Number(x.querySelector('[rel="groupIndex"]').innerText));
-        //     deleteCheck = true;
-        //     console.log(index);
-        // })
-
         const xhr = new XMLHttpRequest();
         const formData = new FormData();
         formData.append("groupIndex", x.querySelector('[rel="groupIndex"]').innerText);

@@ -32,7 +32,6 @@
     <section class="box collection">
         <h2 class="title">머릿글</h2>
         <ul class="item-container">
-<!--            th:each="article : ${articles}" th:if="${article.getBoardId() == 'shop'}"-->
             <li class="item" th:each="article : ${articles}">
                 <a class="link" th:href="@{/shop/detail(aid=${article.getIndex()})}">
                     <img alt="제품1" class="image" th:src="|/bbs/thumbnail?index=${article.getIndex()}|">
@@ -40,112 +39,6 @@
                     <span th:text="${article.getPrice() + '원'}">56,000원</span>
                 </a>
             </li>
-        </ul>
-<!--            <li class="item">-->
-<!--                <a class="link" href="#">-->
-<!--                    <img alt="제품2" class="image" src="/resources/images/item2.jpg">-->
-<!--                    <span class="text">제품2</span>-->
-<!--                    <span class="charge-price">78,500원</span>-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            <li class="item">-->
-<!--                <a class="link" href="#">-->
-<!--                    <img alt="제품3" class="image" src="/resources/images/item3.jpg">-->
-<!--                    <span class="text">제품3</span>-->
-<!--                    <span class="charge-price">131,000원</span>-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            <li class="item">-->
-<!--                <a class="link" href="#">-->
-<!--                    <img alt="제품4" class="image" src="/resources/images/item4.jpg">-->
-<!--                    <span class="text">제품4</span>-->
-<!--                    <span class="charge-price">78,000원</span>-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            <li class="item">-->
-<!--                <a class="link" href="#">-->
-<!--                    <img alt="제품1" class="image" src="/resources/images/item1.jpg">-->
-<!--                    <span class="text">제품1</span>-->
-<!--                    <span class="charge-price">56,000원</span>-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            <li class="item">-->
-<!--                <a class="link" href="#">-->
-<!--                    <img alt="제품2" class="image" src="/resources/images/item2.jpg">-->
-<!--                    <span class="text">제품2</span>-->
-<!--                    <span class="charge-price">78,500원</span>-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            <li class="item">-->
-<!--                <a class="link" href="#">-->
-<!--                    <img alt="제품3" class="image" src="/resources/images/item3.jpg">-->
-<!--                    <span class="text">제품3</span>-->
-<!--                    <span class="charge-price">131,000원</span>-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            <li class="item">-->
-<!--                <a class="link" href="#">-->
-<!--                    <img alt="제품4" class="image" src="/resources/images/item4.jpg">-->
-<!--                    <span class="text">제품4</span>-->
-<!--                    <span class="charge-price">78,000원</span>-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            <li class="item">-->
-<!--                <a class="link" href="#">-->
-<!--                    <img alt="제품1" class="image" src="/resources/images/item1.jpg">-->
-<!--                    <span class="text">제품1</span>-->
-<!--                    <span class="charge-price">56,000원</span>-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            <li class="item">-->
-<!--                <a class="link" href="#">-->
-<!--                    <img alt="제품2" class="image" src="/resources/images/item2.jpg">-->
-<!--                    <span class="text">제품2</span>-->
-<!--                    <span class="charge-price">78,500원</span>-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            <li class="item">-->
-<!--                <a class="link" href="#">-->
-<!--                    <img alt="제품3" class="image" src="/resources/images/item3.jpg">-->
-<!--                    <span class="text">제품3</span>-->
-<!--                    <span class="charge-price">131,000원</span>-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            <li class="item">-->
-<!--                <a class="link" href="#">-->
-<!--                    <img alt="제품4" class="image" src="/resources/images/item4.jpg">-->
-<!--                    <span class="text">제품4</span>-->
-<!--                    <span class="charge-price">78,000원</span>-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            <li class="item">-->
-<!--                <a class="link" href="#">-->
-<!--                    <img alt="제품1" class="image" src="/resources/images/item1.jpg">-->
-<!--                    <span class="text">제품1</span>-->
-<!--                    <span class="charge-price">56,000원</span>-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            <li class="item">-->
-<!--                <a class="link" href="#">-->
-<!--                    <img alt="제품2" class="image" src="/resources/images/item2.jpg">-->
-<!--                    <span class="text">제품2</span>-->
-<!--                    <span class="charge-price">78,500원</span>-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            <li class="item">-->
-<!--                <a class="link" href="#">-->
-<!--                    <img alt="제품3" class="image" src="/resources/images/item3.jpg">-->
-<!--                    <span class="text">제품3</span>-->
-<!--                    <span class="charge-price">131,000원</span>-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            <li class="item">-->
-<!--                <a class="link" href="#">-->
-<!--                    <img alt="제품4" class="image" src="/resources/images/item4.jpg">-->
-<!--                    <span class="text">제품4</span>-->
-<!--                    <span class="charge-price">78,000원</span>-->
-<!--                </a>-->
-<!--            </li>-->
         </ul>
     </section>
     <div class="page-container" id="pageContainer"

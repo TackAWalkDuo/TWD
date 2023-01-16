@@ -22,7 +22,7 @@
         </ul>
     </div>
     <section class="box collection">
-        <h2 class="title">NEW</h2>
+        <h2 class="title">New Arrivals</h2>
         <div class="button" th:if="${user != null && user.getAdmin() == true}">
         <a th:href="@{write}">
         <input type="button" class="--object-button" value="상품 등록하기">
@@ -39,7 +39,7 @@
         </ul>
     </section>
     <section class="box second">
-        <h2 class="title">머릿글</h2>
+        <h2 class="title">Clothes</h2>
         <ul class="item-container emple">
             <li class="item big" th:each="product : ${products}"
                 th:if="${product.getCategoryText() == 'clothes' && productStat.index == 0}">
