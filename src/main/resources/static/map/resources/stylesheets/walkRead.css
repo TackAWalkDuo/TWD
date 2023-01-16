@@ -463,7 +463,6 @@ body > .--header {
     margin-bottom: 0.75rem;
 }
 
-
 #reviewForm > .review-container > .item > .modifyMenu,
 #reviewForm > .review-container > .item > .modifyText {
     align-items: end;
@@ -574,8 +573,6 @@ body > .--header {
 
     width: 4rem;
     height: 5rem;
-
-    /*margin-left: 1rem;*/
 
     border-radius: 1.2rem;
     box-shadow: 0.2rem 0.2rem 0.1rem 0.0625rem rgba(0, 0, 0, 10%);
