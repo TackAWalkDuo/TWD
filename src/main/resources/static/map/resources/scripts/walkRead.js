@@ -425,6 +425,12 @@ const loadReview = (articleIndex) => {
                                                 case 'success' :
                                                     loadReview(reviewForm['articleIndex'].value);
                                                     break;
+                                                case 'not_signed':
+                                                    alert("로그인해주세요.");
+                                                    break;
+                                                case 'not_same':
+                                                    alert("삭제 권한이 없습니다.");
+                                                    break;
                                                 default:
                                                     alert("알 수 없는 이유로 삭제에 실패했습니다.");
                                             }

@@ -282,7 +282,7 @@ public class BbsService {
         CommentEntity existingComment = this.bbsMapper.selectCommentByIndex(comment.getIndex());
         if(existingComment == null) return  ReadResult.NO_SUCH_COMMENT;
         if(user == null) return CommonResult.NOT_SIGNED;
-        if(!user.getEmail().equals(comment.getUserEmail()) || user.getAdmin() ) {
+        if(!user.getEmail().equals(comment.getUserEmail()) || !user.getAdmin() ) {
             return WriteResult.NOT_SAME;
         }
         return this.bbsMapper.deleteComment(comment.getIndex()) > 0 ?

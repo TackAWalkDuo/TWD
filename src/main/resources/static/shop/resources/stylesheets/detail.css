@@ -653,6 +653,12 @@ body > main > .box > .item-container > .item-description > .side-image > .side-d
 .all-review-container {
     width: 80%;
 }
+
+#reviewTitle {
+    margin-bottom: 2rem;
+    font-size: 3rem;
+}
+
 .review-container{
     margin-bottom: 2rem;
 }
