@@ -123,7 +123,7 @@
 <!--                </tr>-->
 
                 <tr th:each="article :${articles}" th:class="${'userArticle' + (article.isHot() ? ' hot-userArticle' : '') + (article.isNotice() ? ' notice-userArticle': '')}"  >
-                    <td>갱얼쥐</td>
+                    <td th:text="${article.getUserSpecies()}">갱얼쥐</td>
                     <td th:text="${article.getIndex()}">3</td>
                     <td>
                         <a class="title" th:href="@{/bbs/read(aid=${article.getIndex()})}">
