@@ -224,10 +224,10 @@ walkArticle.onsubmit = e => {
                         window.location.href = './read';
                         break;
                     default:
-                        alert("응 실패");
+                        alert("알 수 없는 이유로 실패했습니다.");
                 }
             } else {
-                alert("응 연결 실패~");
+                alert("알 수 없는 이유로 연결에 실패했습니다.");
             }
         }
     };

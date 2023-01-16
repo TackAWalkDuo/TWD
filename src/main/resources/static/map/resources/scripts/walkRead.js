@@ -35,9 +35,7 @@ detailContainer.show = (placeObject, placeElement) => {
     }
 
     // 이전 게시글의 mine 이 남아 있을 경우를 대비한. mine 삭제 조치.
-    // if (likeIcon.classList.contains("mine")) {
-        likeIcon.classList.remove("mine");
-    // }
+    likeIcon.classList.remove("mine");
 
     // 로그인된 계정으로 좋아요를 눌렀을 경우.
     if (placeObject['mine']) {
@@ -51,11 +49,11 @@ detailContainer.show = (placeObject, placeElement) => {
 
     // 로그인이 안되있는 상태일때  loginUserEmailElement 의 undefined 처리.
     if ((loginUserEmailElement !== null) &&
-        ((placeObject['userEmail'] === loginUserEmailElement.value) || adminElement?.value === 'true') ) {
+        ((placeObject['userEmail'] === loginUserEmailElement.value) || adminElement?.value === 'true')) {
         modifyMenuTopElement.classList.add("visible");
         modifyMenuTopElement.querySelector('[rel="articleDelete"]').classList.add("visible");
 
-        if(placeObject['userEmail'] === loginUserEmailElement.value) {
+        if (placeObject['userEmail'] === loginUserEmailElement.value) {
             modifyMenuTopElement.querySelector('[rel="articleModify"]').classList.add("visible");
         }
 
@@ -97,8 +95,8 @@ detailContainer.show = (placeObject, placeElement) => {
 
     mapObject.setLevel(3) // 클릭 할 경우 지도 확대 레벨 변경
     mapObject.setCenter(new kakao.maps.LatLng(placeObject['latitude'], placeObject['longitude'])); // 현재 지도를 클릭한 지점을 중심으로 변경
-    list.innerHTML =''; // level 을 변경할 경우 zoom_changed event 가 발생하기 때문에 list를 한번 초기화해줍니다.
-    setTimeout(()=>{
+    list.innerHTML = ''; // level 을 변경할 경우 zoom_changed event 가 발생하기 때문에 list를 한번 초기화해줍니다.
+    setTimeout(() => {
         loadPlaces();
     }, 500);
 
@@ -137,7 +135,7 @@ const loadMap = (lat, lng) => {
 
 // 현재 지도 내에서 표시할 수 있는 좌표가 있는 게시글을 list 에 표시
 const loadPlaces = (ne, sw) => {
-    list.innerHTML='';          // html 예시 삭제.
+    list.innerHTML = '';          // html 예시 삭제.
     if (!ne || !sw) {
         const bounds = mapObject.getBounds();
         ne = bounds.getNorthEast();
@@ -201,9 +199,6 @@ const loadPlaces = (ne, sw) => {
                     imageElement.setAttribute('alt', '');
                     imageElement.setAttribute('src', `/bbs/thumbnail?index=${placeObject['index']}`);
 
-                    // 현재 표시 되는 게시글의 자표.
-
-
                     //marker 클릭할 경우.
                     kakao.maps.event.addListener(marker, 'click', () => {
                         if (detailContainer.querySelector('[rel="addressText"]').innerText === (placeObject['address'])) {
@@ -222,12 +217,10 @@ const loadPlaces = (ne, sw) => {
                         } else {
                             detailContainer.show(placeObject, placeElement);
                         }
-
                     });
 
                     list.append(placeElement);
                 }
-            } else {
             }
         }
     };
@@ -293,7 +286,7 @@ likeIcon.addEventListener('click', () => {
                             }
                             break;
                         default:
-                            alert("실패");
+                            alert("알 수 없는 이유로 연결에 실패했습니다.");
                     }
                 }
             }
@@ -341,10 +334,10 @@ reviewForm.onsubmit = e => {
                         alert("로그인 해주세요");
                         break;
                     default:
-                        alert("실패");
+                        alert("알 수 없는 이유로 실패했습니다.");
                 }
             } else {
-                alert("알수없는 이유로 연결 실패..");
+                alert("알 수 없는 이유로 연결에 실패했습니다.");
             }
         }
     };
@@ -537,7 +530,7 @@ const loadReview = (articleIndex) => {
                             for (let element of modifyElementAll) {     // 수정 화면 꺼냄.
                                 element.classList.add("modifying");
                             }
-                            
+
                             //기존 댓글 이미지 setting
                             const imageModifyContainerElement = itemElement.querySelector('[rel="imageContainerModify"]');
                             if (reviewObject['imageIndexes'].length > 0) {
