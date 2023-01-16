@@ -95,7 +95,8 @@
                         <input rel="addCart" class="cart --object-button" value="장바구니" type="submit">
                     </div>
                     <div class="admin-product-button">
-                        <a th:if="${user?.getAdmin() == true}" class=" modify --object-button" th:href="@{/shop/modify(aid=${product.getIndex()})}"
+                        <a th:if="${user?.getAdmin() == true}" class=" modify --object-button"
+                           th:href="@{/shop/modify(aid=${product.getIndex()})}"
                            id="modifyButton">수정하기</a>
                         <a th:if="${user?.getAdmin() == true}" class=" delete --object-button" href="#"
                            id="deleteButton">삭제하기</a>
@@ -137,12 +138,12 @@
                 <th>원산지</th>
                 <td>국산</td>
             </tr>
-<!--            <tr>-->
-<!--                <th>소재</th>-->
-<!--                <td>면</td>-->
-<!--                <th>색상계열</th>-->
-<!--                <td>베이지</td>-->
-<!--            </tr>-->
+            <!--            <tr>-->
+            <!--                <th>소재</th>-->
+            <!--                <td>면</td>-->
+            <!--                <th>색상계열</th>-->
+            <!--                <td>베이지</td>-->
+            <!--            </tr>-->
             </tbody>
         </table>
         <div>
@@ -199,6 +200,98 @@
             </tr>
             </tbody>
         </table>
+    </div>
+    <div class="all-review-container">
+        <div class="review-container" id="commentContainer">
+            <div class="review-main liked mine">
+                <div class="review head">
+                    <div class="speciesPicContainer">
+                        <img class="speciesPic" src="/resources/images/icons8-jake-150.png" alt="#">
+                    </div>
+                    <div class="head">
+                        <span class="writer">리뷰남긴사람</span>
+                        <span class="dt">2022-01-01 00:00:00</span>
+                        <span class="action-container"><a href="#" class="action delete">삭제</a></span>
+                    </div>
+                </div>
+                <div class="body">
+                    <ul class="review-container" rel="reviewContainer">
+                        <li class="item" rel="item">
+                            <span class="item-title" rel="itemname">상품명</span>
+                            <div class="image-container" rel="imageContainer">
+                                <img alt="" class="image"
+                                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Supreme_pizza.jpg/800px-Supreme_pizza.jpg">
+                                <img alt="" class="image"
+                                     src="https://cdn.dominos.co.kr/admin/upload/goods/20200311_x8StB1t3.jpg">
+                                <img alt="" class="image" src="https://i.ytimg.com/vi/X6VrQZhr5hQ/maxresdefault.jpg">
+                                <img alt="" class="image"
+                                     src="https://src.hidoc.co.kr/image/lib/2020/6/17/1592363657269_0.jpg">
+                                <img alt="" class="image"
+                                     src="https://src.hidoc.co.kr/image/lib/2020/6/17/1592363657269_0.jpg">
+                                <img alt="" class="image"
+                                     src="https://src.hidoc.co.kr/image/lib/2020/6/17/1592363657269_0.jpg">
+                                <img alt="" class="image"
+                                     src="https://src.hidoc.co.kr/image/lib/2020/6/17/1592363657269_0.jpg">
+                                <img alt="" class="image"
+                                     src="https://src.hidoc.co.kr/image/lib/2020/6/17/1592363657269_0.jpg">
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="content">
+                        <span class="text">나만 몰랐던건가...?ㅎ</span>
+                        <span class="like-content">이삼품이 도움이 되셧습니까?</span>
+                        <span class="like">
+                            <a href="#" class="toggle"><i class="fa-regular fa-thumbs-up"></i></a><span
+                                class="count">9,999</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="review-main liked mine">
+                <div class="review head">
+                    <div class="speciesPicContainer">
+                        <img class="speciesPic" src="/resources/images/icons8-jake-150.png" alt="#">
+                    </div>
+                    <div class="head">
+                        <span class="writer">리뷰남긴사람</span>
+                        <span class="dt">2022-01-01 00:00:00</span>
+                        <span class="action-container"><a href="#" class="action delete">삭제</a></span>
+                    </div>
+                </div>
+                <div class="body">
+                    <ul class="review-container" rel="reviewContainer">
+                        <li class="item" rel="item">
+                            <div class="item-title" rel="itemname">상품명</div>
+                            <div class="image-container" rel="imageContainer">
+                                <img alt="" class="image"
+                                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Supreme_pizza.jpg/800px-Supreme_pizza.jpg">
+                                <img alt="" class="image"
+                                     src="https://cdn.dominos.co.kr/admin/upload/goods/20200311_x8StB1t3.jpg">
+                                <img alt="" class="image" src="https://i.ytimg.com/vi/X6VrQZhr5hQ/maxresdefault.jpg">
+                                <img alt="" class="image"
+                                     src="https://src.hidoc.co.kr/image/lib/2020/6/17/1592363657269_0.jpg">
+                                <img alt="" class="image"
+                                     src="https://src.hidoc.co.kr/image/lib/2020/6/17/1592363657269_0.jpg">
+                                <img alt="" class="image"
+                                     src="https://src.hidoc.co.kr/image/lib/2020/6/17/1592363657269_0.jpg">
+                                <img alt="" class="image"
+                                     src="https://src.hidoc.co.kr/image/lib/2020/6/17/1592363657269_0.jpg">
+                                <img alt="" class="image"
+                                     src="https://src.hidoc.co.kr/image/lib/2020/6/17/1592363657269_0.jpg">
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="content">
+                        <span class="text">나만 몰랐던건가...?ㅎ</span>
+                        <span class="like-content">이삼품이 도움이 되셧습니까?</span>
+                        <span class="like">
+                            <a href="#" class="toggle"><i class="fa-regular fa-thumbs-up"></i></a><span
+                                class="count">9,999</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 
