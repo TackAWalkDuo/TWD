@@ -8,9 +8,12 @@ const likeIcon = detailContainer.querySelector('[rel="likeIcon"]');
 const imageContainerElement = reviewForm.querySelector('[rel="imageContainer"]');
 const modifyMenuTopElement = window.document.getElementById("modifyMenuTop");
 const loginUserEmailElement = window.document.getElementById("loginUserEmail");
+const adminElement = window.document.getElementById("adminFlag");
 
 let mapObject;
 let places = [];        // db 에서 list 를 가져와서 담아줄 변수.
+
+console.log(adminElement?.value);
 
 //list 의 게시글 또는 marker 클릭 시 해당 게시글을 보여줌.
 detailContainer.show = (placeObject, placeElement) => {
@@ -31,18 +34,29 @@ detailContainer.show = (placeObject, placeElement) => {
         likeIcon.classList.add("prohibited");
     }
 
-    if (likeIcon.classList.contains("mine")) {          // 이전 게시글의 mine 이 남아 있을 경우를 대비한. mine 삭제 조치.
-        likeIcon.classList.remove("mine");
-    }
+    // 이전 게시글의 mine 이 남아 있을 경우를 대비한. mine 삭제 조치.
+    likeIcon.classList.remove("mine");
 
     // 로그인된 계정으로 좋아요를 눌렀을 경우.
     if (placeObject['mine']) {
         likeIcon.classList.add("mine");
     }
 
+    // 다른 게시글을 볼때 modifyMenuTopElement 가 활성화 되어 있는 상황에 대한 예외처리
+    modifyMenuTopElement.classList.remove("visible");
+    modifyMenuTopElement.querySelector('[rel="articleDelete"]').classList.remove("visible");
+    modifyMenuTopElement.querySelector('[rel="articleModify"]').classList.remove("visible");
+
     // 로그인이 안되있는 상태일때  loginUserEmailElement 의 undefined 처리.
-    if ((loginUserEmailElement !== null) && (placeObject['userEmail'] === loginUserEmailElement.value)) {
+    if ((loginUserEmailElement !== null) &&
+        ((placeObject['userEmail'] === loginUserEmailElement.value) || adminElement?.value === 'true')) {
         modifyMenuTopElement.classList.add("visible");
+        modifyMenuTopElement.querySelector('[rel="articleDelete"]').classList.add("visible");
+
+        if (placeObject['userEmail'] === loginUserEmailElement.value) {
+            modifyMenuTopElement.querySelector('[rel="articleModify"]').classList.add("visible");
+        }
+
     }
 
     // list 에서 선택한 게시글의 index 번호 저장.
@@ -76,12 +90,13 @@ detailContainer.show = (placeObject, placeElement) => {
 
     foldChangeIcon(container.classList.contains("fold"));
 
+    //댓글 불러오기.
     loadReview(placeObject['index']);
 
     mapObject.setLevel(3) // 클릭 할 경우 지도 확대 레벨 변경
     mapObject.setCenter(new kakao.maps.LatLng(placeObject['latitude'], placeObject['longitude'])); // 현재 지도를 클릭한 지점을 중심으로 변경
-    list.innerHTML =''; // level 을 변경할 경우 zoom_changed event 가 발생하기 때문에 list를 한번 초기화해줍니다.
-    setTimeout(()=>{
+    list.innerHTML = ''; // level 을 변경할 경우 zoom_changed event 가 발생하기 때문에 list를 한번 초기화해줍니다.
+    setTimeout(() => {
         loadPlaces();
     }, 500);
 
@@ -120,7 +135,7 @@ const loadMap = (lat, lng) => {
 
 // 현재 지도 내에서 표시할 수 있는 좌표가 있는 게시글을 list 에 표시
 const loadPlaces = (ne, sw) => {
-    list.innerHTML='';          // html 예시 삭제.
+    list.innerHTML = '';          // html 예시 삭제.
     if (!ne || !sw) {
         const bounds = mapObject.getBounds();
         ne = bounds.getNorthEast();
@@ -184,9 +199,6 @@ const loadPlaces = (ne, sw) => {
                     imageElement.setAttribute('alt', '');
                     imageElement.setAttribute('src', `/bbs/thumbnail?index=${placeObject['index']}`);
 
-                    // 현재 표시 되는 게시글의 자표.
-
-
                     //marker 클릭할 경우.
                     kakao.maps.event.addListener(marker, 'click', () => {
                         if (detailContainer.querySelector('[rel="addressText"]').innerText === (placeObject['address'])) {
@@ -205,12 +217,10 @@ const loadPlaces = (ne, sw) => {
                         } else {
                             detailContainer.show(placeObject, placeElement);
                         }
-
                     });
 
                     list.append(placeElement);
                 }
-            } else {
             }
         }
     };
@@ -276,7 +286,7 @@ likeIcon.addEventListener('click', () => {
                             }
                             break;
                         default:
-                            alert("실패");
+                            alert("알 수 없는 이유로 연결에 실패했습니다.");
                     }
                 }
             }
@@ -324,16 +334,17 @@ reviewForm.onsubmit = e => {
                         alert("로그인 해주세요");
                         break;
                     default:
-                        alert("실패");
+                        alert("알 수 없는 이유로 실패했습니다.");
                 }
             } else {
-                alert("알수없는 이유로 연결 실패..");
+                alert("알 수 없는 이유로 연결에 실패했습니다.");
             }
         }
     };
     xhr.send(formData);
 };
 
+//댓글 불러오기
 const loadReview = (articleIndex) => {
         reviewContainer.innerHTML = '';
         const xhr = new XMLHttpRequest();
@@ -357,8 +368,10 @@ const loadReview = (articleIndex) => {
                         <!-- 로그인 되지 않았을 때 value 를 사용하게 되면 오류가 뜨기 때문에 오류 처리-->
                          ${reviewObject['userEmail'] === (loginUserEmailElement === null ?
                             '' : loginUserEmailElement.value) ?
-                            `<a class="basic modify-button" rel="actionModify" href="#">수정</a>
-                            <a class="basic delete-button" rel="actionDelete" href="#">삭제</a>` : ` `}
+                            `<a class="basic modify-button" rel="actionModify" href="#">수정</a>` : ` `}
+                         ${(reviewObject['userEmail'] === (loginUserEmailElement === null ?
+                            '' : loginUserEmailElement.value)) || adminElement.value ?
+                            `<a class="basic delete-button" rel="actionDelete" href="#">삭제</a>` : ` `}
                          </div>
                         <div class="image-container basic" rel="imageContainer"></div>
                         <span class="content basic" rel="contentContainer">${reviewObject['content']}</span>
@@ -412,6 +425,12 @@ const loadReview = (articleIndex) => {
                                                 case 'success' :
                                                     loadReview(reviewForm['articleIndex'].value);
                                                     break;
+                                                case 'not_signed':
+                                                    alert("로그인해주세요.");
+                                                    break;
+                                                case 'not_same':
+                                                    alert("삭제 권한이 없습니다.");
+                                                    break;
                                                 default:
                                                     alert("알 수 없는 이유로 삭제에 실패했습니다.");
                                             }
@@ -422,7 +441,7 @@ const loadReview = (articleIndex) => {
                                 };
                                 xhr.send(formData);
                             });
-                        };
+                        }
 
 
                         const commentImageSelect = itemElement.querySelector('[rel="imagesModify"]');
@@ -466,10 +485,8 @@ const loadReview = (articleIndex) => {
                             const xhr = new XMLHttpRequest();
 
                             const formData = new FormData();
-                            // formData.append("userEmail", reviewForm['userEmail'].value);
                             formData.append("userEmail", reviewObject['userEmail']);
                             formData.append("content", itemElement.querySelector('[rel="modifyContent"]').value);
-                            // formData.append("articleIndex", reviewForm['articleIndex'].value);
                             formData.append("index", itemElement.querySelector('[rel="commentIndex"]').value);
                             formData.append("modifyFlag", imageModifyFlag);
 
@@ -478,6 +495,7 @@ const loadReview = (articleIndex) => {
                                 formData.append('images', file);
                             }
 
+                            //댓글 수정
                             xhr.open("POST", '/bbs/comment-modify');
                             xhr.onreadystatechange = () => {
                                 if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -512,13 +530,14 @@ const loadReview = (articleIndex) => {
                         modifyElement?.addEventListener('click', (e) => {
                             e.preventDefault();
 
-                            for (element of basicElement) {      // 원래 댓글 숨김
+                            for (let element of basicElement) {      // 원래 댓글 숨김
                                 element.classList.add("modifying");
                             }
-                            for (element of modifyElementAll) {     // 수정 화면 꺼냄.
+                            for (let element of modifyElementAll) {     // 수정 화면 꺼냄.
                                 element.classList.add("modifying");
                             }
-                            //
+
+                            //기존 댓글 이미지 setting
                             const imageModifyContainerElement = itemElement.querySelector('[rel="imageContainerModify"]');
                             if (reviewObject['imageIndexes'].length > 0) {
                                 for (const imageIndex of reviewObject['imageIndexes']) {
@@ -609,9 +628,7 @@ foldElement.addEventListener('click', () => {
     } else {
         container.classList.add("fold");
     }
-
     foldChangeIcon(container.classList.contains("fold"));
-
 });
 
 function foldChangeIcon(flag) {

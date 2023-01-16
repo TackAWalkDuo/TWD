@@ -17,15 +17,17 @@
 
 
 // 현재 페이지의 a태그 색깔 활성화
-const bbsList = window.document.getElementById("selected").getElementsByTagName("li");
+const bbsList = window.document.getElementById("selected")?.getElementsByTagName("li");
 const selected = document.querySelectorAll('.--link');
 const url = document.location.href;
 
-for (let i = 0; i < bbsList.length; i++) {
-    const liClassList = bbsList[i].className.split(' ');
-    if (url.match(liClassList[1])) {
-        selected.item(i).classList.add('selected');
-        break;
+if (bbsList) {
+    for (let i = 0; i < bbsList.length; i++) {
+        const liClassList = bbsList[i].className.split(' ');
+        if (url.match(liClassList[1])) {
+            selected.item(i).classList.add('selected');
+            break;
+        }
     }
 }
 

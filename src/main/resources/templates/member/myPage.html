@@ -3,86 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width, user-scalable=no, initial-scale=1.0, max뷰imum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>산책해듀오 - 마이페이지</title>
+
     <th:block th:replace="~{fragments/head}"></th:block>
     <link rel="stylesheet" th:href="@{/member/resources/stylesheets/myPage.css}">
     <script defer th:src="@{/member/resources/scripts/myPage.js}"></script>
     <script src="https://kit.fontawesome.com/12a5ab0618.js" crossorigin="anonymous"></script>
 </head>
 <body>
+<th:block th:replace="~{fragments/body :: header}"></th:block>
 <section class="list-container" id="listContainer">
     <form class="search-form" id="searchForm">
-        <span class="title">산책해듀오</span>
         <label class="label">
             <span hidden>사용자</span>
         </label>
         <div class="button-container">
-            <span class="button">고근호님
-                <i class="fa-solid fa-chevron-right"></i>
+            <span class="button-title">
+                내 프로필
             </span>
         </div>
         <div class="button-container">
-            <span class="button">대형견 소유주
-                <i class="fa-solid fa-dog"></i>
+            <span class="button" th:text="${myPage.getNickname()}+' 님'">
             </span>
         </div>
         <div class="button-container">
-            <a class="button"
-               th:href="@{/member/login}"
-               th:if="${session.user == null}"
-               target="_blank" id="loginButton">로그인</a>
-            <a class="button"
-               th:href="@{/member/logout}"
-               th:if="${session.user != null}"
-               target="_blank" id="logoutButton">로그아웃</a>
-            <a class="button"
-               th:href="@{/member/register}"
-               th:if="${session.user == null}"
-               target="_blank" id="registerButton">회원가입</a>
+            <span class="button" th:text="${'애완견 소유 : '+ myPage.getSpecies()}">
+            </span>
         </div>
 
     </form>
+
     <form class="list-form" id="listForm">
         <label class="label">
             <span hidden>리스트</span>
         </label>
         <div class="list-container">
-            <a class="list"
-               th:href="@{/member/myPage}"
+            <a class="list-title"
                target="_blank" th:if="${session.user != null}">
                 마이페이지</a>
-        </div>
-        <div class="list-container">
-            <a class="list"
-               th:href="@{/member}"
-               th:if="${session.user != null}"
-               target="_blank">주문조회</a>
-        </div>
-        <div class="list-container">
-            <a class="list"
-               th:href="@{/member}"
-               th:if="${session.user != null}"
-               target="_blank">위시 리스트</a>
-        </div>
-        <div class="list-container">
-            <a class="list"
-               th:href="@{/member}"
-               th:if="${session.user != null}"
-               target="_blank">취소/교환/반품</a>
-        </div>
-        <div class="list-container">
-            <a class="list"
-               th:href="@{/member}"
-               th:if="${session.user != null}"
-               target="_blank">포인트</a>
-        </div>
-        <div class="list-container">
-            <a class="list"
-               th:href="@{/member}"
-               th:if="${session.user != null}"
-               target="_blank">1:1 문의</a>
         </div>
         <div class="list-container">
             <a class="list"
@@ -91,19 +51,48 @@
                target="_blank">정보 수정</a>
         </div>
         <div class="list-container">
+        <a class="list"
+           th:href="@{/shop/payment}"
+           th:if="${session.user != null}"
+           target="_blank">결제 정보 확인</a>
+        </div>
+        <div class="list-container">
+            <a class="list"
+               th:href="@{/member/recoverPassword}"
+               th:if="${session.user != null}"
+               target="_blank">비밀번호 재설정</a>
+        </div>
+        <div class="list-container">
             <a class="list"
                th:href="@{/member/secession}"
                th:if="${session.user != null}"
                target="_blank">회원탈퇴</a>
         </div>
+
     </form>
 </section>
-<th:block th:replace="~{fragments/body :: header}"></th:block>
+
 <section class="page-container" id="pageContainer">
     <div class="cover" rel="cover">
         <form class="page">
             <div class="page">
-                고근호 님 안녕하세요.
+                <div class="pageOne">
+                    <h1>Profile</h1>
+                    <span th:text="'email : '+${myPage.getEmail()}">
+                    </span>
+                    <span th:text="'name : '+${myPage.getName()}">
+                    </span>
+                    <span th:text="'nickname : '+${myPage.getNickname()}">
+                    </span>
+                    <span th:text="'pet : '+${myPage.getHaveDog()}">
+                    </span>
+                    <span th:text="'Join date : '+${#dates.format(myPage.getRegisteredOn(), 'yyyy-MM-dd')}"></span>
+                </div>
+                <div class="pageTwo">
+                    <h1>Pet Profile</h1>
+                    <span th:text="'species : '+${myPage.getSpecies()}">
+                    </span>
+                </div>
             </div>
         </form>
     </div>

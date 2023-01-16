@@ -3,22 +3,34 @@ package dev.twd.take_a_walk_duo.mappers;
 import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
 import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
+import dev.twd.take_a_walk_duo.entities.shop.PaymentEntity;
 import dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity;
 import dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity;
 import dev.twd.take_a_walk_duo.vos.shop.CartVo;
+import dev.twd.take_a_walk_duo.vos.shop.PaymentVo;
 import dev.twd.take_a_walk_duo.vos.shop.ProductVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.Date;
+import java.util.List;
 
 @Mapper
 public interface IShopMapper {
     ArticleEntity selectArticleByIndex(@Param(value = "aid") int aid);
 
-    SaleProductEntity selectProductByArticleIndex(@Param(value = "aid") int aid);
+    SaleProductEntity selectProductByArticleIndex(@Param(value = "index") int index);
+
+    ShoppingCartEntity selectCartByIndex(@Param(value = "index") int index, @Param(value = "userEmail") String userEmail);
+
+    ShoppingCartEntity selectCartByCartIndex(@Param(value = "index") int index);
+    ShoppingCartEntity selectCartByProductIndex(@Param(value = "index")int index);
 
     int selectArticleCountByBoardId(@Param(value = "boardId") String boardId,
                                     @Param(value = "criterion") String criterion,
                                     @Param(value = "keyword") String keyword);
+
+    PaymentEntity selectPaymentByRegistration(@Param(value = "date")Date date);
 
 //    ProductVo[] selectArticleCountByBoardId(@Param(value = "boardText") String boardText,
 //                                        @Param(value = "limit") int limit,
@@ -45,7 +57,12 @@ public interface IShopMapper {
     // get write
     ProductVo selectArticle();
 
+    PaymentEntity[] selectPaymentByIndex(@Param(value = "index")int index);
+
     CartVo[] selectCartsByUserEmail(@Param(value = "userEmail")String userEmail);
+
+    PaymentVo[] selectPaymentsByUserEmail(@Param(value = "userEmail")String userEmail);
+
     ShoppingCartEntity selectArticleByArticleIndexUserEmail(@Param(value = "aid") int aid, @Param(value = "userEmail") String userEmail);
 
     // 상품 수정
@@ -53,6 +70,7 @@ public interface IShopMapper {
 
     int updateArticle(ArticleEntity article);
 
+    int updateCart(ShoppingCartEntity cart);
     // SaleProductEntity 등록용
     int insertProduct(SaleProductEntity product);
 
@@ -66,4 +84,10 @@ public interface IShopMapper {
     int insertImage(ImageEntity image);
 
     int insertCart(ShoppingCartEntity cart);
+
+    int deleteCartByIndex(ShoppingCartEntity cart);
+
+    int insertPayment(PaymentEntity payment);
+
+    int deletePayment(@Param(value = "groupIndex")int groupIndex);
 }

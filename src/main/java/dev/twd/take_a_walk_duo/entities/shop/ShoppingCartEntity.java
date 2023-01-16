@@ -9,6 +9,7 @@ public class ShoppingCartEntity {
     private int productIndex;
     private int salePrice;
     private int quantity;
+    private int maxQuantity;
     private int deliveryFee;
     private Date registrationOn;
 
@@ -54,6 +55,15 @@ public class ShoppingCartEntity {
 
     public ShoppingCartEntity setQuantity(int quantity) {
         this.quantity = quantity;
+        return this;
+    }
+
+    public int getMaxQuantity() {
+        return maxQuantity;
+    }
+
+    public ShoppingCartEntity setMaxQuantity(int maxQuantity) {
+        this.maxQuantity = maxQuantity;
         return this;
     }
 

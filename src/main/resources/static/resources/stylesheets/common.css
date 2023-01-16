@@ -84,7 +84,6 @@ input, select, textarea {
     color: rgb(171, 178, 185);
 }
 
-/*TODO class name change*/
 .button-container > .button.green > * + * {
     padding-left: 0.5rem;
 }
@@ -169,10 +168,13 @@ body > .--footer {
 }
 
 body > .--header > .--content,
-body > .--main > .--content,
-body > .--footer > .--content {
+body > .--main > .--content{
     width: 100%;
     max-width: 80rem;
+    margin: 0 2rem;
+}
+body > .--footer > .--content {
+    width: 100%;
     margin: 0 2rem;
 }
 
@@ -240,7 +242,7 @@ body > .--header > .-top > .--logo-container {
 
 .duo {
     color: rgb(139, 145, 126);
-    font-family: 'Permanent Marker', cursive;
+    /*font-family: 'Permanent Marker', cursive;*/
 }
 
 
@@ -282,7 +284,7 @@ body > .--header > .--content > .--menu > .--item + .--item {
 
     padding-left: 0.25rem;
     color: rgb(128, 139, 150);
-    letter-spacing: 0px;
+    /*letter-spacing: 0px;*/
 }
 
 /*보고 있는 페이지의 a태그 활성화*/
@@ -303,16 +305,58 @@ body > .--header > .--content > .--menu > .--item > .--link:active{
 
 /*수정 22.12.06 끝*/
 
-
 body > .--main {
     flex: 1;
     margin-top: 1rem
 }
 
 body > .--footer {
-    background-color: rgb(255, 255, 255);
+    height: 10rem;
+    background-color: rgb(0, 0, 0, 85%);
     border-top: 0.0625rem solid rgb(213, 216, 220);
-    box-shadow: 0 0 0.5rem 0.0625rem rgba(0, 0, 0, 10%);
+    /*box-shadow: 0 0 0.5rem 0.0625rem rgba(0, 0, 0, 10%);*/
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}
+
+body > .--footer > .--content {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}
+
+body > .--footer > .--content > .left {
+    display: flex;
+}
+
+body > .--footer > .--content > .left > .title {
+    padding: 1rem;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    font-size: 2rem;
+    border-right: solid 0.05rem;
+    margin-right: 1rem;
+}
+
+body > .--footer > .--content > .left > .content > span {
+    color: rgb(128,128,128);
+    font-size: 1rem;
+}
+
+body > .--footer > .--content > .icon > .sns > i {
+    color: rgb(255, 255, 255);
+    font-size: 1.75rem;
+    margin-right: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+body > .--footer > .--content > .icon > .email {
+    color: rgb(128,128,128);
 }
 
 /*dialogCss*/

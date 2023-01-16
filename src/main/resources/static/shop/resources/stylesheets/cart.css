@@ -1,25 +1,24 @@
 @charset "UTF-8";
 
-/*.--main > .img {*/
-/*    display: table;*/
-/*    width: 100%;*/
-/*    height: 15rem;*/
-/*    margin: 2rem 2rem;*/
-/*    background: url(/resources/images/dogplay.jpg) no-repeat;*/
-/*    background-size: cover;*/
-/*    background-position: center;*/
-/*    background-attachment: fixed;*/
-/*}*/
-
+.empty-icon{
+    font-size: 5rem;
+    white-space: nowrap;
+    position: absolute;
+    top:40%;
+    left:50%;
+    transform:translate(-50%, -50%);
+}
+.empty-icon > span{
+    margin-left: 0.75rem;
+}
 
 body > .--main {
     display: flex;
     padding: 0 8rem;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
 }
-
-/*여기까지 list css같음*/
 
 .--main > .content {
     display: flex;
@@ -31,7 +30,7 @@ body > .--main {
     font-size: 22px;
     border: 0.1rem solid rgb(128, 139, 150);
     padding: 1rem 3rem;
-    margin-bottom: 3rem;
+    margin: 3rem 0 1.5rem 0;
 }
 
 .table {
@@ -52,8 +51,6 @@ body > .--main {
 }
 
 .table th:first-of-type {
-    border-right: none;
-    width: 1.5rem;
     align-items: center;
     display: flex;
     flex-direction: row;
@@ -69,14 +66,11 @@ body > .--main {
 .table > tbody > * > td {
     border: 0.01rem solid #c4c4c4;
     height: 6rem;
-
 }
 
 .table > tbody > * > td:first-of-type{
     padding: 0.1rem 1rem;
 }
-
-/*cart.css 자체 css*/
 
 .--object-button {
     border: none;
@@ -149,12 +143,11 @@ input[type=checkbox] {
 }
 
 .info-footer {
-    position: fixed;
-    right: 0;
-    bottom: 1.4rem;
-    left: 0;
-    padding: 0 8rem;
+    position: absolute;
+    bottom: 10rem;
     height: 5rem;
+    left: 8rem;
+    right: 8rem;
 }
 
 .info-footer > div {

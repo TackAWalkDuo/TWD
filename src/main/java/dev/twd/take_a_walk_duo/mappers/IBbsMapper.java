@@ -1,8 +1,10 @@
 package dev.twd.take_a_walk_duo.mappers;
 
 import dev.twd.take_a_walk_duo.entities.bbs.*;
+import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo;
 import dev.twd.take_a_walk_duo.vos.bbs.CommentVo;
+import org.apache.catalina.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -66,7 +68,9 @@ public interface IBbsMapper {
     //게시판 만들기
     ArticleReadVo[] selectArticlesByBoardId(@Param(value = "boardId") String boardId,
                                             @Param(value = "limit") int limit,
-                                            @Param(value = "offset") int offSet);
+                                            @Param(value = "offset") int offSet,
+                                            @Param(value = "criterion") String criterion,
+                                            @Param(value = "keyword") String keyword);
 
     //hot 게시물
     ArticleReadVo[] selectHotArticlesByBoardId(@Param(value = "boardId")String boardId);
@@ -96,6 +100,6 @@ public interface IBbsMapper {
     CommentImageEntity selectCommentImageByIndex(@Param(value = "index") int index);
     BoardEntity[] selectBoardByBoardId(@Param(value = "bid") String bid);
 
-
+    UserEntity selectAdminAccountByUser(@Param(value = "email")String email);
 
 }

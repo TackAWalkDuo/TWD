@@ -37,6 +37,7 @@ body > .main > .search-form {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    margin-bottom: 2rem;
 }
 
 /*공통css 조정*/
@@ -72,7 +73,6 @@ body > .main > .search-form > .label {
     flex-direction: row;
     justify-content: center;
     padding: 1rem;
-
 }
 
 
@@ -179,7 +179,7 @@ body > .main > .search-form > .label {
     background-color: rgb(120, 110, 110);
     color: rgb(234, 236, 238);
     font-weight: inherit;
-    padding: 0.1rem 1rem;
+    padding: 1.1rem 1rem;
 }
 
 #table td,
@@ -191,9 +191,11 @@ body > .main > .search-form > .label {
 #table th:nth-of-type(3) {
     width: 100%;
     white-space: normal;
+
 }
 
 #table > tbody > tr > td {
+    font-size: 1rem;
     border-bottom: 0.0625rem solid rgb(234, 236, 238);
 }
 
@@ -222,11 +224,12 @@ body > .main > .search-form > .label {
 #table > tbody > tr > td > .title {
     color: inherit;
     text-decoration: none;
-
+    font-size: 1rem;
     align-items: center;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    padding: 0.1rem;
 }
 
 #table > tfoot > tr > td > .page-container {
@@ -249,8 +252,9 @@ body > .main > .search-form > .label {
     display: flex;
     text-align: center;
     flex-direction: row;
-    justify-content: flex-end;
-    margin-right: 1rem;
+    justify-content: space-between;
+    margin-right: 0.75rem;
+    margin-bottom: 1rem;
 }
 .--form > .--content> .button-container>a{
     text-decoration: none;

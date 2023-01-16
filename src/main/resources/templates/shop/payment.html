@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Take a walk duo</title>
+    <th:block th:replace="~{fragments/head}"></th:block>
+    <script defer th:src="@{/shop/resources/scripts/payment.js}"></script>
+    <link rel="stylesheet" th:href="@{/shop/resources/stylesheets/payment.css}">
+    <script th:if="${user == null}">
+        alert('로그인 후 이용해 주세요.');
+        window.location.href = '/member/login';
+    </script>
+</head>
+<body th:if="${user != null}">
+<th:block th:replace="~{fragments/body :: header}"></th:block>
+<main class="--main main">
+    <!--    <div class="img"></div>-->
+    <i th:if="${isPayment <= 0}" class="empty-icon fa-solid fa-cart-plus"><span>주문 내역이 없습니다.</span></i>
+    <form class="content --content" id="form" th:if="${isPayment > 0}">
+        <input hidden multiple accept="image/*" name="images" type="file">
+        <h1 class="title">구매내역</h1>
+        <table class="table" id="table">
+            <tbody>
+            <tr class="imageLine">
+                <th>주문일자</th>
+                <th colspan="2">상품정보</th>
+                <th>수량</th>
+                <th>상품금액</th>
+                <th>합계</th>
+                <th>배송상태</th>
+            </tr>
+
+            <tr rel="payment-item" th:if="${(board.getId() == 'shop')}"
+                th:each="i : ${#numbers.sequence(0, payments.length - 1)}"
+                th:with="payment = ${payments[i]}"
+                th:class="${i > 0 && payment.getGroupIndex() != payments[i - 1].getGroupIndex() ? 'separator' : ''}">
+                <td hidden rel="index" th:text="${payment.getIndex()}"></td>
+                <td hidden rel="deliveryStatus" th:text="${payment.getDeliveryStatus()}"></td>
+                <td hidden rel="groupIndex" th:text="${payment.getGroupIndex()}"></td>
+                <td th:text="${#dates.format(payment.getRegistrationOn(), 'yyyy-MM-dd')}">2023-01-01</td>
+                <td class="image">
+                    <span hidden>상품 이미지</span>
+                    <div class="image-container" rel="imageContainer">
+                        <img class="product-image" alt="상품 이미지" th:src="@{/bbs/thumbnail(index=${payment.getProductIndex()})}">
+                    </div>
+                </td>
+                <td class="product-info">
+                    <div class="button-container">
+                    <a rel="proId" th:text="${payment.getTitle()}">상품</a>
+                        <div class="just-space"></div>
+                    <button rel="cancelButton" class="--object-button" type="button" th:if="${payment.getDeliveryStatus() !=3}">주문취소</button>
+                    <button rel="modifyButton" class="--object-button shop-review" type="button" th:if="${payment.getDeliveryStatus()==3}">리뷰</button>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <div rel="productQuantity" th:text="${payment.getQuantity()}">1</div>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <div rel="eachSalePrice" th:text="${payment.getSalePrice()}">1원</div>
+                    </div>
+                </td>
+                <td>
+                    <label class="label">
+                        <span hidden>합계</span>
+                        <div rel="itemPriceSum" th:text="${payment.getSalePrice() * payment.getQuantity()}">3000원</div>
+                    </label>
+                </td>
+                <td>
+                    <label class="label">
+                        <span hidden>배송상태</span>
+                        <div rel="deliveryStatusText">배송중</div>
+                    </label>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </form>
+</main>
+<!-- cover -->
+<th:block th:replace="~{fragments/body :: cover}"></th:block>
+<th:block th:replace="~{fragments/body :: footer}"></th:block>
+</body>
+</html>

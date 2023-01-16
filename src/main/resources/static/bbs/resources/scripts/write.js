@@ -33,6 +33,14 @@ form['images'].addEventListener('input', () => {
     }
 });
 
+form['back'].addEventListener('click', () => {
+    window.history.back();
+});
+
+form['back'].addEventListener('click', () => {
+    window.history.back();
+});
+
 form.onsubmit = e => {
     e.preventDefault();
 

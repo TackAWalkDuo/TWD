@@ -1,14 +1,14 @@
 const form = window.document.getElementById('secessionForm');
 
-// const Warning = {
-//     getElement: () => form.querySelector('[rel="warningRow"]'),
-//     show: (text) => {
-//         const warningRow = Warning.getElement();
-//         warningRow.querySelector('.warningText').innerText = text;
-//         warningRow.classList.add('visible');
-//     },
-//     hide: () => Warning.getElement().classList.remove('visible')
-// };
+const Warning = {
+    getElement: () => form.querySelector('[rel="warningRow"]'),
+    show: (text) => {
+        const warningRow = Warning.getElement();
+        warningRow.querySelector('.warningText').innerText = text;
+        warningRow.classList.add('visible');
+    },
+    hide: () => Warning.getElement().classList.remove('visible')
+};
 
 // xButton 눌렀을 때
 window.document.getElementById('xButton').addEventListener('click', () => {

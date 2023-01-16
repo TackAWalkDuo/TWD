@@ -1,32 +1,11 @@
 @charset "UTF-8";
 
-/*.--main > .img {*/
-/*    display: table;*/
-/*    width: 100%;*/
-/*    height: 15rem;*/
-/*    margin: 2rem 2rem;*/
-/*    background: url(/resources/images/dogplay.jpg) no-repeat;*/
-/*    background-size: cover;*/
-/*    background-position: center;*/
-/*    background-attachment: fixed;*/
-/*}*/
-
-.--main > .img {
-    background: url("/resources/images/dogplay.jpg") no-repeat;
-    background-position: 0 -12.5rem;
-    width: 100%;
-    height: 15rem;
-    margin: 2rem 2rem 1rem 2rem;
-}
-
 body > .--main {
     display: flex;
     padding: 0 8rem;
     flex-direction: column;
     align-items: center;
 }
-
-/*여기까지 list css같음*/
 
 .--main > .content {
     display: flex;
@@ -38,7 +17,12 @@ body > .--main {
     font-size: 22px;
     border: 0.1rem solid rgb(128, 139, 150);
     padding: 1rem 3rem;
+    margin: 3rem 0 1rem 0;
+}
+
+#table{
     margin-bottom: 3rem;
+    max-width: 100%;
 }
 
 .table th {
@@ -48,6 +32,7 @@ body > .--main {
     font-weight: 400;
     padding: 0.1rem 1rem;
 }
+
 th{
     padding: 0.5rem;
     margin: 0.5rem;
@@ -62,6 +47,10 @@ th{
     width: 100%;
 }
 
+.--object-button{
+    margin-bottom: 1rem;
+}
+
 .table .bean-table {
     background-color: unset;
     border: unset;
@@ -74,8 +63,6 @@ th{
 .button-container {
     text-align: right;
 }
-
-/*.ck.ck-editor{'width'}*/
 
 .ck-editor__editable {
     min-height: 13rem;
@@ -122,17 +109,6 @@ th{
     object-position: center;
     aspect-ratio: 1/1;
 }
-
-
-/*#table {*/
-/*    max-width: 100%;*/
-/*}*/
-
-/*#table * {*/
-/*    box-sizing: border-box !important;*/
-/*}*/
-
-
 
 .ck.ck-toolbar,
 .ck.ck-content{

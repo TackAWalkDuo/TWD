@@ -2,11 +2,13 @@ package dev.twd.take_a_walk_duo.controllers;
 
 import dev.twd.take_a_walk_duo.entities.member.EmailAuthEntity;
 import dev.twd.take_a_walk_duo.entities.member.KakaoUserEntity;
+import dev.twd.take_a_walk_duo.entities.member.NaverUserEntity;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
 import dev.twd.take_a_walk_duo.services.MemberService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +21,7 @@ import java.security.NoSuchAlgorithmException;
 
 @Controller(value = "dev.twd.study_member_bbs.controllers.MemberController")
 @RequestMapping(value = "member")
-public class MemberController {
+public class MemberController extends GeneralController{
     private final MemberService memberService;
 
     @Autowired
@@ -31,8 +33,9 @@ public class MemberController {
     @RequestMapping(value = "modifyUser",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getModifyUser() {
+    public ModelAndView getModifyUser(@SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView("member/modifyUser");
+        modelAndView.addObject("modifyUser", this.memberService.getUser(user.getEmail()));
         return modelAndView;
     }
 
@@ -41,13 +44,14 @@ public class MemberController {
             method = RequestMethod.PATCH,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String patchUser(@SessionAttribute(value = "user", required = false) UserEntity user) {
-        Enum<?> result = this.memberService.modifyUser(user);
+    public String patchUser(@SessionAttribute(value = "user", required = false) UserEntity user,
+                            UserEntity modifyUser) {
+        modifyUser.setEmail(user.getEmail());
+        Enum<?> result = this.memberService.modifyUser(modifyUser);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
         return responseObject.toString();
     }
-
 
     // 회원 탈퇴
     @RequestMapping(value = "secession",
@@ -62,12 +66,12 @@ public class MemberController {
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String deleteUser(@SessionAttribute(value = "user", required = false) UserEntity user) {
-        EmailAuthEntity emailAuth = new EmailAuthEntity();
-        emailAuth.setEmail(user.getEmail());
-        Enum<?> result = this.memberService.deleteUser(user, emailAuth);
+    public String deleteUser(@SessionAttribute(value = "user", required = false) UserEntity user,
+                             HttpSession session) {
+        Enum<?> result = this.memberService.deleteUser(user);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
+        session.setAttribute("user", null);
         return responseObject.toString();
     }
 
@@ -75,9 +79,28 @@ public class MemberController {
     @RequestMapping(value = "myPage",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getMyPage() {
+    public ModelAndView getMyPage(@SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView("member/myPage");
+        // user 검색해서 값 넘겨주기.
+        modelAndView.addObject("myPage", this.memberService.getUser(user.getEmail()));
         return modelAndView;
+    }
+
+    // 네이버 로그인
+    @GetMapping(value = "naver", produces = MediaType.TEXT_PLAIN_VALUE)
+    public ModelAndView getNaverLogin(@RequestParam(value = "code") String code,
+                                      @RequestParam(value = "error", required = false) String error,
+                                      @RequestParam(value = "error_description", required = false) String errorDescription,
+                                      HttpSession session) throws IOException {
+        String accessToken = this.memberService.getNaverAccessToken(code);
+        NaverUserEntity user = this.memberService.getNaverUserInfo(accessToken);
+        if(!user.isUser()) {
+            ModelAndView modelAndView = new ModelAndView("member/naverRegister");
+            modelAndView.addObject("naverUser", this.memberService.getNaverUserInfo(accessToken));
+            return modelAndView;
+        }
+        session.setAttribute("user", this.memberService.getUser(user.getEmail()));
+        return new ModelAndView("member/naver");
     }
 
     // 카카오 로그인
@@ -89,8 +112,14 @@ public class MemberController {
         String accessToken = this.memberService.getKakaoAccessToken(code);
         // 2번 인증코드로 토큰 전달
         KakaoUserEntity user = this.memberService.getKakaoUserInfo(accessToken);
-        session.setAttribute("user", user);
-        return new ModelAndView("memeber/kakao");
+        if(!user.isUser()) {
+            ModelAndView modelAndView = new ModelAndView("member/kakaoRegister");
+            modelAndView.addObject("kakaoUser", this.memberService.getKakaoUserInfo(accessToken));
+            return modelAndView;
+        }
+
+        session.setAttribute("user", this.memberService.getUser(user.getEmail()));
+        return new ModelAndView("member/kakao");
     }
 
     // 카카오 로그아웃
@@ -105,12 +134,12 @@ public class MemberController {
     @RequestMapping(value = "login",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getLogin() {
+    public ModelAndView getLogin(@SessionAttribute(value = "user", required = false) UserEntity user) {
+        if(user != null) {return new ModelAndView("redirect:/");}
         ModelAndView modelAndView = new ModelAndView("member/login");
         return modelAndView;
     }
 
-    // TODO recaptcha 체크 안했을 때 로그인이 안되게 해야함.
     // 로그인 POST
     @RequestMapping(value = "login",
             method = RequestMethod.POST,
@@ -130,6 +159,8 @@ public class MemberController {
         responseObject.put("result", result.name().toLowerCase());
         System.out.println("누구냐" + user.getAdmin());
         System.out.println("누구냐" + user.getEmail());
+        System.out.println("누구냐" + user.getAddressPrimary());
+        System.out.println("누구냐" + user.getAddressSecondary());
         return responseObject.toString();
     }
 
@@ -147,7 +178,7 @@ public class MemberController {
     @RequestMapping(value = "register",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getRegister() {
+    public ModelAndView getRegister(@SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView("member/register");
         return modelAndView;
     }
