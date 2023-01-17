@@ -221,6 +221,110 @@ if(isSoldOut === null){
 
 
 
+//todo 리뷰 js
+//리뷰
+const reviewContainer = window.document.getElementById('reviewContainer');
+
+const loadReview = () => {
+    reviewContainer.innerText = '';
+    const url = new URL(window.location.href);
+    const searchParams = url.searchParams;
+    const xhr = new XMLHttpRequest();
+    const aid = searchParams.get('aid');
+    xhr.open('GET',`./comment?index=${aid}`)
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            const responseArray = JSON.parse(xhr.responseText);
+            for (const reviewObject of responseArray) {
+                const itemHtml = `<div class="review-main liked mine" rel="review">
+                <div class="review head">
+                    <div class="speciesPicContainer">
+                        <img class="speciesPic" src="/resources/images/icons8-jake-150.png" alt="#">
+                    </div>
+                    <div class="head">
+                        <span class="writer">${reviewObject['nickname']}</span>
+                        <span class="dt">${reviewObject['writtenOn']}</span>
+                        <span class="action-container">${reviewObject['mine'] === true ? '<a href="#" class="action delete" rel="actionDelete">삭제</a>' : ''}</span>
+                    </div>
+                </div>
+                <div class="body">
+                    <ul class="review-container" rel="reviewContainer">
+                        <li class="item" rel="item">
+                            <span class="item-title" rel="itemname">${reviewObject['commentTitle']}</span>
+                            <div class="image-container" rel="imageContainer"></div>
+                        </li>
+                    </ul>
+                    <div class="content">
+                        <span class="text">${reviewObject['content']}</span>
+                        <span class="like-content">이삼품이 도움이 되셧습니까?</span>
+                        <span class="like ${reviewObject['liked'] === true ? 'visible' : ''}" rel="likeComment">
+                            <a href="#" class="toggle" ${reviewObject['signed'] === true ? '' : 'prohibited'} rel="likeToggle"><i class="fa-regular fa-thumbs-up"></i></a><span
+                                class="count">${reviewObject['likeCommentCount']}</span>
+                        </span>
+                    </div>
+                </div>
+            </div>`
+                const domParser = new DOMParser();
+                const dom = domParser.parseFromString(itemHtml, 'text/html');
+                const reviewElement = dom.querySelector('[rel="review"]');
+                const likeToggleElement = dom.querySelector('[rel="likeToggle"]');
+                const likedCommentElement = dom.querySelector('[rel="likeComment"]')
+                const imageContainerElement = dom.querySelector('[rel="imageContainer"]');
+
+                if (reviewObject['imageIndexes'].length > 0) {
+                    for (const imageIndex of reviewObject['imageIndexes']) {
+                        const imageElement = document.createElement('img');
+                        imageElement.setAttribute('alt', '');
+                        imageElement.setAttribute('src', `/bbs/commentImage?index=${imageIndex}`);
+                        imageElement.classList.add('image');
+                        imageContainerElement.append(imageElement);
+                    }
+                } else {
+                    imageContainerElement.remove();
+                }
+
+                likeToggleElement.addEventListener('click', e => {
+                        e.preventDefault();
+                        const xhr = new XMLHttpRequest();
+                        const formData = new FormData();
+                        formData.append('commentIndex', reviewObject['index']);
+                        xhr.open('POST', './comment-liked');
+                        xhr.onreadystatechange = () => {
+                            if (xhr.readyState === XMLHttpRequest.DONE) {
+                                if (xhr.status >= 200 && xhr.status < 300) {
+                                    const responseObject = JSON.parse(xhr.responseText);
+                                    switch (responseObject['result']) {
+                                        case 'success':
+                                            if (reviewObject['liked'] === true) {
+                                                likedCommentElement.classList.remove('visible');
+                                            } else if (!reviewObject['liked'] === true) {
+                                                likedCommentElement.classList.add('visible');
+                                            }
+                                            loadReview();
+                                            break;
+                                        case 'not_allowed':
+                                            alert('로그인이 안되어있음');
+                                            break;
+                                        default:
+                                            alert('하트 실패');
+                                    }
+                                } else {
+                                    console.log('좋아요 실행을 실패했습니다(서버)');
+                                }
+                            }
+                        }
+                        ;
+                        xhr.send(formData);
+                    });
+                reviewContainer.append(reviewElement);
+            }
+        }
+    };
+    xhr.send();
+}
+
+loadReview();
+
 
 
 

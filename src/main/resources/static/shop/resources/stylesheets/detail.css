@@ -487,6 +487,12 @@ body > .--main > .detail-main > .detail-info > .detail-notice > .text {
     display: flex;
 }
 
+.like.visible > .toggle > i {
+    font-size: 1.2rem;
+    color: rgb(205, 97, 85);
+    font-weight: 900;
+}
+
 
 
 

@@ -2,7 +2,6 @@ package dev.twd.take_a_walk_duo.controllers;
 
 import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
-import dev.twd.take_a_walk_duo.entities.member.EmailAuthEntity;
 import dev.twd.take_a_walk_duo.entities.shop.PaymentEntity;
 import dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
@@ -351,4 +350,44 @@ public class ShopController extends GeneralController {
 //    }
 
 
+    //todo :리뷰 값 끌고오는 comment맵핑
+    @GetMapping(value = "comment", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public CommentVo[] getComment(@Param(value = "index") int index,
+                                  @SessionAttribute(value = "user", required = false) UserEntity user) {
+        return this.shopService.getComment(index, user);
+    }
+
+    //todo :리뷰 이미지 끌고오는 comment맵핑
+    @GetMapping(value = "commentImage")
+    public ResponseEntity<byte[]> getCommentImage(@RequestParam(value = "index") int index) {
+        ResponseEntity<byte[]> responseEntity;
+        CommentImageEntity commentImage = this.shopService.getCommentImage(index);
+        if (commentImage == null) {
+            responseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.valueOf(commentImage.getType()));
+            headers.setContentLength(commentImage.getData().length);
+            responseEntity = new ResponseEntity<>(commentImage.getData(), headers, HttpStatus.OK);
+        }
+
+        return responseEntity;
+    }
+    @RequestMapping(value = "comment-liked", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postCommentLike(@SessionAttribute(value = "user", required = false) UserEntity user,
+                                  CommentLikeEntity commentLikeEntity) {
+        Enum<?> result;
+        if (user == null) {
+            result = WriteResult.NOT_ALLOWED;
+        } else if (commentLikeEntity.getCommentIndex() == 0) {
+            result = WriteResult.NO_SUCH_BOARD;
+        } else {
+            result = this.shopService.likedComment(commentLikeEntity, user);
+        }
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("result", result.name().toLowerCase());
+        return responseObject.toString();
+    }
 }
