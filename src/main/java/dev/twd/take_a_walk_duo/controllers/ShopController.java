@@ -395,4 +395,8 @@ public class ShopController extends GeneralController {
         responseObject.put("result", result.name().toLowerCase());
         return responseObject.toString();
     }
+
+    // 리뷰 수정하기
+
+
 }
