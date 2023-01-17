@@ -338,6 +338,7 @@ public class ShopController extends GeneralController {
                                   @SessionAttribute(value = "user", required = false) UserEntity user) {
         return this.shopService.getComment(index, user);
     }
+
     //todo :리뷰 이미지 끌고오는 comment맵핑
     @GetMapping(value = "commentImage")
     public ResponseEntity<byte[]> getCommentImage(@RequestParam(value = "index") int index) {
