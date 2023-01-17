@@ -330,7 +330,7 @@ public class ShopController extends GeneralController {
                                   @RequestParam(value = "index", required = false) int paymentIndex) {
 
         ModelAndView modelAndView = new ModelAndView("shop/review");
-        PaymentEntity payment = this.shopService.getPayment(paymentIndex);
+        modelAndView.addObject("product", this.shopService.getPayment(paymentIndex));
 
         return modelAndView;
     }
