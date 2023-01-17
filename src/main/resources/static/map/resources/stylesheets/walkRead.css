@@ -246,6 +246,7 @@ body > .--header {
     justify-content: space-between;
     padding: 0.3rem 0.5rem;
     width: 20rem;
+    border-left: 0.5rem solid rgb(120, 110, 11);
 }
 
 #detailContainer > .title-container > .title {

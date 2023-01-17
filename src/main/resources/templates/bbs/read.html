@@ -265,15 +265,7 @@
     <img class="detail-img" rel="scaleImage" th:src="@{/bbs/thumbnail (index=${article.getIndex()})}" alt="#"
          src="/resources/images/item1.jpg">
 </div>
-<div class="dialog" rel="dialog">
-    <div class="dialog__inner">
-        <h1>TAKEAWALKDUO</h1>
-        <p class="text">Dialog 내용</p>
-        <div class="dialog__btn__wrap">
-            <button id="ok">OK</button>
-        </div>
-    </div>
-</div>
+<th:block th:replace="~{fragments/body :: dialog}"></th:block>
 <th:block th:replace="~{fragments/body :: cover}"></th:block>
 <th:block th:replace="~{fragments/body :: footer}"></th:block>
 </body>

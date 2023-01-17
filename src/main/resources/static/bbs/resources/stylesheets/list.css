@@ -43,7 +43,6 @@ body > .main > .search-form {
 /*공통css 조정*/
 .--object-input {
     border: 0.12rem solid rgb(169, 175, 126);
-    border-radius: 0.8rem;
     color: rgb(120, 120, 128);
     padding: 0.5rem 0.875rem;
 }
@@ -239,10 +238,6 @@ body > .main > .search-form > .label {
     justify-content: center;
     margin: 2rem;
 }
-
-/*#table > tfoot > tr > td > .page-container > .page {*/
-/*    margin-inline: 0.5rem;*/
-/*}*/
 
 #table > tfoot > tr > td > .page-container > .page.number {
     margin-inline: 1rem;

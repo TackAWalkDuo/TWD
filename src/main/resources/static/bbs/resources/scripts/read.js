@@ -336,7 +336,7 @@ if (commentMinePicForm !== null) {
     }
 }
 
-
+//Dialog 구현
 const showDialog = {
     getElement: () => window.document.querySelector('[rel="dialog"]'),
     show: (text) => {

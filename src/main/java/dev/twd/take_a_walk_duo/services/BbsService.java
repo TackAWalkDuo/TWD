@@ -44,6 +44,7 @@ public class BbsService {
         return this.bbsMapper.selectBoardById(id);
     }
 
+    //공지사항 board 찾기
     public BoardEntity getNoticeBoard() {
         return this.bbsMapper.selectNoticeBoardById();
     }
@@ -132,10 +133,12 @@ public class BbsService {
                 : CommonResult.FAILURE;
     }
 
+    //썸네일 이미지 index값으로 검색
     public ArticleEntity getThumbnail(int index) {
         return this.bbsMapper.selectThumbnailByIndex(index);
     }
 
+    //댓글 insert
     public Enum<? extends IResult> addComment(UserEntity user,
                                               CommentEntity comment,
                                               MultipartFile[] images) throws IOException {
@@ -182,6 +185,7 @@ public class BbsService {
         return this.bbsMapper.selectArticleByIndex(articleIndex);
     }
 
+    //게시글 수정
     public Enum<? extends IResult> modifyArticle(int articleIndex, UserEntity user, ArticleEntity articleEntity) {
         ArticleEntity existingArticle = this.bbsMapper.selectArticleByIndex(articleIndex);
         if (existingArticle == null) {
@@ -216,11 +220,13 @@ public class BbsService {
         return comments;
     }
 
+    //댓글 이미지가져오기
     public CommentImageEntity getCommentImage(int index) {
         return this.bbsMapper.selectCommentImageByIndex(index);
     }
 
 
+    //댓글 수정하기
     @Transactional
     public Enum<? extends IResult> modifyComment(UserEntity user, CommentEntity comment,
                                                  MultipartFile[] images, Boolean modifyFlag) throws IOException {
@@ -262,7 +268,7 @@ public class BbsService {
         return CommonResult.SUCCESS;
     }
 
-
+    //댓글 좋아요
     public Enum<? extends IResult> likedComment(CommentLikeEntity commentLikeEntity, UserEntity user) {
         CommentVo existingComment = this.bbsMapper.selectCommentByIndex(commentLikeEntity.getCommentIndex());
         if (existingComment == null) {
@@ -280,6 +286,7 @@ public class BbsService {
                 : CommonResult.FAILURE;
     }
 
+    //댓글 삭제
     public Enum<? extends IResult> deleteComment(UserEntity user, CommentEntity comment) {
         CommentEntity existingComment = this.bbsMapper.selectCommentByIndex(comment.getIndex());
         if (existingComment == null) return ReadResult.NO_SUCH_COMMENT;
@@ -315,6 +322,7 @@ public class BbsService {
         return this.bbsMapper.deleteArticle(article.getIndex()) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
 
+    //list 게시글 값 검색(paging)
     public ArticleReadVo[] getArticles(BoardEntity board, PagingModel paging, String criterion, String keyword) {
         return this.bbsMapper.selectArticlesByBoardId(
                 board.getId(), paging.countPerPage,
@@ -323,14 +331,17 @@ public class BbsService {
                 keyword);
     }
 
+    //추천 게시글 검색
     public ArticleReadVo[] getHotArticle(BoardEntity board) {
         return this.bbsMapper.selectHotArticlesByBoardId(board.getId());
     }
 
+    //공지 게시글 검색
     public ArticleReadVo getNoticeArticle(BoardEntity board) {
         return this.bbsMapper.selectNoticeArticleByBoardId(board.getId());
     }
 
+    //list 게시글 수 검색
     public int getArticleCount(BoardEntity board, String criterion, String keyword) {
         return this.bbsMapper.selectArticleCountByBoardId(board.getId(), criterion, keyword);
     }

@@ -72,10 +72,10 @@ form.onsubmit = e => {
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
                     case 'no_such_article':
-                        console.log('게시글을 수정할 수 없습니다. 게시글이 존재하지 않습니다.');
+                        showDialog.show('게시글을 수정할 수 없습니다. 게시글이 존재하지 않습니다.');
                         break;
                     case 'not_allowed':
-                        console.log('게시글을 수정할 수 있는 권한이 없거나 로그아웃 되었습니다. 확인 후 다시 시도해 주세요.');
+                        showDialog.show('게시글을 수정할 수 있는 권한이 없거나 로그아웃 되었습니다. 확인 후 다시 시도해 주세요.');
                         break;
                     case 'success':
                         // window.location.href = '/read?aid=' + responseObject['aid'];
@@ -84,13 +84,38 @@ form.onsubmit = e => {
                         window.location.href = `read?aid=${aid}`;
                         break;
                     default:
-                        console.log('알수 없는 이유로 게시글을 작성하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                        showDialog.show('알수 없는 이유로 게시글을 작성하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
                 }
             } else {
-                console.log('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                showDialog.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
             }
         }
     };
     xhr.send(formData);
+};
+
+const showDialog = {
+    getElement: () => window.document.querySelector('[rel="dialog"]'),
+    show: (text) => {
+        const dialog = showDialog.getElement();
+        dialog.querySelector('.text').innerText = text;
+        dialog.classList.add('visible');
+        // dialog.querySelector("#cancel").addEventListener("click", () => {
+        //     dialog.classList.remove('visible');
+        // });
+        dialog.querySelector("#ok").addEventListener("click", () => {
+            dialog.classList.remove('visible');
+        });
+        console.log(text);
+    },
+    notLogin: () =>{
+        const dialog = showDialog.getElement();
+        dialog.querySelector('.text').innerText = "권한이 없습니다.";
+        dialog.classList.add('visible');
+        dialog.querySelector("#ok").addEventListener("click", () => {
+            dialog.classList.remove('visible');
+            window.location.href = `/member/login`;
+        });
+    }
 };
 
