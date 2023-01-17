@@ -237,8 +237,10 @@ const loadReview = () => {
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             const responseArray = JSON.parse(xhr.responseText);
-            reviewAnchor.innerText = "리뷰("+ responseArray.length +")";
+            reviewAnchor.innerText = "리뷰(" + responseArray.length + ")";
             for (const reviewObject of responseArray) {
+                console.log(reviewObject['index']);
+
                 const itemHtml = `<div class="review-main liked mine" rel="review">
                 <div class="review head">
                     <div class="speciesPicContainer">
@@ -249,7 +251,7 @@ const loadReview = () => {
                         <span class="dt">${reviewObject['writtenOn']}</span>
                         <span class="action-container">
 ${(reviewObject['mine'] === true) || (adminElement != null && adminElement.value) ?
-                    '<a href="#" class="action modify" rel="actionModify">수정</a>' : ''} ${(reviewObject['mine'] === true) || (adminElement != null && adminElement.value) ? 
+                    '<a href="#" class="action modify" rel="actionModify">수정</a>' : ''} ${(reviewObject['mine'] === true) || (adminElement != null && adminElement.value) ?
                     '<a href="#" class="action delete" rel="actionDelete">삭제</a>' : ''}
 </span>
                         
@@ -364,13 +366,13 @@ ${(reviewObject['mine'] === true) || (adminElement != null && adminElement.value
                     xhr.send(formData);
                 });
 
-            modifyFormElement?.addEventListener('click', () => {
+                modifyFormElement?.addEventListener('click', () => {
                     const writeUser = window.document.getElementById("writeUser").value;
                     const loginUser = window.document.getElementById("loginUser")?.value;
 
                     writeUser === loginUser
-                        ? window.location.href = `./modifyReview?aid=${reviewObject['index'].value}`
-                        : showDialog.show("수정 권한이 없습니다.");
+                        ? window.location.href = `./modifyReview?index=${reviewObject['index']}`
+                        : alert("수정 권한이 없습니다.");
                 });
 
 
