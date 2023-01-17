@@ -422,5 +422,28 @@ public class ShopService {
                 : CommonResult.FAILURE;
     }
 
+//    public Enum<? extends IResult>registerReview(MultipartFile[] images) throws IOException {
+//        if (images != null) {
+//            for (MultipartFile image : images) {
+//
+//            }
+//        } else {
+//            byte[] imageInByte;
+//            File defaultImage = new File();
+//
+//            BufferedImage originalImage = ImageIO.read(defaultImage);
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//            ImageIO.write(originalImage, "png", baos);
+//            baos.flush();
+//
+//            imageInByte = baos.toByteArray();
+//
+//
+//
+//            baos.close();
+//        }
+//        return this.shopMapper.insertReview() > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
+//    }
+
 }
 

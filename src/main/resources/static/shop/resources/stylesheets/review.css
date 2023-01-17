@@ -86,7 +86,7 @@ body > .main > .form > .table > table > tbody > tr > td > .button-container > .p
     margin: 0.5rem;
 }
 
-body > .main > .form > .table > table > tbody > tr > td > .button-container > .photo  {
+body > .main > .form > .table > table > tbody > tr > td > .button-container > .photo {
     background-color: rgb(128, 139, 120);
     border-radius: 0.5rem;
     color: rgb(255, 255, 255);
@@ -120,4 +120,36 @@ body > .main > .form > .table > .button-container > .button {
 
 body > .main > .form > .table > .button-container > .register {
     background-color: rgb(139, 145, 121);
+}
+
+/* 사진 첨부하기 버튼 */
+
+body > .main > .form > .table > table > tbody > tr > td > .contentImage-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+body > .main > .form > .table > table > tbody > tr > td > .contentImage-container > .image-select-button {
+    background-color: rgb(128, 139, 120);
+    border-radius: 0.5rem;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    padding: 1rem 3rem;
+    user-select: unset;
+    text-decoration: none;
+}
+
+body > .main > .form > .table > table > tbody > tr > td > .image-container {
+    height: 12rem;
+}
+
+body > .main > .form > .table > table > tbody > tr > td  > .contentImage-container > .image-container > .image {
+    width: 12rem;
+    height: 12rem;
+}
+
+body > .main > .form > .table > table > tbody > tr > td  > .contentImage-container > .image-container > .no-image {
+    margin-left: 1rem;
 }

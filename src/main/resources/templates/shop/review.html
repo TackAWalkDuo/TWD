@@ -76,12 +76,17 @@
                         </label>
                     </td>
                 </tr>
-                <tr>
+                <input hidden multiple accept="image/" name="images" type="file">
+                <tr class="contentLine">
                     <th>사진첨부</th>
                     <td>
-                        <div class="button-container">
-                            <div class="photo" rel="photoButton">
-                                <span class="text">사진 첨부하기</span>
+                        <div class="contentImage-container" rel="contentImageContainer">
+                            <a class="image-select-button" href="#" rel="imageSelectButton">사진 첨부하기</a>
+                            <div class="image-container" rel="imageContainer">
+                                <div class="no-image" rel="noImage">
+                                    선택된 이미지가 없습니다.
+                                </div>
+                                <img hidden src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Supreme_pizza.jpg/800px-Supreme_pizza.jpg" alt="" class="image">
                             </div>
                         </div>
                     </td>
