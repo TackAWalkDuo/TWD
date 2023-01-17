@@ -361,4 +361,4 @@ const loadReview = () => {
     xhr.send();
 }
 
-loadReview();
+// loadReview();
