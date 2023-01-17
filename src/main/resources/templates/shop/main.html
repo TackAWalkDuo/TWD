@@ -8,7 +8,7 @@
     <title>Take a walk duo</title>
     <th:block th:replace="~{fragments/head}"></th:block>
     <link rel="stylesheet" th:href="@{/shop/resources/stylesheets/main.css}">
-
+    <script defer th:src="@{/resources/scripts/index.js}"></script>
 </head>
 <body>
 <th:block th:replace="~{fragments/body :: header}"></th:block>
@@ -32,13 +32,18 @@
             <li class="item" th:each="product : ${products}">
                 <a class="link" th:href="@{/shop/detail(aid=${product.getIndex()})}">
                     <img alt="제품1" class="image" th:src="|/bbs/thumbnail?index=${product.getIndex()}|">
-                    <span class="text" th:text="${product.getTitle()}"></span>
-                    <span class="charge-price" th:text="${product.getPrice() + '원'}"></span>
+                    <div>
+                        <span class="text" th:text="${product.getTitle()}"></span>
+                        <span th:if="${product.getQuantity() <= 0}" class="sold-out">품절</span>
+                    </div>
+                    <span th:class="${product.getDiscount() > 0 ? 'discount' : 'charge-price'}" th:text="${product.getCost() + '원'}"></span>
+<!--                    <span class="charge-price" th:text="${product.getPrice() + '원'}"></span>-->
                 </a>
             </li>
         </ul>
     </section>
-    <section class="box second" th:if="${productClothes != null}">
+
+    <section class="box clothes" th:if="${productClothes.length > 0}">
         <h2 class="title">Clothes</h2>
         <ul class="item-container emple">
             <li class="item big">
@@ -71,6 +76,160 @@
             </div>
         </ul>
     </section>
+
+    <section class="box collection">
+        <h2 class="title">Discount Products</h2>
+            <ul class="item-container shop--container">
+                <div class="pre-btn"><</div>
+                <li class="item shop-item" th:each="discountProduct : ${discountProducts}">
+                    <a class="link" th:href="@{/shop/detail(aid=${discountProduct.getIndex()})}">
+                        <img alt="제품1" class="image" th:src="|/bbs/thumbnail?index=${discountProduct.getIndex()}|">
+                        <div>
+                            <span class="text" th:text="${discountProduct.getTitle()}"></span>
+                            <span th:if="${discountProduct.getQuantity() <= 0}" class="sold-out">품절</span>
+                        </div>
+                        <span class="charge-price" th:text="${discountProduct.getPrice() + '원'}"></span>
+                    </a>
+                </li>
+                <div class="next-btn">></div>
+            </ul>
+    </section>
+
+    <!--    <section class="box feed" th:if="${productFeed.length > 0}">-->
+    <!--        <h2 class="title">Feed</h2>-->
+    <!--        <ul class="item-container emple">-->
+    <!--            <li class="item big">-->
+    <!--                <a class="link big" th:href="@{/shop/list(bid=${productFeed[0].getCategoryText()})}">-->
+    <!--                    <img alt="" class="image-big"-->
+    <!--                         th:src="|/bbs/thumbnail?index=${productFeed[0].getIndex()}|">-->
+    <!--                    <span class="text"></span>-->
+    <!--                </a>-->
+    <!--            </li>-->
+    <!--            <div class="item-description">-->
+    <!--                <div class="description-header">기호성 좋은 사료 모음</div>-->
+    <!--                <span class="description-body"></span>-->
+
+    <!--                &lt;!&ndash;/*@thymesVar id="products" type="dev.twd.take_a_walk_duo.vos.shop.ProductVo[]"*/&ndash;&gt;-->
+    <!--                <div class="side-image"-->
+    <!--                     th:each="i : ${#numbers.sequence(0, (productFeed.length >= 2 ? 1 : productFeed.length - 1))}"-->
+    <!--                     th:with="product = ${productFeed[i]}">-->
+    <!--                    <a th:href="@{/shop/detail(aid=${product.getIndex()})}">-->
+    <!--                        <img alt="제품1" class="image side"-->
+    <!--                             th:src="|/bbs/thumbnail?index=${product.getIndex()}|">-->
+    <!--                    </a>-->
+    <!--                    <div class="side-description">-->
+    <!--                        <span>-->
+    <!--                        <div class="side header" th:text="${product.getTitle()}">Dog coat Alaska Olive </div>-->
+    <!--                        <div class="side text" th:utext="${product.getText()}">클라우드7 Cloud7 </div>-->
+    <!--                        <div class="side charge-price" th:text="${product.getPrice() + '원'}">37,500원 </div>-->
+    <!--                         </span>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </ul>-->
+    <!--    </section>-->
+
+    <!--    <section class="box snack" th:if="${productSnack.length > 0}">-->
+    <!--        <h2 class="title">Snack</h2>-->
+    <!--        <ul class="item-container emple">-->
+    <!--            <li class="item big">-->
+    <!--                <a class="link big" th:href="@{/shop/list(bid=${productSnack[0].getCategoryText()})}">-->
+    <!--                    <img alt="" class="image-big"-->
+    <!--                         th:src="|/bbs/thumbnail?index=${productSnack[0].getIndex()}|">-->
+    <!--                    <span class="text"></span>-->
+    <!--                </a>-->
+    <!--            </li>-->
+    <!--            <div class="item-description">-->
+    <!--                <div class="description-header">맛과 건강까지, 수제간식 모음</div>-->
+    <!--                <span class="description-body"></span>-->
+
+    <!--                &lt;!&ndash;/*@thymesVar id="products" type="dev.twd.take_a_walk_duo.vos.shop.ProductVo[]"*/&ndash;&gt;-->
+    <!--                <div class="side-image"-->
+    <!--                     th:each="i : ${#numbers.sequence(0, (productSnack.length >= 2 ? 1 : productSnack.length - 1))}"-->
+    <!--                     th:with="product = ${productSnack[i]}">-->
+    <!--                    <a th:href="@{/shop/detail(aid=${product.getIndex()})}">-->
+    <!--                        <img alt="제품1" class="image side"-->
+    <!--                             th:src="|/bbs/thumbnail?index=${product.getIndex()}|">-->
+    <!--                    </a>-->
+    <!--                    <div class="side-description">-->
+    <!--                        <span>-->
+    <!--                        <div class="side header" th:text="${product.getTitle()}">Dog coat Alaska Olive </div>-->
+    <!--                        <div class="side text" th:utext="${product.getText()}">클라우드7 Cloud7 </div>-->
+    <!--                        <div class="side charge-price" th:text="${product.getPrice() + '원'}">37,500원 </div>-->
+    <!--                         </span>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </ul>-->
+    <!--    </section>-->
+
+    <!--    <section class="box toy" th:if="${productToy.length > 0}">-->
+    <!--        <h2 class="title">Toy</h2>-->
+    <!--        <ul class="item-container emple">-->
+    <!--            <li class="item big">-->
+    <!--                <a class="link big" th:href="@{/shop/list(bid=${productToy[0].getCategoryText()})}">-->
+    <!--                    <img alt="" class="image-big"-->
+    <!--                         th:src="|/bbs/thumbnail?index=${productToy[0].getIndex()}|">-->
+    <!--                    <span class="text"></span>-->
+    <!--                </a>-->
+    <!--            </li>-->
+    <!--            <div class="item-description">-->
+    <!--                <div class="description-header">강아지가 좋아하는 장난감 모음</div>-->
+    <!--                <span class="description-body"></span>-->
+
+    <!--                &lt;!&ndash;/*@thymesVar id="products" type="dev.twd.take_a_walk_duo.vos.shop.ProductVo[]"*/&ndash;&gt;-->
+    <!--                <div class="side-image"-->
+    <!--                     th:each="i : ${#numbers.sequence(0, (productToy.length >= 2 ? 1 : productToy.length - 1))}"-->
+    <!--                     th:with="product = ${productToy[i]}">-->
+    <!--                    <a th:href="@{/shop/detail(aid=${product.getIndex()})}">-->
+    <!--                        <img alt="제품1" class="image side"-->
+    <!--                             th:src="|/bbs/thumbnail?index=${product.getIndex()}|">-->
+    <!--                    </a>-->
+    <!--                    <div class="side-description">-->
+    <!--                        <span>-->
+    <!--                        <div class="side header" th:text="${product.getTitle()}">Dog coat Alaska Olive </div>-->
+    <!--                        <div class="side text" th:utext="${product.getText()}">클라우드7 Cloud7 </div>-->
+    <!--                        <div class="side charge-price" th:text="${product.getPrice() + '원'}">37,500원 </div>-->
+    <!--                         </span>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </ul>-->
+    <!--    </section>-->
+
+    <!--    <section class="box etc" th:if="${productEtc.length > 0}">-->
+    <!--        <h2 class="title">Etc</h2>-->
+    <!--        <ul class="item-container emple">-->
+    <!--            <li class="item big">-->
+    <!--                <a class="link big" th:href="@{/shop/list(bid=${productEtc[0].getCategoryText()})}">-->
+    <!--                    <img alt="" class="image-big"-->
+    <!--                         th:src="|/bbs/thumbnail?index=${productEtc[0].getIndex()}|">-->
+    <!--                    <span class="text"></span>-->
+    <!--                </a>-->
+    <!--            </li>-->
+    <!--            <div class="item-description">-->
+    <!--                <div class="description-header">기타 상품 모음</div>-->
+    <!--                <span class="description-body"></span>-->
+
+    <!--                &lt;!&ndash;/*@thymesVar id="products" type="dev.twd.take_a_walk_duo.vos.shop.ProductVo[]"*/&ndash;&gt;-->
+    <!--                <div class="side-image"-->
+    <!--                     th:each="i : ${#numbers.sequence(0, (productEtc.length >= 2 ? 1 : productEtc.length - 1))}"-->
+    <!--                     th:with="product = ${productEtc[i]}">-->
+    <!--                    <a th:href="@{/shop/detail(aid=${product.getIndex()})}">-->
+    <!--                        <img alt="제품1" class="image side"-->
+    <!--                             th:src="|/bbs/thumbnail?index=${product.getIndex()}|">-->
+    <!--                    </a>-->
+    <!--                    <div class="side-description">-->
+    <!--                        <span>-->
+    <!--                        <div class="side header" th:text="${product.getTitle()}">Dog coat Alaska Olive </div>-->
+    <!--                        <div class="side text" th:utext="${product.getText()}">클라우드7 Cloud7 </div>-->
+    <!--                        <div class="side charge-price" th:text="${product.getPrice() + '원'}">37,500원 </div>-->
+    <!--                         </span>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </ul>-->
+    <!--    </section>-->
 </main>
 <!-- cover -->
 <th:block th:replace="~{fragments/body :: cover}"></th:block>

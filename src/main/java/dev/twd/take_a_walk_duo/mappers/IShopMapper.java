@@ -40,6 +40,7 @@ public interface IShopMapper {
     ProductVo selectArticleByArticleIndex(@Param(value = "aid") int aid);
 
     ProductVo[] selectAllArticles();
+    ProductVo[] selectDiscountProducts();
 
     ProductVo[] selectConditionArticles( @Param(value = "categoryText") String categoryText);
 
