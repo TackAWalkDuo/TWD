@@ -331,7 +331,8 @@ public class ShopController extends GeneralController {
                                   @RequestParam(value = "index", required = false) int paymentIndex) {
 
         ModelAndView modelAndView = new ModelAndView("shop/review");
-        modelAndView.addObject("product", this.shopService.getSaleProduct(paymentIndex));
+        modelAndView.addObject("product", this.shopService.getArticle(
+                this.shopService.getSaleProduct(paymentIndex).getArticleIndex()));
 
         return modelAndView;
     }

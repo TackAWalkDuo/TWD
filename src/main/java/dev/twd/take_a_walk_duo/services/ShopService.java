@@ -494,5 +494,9 @@ public class ShopService {
         PaymentEntity payment = this.shopMapper.selectPaymentByIndex(index);
         return this.shopMapper.selectProductByArticleIndex(payment.getProductIndex());
     }
+
+    public ArticleEntity getArticle(int index) {
+        return this.shopMapper.selectArticleByArticleIndex(index);
+    }
 }
 
