@@ -21,6 +21,8 @@ const addCart = window.document.querySelector('[rel="addCart"]');
 
 const isSoldOut = window.document.querySelector('[rel="isSoldOut"]');
 
+const reviewAnchor = window.document.getElementById("reviewAnchor");
+
 
 //  품절이 아닐 경우에만 실행
 if (isSoldOut === null) {
@@ -235,6 +237,7 @@ const loadReview = () => {
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             const responseArray = JSON.parse(xhr.responseText);
+            reviewAnchor.innerText = "리뷰("+ responseArray.length +")";
             for (const reviewObject of responseArray) {
                 const itemHtml = `<div class="review-main liked mine" rel="review">
                 <div class="review head">
