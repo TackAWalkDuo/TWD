@@ -221,6 +221,67 @@ if(isSoldOut === null){
 
 
 
+//todo 리뷰 js
+//리뷰
+const reviewContainer = window.document.getElementById('reviewContainer');
+
+const loadReview = () => {
+    reviewContainer.innerText = '';
+    const url = new URL(window.location.href);
+    const searchParams = url.searchParams;
+    const xhr = new XMLHttpRequest();
+    const aid = searchParams.get('aid');
+    xhr.open('GET',`./comment?index=${aid}`)
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            const responseArray = JSON.parse(xhr.responseText);
+            for (const reviewObject of responseArray) {
+                const itemHtml = `<div class="review-main liked mine" rel="review">
+                <div class="review head">
+                    <div class="speciesPicContainer">
+                        <img class="speciesPic" src="/resources/images/icons8-jake-150.png" alt="#">
+                    </div>
+                    <div class="head">
+                        <span class="writer">${reviewObject['nickname']}</span>
+                        <span class="dt">${reviewObject['writtenOn']}</span>
+                        <span class="action-container">${reviewObject['mine'] === true ? '<a href="#" class="action delete" rel="actionDelete">삭제</a>' : ''}</span>
+                    </div>
+                </div>
+                <div class="body">
+                    <ul class="review-container" rel="reviewContainer">
+                        <li class="item" rel="item">
+                            <span class="item-title" rel="itemname">${reviewObject['commentTitle']}</span>
+                            <div class="image-container" rel="imageContainer">
+                                <img alt="" class="image"
+                                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Supreme_pizza.jpg/800px-Supreme_pizza.jpg">
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="content">
+                        <span class="text">${reviewObject['content']}</span>
+                        <span class="like-content">이삼품이 도움이 되셧습니까?</span>
+                        <span class="like">
+                            <a href="#" class="toggle"><i class="fa-regular fa-thumbs-up"></i></a><span
+                                class="count">9,999</span>
+                        </span>
+                    </div>
+                </div>
+            </div>`
+                const domParser = new DOMParser();
+                const dom = domParser.parseFromString(itemHtml, 'text/html');
+                const reviewElement = dom.querySelector('[rel="review"]');
+                const likeToggleElement = dom.querySelector('[rel="likeToggle"]');
+                const likedCommentElement = dom.querySelector('[rel="likeComment"]')
+
+                reviewContainer.append(reviewElement);
+            }
+        }
+    };
+    xhr.send();
+}
+
+loadReview();
+
 
 
 

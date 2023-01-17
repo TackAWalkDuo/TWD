@@ -1,6 +1,7 @@
 package dev.twd.take_a_walk_duo.controllers;
 
 import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
+import dev.twd.take_a_walk_duo.entities.bbs.CommentImageEntity;
 import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
 import dev.twd.take_a_walk_duo.entities.shop.PaymentEntity;
 import dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity;
@@ -12,9 +13,11 @@ import dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.services.BbsService;
 import dev.twd.take_a_walk_duo.services.ShopService;
+import dev.twd.take_a_walk_duo.vos.bbs.CommentVo;
 import dev.twd.take_a_walk_duo.vos.shop.CartVo;
 import dev.twd.take_a_walk_duo.vos.shop.PaymentVo;
 import dev.twd.take_a_walk_duo.vos.shop.ProductVo;
+import org.apache.ibatis.annotations.Param;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -332,4 +335,27 @@ public class ShopController extends GeneralController {
         return modelAndView;
     }
 
+    //todo :리뷰 값 끌고오는 comment맵핑
+    @GetMapping(value = "comment", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public CommentVo[] getComment(@Param(value = "index") int index,
+                                  @SessionAttribute(value = "user", required = false) UserEntity user) {
+        return this.shopService.getComment(index, user);
+    }
+    //todo :리뷰 이미지 끌고오는 comment맵핑
+    @GetMapping(value = "commentImage")
+    public ResponseEntity<byte[]> getCommentImage(@RequestParam(value = "index") int index) {
+        ResponseEntity<byte[]> responseEntity;
+        CommentImageEntity commentImage = this.shopService.getCommentImage(index);
+        if (commentImage == null) {
+            responseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.valueOf(commentImage.getType()));
+            headers.setContentLength(commentImage.getData().length);
+            responseEntity = new ResponseEntity<>(commentImage.getData(), headers, HttpStatus.OK);
+        }
+
+        return responseEntity;
+    }
 }
