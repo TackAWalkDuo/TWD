@@ -508,8 +508,9 @@ public class ShopService {
                 : CommonResult.FAILURE;
     }
 
-    public PaymentEntity getPayment(int index) {
-        return this.shopMapper.selectPaymentByIndex(index);
+    public SaleProductEntity getPayment(int index) {
+        PaymentEntity payment = this.shopMapper.selectPaymentByIndex(index);
+        return this.shopMapper.selectProductByArticleIndex(payment.getProductIndex());
     }
 }
 
