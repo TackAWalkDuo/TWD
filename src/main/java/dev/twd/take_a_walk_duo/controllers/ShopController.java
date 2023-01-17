@@ -1,13 +1,11 @@
 package dev.twd.take_a_walk_duo.controllers;
 
-import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.CommentImageEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
+import dev.twd.take_a_walk_duo.entities.bbs.*;
 import dev.twd.take_a_walk_duo.entities.shop.PaymentEntity;
 import dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
+import dev.twd.take_a_walk_duo.enums.bbs.WriteResult;
 import dev.twd.take_a_walk_duo.models.PagingModel;
-import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
 import dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.services.ShopService;
@@ -355,5 +353,21 @@ public class ShopController extends GeneralController {
         }
 
         return responseEntity;
+    }
+    @RequestMapping(value = "comment-liked", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postCommentLike(@SessionAttribute(value = "user", required = false) UserEntity user,
+                                  CommentLikeEntity commentLikeEntity) {
+        Enum<?> result;
+        if (user == null) {
+            result = WriteResult.NOT_ALLOWED;
+        } else if (commentLikeEntity.getCommentIndex() == 0) {
+            result = WriteResult.NO_SUCH_BOARD;
+        } else {
+            result = this.shopService.likedComment(commentLikeEntity, user);
+        }
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("result", result.name().toLowerCase());
+        return responseObject.toString();
     }
 }

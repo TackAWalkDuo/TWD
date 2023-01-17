@@ -1,9 +1,6 @@
 package dev.twd.take_a_walk_duo.services;
 
-import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.CommentImageEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
+import dev.twd.take_a_walk_duo.entities.bbs.*;
 import dev.twd.take_a_walk_duo.entities.shop.PaymentEntity;
 import dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
@@ -437,6 +434,23 @@ public class ShopService {
     }
     public CommentImageEntity getCommentImage(int index) {
         return this.bbsMapper.selectCommentImageByIndex(index);
+    }
+
+    public Enum<? extends IResult> likedComment(CommentLikeEntity commentLikeEntity, UserEntity user) {
+        CommentVo existingComment = this.bbsMapper.selectCommentByIndex(commentLikeEntity.getCommentIndex());
+        if (existingComment == null) {
+            return CommonResult.FAILURE;
+        }
+        if (this.bbsMapper.selectCommentLikeByIndex(commentLikeEntity.getCommentIndex(), user.getEmail()) != null) {
+            return this.bbsMapper.deleteByCommentLiked(commentLikeEntity.getCommentIndex()) > 0
+                    ? CommonResult.SUCCESS
+                    : CommonResult.FAILURE;
+        }
+        commentLikeEntity.setUserEmail(user.getEmail());
+        commentLikeEntity.setCreatedOn(new Date());
+        return this.bbsMapper.insertCommentLike(commentLikeEntity) > 0
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
     }
 }
 

@@ -251,18 +251,15 @@ const loadReview = () => {
                     <ul class="review-container" rel="reviewContainer">
                         <li class="item" rel="item">
                             <span class="item-title" rel="itemname">${reviewObject['commentTitle']}</span>
-                            <div class="image-container" rel="imageContainer">
-                                <img alt="" class="image"
-                                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Supreme_pizza.jpg/800px-Supreme_pizza.jpg">
-                            </div>
+                            <div class="image-container" rel="imageContainer"></div>
                         </li>
                     </ul>
                     <div class="content">
                         <span class="text">${reviewObject['content']}</span>
                         <span class="like-content">이삼품이 도움이 되셧습니까?</span>
-                        <span class="like">
-                            <a href="#" class="toggle"><i class="fa-regular fa-thumbs-up"></i></a><span
-                                class="count">9,999</span>
+                        <span class="like ${reviewObject['liked'] === true ? 'visible' : ''}" rel="likeComment">
+                            <a href="#" class="toggle" ${reviewObject['signed'] === true ? '' : 'prohibited'} rel="likeToggle"><i class="fa-regular fa-thumbs-up"></i></a><span
+                                class="count">${reviewObject['likeCommentCount']}</span>
                         </span>
                     </div>
                 </div>
@@ -272,7 +269,53 @@ const loadReview = () => {
                 const reviewElement = dom.querySelector('[rel="review"]');
                 const likeToggleElement = dom.querySelector('[rel="likeToggle"]');
                 const likedCommentElement = dom.querySelector('[rel="likeComment"]')
+                const imageContainerElement = dom.querySelector('[rel="imageContainer"]');
 
+                if (reviewObject['imageIndexes'].length > 0) {
+                    for (const imageIndex of reviewObject['imageIndexes']) {
+                        const imageElement = document.createElement('img');
+                        imageElement.setAttribute('alt', '');
+                        imageElement.setAttribute('src', `/bbs/commentImage?index=${imageIndex}`);
+                        imageElement.classList.add('image');
+                        imageContainerElement.append(imageElement);
+                    }
+                } else {
+                    imageContainerElement.remove();
+                }
+
+                likeToggleElement.addEventListener('click', e => {
+                        e.preventDefault();
+                        const xhr = new XMLHttpRequest();
+                        const formData = new FormData();
+                        formData.append('commentIndex', reviewObject['index']);
+                        xhr.open('POST', './comment-liked');
+                        xhr.onreadystatechange = () => {
+                            if (xhr.readyState === XMLHttpRequest.DONE) {
+                                if (xhr.status >= 200 && xhr.status < 300) {
+                                    const responseObject = JSON.parse(xhr.responseText);
+                                    switch (responseObject['result']) {
+                                        case 'success':
+                                            if (reviewObject['liked'] === true) {
+                                                likedCommentElement.classList.remove('visible');
+                                            } else if (!reviewObject['liked'] === true) {
+                                                likedCommentElement.classList.add('visible');
+                                            }
+                                            loadReview();
+                                            break;
+                                        case 'not_allowed':
+                                            alert('로그인이 안되어있음');
+                                            break;
+                                        default:
+                                            alert('하트 실패');
+                                    }
+                                } else {
+                                    console.log('좋아요 실행을 실패했습니다(서버)');
+                                }
+                            }
+                        }
+                        ;
+                        xhr.send(formData);
+                    });
                 reviewContainer.append(reviewElement);
             }
         }
