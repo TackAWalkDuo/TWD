@@ -1,6 +1,7 @@
 package dev.twd.take_a_walk_duo.controllers;
 
 import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
+import dev.twd.take_a_walk_duo.entities.bbs.CommentEntity;
 import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
 import dev.twd.take_a_walk_duo.entities.member.EmailAuthEntity;
 import dev.twd.take_a_walk_duo.entities.shop.PaymentEntity;
@@ -331,20 +332,18 @@ public class ShopController extends GeneralController {
         return modelAndView;
     }
 
-//    @RequestMapping(value = "review", method = RequestMethod.POST,
-//    produces = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseBody
-//    public String postReview(
-//            @SessionAttribute(value = "user", required = false) UserEntity user,
-//            @RequestParam(value = "images", required = false) MultipartFile[] images) throws IOException {
-//        Enum<?> result;
-//        JSONObject responseObject = new JSONObject();
-//        if (user == null) {
-//            result = CommonResult.FAILURE;
-//        } else {
-//            result = this.shopService.registerReview(images);
-//        }
-//    }
+    @RequestMapping(value = "review", method = RequestMethod.POST,
+    produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postReview(
+            @SessionAttribute(value = "user", required = false) UserEntity user,
+            @RequestParam(value = "images", required = false) MultipartFile[] images, CommentEntity comment) throws IOException {
+        JSONObject responseObject = new JSONObject();
+        Enum<?> result = this.shopService.addComment(user, comment, images);
 
+        responseObject.put("result", result.name().toLowerCase());
+
+        return responseObject.toString();
+    }
 
 }

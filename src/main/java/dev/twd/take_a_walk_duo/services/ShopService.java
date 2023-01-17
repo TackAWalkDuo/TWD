@@ -1,8 +1,6 @@
 package dev.twd.take_a_walk_duo.services;
 
-import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
+import dev.twd.take_a_walk_duo.entities.bbs.*;
 import dev.twd.take_a_walk_duo.entities.shop.PaymentEntity;
 import dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
@@ -422,6 +420,34 @@ public class ShopService {
                 : CommonResult.FAILURE;
     }
 
+    public Enum<? extends IResult> addComment(UserEntity user,
+                                              CommentEntity comment,
+                                              MultipartFile[] images) throws IOException {
+        if (user == null) {
+            return CommonResult.NOT_SIGNED;
+        }
+
+        comment.setUserEmail(user.getEmail());
+        comment.setWrittenOn(new Date());
+        if (this.bbsMapper.insertComment(comment) == 0) {
+            return CommonResult.FAILURE;
+        }
+        if (images != null && images.length > 0) {
+            for (MultipartFile image : images) {
+                CommentImageEntity commentImage = new CommentImageEntity();
+                commentImage.setCommentIndex(comment.getIndex());
+                commentImage.setData(image.getBytes());
+                commentImage.setType(image.getContentType());
+                if (this.bbsMapper.insertCommentImage(commentImage) == 0) {
+                    return CommonResult.FAILURE;
+                }
+            }
+        }
+
+        return CommonResult.SUCCESS;
+
+
+    }
 //    public Enum<? extends IResult>registerReview(MultipartFile[] images) throws IOException {
 //        if (images != null) {
 //            for (MultipartFile image : images) {

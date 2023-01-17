@@ -1,14 +1,14 @@
 const form = window.document.getElementById('form');
 
-const Warning = {
-    show: (text) => {
-        form.querySelector('[rel="warningText"]').innerText = text;
-        form.querySelector('[rel="warning"]').classList.add('visible');
-    },
-    hide: () => {
-        form.querySelector('[rel="warning"]').classList.remove('visible');
-    }
-}
+// const Warning = {
+//     show: (text) => {
+//         form.querySelector('[rel="warningText"]').innerText = text;
+//         form.querySelector('[rel="warning"]').classList.add('visible');
+//     },
+//     hide: () => {
+//         form.querySelector('[rel="warning"]').classList.remove('visible');
+//     }
+// }
 
 // 취소하기 버튼
 form.querySelector('[rel="cancleButton"]').addEventListener('click', () => {
@@ -50,12 +50,12 @@ form.querySelector('[rel="registerButton"]').addEventListener('click', () => {
 
     if (checkReviewGood.checked === false && checkReviewCommon.checked === false &&
         checkReviewBad.checked === false) {
-        Warning.show('리뷰 평가를 체크해 주세요.');
+        alert('리뷰 평가를 체크해 주세요.');
         return;
     }
 
     if (form['content'].value === '') {
-        Warning.show('상세리뷰를 입력해주세요.');
+        alert('상세 리뷰를 작성해 주세요.');
         form['content'].focus();
         return;
     }
@@ -67,7 +67,6 @@ form.querySelector('[rel="registerButton"]').addEventListener('click', () => {
     }
     formData.append('review', form['review'].value);
     formData.append('content', form['content'].value);
-    formData.append('photo', form['photo'].value);
 
     xhr.open('POST', 'shop/review');
     xhr.onreadystatechange = () => {
