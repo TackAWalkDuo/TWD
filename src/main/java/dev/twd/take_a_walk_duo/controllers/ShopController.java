@@ -330,6 +330,7 @@ public class ShopController extends GeneralController {
 
         ModelAndView modelAndView = new ModelAndView("shop/review");
         PaymentEntity payment = this.shopService.getPayment(paymentIndex);
+//        modelAndView.addObject("payment", payment);
 
 
         return modelAndView;
