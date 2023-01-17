@@ -429,6 +429,11 @@ body > .--main > .detail-main > .detail-info > .detail-notice > .text {
     font-size: 0.9rem;
 }
 
+.review.head > .head > .action-container > .modify {
+    text-decoration: none;
+    color: rgb(169, 175, 126);
+}
+
 .review.head > .head > .action-container > .delete {
     text-decoration: none;
     color: rgb(169, 175, 126);

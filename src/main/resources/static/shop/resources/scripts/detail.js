@@ -301,6 +301,7 @@ const loadReview = () => {
                                 const responseObject = JSON.parse(xhr.responseText);
                                 switch (responseObject['result']) {
                                     case 'success' :
+                                        alert('삭제가 완료되었습니다.');
                                         loadReview();
                                         break;
                                     case 'not_signed':
