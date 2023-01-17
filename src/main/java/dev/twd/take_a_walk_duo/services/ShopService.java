@@ -78,6 +78,10 @@ public class ShopService {
         return this.shopMapper.selectAllArticles();
     }
 
+    public ProductVo[] getConditionArticles(String categoryText) {
+        return this.shopMapper.selectConditionArticles(categoryText);
+    }
+
     // 장바구니 호출
     public CartVo[] getArticles(String userEmail) {
         return this.shopMapper.selectCartsByUserEmail(userEmail);

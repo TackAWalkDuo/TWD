@@ -43,8 +43,8 @@ public class ShopController extends GeneralController {
             produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getShop(@SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView("shop/main");
-        ProductVo[] products = this.shopService.getAllArticles();
-        modelAndView.addObject("products", products);
+        modelAndView.addObject("products", this.shopService.getAllArticles());
+        modelAndView.addObject("productClothes", this.shopService.getConditionArticles("clothes"));
         if (user != null) {
             modelAndView.addObject("user", user);
         }
@@ -297,7 +297,7 @@ public class ShopController extends GeneralController {
         if (user != null) {
             PaymentVo[] payments = this.shopService.getPayments(user.getEmail());
             modelAndView.addObject("payments", Arrays.stream(payments).sorted((o1, o2) -> {
-                if (o1.getGroupIndex() > o2.getGroupIndex()) {
+                if (o1.getGroupIndex() < o2.getGroupIndex()) {
                     return 1;
                 } else if (o1.getGroupIndex() < o2.getGroupIndex()) {
                     return -1;

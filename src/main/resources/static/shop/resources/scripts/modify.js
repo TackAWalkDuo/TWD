@@ -46,18 +46,6 @@ form['images'].addEventListener('input', () => {
  // 수정하기 누를시
 form.onsubmit = e => {
     e.preventDefault();
-    // Warning.hide();
-    // if (form['title'].value === '') {
-    //     Warning.show('제목을 입력해 주세요.');
-    //     form['title'].focus();
-    //     return false;
-    // }
-    // if (editor.getData() === '') {
-    //     Warning.show('내용을 입력해 주세요.');
-    //     editor.focus();
-    //     return false;
-    // }
-    // Cover.show('상품을 수정 중입니다.\n잠시만 기다려주세요.')
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     // ArticleEntity 등록
