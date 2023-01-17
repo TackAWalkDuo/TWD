@@ -25,6 +25,8 @@
        th:value="${product.getQuantity()}"><span>품절된 상품입니다.</span></i>
 </main>
 <main class="--main main" th:if="${product.quantity > 0}">
+    <input id="adminFlag" type="hidden" name="adminFlag" th:if="${session.user != null}"
+           th:value="${session.user.getAdmin()}">
     <div class="detail-main">
         <div>
             <img class="detail-img" alt="" th:src="|/bbs/thumbnail?index=${product.getIndex()}|">
@@ -192,7 +194,7 @@
 
     <div class="all-review-container">
         <div id="reviewTitle"> REVIEW </div>
-        <div class="review-container" id="commentContainer">
+        <div class="review-container" id="reviewContainer">
             <div class="review-main liked mine">
                 <div class="review head">
                     <div class="speciesPicContainer">

@@ -1,8 +1,6 @@
 package dev.twd.take_a_walk_duo.services;
 
-import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
+import dev.twd.take_a_walk_duo.entities.bbs.*;
 import dev.twd.take_a_walk_duo.entities.shop.PaymentEntity;
 import dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
@@ -11,12 +9,14 @@ import dev.twd.take_a_walk_duo.interfaces.IResult;
 import dev.twd.take_a_walk_duo.mappers.IBbsMapper;
 import dev.twd.take_a_walk_duo.mappers.IMemberMapper;
 import dev.twd.take_a_walk_duo.models.PagingModel;
+import dev.twd.take_a_walk_duo.vos.bbs.CommentVo;
 import dev.twd.take_a_walk_duo.vos.shop.CartVo;
 import dev.twd.take_a_walk_duo.vos.shop.PaymentVo;
 import dev.twd.take_a_walk_duo.vos.shop.ProductVo;
 import dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.mappers.IShopMapper;
+import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +30,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -420,6 +421,38 @@ public class ShopService {
         }
 
         return this.shopMapper.deletePayment(payment.getGroupIndex()) > 0
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
+    }
+    //todo comment 서비스
+    public CommentVo[] getComment(int index, UserEntity user) {
+        CommentVo[] comments = this.bbsMapper.selectCommentsByIndex(index, user == null ? null : user.getEmail());
+        for(CommentVo comment : comments){
+            CommentImageEntity[] commentImage = this.bbsMapper.selectCommentImagesByCommentIndexExceptData(comment.getIndex());
+            int[] reviewImageIndexes = Arrays.stream(commentImage).mapToInt(CommentImageEntity::getIndex).toArray();
+
+            comment.setImageIndexes(reviewImageIndexes);
+        }
+
+        return comments;
+    }
+    public CommentImageEntity getCommentImage(int index) {
+        return this.bbsMapper.selectCommentImageByIndex(index);
+    }
+
+    public Enum<? extends IResult> likedComment(CommentLikeEntity commentLikeEntity, UserEntity user) {
+        CommentVo existingComment = this.bbsMapper.selectCommentByIndex(commentLikeEntity.getCommentIndex());
+        if (existingComment == null) {
+            return CommonResult.FAILURE;
+        }
+        if (this.bbsMapper.selectCommentLikeByIndex(commentLikeEntity.getCommentIndex(), user.getEmail()) != null) {
+            return this.bbsMapper.deleteByCommentLiked(commentLikeEntity.getCommentIndex()) > 0
+                    ? CommonResult.SUCCESS
+                    : CommonResult.FAILURE;
+        }
+        commentLikeEntity.setUserEmail(user.getEmail());
+        commentLikeEntity.setCreatedOn(new Date());
+        return this.bbsMapper.insertCommentLike(commentLikeEntity) > 0
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
