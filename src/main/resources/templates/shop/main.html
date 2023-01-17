@@ -38,7 +38,7 @@
             </li>
         </ul>
     </section>
-    <section class="box second" th:if="${productClothes != null}">
+    <section class="box clothes" th:if="${productClothes.length > 0}">
         <h2 class="title">Clothes</h2>
         <ul class="item-container emple">
             <li class="item big">
@@ -71,6 +71,108 @@
             </div>
         </ul>
     </section>
+
+    <section class="box feed" th:if="${productFeed.length > 0}">
+        <h2 class="title">Feed</h2>
+        <ul class="item-container emple">
+            <li class="item big">
+                <a class="link big" th:href="@{/shop/list(bid=${productFeed[0].getCategoryText()})}">
+                    <img alt="" class="image-big"
+                         th:src="|/bbs/thumbnail?index=${productFeed[0].getIndex()}|">
+                    <span class="text"></span>
+                </a>
+            </li>
+            <div class="item-description">
+                <div class="description-header">더 편안하고, 더 따뜻한 겨울을 보내기 위한 필수템!</div>
+                <span class="description-body">나날이 발전하는 반려견 아우터- 사이즈도 다양하고 스타일도 다양하게!</span>
+
+                <!--/*@thymesVar id="products" type="dev.twd.take_a_walk_duo.vos.shop.ProductVo[]"*/-->
+                <div class="side-image"
+                     th:each="i : ${#numbers.sequence(0, (productFeed.length >= 2 ? 1 : productFeed.length - 1))}"
+                     th:with="product = ${productFeed[i]}">
+                    <a th:href="@{/shop/detail(aid=${product.getIndex()})}">
+                        <img alt="제품1" class="image side"
+                             th:src="|/bbs/thumbnail?index=${product.getIndex()}|">
+                    </a>
+                    <div class="side-description">
+                        <span>
+                        <div class="side header" th:text="${product.getTitle()}">Dog coat Alaska Olive </div>
+                        <div class="side text" th:utext="${product.getText()}">클라우드7 Cloud7 </div>
+                        <div class="side charge-price" th:text="${product.getPrice() + '원'}">37,500원 </div>
+                         </span>
+                    </div>
+                </div>
+            </div>
+        </ul>
+    </section>
+
+    <section class="box feed" th:if="${productSnack.length > 0}">
+        <h2 class="title">Feed</h2>
+        <ul class="item-container emple">
+            <li class="item big">
+                <a class="link big" th:href="@{/shop/list(bid=${productSnack[0].getCategoryText()})}">
+                    <img alt="" class="image-big"
+                         th:src="|/bbs/thumbnail?index=${productSnack[0].getIndex()}|">
+                    <span class="text"></span>
+                </a>
+            </li>
+            <div class="item-description">
+                <div class="description-header">더 편안하고, 더 따뜻한 겨울을 보내기 위한 필수템!</div>
+                <span class="description-body">나날이 발전하는 반려견 아우터- 사이즈도 다양하고 스타일도 다양하게!</span>
+
+                <!--/*@thymesVar id="products" type="dev.twd.take_a_walk_duo.vos.shop.ProductVo[]"*/-->
+                <div class="side-image"
+                     th:each="i : ${#numbers.sequence(0, (productSnack.length >= 2 ? 1 : productSnack.length - 1))}"
+                     th:with="product = ${productSnack[i]}">
+                    <a th:href="@{/shop/detail(aid=${product.getIndex()})}">
+                        <img alt="제품1" class="image side"
+                             th:src="|/bbs/thumbnail?index=${product.getIndex()}|">
+                    </a>
+                    <div class="side-description">
+                        <span>
+                        <div class="side header" th:text="${product.getTitle()}">Dog coat Alaska Olive </div>
+                        <div class="side text" th:utext="${product.getText()}">클라우드7 Cloud7 </div>
+                        <div class="side charge-price" th:text="${product.getPrice() + '원'}">37,500원 </div>
+                         </span>
+                    </div>
+                </div>
+            </div>
+        </ul>
+    </section>
+
+<!--    <section class="box feed" th:if="${productFeed != null}">-->
+<!--        <h2 class="title">Feed</h2>-->
+<!--        <ul class="item-container emple">-->
+<!--            <li class="item big">-->
+<!--                <a class="link big" th:href="@{/shop/list(bid=${productFeed[0].getCategoryText()})}">-->
+<!--                    <img alt="" class="image-big"-->
+<!--                         th:src="|/bbs/thumbnail?index=${productFeed[0].getIndex()}|">-->
+<!--                    <span class="text"></span>-->
+<!--                </a>-->
+<!--            </li>-->
+<!--            <div class="item-description">-->
+<!--                <div class="description-header">더 편안하고, 더 따뜻한 겨울을 보내기 위한 필수템!</div>-->
+<!--                <span class="description-body">나날이 발전하는 반려견 아우터- 사이즈도 다양하고 스타일도 다양하게!</span>-->
+
+<!--                &lt;!&ndash;/*@thymesVar id="products" type="dev.twd.take_a_walk_duo.vos.shop.ProductVo[]"*/&ndash;&gt;-->
+<!--                <div class="side-image"-->
+<!--                     th:each="i : ${#numbers.sequence(0, (productFeed.length >= 2 ? 1 : productFeed.length - 1))}"-->
+<!--                     th:with="product = ${productFeed[i]}">-->
+<!--                    <a th:href="@{/shop/detail(aid=${product.getIndex()})}">-->
+<!--                        <img alt="제품1" class="image side"-->
+<!--                             th:src="|/bbs/thumbnail?index=${product.getIndex()}|">-->
+<!--                    </a>-->
+<!--                    <div class="side-description">-->
+<!--                        <span>-->
+<!--                        <div class="side header" th:text="${product.getTitle()}">Dog coat Alaska Olive </div>-->
+<!--                        <div class="side text" th:utext="${product.getText()}">클라우드7 Cloud7 </div>-->
+<!--                        <div class="side charge-price" th:text="${product.getPrice() + '원'}">37,500원 </div>-->
+<!--                         </span>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </ul>-->
+<!--    </section>-->
 </main>
 <!-- cover -->
 <th:block th:replace="~{fragments/body :: cover}"></th:block>
