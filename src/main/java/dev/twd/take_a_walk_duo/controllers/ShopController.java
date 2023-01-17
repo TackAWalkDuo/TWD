@@ -1,6 +1,7 @@
 package dev.twd.take_a_walk_duo.controllers;
 
 import dev.twd.take_a_walk_duo.entities.bbs.*;
+import dev.twd.take_a_walk_duo.entities.member.EmailAuthEntity;
 import dev.twd.take_a_walk_duo.entities.shop.PaymentEntity;
 import dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
@@ -44,8 +45,8 @@ public class ShopController extends GeneralController {
             produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getShop(@SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView("shop/main");
-        ProductVo[] products = this.shopService.getAllArticles();
-        modelAndView.addObject("products", products);
+        modelAndView.addObject("products", this.shopService.getAllArticles());
+        modelAndView.addObject("productClothes", this.shopService.getConditionArticles("clothes"));
         if (user != null) {
             modelAndView.addObject("user", user);
         }
@@ -298,7 +299,7 @@ public class ShopController extends GeneralController {
         if (user != null) {
             PaymentVo[] payments = this.shopService.getPayments(user.getEmail());
             modelAndView.addObject("payments", Arrays.stream(payments).sorted((o1, o2) -> {
-                if (o1.getGroupIndex() > o2.getGroupIndex()) {
+                if (o1.getGroupIndex() < o2.getGroupIndex()) {
                     return 1;
                 } else if (o1.getGroupIndex() < o2.getGroupIndex()) {
                     return -1;
@@ -326,9 +327,32 @@ public class ShopController extends GeneralController {
     @RequestMapping(value = "review",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getReview() {
+    public ModelAndView getReview(@SessionAttribute(value = "user") UserEntity user,
+                                  @RequestParam(value = "index", required = false) int paymentIndex) {
+
         ModelAndView modelAndView = new ModelAndView("shop/review");
+        modelAndView.addObject("product", this.shopService.getArticle(
+                this.shopService.getSaleProduct(paymentIndex).getArticleIndex()));
+
         return modelAndView;
+    }
+
+    @RequestMapping(value = "review", method = RequestMethod.POST,
+    produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postReview(
+            @SessionAttribute(value = "user", required = false) UserEntity user,
+            @RequestParam(value = "index", required = false) int paymentIndex,
+            @RequestParam(value = "images", required = false) MultipartFile[] images,
+            CommentEntity comment) throws IOException {
+        JSONObject responseObject = new JSONObject();
+        SaleProductEntity saleProduct = this.shopService.getSaleProduct(paymentIndex);
+        Enum<?> result = this.shopService.addComment(user, comment, images, saleProduct.getArticleIndex());
+
+        responseObject.put("result", result.name().toLowerCase());
+        responseObject.put("aid", saleProduct.getArticleIndex());
+
+        return responseObject.toString();
     }
 
     //todo :리뷰 값 끌고오는 comment맵핑

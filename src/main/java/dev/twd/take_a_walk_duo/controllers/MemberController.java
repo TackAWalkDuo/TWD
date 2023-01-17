@@ -178,7 +178,7 @@ public class MemberController extends GeneralController{
     @RequestMapping(value = "register",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getRegister(@SessionAttribute(value = "user", required = false) UserEntity user) {
+    public ModelAndView getRegister() {
         ModelAndView modelAndView = new ModelAndView("member/register");
         return modelAndView;
     }

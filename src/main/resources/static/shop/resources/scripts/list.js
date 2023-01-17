@@ -9,5 +9,3 @@ for (let i = 0; i < aList.length; i++) {
         break;
     }
 }
-
-//TODO 쇼핑 게시판 css 수정.

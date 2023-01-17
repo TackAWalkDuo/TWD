@@ -13,8 +13,6 @@ const adminElement = window.document.getElementById("adminFlag");
 let mapObject;
 let places = [];        // db 에서 list 를 가져와서 담아줄 변수.
 
-console.log(adminElement?.value);
-
 //list 의 게시글 또는 marker 클릭 시 해당 게시글을 보여줌.
 detailContainer.show = (placeObject, placeElement) => {
     // list.querySelectorAll('[rel="item"]').forEach(x => x.remove());
@@ -406,7 +404,7 @@ const loadReview = (articleIndex) => {
 
                         //댓글 삭제  (댓글 작성자와 로그인 유저가 다를 경우에 오류 해결 구문)
                         if (reviewObject['userEmail'] === (loginUserEmailElement === null ?
-                            '' : loginUserEmailElement.value)) {
+                            '' : loginUserEmailElement.value) || adminElement?.value === 'true') {
                             itemElement.querySelector('[rel="actionDelete"]').addEventListener('click', () => {
                                 if (!confirm('정말로 댓글을 삭제할까요?')) {
                                     return;

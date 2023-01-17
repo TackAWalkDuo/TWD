@@ -4,13 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dev.twd.take_a_walk_duo.mappers.IShopMapper">
 
-    <!--    <select id="selectArticleCountByBoardId"-->
-    <!--            resultType="int">-->
-    <!--        SELECT COUNT(0)-->
-    <!--        FROM `twd_bbs`.`articles`-->
-    <!--        WHERE `board_id` = #{boardId}-->
-    <!--    </select>-->
-
     <select id="selectArticleCountByBoardId"
             resultType="int">
         SELECT COUNT(0)
@@ -30,62 +23,6 @@
         ORDER BY `article`.`index` DESC
     </select>
 
-    <!--    <select id="selectArticlesByBoardId"-->
-    <!--            resultType="dev.twdtake_a_walk_duo.vos.bbs.ArticleReadVo">-->
-    <!--        SELECT `article`.`index` AS `index`,-->
-    <!--        `article`.`user_email` AS `userEmail`,-->
-    <!--        `article`.`board_id` AS `boardID`,-->
-    <!--        `article`.`title` AS `title`,-->
-    <!--        `article`.`view` AS `view`,-->
-    <!--        `article`.`written_on` AS `writtenOn`,-->
-    <!--        `article`.`modified_on` AS `modifiedOn`,-->
-    <!--        `user`.`nickname` AS `userNickname`,-->
-    <!--        COUNT(`commentCount`.`index`) AS `commentCount`-->
-
-    <!--        FROM `twd_bbs`.`articles` AS `article`-->
-    <!--        LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`-->
-    <!--        LEFT JOIN `twd_bbs`.`comments` AS `commentCount`-->
-    <!--        ON `article`.`index` = `commentCount`.`article_index`-->
-    <!--        WHERE `board_id` = #{boardId}-->
-    <!--        <if twd="criterion != null and criterion.equals('title')">-->
-    <!--            AND REPLACE(`article`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')-->
-    <!--        </if>-->
-    <!--        <if twd="criterion != null and criterion.equals('all')">-->
-    <!--            AND (REPLACE(`article`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')-->
-    <!--            OR REPLACE(`article`.`content`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%'))-->
-    <!--        </if>-->
-    <!--        <if twd="criterion != null and criterion.equals('nickname')">-->
-    <!--            AND BINARY `user`.`nickname` = #{keyword}-->
-    <!--        </if>-->
-    <!--        GROUP BY `index`-->
-    <!--        ORDER BY `index` DESC-->
-    <!--        LIMIT #{limit} OFFSET #{offset}-->
-    <!--    </select>-->
-
-    <!--위에꺼 수정한거임-->
-    <!--    <select id="selectArticlesByBoardId"-->
-    <!--            resultType="dev.twd.take_a_walk_duo.vos.shop.ProductVo">-->
-    <!--        SELECT `article`.`index`         AS `index`,-->
-    <!--               `article`.`user_email`    AS `userEmail`,-->
-    <!--               `article`.`board_id`      AS `boardID`,-->
-    <!--               `article`.`title`         AS `title`,-->
-    <!--               `article`.`thumbnail`     AS `thumbnail`,-->
-    <!--               `article`.`view`          AS `view`,-->
-    <!--               `article`.`written_on`    AS `writtenOn`,-->
-    <!--               `article`.`modified_on`   AS `modifiedOn`,-->
-    <!--               `product`.`quantity`      AS `qunantity`,-->
-    <!--               `product`.`price`         AS `price`,-->
-    <!--               `product`.`category_text` AS 'categoryText'-->
-    <!--        FROM `twd_bbs`.`articles` AS `article`-->
-    <!--                 LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`-->
-    <!--                 LEFT JOIN `twd_shop`.`sale_product` AS `product` ON `article`.`index` = `product`.`article_index`-->
-    <!--        WHERE `board_id` = 'shop'-->
-    <!--          AND `product`.`category_text` = #{boardText}-->
-    <!--        GROUP BY `index`-->
-    <!--        ORDER BY `index` DESC-->
-    <!--        LIMIT #{limit} OFFSET #{offset}-->
-    <!--    </select>-->
-    <!--    되면 위에꺼 삭제-->
     <select id="selectArticlesByBoardId"
             resultType="dev.twd.take_a_walk_duo.vos.shop.ProductVo">
         SELECT `article`.`index` AS `index`,
@@ -173,6 +110,29 @@
         LIMIT 8
     </select>
 
+    <select id="selectConditionArticles"
+            resultType="dev.twd.take_a_walk_duo.vos.shop.ProductVo">
+        SELECT `article`.`index`         AS `index`,
+               `article`.`user_email`    AS `userEmail`,
+               `article`.`board_id`      AS `boardID`,
+               `article`.`title`         AS `title`,
+               `article`.`content`       AS `content`,
+               `article`.`thumbnail`     AS `thumbnail`,
+               `article`.`view`          AS `view`,
+               `article`.`written_on`    AS `writtenOn`,
+               `article`.`modified_on`   AS `modifiedOn`,
+               `product`.`quantity`      AS `qunantity`,
+               `product`.`price`         AS `price`,
+               `product`.`category_text` AS 'categoryText',
+               `product`.`text`          AS `text`
+        FROM `twd_bbs`.`articles` AS `article`
+                 LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`
+                 LEFT JOIN `twd_shop`.`sale_product` AS `product` ON `article`.`index` = `product`.`article_index`
+        WHERE `article`.`board_id` = 'shop' AND `product`.category_text = #{categoryText}
+        ORDER BY `index` DESC
+        LIMIT 2
+    </select>
+
     <!--detail page-->
     <select id="selectArticleByArticleIndex"
             resultType="dev.twd.take_a_walk_duo.vos.shop.ProductVo">
@@ -221,7 +181,7 @@
                  LEFT JOIN `twd_shop`.`sale_product` AS `product` ON `article`.`index` = `product`.`article_index`
         LIMIT 1
     </select>
-    <!-- ㅇㅇ   -->
+
     <insert id="insertProduct"
             parameterType="dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity"
             useGeneratedKeys="true"
@@ -465,7 +425,7 @@
         ORDER BY `index` DESC
     </select>
 
-    <select id="selectPaymentByIndex"
+    <select id="selectPaymentByGroupIndex"
             resultType="dev.twd.take_a_walk_duo.entities.shop.PaymentEntity">
         SELECT `index`             AS `index`,
                `user_email`        AS `userEmail`,
@@ -482,6 +442,25 @@
         FROM `twd_shop`.`payment`
         WHERE `group_index` = #{index}
     </select>
+
+    <select id="selectPaymentByIndex"
+            resultType="dev.twd.take_a_walk_duo.entities.shop.PaymentEntity">
+        SELECT `index`             AS `index`,
+               `user_email`        AS `userEmail`,
+               `group_index`       AS `groupIndex`,
+               `product_index`     AS `productIndex`,
+               `sale_price`        AS `salePrice`,
+               `quantity`          AS `quantity`,
+               `delivery_fee`      AS `deliveryFee`,
+               `registration_on`   AS `registrationOn`,
+               `address_postal`    AS `addressPostal`,
+               `address_primary`   AS `addressPrimary`,
+               `address_secondary` AS `addressSecondary`,
+               `delivery_status`   AS `deliveryStatus`
+        FROM `twd_shop`.`payment`
+        WHERE `index` = #{index}
+    </select>
+
 
     <delete id="deletePayment">
         DELETE

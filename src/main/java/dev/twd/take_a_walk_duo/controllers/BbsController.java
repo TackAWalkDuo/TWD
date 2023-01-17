@@ -381,6 +381,8 @@ public class BbsController extends GeneralController{
     @ResponseBody
     public String deleteComment(@SessionAttribute(value = "user") UserEntity user,
                                 CommentEntity comment) {
+        System.out.println(comment.getUserEmail());
+        System.out.println(user.getEmail());
 
         JSONObject responseObject = new JSONObject();
         Enum<?> result = this.bbsService.deleteComment(user, comment);
