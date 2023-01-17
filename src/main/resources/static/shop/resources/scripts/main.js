@@ -14,6 +14,7 @@ const slideSize = document.querySelector(".shop-item");
 // 버튼 클릭할 때 마다 현재 슬라이드가 어디인지 알려주기 위한 변수
 let currSlide = 0;
 
+console.log(maxSlide);
 // 버튼 엘리먼트에 클릭 이벤트 추가하기
 nextBtn.addEventListener("click", () => {
     console.log('넥스트버튼!');

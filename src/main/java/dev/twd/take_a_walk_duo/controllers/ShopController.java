@@ -48,10 +48,6 @@ public class ShopController extends GeneralController {
         modelAndView.addObject("products", this.shopService.getAllArticles());
         modelAndView.addObject("discountProducts", this.shopService.getDiscountProducts());
         modelAndView.addObject("productClothes", this.shopService.getConditionArticles("clothes"));
-//        modelAndView.addObject("productFeed", this.shopService.getConditionArticles("feed"));
-//        modelAndView.addObject("productSnack", this.shopService.getConditionArticles("snack"));
-//        modelAndView.addObject("productToy", this.shopService.getConditionArticles("toy"));
-//        modelAndView.addObject("productEtc", this.shopService.getConditionArticles("etc"));
         if (user != null) {
             modelAndView.addObject("user", user);
         }

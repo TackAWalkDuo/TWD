@@ -136,7 +136,6 @@
         WHERE `article`.`board_id` = 'shop'
           AND `product`.`discount` > 0
         ORDER BY `index` DESC
-        LIMIT 4
     </select>
 
     <select id="selectConditionArticles"
