@@ -290,6 +290,7 @@ const loadReview = () => {
                     }
                     const xhr = new XMLHttpRequest();
                     const formData = new FormData();
+
                     formData.append("index", reviewObject['index']);
                     formData.append("userEmail", reviewObject['userEmail']);
 
