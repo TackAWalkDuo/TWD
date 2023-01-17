@@ -1,15 +1,5 @@
 const form = window.document.getElementById('form');
 
-// const Warning = {
-//     show: (text) => {
-//         form.querySelector('[rel="warningText"]').innerText = text;
-//         form.querySelector('[rel="warning"]').classList.add('visible');
-//     },
-//     hide: () => {
-//         form.querySelector('[rel="warning"]').classList.remove('visible');
-//     }
-// }
-
 // 취소하기 버튼
 form.querySelector('[rel="cancleButton"]').addEventListener('click', () => {
     if (window.history.length > 1) {
@@ -65,23 +55,26 @@ form.querySelector('[rel="registerButton"]').addEventListener('click', () => {
     for (let file of form['images'].files) {
         formData.append('images', file);
     }
+
     formData.append('review', form['review'].value);
     formData.append('content', form['content'].value);
+    formData.append('commentTitle', form['review'].value);
 
-    xhr.open('POST', 'shop/review');
+    xhr.open('POST', window.location.href);
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status >= 200 && xhr.status < 300) {
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
                     case 'success':
-                        Warning.show('리뷰 등록이 완료되었습니다.');
+                        alert('리뷰 등록이 완료되었습니다.');
+                        window.location.href = `/shop/detail?aid=${responseObject['aid']}`;
                         break;
                     default:
-                        Warning.show('알 수 없는 이유로 리뷰등록에 실패하였습니다. 잠시 후 다시 시도해 주세요.');
+                        alert('알 수 없는 이유로 리뷰등록에 실패하였습니다. 잠시 후 다시 시도해 주세요.');
                 }
             } else {
-                Warning.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                alert('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
             }
         }
     };

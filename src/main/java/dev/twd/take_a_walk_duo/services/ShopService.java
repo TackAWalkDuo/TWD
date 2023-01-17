@@ -1,8 +1,6 @@
 package dev.twd.take_a_walk_duo.services;
 
-import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
+import dev.twd.take_a_walk_duo.entities.bbs.*;
 import dev.twd.take_a_walk_duo.entities.shop.PaymentEntity;
 import dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
@@ -12,6 +10,7 @@ import dev.twd.take_a_walk_duo.mappers.IBbsMapper;
 import dev.twd.take_a_walk_duo.mappers.IMemberMapper;
 import dev.twd.take_a_walk_duo.models.PagingModel;
 import dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo;
+import dev.twd.take_a_walk_duo.vos.bbs.CommentVo;
 import dev.twd.take_a_walk_duo.vos.shop.CartVo;
 import dev.twd.take_a_walk_duo.vos.shop.PaymentVo;
 import dev.twd.take_a_walk_duo.vos.shop.ProductVo;
@@ -32,6 +31,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -425,25 +425,30 @@ public class ShopService {
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
+
     //todo comment 서비스
     public CommentVo[] getComment(int index, UserEntity user) {
         CommentVo[] comments = this.bbsMapper.selectCommentsByIndex(index, user == null ? null : user.getEmail());
-        for(CommentVo comment : comments){
+        for (CommentVo comment : comments) {
             CommentImageEntity[] commentImage = this.bbsMapper.selectCommentImagesByCommentIndexExceptData(comment.getIndex());
             int[] reviewImageIndexes = Arrays.stream(commentImage).mapToInt(CommentImageEntity::getIndex).toArray();
 
             comment.setImageIndexes(reviewImageIndexes);
         }
+        return comments;
+    }
 
-    public Enum<? extends IResult> addComment(UserEntity user,
-                                              CommentEntity comment,
-                                              MultipartFile[] images) throws IOException {
+
+    @Transactional
+    public Enum<? extends IResult> addComment(UserEntity user, CommentEntity comment,
+                                              MultipartFile[] images, int aid) throws IOException {
         if (user == null) {
             return CommonResult.NOT_SIGNED;
         }
 
         comment.setUserEmail(user.getEmail());
         comment.setWrittenOn(new Date());
+        comment.setArticleIndex(aid);
         if (this.bbsMapper.insertComment(comment) == 0) {
             return CommonResult.FAILURE;
         }
@@ -463,30 +468,7 @@ public class ShopService {
 
 
     }
-//    public Enum<? extends IResult>registerReview(MultipartFile[] images) throws IOException {
-//        if (images != null) {
-//            for (MultipartFile image : images) {
-//
-//            }
-//        } else {
-//            byte[] imageInByte;
-//            File defaultImage = new File();
-//
-//            BufferedImage originalImage = ImageIO.read(defaultImage);
-//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//            ImageIO.write(originalImage, "png", baos);
-//            baos.flush();
-//
-//            imageInByte = baos.toByteArray();
-//
-//
-//
-//            baos.close();
-//        }
-//        return this.shopMapper.insertReview() > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
-//    }
-        return comments;
-    }
+
     public CommentImageEntity getCommentImage(int index) {
         return this.bbsMapper.selectCommentImageByIndex(index);
     }
@@ -508,7 +490,7 @@ public class ShopService {
                 : CommonResult.FAILURE;
     }
 
-    public SaleProductEntity getPayment(int index) {
+    public SaleProductEntity getSaleProduct(int index) {
         PaymentEntity payment = this.shopMapper.selectPaymentByIndex(index);
         return this.shopMapper.selectProductByArticleIndex(payment.getProductIndex());
     }

@@ -21,8 +21,9 @@ const addCart = window.document.querySelector('[rel="addCart"]');
 
 const isSoldOut = window.document.querySelector('[rel="isSoldOut"]');
 
+
 //  품절이 아닐 경우에만 실행
-if(isSoldOut === null){
+if (isSoldOut === null) {
     // +버튼 누를시 실행
     orderForm['plusButton'].onclick = () => {
         // +버튼 누를시 제품 갯수 1씩 더함, 가격 조정
@@ -161,7 +162,7 @@ if(isSoldOut === null){
 
                         case 'cart_not_signed':
                             alert('로그인 후 이용해 주세요.');
-                            window.location.href ='/member/login'
+                            window.location.href = '/member/login'
                             break;
 
                         case 'cart_not_allowed' :
@@ -230,7 +231,7 @@ const loadReview = () => {
     const searchParams = url.searchParams;
     const xhr = new XMLHttpRequest();
     const aid = searchParams.get('aid');
-    xhr.open('GET',`./comment?index=${aid}`)
+    xhr.open('GET', `./comment?index=${aid}`)
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             const responseArray = JSON.parse(xhr.responseText);
@@ -243,7 +244,8 @@ const loadReview = () => {
                     <div class="head">
                         <span class="writer">${reviewObject['nickname']}</span>
                         <span class="dt">${reviewObject['writtenOn']}</span>
-                        <span class="action-container">${(reviewObject['mine'] === true) || adminElement.value ? '<a href="#" class="action delete" rel="actionDelete">삭제</a>' : ''}</span>
+                        <span class="action-container">${(reviewObject['mine'] === true) || adminElement.value ?
+                    '<a href="#" class="action delete" rel="actionDelete">삭제</a>' : ''}</span>
                     </div>
                 </div>
                 <div class="body">
@@ -282,39 +284,75 @@ const loadReview = () => {
                     imageContainerElement.remove();
                 }
 
-                likeToggleElement.addEventListener('click', e => {
-                        e.preventDefault();
-                        const xhr = new XMLHttpRequest();
-                        const formData = new FormData();
-                        formData.append('commentIndex', reviewObject['index']);
-                        xhr.open('POST', './comment-liked');
-                        xhr.onreadystatechange = () => {
-                            if (xhr.readyState === XMLHttpRequest.DONE) {
-                                if (xhr.status >= 200 && xhr.status < 300) {
-                                    const responseObject = JSON.parse(xhr.responseText);
-                                    switch (responseObject['result']) {
-                                        case 'success':
-                                            if (reviewObject['liked'] === true) {
-                                                likedCommentElement.classList.remove('visible');
-                                            } else if (!reviewObject['liked'] === true) {
-                                                likedCommentElement.classList.add('visible');
-                                            }
-                                            loadReview();
-                                            break;
-                                        case 'not_allowed':
-                                            alert('로그인이 안되어있음');
-                                            break;
-                                        default:
-                                            alert('하트 실패');
-                                    }
-                                } else {
-                                    console.log('좋아요 실행을 실패했습니다(서버)');
+                dom.querySelector('[rel="actionDelete"]').addEventListener('click', () => {
+                    if (!confirm('정말로 댓글을 삭제할까요?')) {
+                        return;
+                    }
+                    const xhr = new XMLHttpRequest();
+                    const formData = new FormData();
+                    formData.append("index", reviewObject['index']);
+                    formData.append("userEmail", reviewObject['userEmail']);
+
+                    xhr.open("DELETE", "/bbs/comment");
+                    xhr.onreadystatechange = () => {
+                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                            if (xhr.status >= 200 && xhr.status < 300) {
+                                const responseObject = JSON.parse(xhr.responseText);
+                                switch (responseObject['result']) {
+                                    case 'success' :
+                                        loadReview();
+                                        break;
+                                    case 'not_signed':
+                                        alert("로그인해주세요.");
+                                        break;
+                                    case 'not_same':
+                                        alert("삭제 권한이 없습니다.");
+                                        break;
+                                    default:
+                                        alert("알 수 없는 이유로 삭제에 실패했습니다.");
                                 }
                             }
+                        } else {
+
                         }
-                        ;
-                        xhr.send(formData);
-                    });
+                    };
+                    xhr.send(formData);
+                });
+
+
+                likeToggleElement.addEventListener('click', e => {
+                    e.preventDefault();
+                    const xhr = new XMLHttpRequest();
+                    const formData = new FormData();
+                    formData.append('commentIndex', reviewObject['index']);
+                    xhr.open('POST', './comment-liked');
+                    xhr.onreadystatechange = () => {
+                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                            if (xhr.status >= 200 && xhr.status < 300) {
+                                const responseObject = JSON.parse(xhr.responseText);
+                                switch (responseObject['result']) {
+                                    case 'success':
+                                        if (reviewObject['liked'] === true) {
+                                            likedCommentElement.classList.remove('visible');
+                                        } else if (!reviewObject['liked'] === true) {
+                                            likedCommentElement.classList.add('visible');
+                                        }
+                                        loadReview();
+                                        break;
+                                    case 'not_allowed':
+                                        alert('로그인이 안되어있음');
+                                        break;
+                                    default:
+                                        alert('하트 실패');
+                                }
+                            } else {
+                                console.log('좋아요 실행을 실패했습니다(서버)');
+                            }
+                        }
+                    }
+                    ;
+                    xhr.send(formData);
+                });
                 reviewContainer.append(reviewElement);
             }
         }

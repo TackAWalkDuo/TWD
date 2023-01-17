@@ -1,19 +1,20 @@
 package dev.twd.take_a_walk_duo.controllers;
 
-import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
+import dev.twd.take_a_walk_duo.entities.bbs.*;
 import dev.twd.take_a_walk_duo.entities.member.EmailAuthEntity;
 import dev.twd.take_a_walk_duo.entities.shop.PaymentEntity;
 import dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
+import dev.twd.take_a_walk_duo.enums.bbs.WriteResult;
 import dev.twd.take_a_walk_duo.models.PagingModel;
-import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
 import dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.services.ShopService;
+import dev.twd.take_a_walk_duo.vos.bbs.CommentVo;
 import dev.twd.take_a_walk_duo.vos.shop.CartVo;
 import dev.twd.take_a_walk_duo.vos.shop.PaymentVo;
 import dev.twd.take_a_walk_duo.vos.shop.ProductVo;
+import org.apache.ibatis.annotations.Param;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -330,7 +331,7 @@ public class ShopController extends GeneralController {
                                   @RequestParam(value = "index", required = false) int paymentIndex) {
 
         ModelAndView modelAndView = new ModelAndView("shop/review");
-        modelAndView.addObject("product", this.shopService.getPayment(paymentIndex));
+        modelAndView.addObject("product", this.shopService.getSaleProduct(paymentIndex));
 
         return modelAndView;
     }
@@ -340,11 +341,15 @@ public class ShopController extends GeneralController {
     @ResponseBody
     public String postReview(
             @SessionAttribute(value = "user", required = false) UserEntity user,
-            @RequestParam(value = "images", required = false) MultipartFile[] images, CommentEntity comment) throws IOException {
+            @RequestParam(value = "index", required = false) int paymentIndex,
+            @RequestParam(value = "images", required = false) MultipartFile[] images,
+            CommentEntity comment) throws IOException {
         JSONObject responseObject = new JSONObject();
-        Enum<?> result = this.shopService.addComment(user, comment, images);
+        SaleProductEntity saleProduct = this.shopService.getSaleProduct(paymentIndex);
+        Enum<?> result = this.shopService.addComment(user, comment, images, saleProduct.getArticleIndex());
 
         responseObject.put("result", result.name().toLowerCase());
+        responseObject.put("aid", saleProduct.getArticleIndex());
 
         return responseObject.toString();
     }

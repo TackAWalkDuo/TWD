@@ -27,6 +27,8 @@
 <main class="--main main" th:if="${product.quantity > 0}">
     <input id="adminFlag" type="hidden" name="adminFlag" th:if="${session.user != null}"
            th:value="${session.user.getAdmin()}">
+    <input id="userEmail" type="hidden" name="userEmail" th:if="${session.user != null}"
+           th:value="${session.user.getEmail()}">
     <div class="detail-main">
         <div>
             <img class="detail-img" alt="" th:src="|/bbs/thumbnail?index=${product.getIndex()}|">
