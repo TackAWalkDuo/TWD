@@ -13,8 +13,6 @@ const adminElement = window.document.getElementById("adminFlag");
 let mapObject;
 let places = [];        // db 에서 list 를 가져와서 담아줄 변수.
 
-console.log(adminElement?.value);
-
 //list 의 게시글 또는 marker 클릭 시 해당 게시글을 보여줌.
 detailContainer.show = (placeObject, placeElement) => {
     // list.querySelectorAll('[rel="item"]').forEach(x => x.remove());

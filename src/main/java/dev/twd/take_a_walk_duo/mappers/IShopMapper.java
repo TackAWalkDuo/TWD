@@ -13,7 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
-import java.util.List;
 
 @Mapper
 public interface IShopMapper {
@@ -24,7 +23,6 @@ public interface IShopMapper {
     ShoppingCartEntity selectCartByIndex(@Param(value = "index") int index, @Param(value = "userEmail") String userEmail);
 
     ShoppingCartEntity selectCartByCartIndex(@Param(value = "index") int index);
-    ShoppingCartEntity selectCartByProductIndex(@Param(value = "index")int index);
 
     int selectArticleCountByBoardId(@Param(value = "boardId") String boardId,
                                     @Param(value = "criterion") String criterion,
@@ -32,13 +30,6 @@ public interface IShopMapper {
 
     PaymentEntity selectPaymentByRegistration(@Param(value = "date")Date date);
 
-//    ProductVo[] selectArticleCountByBoardId(@Param(value = "boardText") String boardText,
-//                                        @Param(value = "limit") int limit,
-//                                        @Param(value = "offset") int offset,
-//                                        @Param(value = "criterion") String criterion,
-//                                        @Param(value = "keyword") String keyword);
-
-    // 되면 위에꺼 삭제
     ProductVo[] selectArticlesByBoardId(@Param(value = "boardId") String boardId,
                                         @Param(value = "limit") int limit,
                                         @Param(value = "offset") int offset,
@@ -50,6 +41,8 @@ public interface IShopMapper {
 
     ProductVo[] selectAllArticles();
 
+    ProductVo[] selectConditionArticles( @Param(value = "categoryText") String categoryText);
+
     BoardEntity selectBoardById(@Param(value = "bid") String id);
 
     BoardEntity[] selectBoards();
@@ -57,7 +50,9 @@ public interface IShopMapper {
     // get write
     ProductVo selectArticle();
 
-    PaymentEntity[] selectPaymentByIndex(@Param(value = "index")int index);
+    PaymentEntity[] selectPaymentByGroupIndex(@Param(value = "index")int index);
+
+    PaymentEntity selectPaymentByIndex(@Param(value = "index")int index);
 
     CartVo[] selectCartsByUserEmail(@Param(value = "userEmail")String userEmail);
 
@@ -71,6 +66,7 @@ public interface IShopMapper {
     int updateArticle(ArticleEntity article);
 
     int updateCart(ShoppingCartEntity cart);
+
     // SaleProductEntity 등록용
     int insertProduct(SaleProductEntity product);
 

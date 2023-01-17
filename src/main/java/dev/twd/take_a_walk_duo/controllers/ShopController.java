@@ -1,7 +1,6 @@
 package dev.twd.take_a_walk_duo.controllers;
 
 import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.CommentEntity;
 import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
 import dev.twd.take_a_walk_duo.entities.member.EmailAuthEntity;
 import dev.twd.take_a_walk_duo.entities.shop.PaymentEntity;
@@ -45,8 +44,8 @@ public class ShopController extends GeneralController {
             produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getShop(@SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView("shop/main");
-        ProductVo[] products = this.shopService.getAllArticles();
-        modelAndView.addObject("products", products);
+        modelAndView.addObject("products", this.shopService.getAllArticles());
+        modelAndView.addObject("productClothes", this.shopService.getConditionArticles("clothes"));
         if (user != null) {
             modelAndView.addObject("user", user);
         }
@@ -299,7 +298,7 @@ public class ShopController extends GeneralController {
         if (user != null) {
             PaymentVo[] payments = this.shopService.getPayments(user.getEmail());
             modelAndView.addObject("payments", Arrays.stream(payments).sorted((o1, o2) -> {
-                if (o1.getGroupIndex() > o2.getGroupIndex()) {
+                if (o1.getGroupIndex() < o2.getGroupIndex()) {
                     return 1;
                 } else if (o1.getGroupIndex() < o2.getGroupIndex()) {
                     return -1;
@@ -327,8 +326,12 @@ public class ShopController extends GeneralController {
     @RequestMapping(value = "review",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getReview() {
+    public ModelAndView getReview(@SessionAttribute(value = "user") UserEntity user,
+                                  @RequestParam(value = "index", required = false) int paymentIndex) {
+
         ModelAndView modelAndView = new ModelAndView("shop/review");
+        PaymentEntity payment = this.shopService.getPayment(paymentIndex);
+
         return modelAndView;
     }
 
@@ -346,4 +349,44 @@ public class ShopController extends GeneralController {
         return responseObject.toString();
     }
 
+    //todo :리뷰 값 끌고오는 comment맵핑
+    @GetMapping(value = "comment", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public CommentVo[] getComment(@Param(value = "index") int index,
+                                  @SessionAttribute(value = "user", required = false) UserEntity user) {
+        return this.shopService.getComment(index, user);
+    }
+
+    //todo :리뷰 이미지 끌고오는 comment맵핑
+    @GetMapping(value = "commentImage")
+    public ResponseEntity<byte[]> getCommentImage(@RequestParam(value = "index") int index) {
+        ResponseEntity<byte[]> responseEntity;
+        CommentImageEntity commentImage = this.shopService.getCommentImage(index);
+        if (commentImage == null) {
+            responseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.valueOf(commentImage.getType()));
+            headers.setContentLength(commentImage.getData().length);
+            responseEntity = new ResponseEntity<>(commentImage.getData(), headers, HttpStatus.OK);
+        }
+
+        return responseEntity;
+    }
+    @RequestMapping(value = "comment-liked", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postCommentLike(@SessionAttribute(value = "user", required = false) UserEntity user,
+                                  CommentLikeEntity commentLikeEntity) {
+        Enum<?> result;
+        if (user == null) {
+            result = WriteResult.NOT_ALLOWED;
+        } else if (commentLikeEntity.getCommentIndex() == 0) {
+            result = WriteResult.NO_SUCH_BOARD;
+        } else {
+            result = this.shopService.likedComment(commentLikeEntity, user);
+        }
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("result", result.name().toLowerCase());
+        return responseObject.toString();
+    }
 }

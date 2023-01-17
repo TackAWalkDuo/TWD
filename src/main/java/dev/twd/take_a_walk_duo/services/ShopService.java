@@ -1,6 +1,8 @@
 package dev.twd.take_a_walk_duo.services;
 
-import dev.twd.take_a_walk_duo.entities.bbs.*;
+import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
+import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
+import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
 import dev.twd.take_a_walk_duo.entities.shop.PaymentEntity;
 import dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
@@ -76,6 +78,10 @@ public class ShopService {
     // 모든 상품 보기(메인 페이지)
     public ProductVo[] getAllArticles() {
         return this.shopMapper.selectAllArticles();
+    }
+
+    public ProductVo[] getConditionArticles(String categoryText) {
+        return this.shopMapper.selectConditionArticles(categoryText);
     }
 
     // 장바구니 호출
@@ -397,7 +403,7 @@ public class ShopService {
     // 구매내역 삭제
     @Transactional
     public Enum<? extends IResult> deletePayment(PaymentEntity payment, UserEntity user) {
-        PaymentEntity[] existingPayment = this.shopMapper.selectPaymentByIndex(payment.getGroupIndex());
+        PaymentEntity[] existingPayment = this.shopMapper.selectPaymentByGroupIndex(payment.getGroupIndex());
 
         if (existingPayment == null) {
             return CommonResult.FAILURE;
@@ -419,6 +425,15 @@ public class ShopService {
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
+    //todo comment 서비스
+    public CommentVo[] getComment(int index, UserEntity user) {
+        CommentVo[] comments = this.bbsMapper.selectCommentsByIndex(index, user == null ? null : user.getEmail());
+        for(CommentVo comment : comments){
+            CommentImageEntity[] commentImage = this.bbsMapper.selectCommentImagesByCommentIndexExceptData(comment.getIndex());
+            int[] reviewImageIndexes = Arrays.stream(commentImage).mapToInt(CommentImageEntity::getIndex).toArray();
+
+            comment.setImageIndexes(reviewImageIndexes);
+        }
 
     public Enum<? extends IResult> addComment(UserEntity user,
                                               CommentEntity comment,
@@ -470,6 +485,31 @@ public class ShopService {
 //        }
 //        return this.shopMapper.insertReview() > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
 //    }
+        return comments;
+    }
+    public CommentImageEntity getCommentImage(int index) {
+        return this.bbsMapper.selectCommentImageByIndex(index);
+    }
 
+    public Enum<? extends IResult> likedComment(CommentLikeEntity commentLikeEntity, UserEntity user) {
+        CommentVo existingComment = this.bbsMapper.selectCommentByIndex(commentLikeEntity.getCommentIndex());
+        if (existingComment == null) {
+            return CommonResult.FAILURE;
+        }
+        if (this.bbsMapper.selectCommentLikeByIndex(commentLikeEntity.getCommentIndex(), user.getEmail()) != null) {
+            return this.bbsMapper.deleteByCommentLiked(commentLikeEntity.getCommentIndex()) > 0
+                    ? CommonResult.SUCCESS
+                    : CommonResult.FAILURE;
+        }
+        commentLikeEntity.setUserEmail(user.getEmail());
+        commentLikeEntity.setCreatedOn(new Date());
+        return this.bbsMapper.insertCommentLike(commentLikeEntity) > 0
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
+    }
+
+    public PaymentEntity getPayment(int index) {
+        return this.shopMapper.selectPaymentByIndex(index);
+    }
 }
 

@@ -20,19 +20,11 @@ if (initialization) {
 }
 
 payment.forEach(x => {
-    x.querySelector('[rel="cancelButton"]').addEventListener('click', e => {
+    x.querySelector('[rel="cancelButton"]')?.addEventListener('click', e => {
         e.preventDefault();
         if (!confirm("정말로 주문을 취소할까요?")) {
             return;
         }
-
-        // let deleteCheck = false;
-        // let index = [];
-        // payment.forEach(x => {
-        //     index.push(Number(x.querySelector('[rel="groupIndex"]').innerText));
-        //     deleteCheck = true;
-        //     console.log(index);
-        // })
 
         const xhr = new XMLHttpRequest();
         const formData = new FormData();
@@ -58,45 +50,13 @@ payment.forEach(x => {
         }
         xhr.send(formData);
     })
+
+    //리뷰 작성 페이지로 이동.
+    x.querySelector('[rel="reviewButton"]')?.addEventListener('click', ()=>{
+        window.location.href = `/shop/review?index=${x.querySelector('[rel="index"]').innerText}`;
+    })
 })
 
-// cancelButton?.addEventListener('click', e => {
-//     e.preventDefault();
-//     if (!confirm("정말로 주문을 취소할까요?")) {
-//         return;
-//     }
-//
-//     let deleteCheck = false;
-//     let index = [];
-//     payment.forEach(x => {
-//         index.push(Number(x.querySelector('[rel="groupIndex"]').innerText));
-//         deleteCheck = true;
-//         console.log(index);
-//     })
-//
-//     const xhr = new XMLHttpRequest();
-//     const formData = new FormData();
-//     formData.append("groupIndex", index);
-//     xhr.open('DELETE', window.location.href);
-//     xhr.onreadystatechange = () => {
-//         if (xhr.readyState === XMLHttpRequest.DONE) {
-//             if (xhr.status >= 200 && xhr.status < 300) {
-//                 const responseObject = JSON.parse(xhr.responseText);
-//                 switch (responseObject['result']) {
-//                     case 'success':
-//                         alert('주문 취소 성공');
-//                         window.location.reload();
-//                         break;
-//                     default:
-//                         alert('실패');
-//                 }
-//             } else {
-//                 alert('연결 실패');
-//             }
-//         }
-//     }
-//     xhr.send(formData);
-// })
 
 
 
