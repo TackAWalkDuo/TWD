@@ -67,7 +67,7 @@ if(isSoldOut === null){
         chargeQuantity.innerText = '총 수량 ' + infoNum.value + '개';
         chargePrice.innerText = parseInt(infoNum.value) * parseInt(productPrice) + '원';
         // input이 공란이면 총 갯수 0개로 지정
-        if (infoNum.value == '') {
+        if (infoNum.value === '') {
             e.preventDefault();
             orderForm['infoPrice'].value = 0 + '원';
             chargeQuantity.innerText = '총 수량 ' + 0 + '개';
@@ -224,6 +224,7 @@ if(isSoldOut === null){
 //todo 리뷰 js
 //리뷰
 const reviewContainer = window.document.getElementById('reviewContainer');
+const itemTitle = window.document.querySelector('.detail-title');
 
 const loadReview = () => {
     reviewContainer.innerText = '';
@@ -250,7 +251,8 @@ const loadReview = () => {
                 <div class="body">
                     <ul class="review-container" rel="reviewContainer">
                         <li class="item" rel="item">
-                            <span class="item-title" rel="itemname">${reviewObject['commentTitle']}</span>
+<!--                            <span class="item-title" rel="itemname">${reviewObject['commentTitle']}</span>-->
+                            <span class="item-title" rel="itemname">${itemTitle.innerText}</span>
                             <div class="image-container" rel="imageContainer">
                                 <img alt="" class="image"
                                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Supreme_pizza.jpg/800px-Supreme_pizza.jpg">
