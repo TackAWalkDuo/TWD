@@ -2,6 +2,7 @@ package dev.twd.take_a_walk_duo.controllers;
 
 import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
 import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
+import dev.twd.take_a_walk_duo.entities.member.EmailAuthEntity;
 import dev.twd.take_a_walk_duo.entities.shop.PaymentEntity;
 import dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
@@ -333,5 +334,21 @@ public class ShopController extends GeneralController {
 
         return modelAndView;
     }
+
+//    @RequestMapping(value = "review", method = RequestMethod.POST,
+//    produces = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseBody
+//    public String postReview(
+//            @SessionAttribute(value = "user", required = false) UserEntity user,
+//            @RequestParam(value = "images", required = false) MultipartFile[] images) throws IOException {
+//        Enum<?> result;
+//        JSONObject responseObject = new JSONObject();
+//        if (user == null) {
+//            result = CommonResult.FAILURE;
+//        } else {
+//            result = this.shopService.registerReview(images);
+//        }
+//    }
+
 
 }
