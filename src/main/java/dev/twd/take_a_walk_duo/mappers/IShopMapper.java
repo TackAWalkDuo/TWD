@@ -41,6 +41,8 @@ public interface IShopMapper {
 
     ProductVo[] selectAllArticles();
 
+    ProductVo[] selectConditionArticles( @Param(value = "categoryText") String categoryText);
+
     BoardEntity selectBoardById(@Param(value = "bid") String id);
 
     BoardEntity[] selectBoards();

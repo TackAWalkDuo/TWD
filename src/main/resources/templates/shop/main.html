@@ -24,9 +24,9 @@
     <section class="box collection">
         <h2 class="title">New Arrivals</h2>
         <div class="button" th:if="${user != null && user.getAdmin() == true}">
-        <a th:href="@{write}">
-        <input type="button" class="--object-button" value="상품 등록하기">
-        </a>
+            <a th:href="@{write}">
+                <input type="button" class="--object-button" value="상품 등록하기">
+            </a>
         </div>
         <ul class="item-container">
             <li class="item" th:each="product : ${products}">
@@ -38,14 +38,13 @@
             </li>
         </ul>
     </section>
-    <section class="box second">
+    <section class="box second" th:if="${productClothes != null}">
         <h2 class="title">Clothes</h2>
         <ul class="item-container emple">
-            <li class="item big" th:each="product : ${products}"
-                th:if="${product.getCategoryText() == 'clothes' && productStat.index == 0}">
-                <a class="link big" th:href="@{/shop/list(bid=${product.getCategoryText()})}">
+            <li class="item big">
+                <a class="link big" th:href="@{/shop/list(bid=${productClothes[0].getCategoryText()})}">
                     <img alt="" class="image-big"
-                         th:src="|/bbs/thumbnail?index=${product.getIndex()}|">
+                         th:src="|/bbs/thumbnail?index=${productClothes[0].getIndex()}|">
                     <span class="text"></span>
                 </a>
             </li>
@@ -54,31 +53,19 @@
                 <span class="description-body">나날이 발전하는 반려견 아우터- 사이즈도 다양하고 스타일도 다양하게!</span>
 
                 <!--/*@thymesVar id="products" type="dev.twd.take_a_walk_duo.vos.shop.ProductVo[]"*/-->
-                <div class="side-image" th:each="product : ${products}"
-                     th:if="${product.getCategoryText() == 'clothes' && productStat.index == 1 || productStat.index == 2}">
+                <div class="side-image"
+                     th:each="i : ${#numbers.sequence(0, (productClothes.length >= 2 ? 1 : productClothes.length - 1))}"
+                     th:with="product = ${productClothes[i]}">
                     <a th:href="@{/shop/detail(aid=${product.getIndex()})}">
-                    <img alt="제품1" class="image side"
-                         th:src="|/bbs/thumbnail?index=${product.getIndex()}|" th:if="${productStat.index == 1}">
-                    <img alt="제품1" class="image side"
-                         th:src="|/bbs/thumbnail?index=${product.getIndex()}|" th:if="${productStat.index == 2}">
+                        <img alt="제품1" class="image side"
+                             th:src="|/bbs/thumbnail?index=${product.getIndex()}|">
                     </a>
                     <div class="side-description">
-                        <span th:if="${productStat.index == 1}">
-                        <div class="side header" th:text="${product.getTitle()}">Dog coat Alaska Olive
-                        </div>
-                        <div class="side text" th:utext="${product.getText()}">클라우드7 Cloud7
-                        </div>
-                        <div class="side charge-price" th:text="${product.getPrice() + '원'}">37,500원
-                        </div>
+                        <span>
+                        <div class="side header" th:text="${product.getTitle()}">Dog coat Alaska Olive </div>
+                        <div class="side text" th:utext="${product.getText()}">클라우드7 Cloud7 </div>
+                        <div class="side charge-price" th:text="${product.getPrice() + '원'}">37,500원 </div>
                          </span>
-                        <span th:if="${productStat.index == 2}">
-                        <div class="side header" th:text="${product.getTitle()}">Dog coat Alaska Olive
-                        </div>
-                        <div class="side text" th:utext="${product.getText()}">클라우드7 Cloud7
-                        </div>
-                        <div class="side charge-price" th:text="${product.getPrice() + '원'}">37,500원
-                        </div>
-                        </span>
                     </div>
                 </div>
             </div>
@@ -90,3 +77,4 @@
 <th:block th:replace="~{fragments/body :: footer}"></th:block>
 </body>
 </html>
+
