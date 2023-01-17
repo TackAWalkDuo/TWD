@@ -228,7 +228,7 @@ public class ShopController extends GeneralController {
         if (user != null) {
             CartVo[] carts = this.shopService.getArticles(user.getEmail());
             modelAndView.addObject("carts", carts);
-            modelAndView.addObject("isCart",carts.length);
+            modelAndView.addObject("isCart", carts.length);
         }
         return modelAndView;
     }
@@ -238,8 +238,8 @@ public class ShopController extends GeneralController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postDetail(@SessionAttribute(value = "user", required = false) UserEntity user,
-                           @RequestParam(value = "aid", required = false) int aid,
-                           ShoppingCartEntity cart, ArticleEntity article) {
+                             @RequestParam(value = "aid", required = false) int aid,
+                             ShoppingCartEntity cart, ArticleEntity article) {
         Enum<?> result = this.shopService.addCart(article, cart, user, aid);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
@@ -250,9 +250,9 @@ public class ShopController extends GeneralController {
     }
 
     @PostMapping(value = "payment",
-    produces = MediaType.APPLICATION_JSON_VALUE)
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String postPayment(@SessionAttribute(value = "user", required = false) UserEntity user, PaymentEntity payment, int index, ShoppingCartEntity cart){
+    public String postPayment(@SessionAttribute(value = "user", required = false) UserEntity user, PaymentEntity payment, int index, ShoppingCartEntity cart) {
         Enum<?> result = this.shopService.easeAddPayment(user, payment, index, cart);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
@@ -260,7 +260,7 @@ public class ShopController extends GeneralController {
     }
 
     @PatchMapping(value = "cart",
-    produces = MediaType.APPLICATION_JSON_VALUE)
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String patchCart(@SessionAttribute(value = "user", required = false) UserEntity user, ShoppingCartEntity cart) {
         Enum<?> result = this.shopService.modifyCart(cart, user);
@@ -270,10 +270,10 @@ public class ShopController extends GeneralController {
     }
 
     @DeleteMapping(value = "cart",
-    produces = MediaType.APPLICATION_JSON_VALUE)
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String deleteCart(int[] index, @SessionAttribute(value = "user", required = false)UserEntity user){
-        Enum<?> result = this.shopService.deleteCarts(index,user);
+    public String deleteCart(int[] index, @SessionAttribute(value = "user", required = false) UserEntity user) {
+        Enum<?> result = this.shopService.deleteCarts(index, user);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
         return responseObject.toString();
@@ -291,8 +291,8 @@ public class ShopController extends GeneralController {
     }
 
     @GetMapping(value = "payment",
-    produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getPayment(@SessionAttribute(value = "user", required = false)UserEntity user){
+            produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getPayment(@SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView("shop/payment");
         BoardEntity board = this.shopService.getBoard("shop");
         modelAndView.addObject("user", user);
@@ -308,17 +308,17 @@ public class ShopController extends GeneralController {
                     return 0;
                 }
             }).toArray(PaymentVo[]::new));
-            modelAndView.addObject("isPayment",payments.length);
+            modelAndView.addObject("isPayment", payments.length);
         }
         return modelAndView;
     }
 
     @DeleteMapping(value = "payment",
-    produces = MediaType.APPLICATION_JSON_VALUE)
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String deletePayment(PaymentEntity payment, @SessionAttribute(value = "user", required = false)UserEntity user){
+    public String deletePayment(PaymentEntity payment, @SessionAttribute(value = "user", required = false) UserEntity user) {
         System.out.println("payment controller 결과후 " + payment.getGroupIndex());
-        Enum<?> result = this.shopService.deletePayment(payment,user);
+        Enum<?> result = this.shopService.deletePayment(payment, user);
         System.out.println("payment service 결과후 " + payment.getGroupIndex());
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
@@ -339,7 +339,7 @@ public class ShopController extends GeneralController {
     }
 
     @RequestMapping(value = "review", method = RequestMethod.POST,
-    produces = MediaType.APPLICATION_JSON_VALUE)
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postReview(
             @SessionAttribute(value = "user", required = false) UserEntity user,
@@ -361,7 +361,7 @@ public class ShopController extends GeneralController {
     @ResponseBody
     public CommentVo[] getComment(@Param(value = "index") int index,
                                   @SessionAttribute(value = "user", required = false) UserEntity user) {
-        return this.shopService.getComment(index, user);
+        return this.shopService.getComments(index, user);
     }
 
     //todo :리뷰 이미지 끌고오는 comment맵핑
@@ -380,6 +380,7 @@ public class ShopController extends GeneralController {
 
         return responseEntity;
     }
+
     @RequestMapping(value = "comment-liked", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postCommentLike(@SessionAttribute(value = "user", required = false) UserEntity user,
@@ -402,9 +403,10 @@ public class ShopController extends GeneralController {
     public ModelAndView getModify(@RequestParam(value = "index") int index,
                                   @SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView("shop/modifyReview");
-//
-//        System.out.println("modify index check = " + index);
-//        modelAndView.addObject("product", this.shopService.getComment(index, user)[0]);
+        CommentVo commentVo = this.shopService.getComment(index);
+
+        modelAndView.addObject("product", commentVo != null ? this.shopService.getArticle(commentVo.getArticleIndex()) : null);
+        modelAndView.addObject("comment", commentVo != null ? commentVo : null);
 
         return modelAndView;
     }

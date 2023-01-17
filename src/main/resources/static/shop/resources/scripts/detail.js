@@ -250,8 +250,9 @@ const loadReview = () => {
                         <span class="writer">${reviewObject['nickname']}</span>
                         <span class="dt">${reviewObject['writtenOn']}</span>
                         <span class="action-container">
-${(reviewObject['mine'] === true) || (adminElement != null && adminElement.value) ?
-                    '<a href="#" class="action modify" rel="actionModify">수정</a>' : ''} ${(reviewObject['mine'] === true) || (adminElement != null && adminElement.value) ?
+                ${(reviewObject['mine'] === true)?
+                    '<a href="#" class="action modify" rel="actionModify">수정</a>' : ''}
+                ${(reviewObject['mine'] === true) || (adminElement != null && adminElement.value) ?
                     '<a href="#" class="action delete" rel="actionDelete">삭제</a>' : ''}
 </span>
                         

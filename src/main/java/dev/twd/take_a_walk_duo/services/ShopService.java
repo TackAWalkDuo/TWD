@@ -80,7 +80,7 @@ public class ShopService {
         return this.shopMapper.selectAllArticles();
     }
 
-    public ProductVo[] getDiscountProducts(){
+    public ProductVo[] getDiscountProducts() {
         return this.shopMapper.selectDiscountProducts();
     }
 
@@ -431,7 +431,7 @@ public class ShopService {
     }
 
     //todo comment 서비스
-    public CommentVo[] getComment(int index, UserEntity user) {
+    public CommentVo[] getComments(int index, UserEntity user) {
         CommentVo[] comments = this.bbsMapper.selectCommentsByIndex(index, user == null ? null : user.getEmail());
         for (CommentVo comment : comments) {
             CommentImageEntity[] commentImage = this.bbsMapper.selectCommentImagesByCommentIndexExceptData(comment.getIndex());
@@ -501,6 +501,19 @@ public class ShopService {
 
     public ArticleEntity getArticle(int index) {
         return this.shopMapper.selectArticleByArticleIndex(index);
+    }
+
+    public CommentVo getComment(int index) {
+        CommentVo comment = this.bbsMapper.selectCommentByIndex(index);
+        if (comment == null) return null;
+        else {
+            CommentImageEntity[] commentImage = this.bbsMapper.selectCommentImagesByCommentIndexExceptData(comment.getIndex());
+            int[] reviewImageIndexes = Arrays.stream(commentImage).mapToInt(CommentImageEntity::getIndex).toArray();
+
+            comment.setImageIndexes(reviewImageIndexes);
+
+            return comment;
+        }
     }
 }
 

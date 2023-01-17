@@ -227,19 +227,25 @@ public class BbsService {
         CommentVo existingComment = this.bbsMapper.selectCommentByIndex(comment.getIndex());
         //로그인 안했을 경우.
         if (user == null) return CommonResult.NOT_SIGNED;
+        System.out.println("1");
         //로그인 사용자와 댓글 작성자가 다를 경우.
         if (!user.getEmail().equals(comment.getUserEmail()))
             return WriteResult.NOT_SAME;
+        System.out.println("2");
 
         //존재하지 않는 댓글일 경우.
         if (this.bbsMapper.selectCommentsByIndex(comment.getIndex(), user.getEmail()) == null)
             return ReadResult.NO_SUCH_COMMENT;
+        System.out.println("3");
 
         existingComment.setContent(comment.getContent());
         existingComment.setWrittenOn(new Date()); // 날짜를 현재 날짜로 변경.
+        System.out.println("4");
+
         //update 시작.
         if (this.bbsMapper.updateComment(existingComment) < 0)
             return CommonResult.FAILURE;
+        System.out.println("5");
 
         if (modifyFlag) {
             //변경되었다면 기존의 이미지는 전부 삭제.
@@ -258,6 +264,7 @@ public class BbsService {
             }
 
         }
+        System.out.println("6");
 
         return CommonResult.SUCCESS;
     }
