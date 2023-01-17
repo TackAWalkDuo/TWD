@@ -297,7 +297,7 @@ public class ShopController extends GeneralController {
         if (user != null) {
             PaymentVo[] payments = this.shopService.getPayments(user.getEmail());
             modelAndView.addObject("payments", Arrays.stream(payments).sorted((o1, o2) -> {
-                if (o1.getGroupIndex() > o2.getGroupIndex()) {
+                if (o1.getGroupIndex() < o2.getGroupIndex()) {
                     return 1;
                 } else if (o1.getGroupIndex() < o2.getGroupIndex()) {
                     return -1;
