@@ -36,7 +36,7 @@
             <tr rel="payment-item" th:if="${(board.getId() == 'shop')}"
                 th:each="i : ${#numbers.sequence(0, payments.length - 1)}"
                 th:with="payment = ${payments[i]}"
-                th:class="${i > 0 && payment.getDeliveryStatus() != payments[i - 1].getDeliveryStatus() ? 'separator' : ''}">
+                th:class="${i > 0 && payment.getGroupIndex() != payments[i - 1].getGroupIndex() ? 'separator' : ''}">
                 <td hidden rel="index" th:text="${payment.getIndex()}"></td>
                 <td hidden rel="deliveryStatus" th:text="${payment.getDeliveryStatus()}"></td>
                 <td hidden rel="groupIndex" th:text="${payment.getGroupIndex()}"></td>
