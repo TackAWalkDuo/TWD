@@ -524,6 +524,7 @@ const loadReview = (articleIndex) => {
                         });
 
 
+                        //수정하기 누를 경우 숨겨 둔 수정하기 댓글창
                         const modifyElement = itemElement.querySelector('[rel="actionModify"]');
                         modifyElement?.addEventListener('click', (e) => {
                             e.preventDefault();
@@ -629,6 +630,7 @@ foldElement.addEventListener('click', () => {
     foldChangeIcon(container.classList.contains("fold"));
 });
 
+// 산책 게시판 list 닫기
 function foldChangeIcon(flag) {
     const foldIcon = foldElement.querySelector('[rel="foldIcon"]');
     if (flag && foldIcon.classList.contains("fa-greater-than")) {

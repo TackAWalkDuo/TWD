@@ -41,20 +41,11 @@ body > .--header {
 }
 
 #container {
-    /*position: absolute;*/
     height: 100%;
     z-index: 3;
 
-    /*top: 10%;*/
-    /*left: 1rem;*/
-
     overflow: hidden auto;
-
-    /*align-items: start;*/
     display: none;
-    /*flex-direction: row;*/
-    /*justify-content: flex-start;*/
-    /*border-radius: 0.7rem;*/
 }
 
 #container.fold {
