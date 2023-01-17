@@ -191,10 +191,10 @@
             </tbody>
         </table>
         <div  id="reviewTitleAnchor"></div>
-
     </div>
-
     <div class="all-review-container">
+        <input hidden id="writeUser" th:value="${product.getUserEmail()}">
+        <input hidden id="loginUser" th:if="${session.user != null}" th:value="${session.user.getEmail()}">
         <div id="reviewTitle"> REVIEW </div>
         <div class="review-container" id="reviewContainer">
             <div class="review-main liked mine">
@@ -205,7 +205,7 @@
                     <div class="head">
                         <span class="writer">리뷰남긴사람</span>
                         <span class="dt">2022-01-01 00:00:00</span>
-                        <span class="action-container"><a href="#" class="action delete">삭제</a></span>
+                        <span class="action-container"><a href="#" class="action modify">수정</a><a href="#" class="action delete">삭제</a></span>
                     </div>
                 </div>
                 <div class="body">
