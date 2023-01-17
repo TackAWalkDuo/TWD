@@ -244,7 +244,7 @@ const loadReview = () => {
                     <div class="head">
                         <span class="writer">${reviewObject['nickname']}</span>
                         <span class="dt">${reviewObject['writtenOn']}</span>
-                        <span class="action-container">${(reviewObject['mine'] === true) || adminElement?.value ?
+                        <span class="action-container">${(reviewObject['mine'] === true) || (adminElement != null && adminElement.value) ? 
                     '<a href="#" class="action delete" rel="actionDelete">삭제</a>' : ''}</span>
                     </div>
                 </div>
@@ -284,7 +284,7 @@ const loadReview = () => {
                     imageContainerElement.remove();
                 }
 
-                dom.querySelector('[rel="actionDelete"]').addEventListener('click', () => {
+                dom.querySelector('[rel="actionDelete"]')?.addEventListener('click', () => {
                     if (!confirm('정말로 댓글을 삭제할까요?')) {
                         return;
                     }
