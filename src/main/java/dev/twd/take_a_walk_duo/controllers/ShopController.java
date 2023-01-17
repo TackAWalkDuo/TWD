@@ -1,18 +1,19 @@
 package dev.twd.take_a_walk_duo.controllers;
 
-import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
+import dev.twd.take_a_walk_duo.entities.bbs.*;
 import dev.twd.take_a_walk_duo.entities.shop.PaymentEntity;
 import dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
+import dev.twd.take_a_walk_duo.enums.bbs.WriteResult;
 import dev.twd.take_a_walk_duo.models.PagingModel;
-import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
 import dev.twd.take_a_walk_duo.entities.shop.SaleProductEntity;
 import dev.twd.take_a_walk_duo.entities.member.UserEntity;
 import dev.twd.take_a_walk_duo.services.ShopService;
+import dev.twd.take_a_walk_duo.vos.bbs.CommentVo;
 import dev.twd.take_a_walk_duo.vos.shop.CartVo;
 import dev.twd.take_a_walk_duo.vos.shop.PaymentVo;
 import dev.twd.take_a_walk_duo.vos.shop.ProductVo;
+import org.apache.ibatis.annotations.Param;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

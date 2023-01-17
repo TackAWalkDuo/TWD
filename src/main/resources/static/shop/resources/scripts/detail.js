@@ -219,11 +219,10 @@ if(isSoldOut === null){
     })
 }
 
-
-
 //todo 리뷰 js
 //리뷰
 const reviewContainer = window.document.getElementById('reviewContainer');
+const adminElement = window.document.getElementById("adminFlag");
 
 const loadReview = () => {
     reviewContainer.innerText = '';
@@ -244,7 +243,7 @@ const loadReview = () => {
                     <div class="head">
                         <span class="writer">${reviewObject['nickname']}</span>
                         <span class="dt">${reviewObject['writtenOn']}</span>
-                        <span class="action-container">${reviewObject['mine'] === true ? '<a href="#" class="action delete" rel="actionDelete">삭제</a>' : ''}</span>
+                        <span class="action-container">${(reviewObject['mine'] === true) || adminElement.value ? '<a href="#" class="action delete" rel="actionDelete">삭제</a>' : ''}</span>
                     </div>
                 </div>
                 <div class="body">
@@ -324,14 +323,3 @@ const loadReview = () => {
 }
 
 loadReview();
-
-
-
-
-
-
-
-
-
-
-
