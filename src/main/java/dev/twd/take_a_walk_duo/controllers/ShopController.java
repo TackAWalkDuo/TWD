@@ -397,6 +397,15 @@ public class ShopController extends GeneralController {
     }
 
     // 리뷰 수정하기
+    @GetMapping(value = "modifyReview", produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getModify(@RequestParam(value = "index") int index,
+                                  @SessionAttribute(value = "user", required = false) UserEntity user) {
+        ModelAndView modelAndView = new ModelAndView("shop/modifyReview");
 
+        System.out.println("modify index check = " + index);
+        modelAndView.addObject("product", this.shopService.getComment(index, user)[0]);
+
+        return modelAndView;
+    }
 
 }

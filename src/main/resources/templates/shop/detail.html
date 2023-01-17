@@ -191,10 +191,10 @@
             </tbody>
         </table>
         <div  id="reviewTitleAnchor"></div>
-
     </div>
-
     <div class="all-review-container">
+        <input hidden id="writeUser" th:value="${product.getUserEmail()}">
+        <input hidden id="loginUser" th:if="${session.user != null}" th:value="${session.user.getEmail()}">
         <div id="reviewTitle"> REVIEW </div>
         <div class="review-container" id="reviewContainer">
             <div class="review-main liked mine">

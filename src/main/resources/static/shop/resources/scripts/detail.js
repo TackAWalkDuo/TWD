@@ -247,8 +247,12 @@ const loadReview = () => {
                     <div class="head">
                         <span class="writer">${reviewObject['nickname']}</span>
                         <span class="dt">${reviewObject['writtenOn']}</span>
-                        <span class="action-container">${(reviewObject['mine'] === true) || (adminElement != null && adminElement.value) ? 
-                    '<a href="#" class="action delete" rel="actionDelete">삭제</a>' : ''}</span>
+                        <span class="action-container">
+${(reviewObject['mine'] === true) || (adminElement != null && adminElement.value) ?
+                    '<a href="#" class="action modify" rel="actionModify">수정</a>' : ''} ${(reviewObject['mine'] === true) || (adminElement != null && adminElement.value) ? 
+                    '<a href="#" class="action delete" rel="actionDelete">삭제</a>' : ''}
+</span>
+                        
                     </div>
                 </div>
                 <div class="body">
@@ -271,6 +275,7 @@ const loadReview = () => {
                 const domParser = new DOMParser();
                 const dom = domParser.parseFromString(itemHtml, 'text/html');
                 const reviewElement = dom.querySelector('[rel="review"]');
+                const modifyFormElement = dom.querySelector('[rel="actionModify"]');
                 const likeToggleElement = dom.querySelector('[rel="likeToggle"]');
                 const likedCommentElement = dom.querySelector('[rel="likeComment"]')
                 const imageContainerElement = dom.querySelector('[rel="imageContainer"]');
@@ -358,6 +363,17 @@ const loadReview = () => {
                     ;
                     xhr.send(formData);
                 });
+
+            modifyFormElement?.addEventListener('click', () => {
+                    const writeUser = window.document.getElementById("writeUser").value;
+                    const loginUser = window.document.getElementById("loginUser")?.value;
+
+                    writeUser === loginUser
+                        ? window.location.href = `./modifyReview?aid=${reviewObject['index'].value}`
+                        : showDialog.show("수정 권한이 없습니다.");
+                });
+
+
                 reviewContainer.append(reviewElement);
             }
         }
@@ -365,4 +381,4 @@ const loadReview = () => {
     xhr.send();
 }
 
-// loadReview();
+loadReview();
