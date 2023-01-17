@@ -263,7 +263,11 @@ const loadReview = () => {
                         </span>
                     </div>
                 </div>
-            </div>`
+            </div>
+<div class="image-scale" id="imageScale">
+    <img class="detail-img" rel="scaleImage" th:src="@{/bbs/commentImage?index=${imageIndex}}" alt="#"
+         src="/resources/images/item1.jpg">
+</div>`
                 const domParser = new DOMParser();
                 const dom = domParser.parseFromString(itemHtml, 'text/html');
                 const reviewElement = dom.querySelector('[rel="review"]');
@@ -282,6 +286,24 @@ const loadReview = () => {
                 } else {
                     imageContainerElement.remove();
                 }
+
+                form.querySelector('.image').addEventListener('click', e => {
+                    e.preventDefault();
+                    imageScale.classList.add('visible');
+                    // imageScale.classList.contains('visible') ?
+                    //     imageScale.classList.remove('visible')
+                    //     : imageScale.classList.add('visible');
+
+                });
+
+                window.document.getElementById('imageScale').addEventListener('click', e => {
+                    e.preventDefault();
+                    imageScale.classList.remove('visible');
+                    // imageScale.classList.contains('visible') ?
+                    //     imageScale.classList.remove('visible')
+                    //     : imageScale.classList.add('visible');
+                });
+
 
                 likeToggleElement.addEventListener('click', e => {
                         e.preventDefault();
@@ -324,7 +346,6 @@ const loadReview = () => {
 }
 
 loadReview();
-
 
 
 
