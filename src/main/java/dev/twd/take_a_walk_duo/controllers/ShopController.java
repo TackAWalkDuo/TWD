@@ -46,7 +46,12 @@ public class ShopController extends GeneralController {
     public ModelAndView getShop(@SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView("shop/main");
         modelAndView.addObject("products", this.shopService.getAllArticles());
+        modelAndView.addObject("discountProducts", this.shopService.getDiscountProducts());
         modelAndView.addObject("productClothes", this.shopService.getConditionArticles("clothes"));
+//        modelAndView.addObject("productFeed", this.shopService.getConditionArticles("feed"));
+//        modelAndView.addObject("productSnack", this.shopService.getConditionArticles("snack"));
+//        modelAndView.addObject("productToy", this.shopService.getConditionArticles("toy"));
+//        modelAndView.addObject("productEtc", this.shopService.getConditionArticles("etc"));
         if (user != null) {
             modelAndView.addObject("user", user);
         }

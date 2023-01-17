@@ -80,6 +80,10 @@ public class ShopService {
         return this.shopMapper.selectAllArticles();
     }
 
+    public ProductVo[] getDiscountProducts(){
+        return this.shopMapper.selectDiscountProducts();
+    }
+
     public ProductVo[] getConditionArticles(String categoryText) {
         return this.shopMapper.selectConditionArticles(categoryText);
     }

@@ -187,6 +187,31 @@ body > main > .box > .button{
     justify-content: flex-end;
 }
 
+.sold-out{
+    position: absolute;
+    right: 0;
+    color: red;
+    text-decoration: line-through;
+}
+
+.pre-btn{
+    margin-top: 6rem;
+    position: absolute;
+    font-size: 2rem;
+    left: 6rem;
+}
+
+.next-btn{
+    margin-top: 6rem;
+    position: absolute;
+    right: 7rem;
+    font-size: 2rem;
+}
+.pre-btn:hover,
+.next-btn:hover{
+    cursor: pointer;
+}
+
 body > main > .box > .item-container {
     width: 100%;
     display: grid;
@@ -220,7 +245,7 @@ body > main > .box > .item-container > .item > .link {
     display: flex;
     flex-direction: column;
     font-size: 1.15rem;
-    font-weight: 300;
+    font-weight: 500;
     justify-content: flex-start;
     text-decoration: none;
 }
@@ -259,9 +284,14 @@ body > main > .box > .item-container > .item > .link > .image-big {
     height: 30.5rem;
 }
 
-body > main > .box > .item-container > .item > .link > .charge-price {
+body > main > .box > .item-container > .item > .link > .charge-price,
+body > main > .box > .item-container > .item > .link > .discount{
     font-size: 0.85rem;
     margin-top: 0.325rem;
+}
+
+body > main > .box > .item-container > .item > .link > .discount{
+    text-decoration: line-through;
 }
 
 /*그리드 컬럼,로우 부분*/
@@ -307,6 +337,7 @@ body > main > .box > .item-container > .item-description > .side-image {
 
 body > main > .box > .item-container > .item-description > .side-image  .image.side {
     width: 100%;
+    min-width: 100%;
     height: 10rem;
 }
 

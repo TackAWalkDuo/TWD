@@ -98,7 +98,9 @@
                `article`.`view`          AS `view`,
                `article`.`written_on`    AS `writtenOn`,
                `article`.`modified_on`   AS `modifiedOn`,
-               `product`.`quantity`      AS `qunantity`,
+               `product`.`quantity`      AS `quantity`,
+               `product`.`cost`          AS `cost`,
+               `product`.`discount`      AS `discount`,
                `product`.`price`         AS `price`,
                `product`.`category_text` AS 'categoryText',
                `product`.`text`          AS `text`
@@ -108,6 +110,33 @@
         WHERE `article`.`board_id` = 'shop'
         ORDER BY `index` DESC
         LIMIT 8
+    </select>
+
+    <!-- shop/main(discount)-->
+    <select id="selectDiscountProducts"
+            resultType="dev.twd.take_a_walk_duo.vos.shop.ProductVo">
+        SELECT `article`.`index`         AS `index`,
+               `article`.`user_email`    AS `userEmail`,
+               `article`.`board_id`      AS `boardID`,
+               `article`.`title`         AS `title`,
+               `article`.`content`       AS `content`,
+               `article`.`thumbnail`     AS `thumbnail`,
+               `article`.`view`          AS `view`,
+               `article`.`written_on`    AS `writtenOn`,
+               `article`.`modified_on`   AS `modifiedOn`,
+               `product`.`quantity`      AS `quantity`,
+               `product`.`cost`          AS `cost`,
+               `product`.`discount`      AS `discount`,
+               `product`.`price`         AS `price`,
+               `product`.`category_text` AS 'categoryText',
+               `product`.`text`          AS `text`
+        FROM `twd_bbs`.`articles` AS `article`
+                 LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`
+                 LEFT JOIN `twd_shop`.`sale_product` AS `product` ON `article`.`index` = `product`.`article_index`
+        WHERE `article`.`board_id` = 'shop'
+          AND `product`.`discount` > 0
+        ORDER BY `index` DESC
+        LIMIT 4
     </select>
 
     <select id="selectConditionArticles"
@@ -128,7 +157,8 @@
         FROM `twd_bbs`.`articles` AS `article`
                  LEFT JOIN `twd_member`.`users` AS `user` ON `user`.`email` = `article`.`user_email`
                  LEFT JOIN `twd_shop`.`sale_product` AS `product` ON `article`.`index` = `product`.`article_index`
-        WHERE `article`.`board_id` = 'shop' AND `product`.category_text = #{categoryText}
+        WHERE `article`.`board_id` = 'shop'
+          AND `product`.category_text = #{categoryText}
         ORDER BY `index` DESC
         LIMIT 2
     </select>
