@@ -20,9 +20,7 @@ const showDialog = {
         const dialog = showDialog.getElement();
         dialog.querySelector('.text').innerText = text;
         dialog.classList.add('visible');
-        // dialog.querySelector("#cancel").addEventListener("click", () => {
-        //     dialog.classList.remove('visible');
-        // });
+
         dialog.querySelector("#ok").addEventListener("click", () => {
             dialog.classList.remove('visible');
         });

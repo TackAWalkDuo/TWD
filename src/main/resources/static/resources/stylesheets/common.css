@@ -210,24 +210,6 @@ body > .--header > .--content > .--menu {
     padding: unset;
 }
 
-
-/*body > .--header > .--content > .--menu.--main {*/
-/*    !*flex: 1;*!*/
-/*    margin-left: 1.5rem;*/
-/*    font-size: 1.5rem;*/
-/*}*/
-
-
-/*body > .--header > .--content.-top > .--search > .--search-bar {*/
-/*    border: 0.0625rem solid gray;*/
-/*    height: 2rem;*/
-/*    box-sizing: border-box;*/
-/*    border-radius: 5rem;*/
-/*    padding-left: 1rem;*/
-/*    flex: 1;*/
-/*}*/
-
-
 body > .--header > .--content > .--space {
     flex: 1;
 }
@@ -243,7 +225,6 @@ body > .--header > .-top > .--logo-container {
 
 .duo {
     color: rgb(139, 145, 126);
-    /*font-family: 'Permanent Marker', cursive;*/
 }
 
 
@@ -264,7 +245,6 @@ body > .--header > .--content > .--menu > .--item + .--item {
     font-weight: 500;
 
     font-size: 1.25rem;
-    /*border: rgb(169, 175, 126);*/
     border-radius: 1.5rem;
     padding: 7px 3px;
     text-decoration: none;
@@ -285,7 +265,6 @@ body > .--header > .--content > .--menu > .--item + .--item {
 
     padding-left: 0.25rem;
     color: rgb(128, 139, 150);
-    /*letter-spacing: 0px;*/
 }
 
 /*보고 있는 페이지의 a태그 활성화*/
@@ -315,7 +294,6 @@ body > .--footer {
     height: 10rem;
     background-color: rgb(0, 0, 0, 85%);
     border-top: 0.0625rem solid rgb(213, 216, 220);
-    /*box-shadow: 0 0 0.5rem 0.0625rem rgba(0, 0, 0, 10%);*/
     align-items: center;
     display: flex;
     flex-direction: row;

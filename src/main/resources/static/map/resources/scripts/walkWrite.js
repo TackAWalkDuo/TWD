@@ -131,19 +131,17 @@ walkArticle.onsubmit = e => {
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
 
-
-    if(walkArticle['place_title'].value === '') {
-        alert("추천할 장소를 작성해주세요.");
+    if (walkArticle['place_title'].value === '') {
+        showDialog.show("추천할 장소를 작성해주세요.");
         return false;
     }
-    if(walkArticle['content'].value === '') {
-        alert("어떤 이유로 추천하는 작성해주세요.");
+    if (walkArticle['content'].value === '') {
+        showDialog.show("어떤 이유로 추천하는 작성해주세요.");
         return false;
     }
 
-    if(walkArticle['lat'].value.length === 0 || walkArticle['address'].value.length === 0) {
+    if (walkArticle['lat'].value.length === 0 || walkArticle['address'].value.length === 0) {
         showDialog.show("추천할 좌표를 지도에서 선택해주세요.");
-        // alert("추천할 좌표를 지도에서 선택해주세요.");
         return false;
     }
     //ArticleEntity 로 받을 정보
@@ -171,21 +169,21 @@ walkArticle.onsubmit = e => {
                         window.location.href = './read';
                         break;
                     case 'not_signed':
-                        alert("로그인 해주세요.");
-                        window.location.href = '../../../member/login';
+                        showDialog.notLogin();
+                        // window.location.href = '../../../member/login';
                         break;
                     default:
-                        alert("응 실패");
+                        showDialog.text("작성에 실패했습니다.");
                 }
             } else {
-                alert("응 연결 실패~");
+                showDialog.text("연결에 실패했습니다.");
             }
         }
     };
     xhr.send(formData);
 };
 
-walkArticle.querySelector('[rel="imageDeleteButton"]').addEventListener('click', ()=> {
+walkArticle.querySelector('[rel="imageDeleteButton"]').addEventListener('click', () => {
     walkArticle['images'].files = null;
     imageContainerElement.querySelectorAll('img.image').forEach(x => x.remove());
     walkArticle.querySelector('[rel="noImage"]').classList.remove('hidden')

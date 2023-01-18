@@ -75,12 +75,13 @@ form.querySelector('[rel="registerButton"]').addEventListener('click', () => {
 
     if (checkReviewGood.checked === false && checkReviewCommon.checked === false &&
         checkReviewBad.checked === false) {
-        alert('리뷰 평가를 체크해 주세요.');
+        showDialog.show("리뷰 평가를 체크해 주세요.");
         return;
     }
 
     if (form['content'].value === '') {
-        alert('상세 리뷰를 작성해 주세요.');
+        showDialog.show("상세 리뷰를 작성해 주세요.");
+
         form['content'].focus();
         return;
     }
@@ -113,10 +114,10 @@ form.querySelector('[rel="registerButton"]').addEventListener('click', () => {
                         window.location.href = `/shop/detail?aid=${form['aid'].value}`;
                         break;
                     default:
-                        alert('알 수 없는 이유로 리뷰 수정에 실패하였습니다. 잠시 후 다시 시도해 주세요.');
+                        showDialog.show("알 수 없는 이유로 리뷰 수정에 실패하였습니다. 잠시 후 다시 시도해 주세요.");
                 }
             } else {
-                alert('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                showDialog.show("서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.");
             }
         }
     };

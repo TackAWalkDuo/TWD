@@ -296,7 +296,7 @@ likeIcon.addEventListener('click', () => {
 reviewForm.onsubmit = e => {
     e.preventDefault()
     if (reviewForm['content'] === null) {
-        alert("리뷰 내용을 입력해주세요.")
+        showDialog.show("리뷰 내용을 입력해주세요.");
         return false;
     }
 
@@ -598,17 +598,16 @@ if (loginUserEmailElement !== null) {
                             window.location.href = `/map/read`;
                             break;
                         case 'no_such_article' :
-                            alert("게시글을 찾을 수 없습니다.");
+                            showDialog.show("게시글을 찾을 수 없습니다.");
                             break;
                         case 'not_allowed' :
-                            alert("로그인 정보가 일치하지 않습니다.");
+                            showDialog.show("로그인 정보가 일치하지 않습니다.");
                             break;
                         default:
-                            alert("삭제에 실패했습니다.");
+                            showDialog.show("알 수 없는 이우로 삭제에 실패했습니다.");
                     }
                 } else {
                     showDialog.show("서버와 통신을 실패했습니다.");
-
                 }
             }
         };

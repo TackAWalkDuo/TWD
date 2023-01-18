@@ -38,7 +38,7 @@ const loadMap = (lat, lng) => {
         level: 3 //지도의 레벨(확대, 축소 정도)
     }); //지도 생성 및 객체 리턴
 
-    if(initializationMarker){
+    if (initializationMarker) {
         initializationMarker = false;
         marker.setPosition(new kakao.maps
             .LatLng(walkArticle.querySelector('[rel="lat"]').value,
@@ -151,7 +151,7 @@ walkArticle['images'].addEventListener('input', () => {
 });
 
 //기본 이미지로 변경
-walkArticle.querySelector('[rel="imageDeleteButton"]').addEventListener('click', ()=> {
+walkArticle.querySelector('[rel="imageDeleteButton"]').addEventListener('click', () => {
     walkArticle['images'].files = null;
     imageContainerElement.querySelectorAll('img.image').forEach(x => x.remove());
     walkArticle.querySelector('[rel="noImage"]').classList.remove('hidden')
@@ -165,16 +165,17 @@ walkArticle.onsubmit = e => {
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
 
-    if (walkArticle['lat'].value === null || walkArticle['address'].value === null) {
-        alert("추천할 좌표를 지도에서 선택해주세요.");
-        return false;
-    }
     if (walkArticle['place_title'].value === '') {
-        alert("추천할 장소를 작성해주세요.");
+        showDialog.show("추천할 장소를 작성해주세요.");
         return false;
     }
     if (walkArticle['content'].value === '') {
-        alert("어떤 이유로 추천하는 작성해주세요.");
+        showDialog.show("어떤 이유로 추천하는 작성해주세요.");
+        return false;
+    }
+
+    if (walkArticle['lat'].value.length === 0 || walkArticle['address'].value.length === 0) {
+        showDialog.show("추천할 좌표를 지도에서 선택해주세요.");
         return false;
     }
 
@@ -209,8 +210,7 @@ walkArticle.onsubmit = e => {
                         window.location.href = './read';
                         break;
                     case 'not_signed':
-                        alert("로그인 해주세요.");
-                        window.location.href = '../../../member/login';
+                        showDialog.notLogin();
                         break;
                     case 'not_allowed':
                         alert("작성자가 아닙니다.");
@@ -221,10 +221,10 @@ walkArticle.onsubmit = e => {
                         window.location.href = './read';
                         break;
                     default:
-                        alert("알 수 없는 이유로 실패했습니다.");
+                        showDialog.show("알 수 없는 이유로 실패했습니다.");
                 }
             } else {
-                alert("알 수 없는 이유로 연결에 실패했습니다.");
+                showDialog.show("알 수 없는 이유로 연결에 실패했습니다.");
             }
         }
     };
