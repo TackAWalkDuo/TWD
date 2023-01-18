@@ -80,10 +80,10 @@ form.onsubmit = e => {
                         window.location.href=`detail?aid=${aid}`;
                         break;
                     default:
-                showDialog.show('알 수 없는 이유로 상품을 수정하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                showDialog.show('알 수 없는 이유로 상품을 수정하지 못하였습니다. \n잠시 후 다시 시도해 주세요.');
                 }
             } else {
-                showDialog.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                showDialog.show('서버와 통신하지 못하였습니다. \n잠시 후 다시 시도해 주세요.');
             }
         }
     };
