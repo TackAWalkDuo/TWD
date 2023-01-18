@@ -36,9 +36,13 @@
                         <span class="text" th:text="${product.getTitle()}"></span>
                         <span th:if="${product.getQuantity() <= 0}" class="sold-out">품절</span>
                     </div>
+                    <div>
                     <span th:class="${product.getDiscount() > 0 ? 'discount' : 'charge-price'}"
                           th:text="${product.getCost() + '원'}"></span>
-                    <!--                    <span class="charge-price" th:text="${product.getPrice() + '원'}"></span>-->
+                        <span th:if="${product.getDiscount() > 0}" th:class="discount-price"
+                              th:text="${product.getPrice() + '원'}">
+                        </span>
+                    </div>
                 </a>
             </li>
         </ul>
@@ -68,9 +72,16 @@
                     </a>
                     <div class="side-description">
                         <span>
-                        <div class="side header" th:text="${product.getTitle()}">Dog coat Alaska Olive </div>
-                        <div class="side text" th:utext="${product.getText()}">클라우드7 Cloud7 </div>
-                        <div class="side charge-price" th:text="${product.getPrice() + '원'}">37,500원 </div>
+                            <div>
+                            <span class="side header" th:text="${product.getTitle()}">Dog coat Alaska Olive  </span>
+                            <span th:if="${product.getQuantity() <= 0}" class="side-sold-out">품절</span>
+                            </div>
+                            <div class="side text" th:utext="${product.getText()}">클라우드7 Cloud7 </div>
+                            <span th:class="${product.getDiscount() > 0 ? 'discount' : 'side charge-price'}"
+                                  th:text="${product.getCost() + '원'}"></span>
+                            <span th:if="${product.getDiscount() > 0}" th:class="discount-price"
+                                  th:text="${product.getPrice() + '원'}">
+                            </span>
                          </span>
                     </div>
                 </div>
@@ -79,41 +90,47 @@
     </section>
 
     <section class="shop--content">
-        <a class="shop-href" th:href="@{/shop/main}">Shopping Mall</a>
+        <div class="shop-href" th:href="@{/shop/main}">Discount Products</div>
         <div class="shop-list">
-            <span class="pre-btn"><</span>
             <ul class="shop--container">
+                <div class="pre-btn"><</div>
                 <li class="item shop-item" th:each="discountProduct : ${discountProducts}">
                     <a class="link" th:href="@{/shop/detail(aid=${discountProduct.getIndex()})}">
-                        <img alt="제품1" class="discountImage" th:src="|/bbs/thumbnail?index=${discountProduct.getIndex()}|">
-                        <span class="text" th:text="${discountProduct.getTitle()}"></span>
-                        <span class="text-content" th:text="${discountProduct.getPrice() + '원'}"></span>
+                        <img alt="제품1" class="discountImage"
+                             th:src="|/bbs/thumbnail?index=${discountProduct.getIndex()}|">
+                        <div>
+                        <span class="text" th:text="${discountProduct.getTitle()}">
+                        </span>
+                            <span th:if="${discountProduct.getQuantity() <= 0}" class="discount-sold-out">품절</span>
+                        </div>
+                        <span th:class="${discountProduct.getDiscount() > 0 ? 'discount' : 'charge-price'}"
+                              th:text="${discountProduct.getCost() + '원'}"></span>
+                        <span th:class="discount-price" th:text="${discountProduct.getPrice() + '원'}"></span>
                     </a>
                 </li>
+                <div class="next-btn">></div>
             </ul>
-            <div class="next-btn">></div>
         </div>
     </section>
 
 
-
-<!--    <section>-->
-<!--        <h2 class="title">Discount Products</h2>-->
-<!--        <ul class="discount">-->
-<!--            <div class="pre-btn"><</div>-->
-<!--            <li class="discountItem shop-item" th:each="discountProduct : ${discountProducts}">-->
-<!--                <a class="link" th:href="@{/shop/detail(aid=${discountProduct.getIndex()})}">-->
-<!--                    <img alt="제품1" class="discountImage" th:src="|/bbs/thumbnail?index=${discountProduct.getIndex()}|">-->
-<!--                    <div>-->
-<!--                        <span class="text" th:text="${discountProduct.getTitle()}"></span>-->
-<!--                        <span th:if="${discountProduct.getQuantity() <= 0}" class="sold-out">품절</span>-->
-<!--                    </div>-->
-<!--                    <span class="charge-price" th:text="${discountProduct.getPrice() + '원'}"></span>-->
-<!--                </a>-->
-<!--            </li>-->
-<!--            <div class="next-btn">></div>-->
-<!--        </ul>-->
-<!--    </section>-->
+    <!--    <section>-->
+    <!--        <h2 class="title">Discount Products</h2>-->
+    <!--        <ul class="discount">-->
+    <!--            <div class="pre-btn"><</div>-->
+    <!--            <li class="discountItem shop-item" th:each="discountProduct : ${discountProducts}">-->
+    <!--                <a class="link" th:href="@{/shop/detail(aid=${discountProduct.getIndex()})}">-->
+    <!--                    <img alt="제품1" class="discountImage" th:src="|/bbs/thumbnail?index=${discountProduct.getIndex()}|">-->
+    <!--                    <div>-->
+    <!--                        <span class="text" th:text="${discountProduct.getTitle()}"></span>-->
+    <!--                        <span th:if="${discountProduct.getQuantity() <= 0}" class="sold-out">품절</span>-->
+    <!--                    </div>-->
+    <!--                    <span class="charge-price" th:text="${discountProduct.getPrice() + '원'}"></span>-->
+    <!--                </a>-->
+    <!--            </li>-->
+    <!--            <div class="next-btn">></div>-->
+    <!--        </ul>-->
+    <!--    </section>-->
 
     <!--    <section class="box feed" th:if="${productFeed.length > 0}">-->
     <!--        <h2 class="title">Feed</h2>-->

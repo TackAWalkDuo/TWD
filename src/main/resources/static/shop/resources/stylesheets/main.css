@@ -194,17 +194,33 @@ body > main > .box > .button{
     text-decoration: line-through;
 }
 
+.discount-sold-out{
+    font-size: 1.15rem;
+    position: absolute;
+    right: 2rem;
+    color: red;
+    text-decoration: line-through;
+}
+
+.side-sold-out{
+    position: relative;
+    font-size: 1.15rem;
+    padding-left: 0.75rem;
+    color: red;
+    text-decoration: line-through;
+}
+
 .pre-btn{
     margin-top: 6rem;
     position: absolute;
     font-size: 2rem;
-    left: 6rem;
+    left: 2rem;
 }
 
 .next-btn{
     margin-top: 6rem;
     position: absolute;
-    right: 7rem;
+    right: 4rem;
     font-size: 2rem;
 }
 .pre-btn:hover,
@@ -284,13 +300,23 @@ body > main > .box > .item-container > .item > .link > .image-big {
     height: 30.5rem;
 }
 
-body > main > .box > .item-container > .item > .link > .charge-price,
-body > main > .box > .item-container > .item > .link > .discount{
+body > main > .box > .item-container > .item > .link > div > .charge-price,
+body > main > .box > .item-container > .item > .link > div > .discount,
+.shop--content .charge-price,
+.shop--content .discount{
     font-size: 0.85rem;
     margin-top: 0.325rem;
 }
 
-body > main > .box > .item-container > .item > .link > .discount{
+.discount-price{
+    font-size: 0.95rem;
+    padding-left: 0.5rem;
+    color: rgba(40, 116, 166,90%);
+}
+
+body > main > .box > .item-container > .item > .link > div > .discount,
+.shop--content .discount,
+body > main > .box > .item-container > .item-description > .side-image > .side-description > span > .discount{
     text-decoration: line-through;
 }
 
@@ -369,10 +395,31 @@ body > main > .box > .item-container > .item-description > .side-image > .side-d
     margin: unset;
 }
 
-body > main > .box > .item-container > .item-description > .side-image > .side-description > span > .side.charge-price {
+body > main > .box > .item-container > .item-description > .side-image > .side-description > span > .side.charge-price,
+body > main > .box > .item-container > .item-description > .side-image > .side-description > span > .discount{
     margin-top: 0.25rem;
     font-size: 0.9rem;
 }
+
+.shop-href{
+    font-size: 2.25rem;
+    font-weight: 300;
+    text-align: center;
+    padding: 0 8rem;
+}
+
+.shop--content .link{
+    text-decoration: none;
+    color: rgb(23, 32, 42);;
+}
+
+.text{
+    font-size: 1.15rem;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+
 
 .shop--content >.shop-list> .shop--container {
     display: flex;
