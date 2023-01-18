@@ -85,10 +85,10 @@ deleteButton?.addEventListener('click', e => {
                             window.location.reload();
                             break;
                         default:
-                            alert('실패');
+                            showDialog.show('알 수 없는 이유로 장바구니를 삭제하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
                     }
                 } else {
-                    alert('연결 실패');
+                    showDialog.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
                 }
             }
         }

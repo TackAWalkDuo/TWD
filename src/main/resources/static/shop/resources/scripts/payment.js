@@ -40,10 +40,10 @@ payment.forEach(x => {
                             window.location.reload();
                             break;
                         default:
-                            showDialog.show('실패');
+                    showDialog.show('알 수 없는 이유로 주문을 취소하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
                     }
                 } else {
-                    showDialog.show('연결 실패');
+                    showDialog.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
                 }
             }
         }

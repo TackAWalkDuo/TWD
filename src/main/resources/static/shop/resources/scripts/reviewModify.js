@@ -113,10 +113,10 @@ form.querySelector('[rel="registerButton"]').addEventListener('click', () => {
                         window.location.href = `/shop/detail?aid=${form['aid'].value}`;
                         break;
                     default:
-                        alert('알 수 없는 이유로 리뷰 수정에 실패하였습니다. 잠시 후 다시 시도해 주세요.');
+                        showDialog.show('알 수 없는 이유로 리뷰를 수정하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
                 }
             } else {
-                alert('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                        showDialog.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
             }
         }
     };

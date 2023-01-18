@@ -83,14 +83,13 @@ form.onsubmit = e => {
                         }else {
                             window.location.href=`./write`
                         }
-                        // alert('상품 등록 성공. 확인 버튼 클릭시 상품 등록 페이지로 이동합니다.');
                         break;
 
                     default :
-                        alert('로그인 후 다시 시도해 주세요.');
+                showDialog.show('알 수 없는 이유로 상품을 등록하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
                 }
             } else {
-                alert('알 수 없는 이유로 상품 등록에 실패했습니다. 잠시 후 다시 시도해 주세요.');
+                showDialog.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
             }
         }
     };
