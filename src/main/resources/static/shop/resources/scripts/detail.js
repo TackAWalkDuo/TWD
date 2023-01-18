@@ -283,7 +283,7 @@ const loadReview = () => {
                 const likeToggleElement = dom.querySelector('[rel="likeToggle"]');
                 const likedCommentElement = dom.querySelector('[rel="likeComment"]')
                 const imageContainerElement = dom.querySelector('[rel="imageContainer"]');
-                const writeUser = reviewObject['userEmail'];
+                const writeUser = reviewObject['userEmail'];    // 댓글 작성자
 
                 if (reviewObject['imageIndexes'].length > 0) {
                     for (const imageIndex of reviewObject['imageIndexes']) {
@@ -370,13 +370,7 @@ const loadReview = () => {
                 });
 
                 modifyFormElement?.addEventListener('click', () => {
-
                     const loginUser = window.document.getElementById("loginUser")?.value;
-
-                    console.log(writeUser);
-                    console.log("??????");
-                    console.log(loginUser);
-
 
                     writeUser === loginUser
                         ? window.location.href = `./modifyReview?index=${reviewObject['index']}`
