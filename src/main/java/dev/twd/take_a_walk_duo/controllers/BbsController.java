@@ -235,6 +235,7 @@ public class BbsController extends GeneralController{
         return modelAndView;
     }
 
+    //게시글 썸네일 이미지
     @GetMapping(value = "thumbnail")
     public ResponseEntity<byte[]> getReviewImage(@RequestParam(value = "index") int index) {
         ResponseEntity<byte[]> responseEntity;
@@ -251,6 +252,7 @@ public class BbsController extends GeneralController{
         return responseEntity;
     }
 
+    //댓글 생성
     @PostMapping(value = "comment", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postComment(@SessionAttribute(value = "user", required = false) UserEntity user,
@@ -303,6 +305,7 @@ public class BbsController extends GeneralController{
         return responseObject.toString();
     }
 
+    //게시글 좋아요
     @RequestMapping(value = "article-liked", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postArticleLike(@SessionAttribute(value = "user", required = false) UserEntity user,
@@ -347,6 +350,7 @@ public class BbsController extends GeneralController{
         return responseEntity;
     }
 
+    //댓글 수정하기
     @PostMapping(value = "comment-modify", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postCommentModify(@SessionAttribute(value = "user") UserEntity user,
@@ -360,6 +364,7 @@ public class BbsController extends GeneralController{
         return responseObject.toString();
     }
 
+    //댓글 좋아요
     @RequestMapping(value = "comment-liked", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postCommentLike(@SessionAttribute(value = "user", required = false) UserEntity user,
@@ -377,6 +382,7 @@ public class BbsController extends GeneralController{
         return responseObject.toString();
     }
 
+    //댓글 삭제하기
     @DeleteMapping(value = "comment", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String deleteComment(@SessionAttribute(value = "user") UserEntity user,

@@ -28,7 +28,6 @@ body > .--main > .--content > .write-container > .label > .--object-input {
 }
 
 /*여기까지 list css같음*/
-
 .--main > .content {
     display: flex;
     flex-direction: column;
