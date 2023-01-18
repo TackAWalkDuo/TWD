@@ -93,7 +93,7 @@
                 <td>
                     <label class="label">
                         <span hidden>상품 할인율</span>
-                        <input class="--object-input input" required min="0" max="999999" name="discount" value="0"
+                        <input class="--object-input input" required min="0" max="100" name="discount" value="0"
                                onkeyup="cal();" placeholder="상품 할인율을 입력해주세요. (0 ~ 100%)" step="1" type="number">
                     </label>
                 </td>
@@ -145,6 +145,7 @@
     </form>
 </main>
 <!-- cover -->
+<th:block th:replace="~{fragments/body :: dialog}"></th:block>
 <th:block th:replace="~{fragments/body :: cover}"></th:block>
 <th:block th:replace="~{fragments/body :: footer}"></th:block>
 </body>

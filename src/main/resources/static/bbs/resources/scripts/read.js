@@ -11,13 +11,11 @@ const loadComments = () => {
     const searchParams = url.searchParams;
     const aid = searchParams.get('aid');
     const xhr = new XMLHttpRequest();
-    console.log(aid);
     xhr.open('GET', `./comment?index=${aid}`);
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status >= 200 && xhr.status < 300) {
                 const responseArray = JSON.parse(xhr.responseText);
-                console.log(responseArray.length);  //responseArray.length =댓글의 갯수
                 const appendComment = (commentObject, isSub) => {
                     const commentHtmlText = `<div class="comment ${isSub ? 'sub' : ''}" rel="comment">
                                     <div class="comment head">
@@ -161,7 +159,6 @@ const loadComments = () => {
                                     const responseObject = JSON.parse(xhr.responseText);
                                     switch (responseObject['result']) {
                                         case 'success':
-                                            console.log('삭제 성공');
                                             loadComments();
                                             break;
                                         case 'not_signed':
@@ -200,7 +197,6 @@ const loadComments = () => {
                                     const responseObject = JSON.parse(xhr.responseText);
                                     switch (responseObject['result']) {
                                         case 'success' :
-                                            console.log('성공');
                                             loadComments();
                                             break;
                                         case 'no_such_comment' :
@@ -249,7 +245,7 @@ const loadComments = () => {
                                                 alert('하트 실패');
                                         }
                                     } else {
-                                        console.log('좋아요 실행을 실패했습니다(서버)');
+                                        // console.log('좋아요 실행을 실패했습니다(서버)');
                                     }
                                 }
                             }
@@ -274,8 +270,7 @@ const loadComments = () => {
                 for (let commentObject of responseArray.filter(x => !x['commentIndex'])) {
                     appendComment(commentObject, false);
                     appendReplyOf(commentObject);
-                    console.log(commentObject['singed']);
-                    console.log(commentObject['mine']);
+
                 }
 
             }
@@ -336,7 +331,7 @@ if (commentMinePicForm !== null) {
     }
 }
 
-
+//Dialog 구현
 const showDialog = {
     getElement: () => window.document.querySelector('[rel="dialog"]'),
     show: (text) => {
@@ -349,7 +344,6 @@ const showDialog = {
         dialog.querySelector("#ok").addEventListener("click", () => {
             dialog.classList.remove('visible');
         });
-        console.log(text);
     },
     notLogin: () =>{
         const dialog = showDialog.getElement();
@@ -382,7 +376,6 @@ window.document.getElementById('imageScale').addEventListener('click', e => {
 
 likeA.addEventListener('click', e => {
     e.preventDefault();
-    console.log('click중');
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     formData.append('articleIndex', commentMinePicForm['aid'].value);
@@ -393,7 +386,6 @@ likeA.addEventListener('click', e => {
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
                     case 'success':
-                        console.log('하트성공');
                         if (likeA.classList.contains('visible')) {
                             likeA.classList.remove('visible');
                             form.querySelector("[rel='likeCount']").innerText = Number(form.querySelector("[rel='likeCount']").innerText) - 1;
@@ -412,6 +404,7 @@ likeA.addEventListener('click', e => {
                         showDialog.show("알수없는 이유로 실패하였습니다.");
                 }
             } else {
+                // console.log('좋아요 실행을 실패했습니다(서버)');
                 console.log('좋아요 실행을 실패했습니다(서버)');
             }
         }
@@ -447,6 +440,7 @@ deleteArticle.addEventListener('click', e => {
                         showDialog.show("알수없는 삭제하지 못하였습니다.\n 잠시후에 다시시도해 주세요.");
                 }
             } else {
+                // console.log('좋아요 실행을 실패했습니다(서버)');
                 console.log('좋아요 실행을 실패했습니다(서버)');
             }
         }

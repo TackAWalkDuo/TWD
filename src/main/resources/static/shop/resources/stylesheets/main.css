@@ -178,13 +178,55 @@ body > main > .box > .title {
     margin-bottom: 2rem;
 }
 
-body > main > .box > .button{
+body > main > .box > .button {
     width: 100%;
 
-    align-items : center;
+    align-items: center;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+}
+
+.sold-out {
+    position: absolute;
+    right: 0;
+    color: red;
+    text-decoration: line-through;
+}
+
+.discount-sold-out {
+    font-size: 1.15rem;
+    position: absolute;
+    right: 2rem;
+    color: red;
+    text-decoration: line-through;
+}
+
+.side-sold-out {
+    position: relative;
+    font-size: 1.15rem;
+    padding-left: 0.75rem;
+    color: red;
+    text-decoration: line-through;
+}
+
+.pre-btn {
+    margin-top: 6rem;
+    position: absolute;
+    font-size: 2rem;
+    left: 2rem;
+}
+
+.next-btn {
+    margin-top: 6rem;
+    position: absolute;
+    right: 4rem;
+    font-size: 2rem;
+}
+
+.pre-btn:hover,
+.next-btn:hover {
+    cursor: pointer;
 }
 
 body > main > .box > .item-container {
@@ -198,7 +240,7 @@ body > main > .box > .item-container {
 }
 
 body > main > .box > .item-container.emple {
-    gap: 2.5rem 5rem;
+    gap: 2.5rem 7.5rem;
 }
 
 body > main > .box > .item-container > .item {
@@ -220,7 +262,7 @@ body > main > .box > .item-container > .item > .link {
     display: flex;
     flex-direction: column;
     font-size: 1.15rem;
-    font-weight: 300;
+    font-weight: 500;
     justify-content: flex-start;
     text-decoration: none;
 }
@@ -259,9 +301,24 @@ body > main > .box > .item-container > .item > .link > .image-big {
     height: 30.5rem;
 }
 
-body > main > .box > .item-container > .item > .link > .charge-price {
+body > main > .box > .item-container > .item > .link > div > .charge-price,
+body > main > .box > .item-container > .item > .link > div > .discount,
+.shop--content .charge-price,
+.shop--content .discount {
     font-size: 0.85rem;
     margin-top: 0.325rem;
+}
+
+.discount-price {
+    font-size: 0.95rem;
+    padding-left: 0.5rem;
+    color: rgba(40, 116, 166, 90%);
+}
+
+body > main > .box > .item-container > .item > .link > div > .discount,
+.shop--content .discount,
+body > main > .box > .item-container > .item-description > .side-image > .side-description > span > .discount {
+    text-decoration: line-through;
 }
 
 /*그리드 컬럼,로우 부분*/
@@ -305,9 +362,11 @@ body > main > .box > .item-container > .item-description > .side-image {
     justify-content: flex-start;
 }
 
-body > main > .box > .item-container > .item-description > .side-image  .image.side {
-    width: 100%;
+body > main > .box > .item-container > .item-description > .side-image .image.side {
+    width: 10rem;
+    max-width: 10rem;
     height: 10rem;
+    max-height: 10rem;
 }
 
 body > main > .box > .item-container > .item-description > .side-image > .side-description {
@@ -338,7 +397,78 @@ body > main > .box > .item-container > .item-description > .side-image > .side-d
     margin: unset;
 }
 
-body > main > .box > .item-container > .item-description > .side-image > .side-description > span > .side.charge-price {
+body > main > .box > .item-container > .item-description > .side-image > .side-description > span > .side.charge-price,
+body > main > .box > .item-container > .item-description > .side-image > .side-description > span > .discount {
     margin-top: 0.25rem;
     font-size: 0.9rem;
+}
+
+.shop-href {
+    font-size: 2.25rem;
+    font-weight: 300;
+    text-align: center;
+    padding: 0 8rem;
+}
+
+.shop--content .link {
+    text-decoration: none;
+    color: rgb(23, 32, 42);;
+}
+
+.text {
+    font-size: 1.15rem;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+
+.shop--content > .shop-list > .shop--container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin: 2rem 0;
+    list-style-type: none;
+    width: 80rem;
+    padding-left: 0;
+    overflow: hidden;
+}
+
+.shop-list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    /*width: 80rem;*/
+}
+
+.shop-item {
+    /* layout */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* position - 버튼 클릭시 left offset값을 적용시키기 위해 */
+    position: relative;
+    left: 0;
+
+    /* size */
+    width: 100%;
+    height: 300px;
+    /* flex item의 flex-shrink는 기본값이 1이므로 컨테이너 크기에 맞게 줄어드는데, 슬라이드를 구현할 것이므로 줄어들지 않도록 0을 준다. */
+    /*flex-shrink: 0;*/
+
+    /* transition */
+    transition: left 0.15s;
+}
+
+.discountImage {
+    width: 14rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    height: 15rem;
+    object-fit: cover;
+    margin-bottom: 0.5rem;
+    border-radius: 1rem;
+    margin-right: 2rem;
 }

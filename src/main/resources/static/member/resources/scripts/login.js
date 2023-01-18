@@ -43,14 +43,12 @@ form.onsubmit = (e) => {
     formData.append('email', form['email'].value);
     formData.append('password', form['password'].value);
     xhr.open('POST', './login');
-    console.log("확인");
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status >= 200 && xhr.status < 300) {
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
                     case 'success':
-                        console.log(document.referrer);
                         if (window.history.length > 2) window.location.href = document.referrer;
                         else {
                             window.location.href = '/';
@@ -72,10 +70,10 @@ form.onsubmit = (e) => {
 // 카카오로 로그인하기 눌렀을 때
 kakaoLoginButton?.addEventListener('click', e => {
     e.preventDefault();
+    const url = new URL(window.location.href);
+
     loginContainer.classList.add('visible');
-    // window.location.href = '/member/register';
-    // window.open('https://kauth.kakao.com/oauth/authorize?client_id=6da80eef1101bb3318ba1f6bde584ab1&redirect_uri=http://localhost:8080/member/kakao&response_type=code', '로그인', 'width=500; height=750');
-    window.location.href = 'https://kauth.kakao.com/oauth/authorize?client_id=6da80eef1101bb3318ba1f6bde584ab1&redirect_uri=http://localhost:8080/member/kakao&response_type=code';
+    window.location.href = e.target.href;
 
 });
 
@@ -83,8 +81,7 @@ kakaoLoginButton?.addEventListener('click', e => {
 NaverLoginButton?.addEventListener('click', e => {
     e.preventDefault();
     loginContainer.classList.add('visible');
-    // window.open('https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=bkuhxnOKDZAYExqHJzN1&state=STATE_STRING&redirect_uri=http://localhost:8080/member/naver', '로그인', 'width=500; height=750');
-    window.location.href ='https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=bkuhxnOKDZAYExqHJzN1&state=STATE_STRING&redirect_uri=http://localhost:8080/member/naver';
+    window.location.href = e.target.href;
 
 });
 

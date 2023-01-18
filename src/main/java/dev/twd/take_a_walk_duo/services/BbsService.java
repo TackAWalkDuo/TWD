@@ -43,12 +43,14 @@ public class BbsService {
     public BoardEntity getBoard(String id) {
         return this.bbsMapper.selectBoardById(id);
     }
-    public BoardEntity getNoticeBoard(){
+
+    //공지사항 board 찾기
+    public BoardEntity getNoticeBoard() {
         return this.bbsMapper.selectNoticeBoardById();
     }
 
     //Notice게시판 adminAccount 찾기
-    public UserEntity getUser(UserEntity user){
+    public UserEntity getUser(UserEntity user) {
         return this.bbsMapper.selectAdminAccountByUser(user.getEmail());
     }
 
@@ -131,10 +133,12 @@ public class BbsService {
                 : CommonResult.FAILURE;
     }
 
+    //썸네일 이미지 index값으로 검색
     public ArticleEntity getThumbnail(int index) {
         return this.bbsMapper.selectThumbnailByIndex(index);
     }
 
+    //댓글 insert
     public Enum<? extends IResult> addComment(UserEntity user,
                                               CommentEntity comment,
                                               MultipartFile[] images) throws IOException {
@@ -181,6 +185,7 @@ public class BbsService {
         return this.bbsMapper.selectArticleByIndex(articleIndex);
     }
 
+    //게시글 수정
     public Enum<? extends IResult> modifyArticle(int articleIndex, UserEntity user, ArticleEntity articleEntity) {
         ArticleEntity existingArticle = this.bbsMapper.selectArticleByIndex(articleIndex);
         if (existingArticle == null) {
@@ -203,9 +208,9 @@ public class BbsService {
 
     //댓글 불러오기 and 이미지 index 가져오기
 
-    public CommentVo[] getComment(int index,UserEntity user) {
+    public CommentVo[] getComment(int index, UserEntity user) {
         CommentVo[] comments = this.bbsMapper.selectCommentsByIndex(index, user == null ? null : user.getEmail());
-        for(CommentVo comment : comments){
+        for (CommentVo comment : comments) {
             CommentImageEntity[] commentImage = this.bbsMapper.selectCommentImagesByCommentIndexExceptData(comment.getIndex());
             int[] reviewImageIndexes = Arrays.stream(commentImage).mapToInt(CommentImageEntity::getIndex).toArray();
 
@@ -215,32 +220,40 @@ public class BbsService {
         return comments;
     }
 
+    //댓글 이미지가져오기
     public CommentImageEntity getCommentImage(int index) {
         return this.bbsMapper.selectCommentImageByIndex(index);
     }
 
 
+    //댓글 수정하기
     @Transactional
     public Enum<? extends IResult> modifyComment(UserEntity user, CommentEntity comment,
                                                  MultipartFile[] images, Boolean modifyFlag) throws IOException {
         CommentVo existingComment = this.bbsMapper.selectCommentByIndex(comment.getIndex());
         //로그인 안했을 경우.
-        if(user == null) return CommonResult.NOT_SIGNED;
+        if (user == null) return CommonResult.NOT_SIGNED;
+        System.out.println("1");
         //로그인 사용자와 댓글 작성자가 다를 경우.
-        if(!user.getEmail().equals(comment.getUserEmail()))
+        if (!user.getEmail().equals(comment.getUserEmail()))
             return WriteResult.NOT_SAME;
+        System.out.println("2");
 
         //존재하지 않는 댓글일 경우.
-        if(this.bbsMapper.selectCommentsByIndex(comment.getIndex(), user.getEmail()) == null)
+        if (this.bbsMapper.selectCommentsByIndex(comment.getIndex(), user.getEmail()) == null)
             return ReadResult.NO_SUCH_COMMENT;
+        System.out.println("3");
 
         existingComment.setContent(comment.getContent());
         existingComment.setWrittenOn(new Date()); // 날짜를 현재 날짜로 변경.
-        //update 시작.
-        if(this.bbsMapper.updateComment(existingComment) < 0 )
-            return CommonResult.FAILURE;
+        System.out.println("4");
 
-        if(modifyFlag){
+        //update 시작.
+        if (this.bbsMapper.updateComment(existingComment) < 0)
+            return CommonResult.FAILURE;
+        System.out.println("5");
+
+        if (modifyFlag) {
             //변경되었다면 기존의 이미지는 전부 삭제.
             this.bbsMapper.deleteCommentImage(existingComment.getIndex());
 
@@ -257,11 +270,12 @@ public class BbsService {
             }
 
         }
+        System.out.println("6");
 
         return CommonResult.SUCCESS;
     }
 
-
+    //댓글 좋아요
     public Enum<? extends IResult> likedComment(CommentLikeEntity commentLikeEntity, UserEntity user) {
         CommentVo existingComment = this.bbsMapper.selectCommentByIndex(commentLikeEntity.getCommentIndex());
         if (existingComment == null) {
@@ -278,12 +292,17 @@ public class BbsService {
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
+
+    //댓글 삭제
     public Enum<? extends IResult> deleteComment(UserEntity user, CommentEntity comment) {
         CommentEntity existingComment = this.bbsMapper.selectCommentByIndex(comment.getIndex());
-        if(existingComment == null) return  ReadResult.NO_SUCH_COMMENT;
-        if(user == null) return CommonResult.NOT_SIGNED;
-        if(!user.getEmail().equals(comment.getUserEmail()) || !user.getAdmin() ) {
-            return WriteResult.NOT_SAME;
+        if (existingComment == null) return ReadResult.NO_SUCH_COMMENT;
+        if (user == null) return CommonResult.NOT_SIGNED;
+        System.out.println("service " + comment.getUserEmail());
+        System.out.println("service " + user.getEmail());
+        if (!user.getEmail().equals(comment.getUserEmail())) {
+            if (!user.getAdmin())
+                return WriteResult.NOT_SAME;
         }
         return this.bbsMapper.deleteComment(comment.getIndex()) > 0 ?
                 CommonResult.SUCCESS : CommonResult.FAILURE;
@@ -297,28 +316,39 @@ public class BbsService {
         if (existingArticle == null) {
             return ReadResult.NO_SUCH_ARTICLE;
         }
-        if (user == null || !(user.getEmail().equals(existingArticle.getUserEmail()) || user.getAdmin())) {
+        if (user == null) {
             return ReadResult.NOT_ALLOWED;
+        }
+
+        if (!user.getEmail().equals(existingArticle.getUserEmail())) {
+            if (!user.getAdmin())
+                return ReadResult.NOT_ALLOWED;
         }
         article.setBoardId(existingArticle.getBoardId());
 
         return this.bbsMapper.deleteArticle(article.getIndex()) > 0 ? CommonResult.SUCCESS : CommonResult.FAILURE;
     }
 
-    public ArticleReadVo[] getArticles(BoardEntity board,PagingModel paging,String criterion,String keyword)  {
+    //list 게시글 값 검색(paging)
+    public ArticleReadVo[] getArticles(BoardEntity board, PagingModel paging, String criterion, String keyword) {
         return this.bbsMapper.selectArticlesByBoardId(
-                board.getId(),paging.countPerPage,
+                board.getId(), paging.countPerPage,
                 (paging.requestPage - 1) * paging.countPerPage,
                 criterion,
                 keyword);
     }
 
-    public ArticleReadVo[] getHotArticle(BoardEntity board){
+    //추천 게시글 검색
+    public ArticleReadVo[] getHotArticle(BoardEntity board) {
         return this.bbsMapper.selectHotArticlesByBoardId(board.getId());
     }
-    public ArticleReadVo getNoticeArticle(BoardEntity board){
+
+    //공지 게시글 검색
+    public ArticleReadVo getNoticeArticle(BoardEntity board) {
         return this.bbsMapper.selectNoticeArticleByBoardId(board.getId());
     }
+
+    //list 게시글 수 검색
     public int getArticleCount(BoardEntity board, String criterion, String keyword) {
         return this.bbsMapper.selectArticleCountByBoardId(board.getId(), criterion, keyword);
     }

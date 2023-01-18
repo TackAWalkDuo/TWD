@@ -9,8 +9,6 @@
     <th:block th:replace="~{fragments/head :: common}"></th:block>
     <link rel="stylesheet" th:href="@{/member/resources/stylesheets/login.css}">
     <script defer th:src="@{/member/resources/scripts/login.js}"></script>
-    <!-- Google reCAPTCHA js -->
-    <script src="https://www.google.com/recaptcha/api.js"></script>
     <script src="https://kit.fontawesome.com/12a5ab0618.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -63,16 +61,6 @@
                     </span>
                 </td>
             </tr>
-            <!-- reCAPTCHA 등록 -->
-            <tr>
-                <th id="recaptcha"></th>
-                <td>
-                    <label class="label recaptcha">
-                        <div class="g-recaptcha"
-                             id="g-recaptcha" data-sitekey="6Ley2n4jAAAAAJsDkqp0w-6ZmNrQv9_90d5VeglL"></div>
-                    </label>
-                </td>
-            </tr>
             <!--로그인 버튼-->
             <tr>
                 <th id="login"></th>
@@ -105,7 +93,7 @@
                     <div class="kakao">
                         <i class="icon fa-brands fa-kickstarter"></i>
                         <a class="kakaoButton" id="kakaoLoginButton"
-                           href="https://kauth.kakao.com/oauth/authorize?client_id=6da80eef1101bb3318ba1f6bde584ab1&redirect_uri=http://localhost:8080/member/kakao&response_type=code"
+                           th:href="@{'https://kauth.kakao.com/oauth/authorize' (client_id='6da80eef1101bb3318ba1f6bde584ab1', redirect_uri=${domain + '/member/kakao'}, response_type='code')}"
                            target="_blank" th:if="${session.user == null}">카카오로 로그인하기</a>
                         <a class="kakaoButton" id="kakaoLogoutButton" th:href="@{'./logout'}"
                            th:if="${session.user != null}">카카오 로그아웃</a>
@@ -120,7 +108,7 @@
                     <div class="naver">
                         <i class="icon fa-solid fa-n"></i>
                         <a class="naverButton" id="naverLoginButton"
-                           href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=bkuhxnOKDZAYExqHJzN1&state=STATE_STRING&redirect_uri=http://localhost:8080/member/naver"
+                           th:href="@{'https://nid.naver.com/oauth2.0/authorize' (response_type='code', client_id='bkuhxnOKDZAYExqHJzN1', state='STATE_STRING', redirect_uri=${domain + '/member/naver'})}"
                            target="_blank" th:if="${session.user == null}">네이버로 로그인하기</a>
                         <a class="naverButton" id="naverLogoutButton" th:href="@{'./logout'}"
                            th:if="${session.user != null}">네이버 로그아웃</a>
@@ -135,5 +123,6 @@
     </form>
 </main>
 <div class="login-container" id="loginContainer"></div>
+<th:block th:replace="~{fragments/body :: dialog}"></th:block>
 </body>
 </html>

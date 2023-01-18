@@ -1,8 +1,6 @@
 package dev.twd.take_a_walk_duo.services;
 
-import dev.twd.take_a_walk_duo.entities.bbs.ArticleEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.BoardEntity;
-import dev.twd.take_a_walk_duo.entities.bbs.ImageEntity;
+import dev.twd.take_a_walk_duo.entities.bbs.*;
 import dev.twd.take_a_walk_duo.entities.shop.PaymentEntity;
 import dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
@@ -12,6 +10,7 @@ import dev.twd.take_a_walk_duo.mappers.IBbsMapper;
 import dev.twd.take_a_walk_duo.mappers.IMemberMapper;
 import dev.twd.take_a_walk_duo.models.PagingModel;
 import dev.twd.take_a_walk_duo.vos.bbs.ArticleReadVo;
+import dev.twd.take_a_walk_duo.vos.bbs.CommentVo;
 import dev.twd.take_a_walk_duo.vos.shop.CartVo;
 import dev.twd.take_a_walk_duo.vos.shop.PaymentVo;
 import dev.twd.take_a_walk_duo.vos.shop.ProductVo;
@@ -32,6 +31,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -78,6 +78,14 @@ public class ShopService {
     // 모든 상품 보기(메인 페이지)
     public ProductVo[] getAllArticles() {
         return this.shopMapper.selectAllArticles();
+    }
+
+    public ProductVo[] getDiscountProducts() {
+        return this.shopMapper.selectDiscountProducts();
+    }
+
+    public ProductVo[] getConditionArticles(String categoryText) {
+        return this.shopMapper.selectConditionArticles(categoryText);
     }
 
     // 장바구니 호출
@@ -399,7 +407,7 @@ public class ShopService {
     // 구매내역 삭제
     @Transactional
     public Enum<? extends IResult> deletePayment(PaymentEntity payment, UserEntity user) {
-        PaymentEntity[] existingPayment = this.shopMapper.selectPaymentByIndex(payment.getGroupIndex());
+        PaymentEntity[] existingPayment = this.shopMapper.selectPaymentByGroupIndex(payment.getGroupIndex());
 
         if (existingPayment == null) {
             return CommonResult.FAILURE;
@@ -420,6 +428,91 @@ public class ShopService {
         return this.shopMapper.deletePayment(payment.getGroupIndex()) > 0
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
+    }
+
+    public CommentVo[] getComments(int index, UserEntity user) {
+        CommentVo[] comments = this.bbsMapper.selectCommentsByIndex(index, user == null ? null : user.getEmail());
+        for (CommentVo comment : comments) {
+            CommentImageEntity[] commentImage = this.bbsMapper.selectCommentImagesByCommentIndexExceptData(comment.getIndex());
+            int[] reviewImageIndexes = Arrays.stream(commentImage).mapToInt(CommentImageEntity::getIndex).toArray();
+
+            comment.setImageIndexes(reviewImageIndexes);
+        }
+        return comments;
+    }
+
+
+    @Transactional
+    public Enum<? extends IResult> addComment(UserEntity user, CommentEntity comment,
+                                              MultipartFile[] images, int aid) throws IOException {
+        if (user == null) {
+            return CommonResult.NOT_SIGNED;
+        }
+
+        comment.setUserEmail(user.getEmail());
+        comment.setWrittenOn(new Date());
+        comment.setArticleIndex(aid);
+        if (this.bbsMapper.insertComment(comment) == 0) {
+            return CommonResult.FAILURE;
+        }
+        if (images != null && images.length > 0) {
+            for (MultipartFile image : images) {
+                CommentImageEntity commentImage = new CommentImageEntity();
+                commentImage.setCommentIndex(comment.getIndex());
+                commentImage.setData(image.getBytes());
+                commentImage.setType(image.getContentType());
+                if (this.bbsMapper.insertCommentImage(commentImage) == 0) {
+                    return CommonResult.FAILURE;
+                }
+            }
+        }
+
+        return CommonResult.SUCCESS;
+
+
+    }
+
+    public CommentImageEntity getCommentImage(int index) {
+        return this.bbsMapper.selectCommentImageByIndex(index);
+    }
+
+    public Enum<? extends IResult> likedComment(CommentLikeEntity commentLikeEntity, UserEntity user) {
+        CommentVo existingComment = this.bbsMapper.selectCommentByIndex(commentLikeEntity.getCommentIndex());
+        if (existingComment == null) {
+            return CommonResult.FAILURE;
+        }
+        if (this.bbsMapper.selectCommentLikeByIndex(commentLikeEntity.getCommentIndex(), user.getEmail()) != null) {
+            return this.bbsMapper.deleteByCommentLiked(commentLikeEntity.getCommentIndex()) > 0
+                    ? CommonResult.SUCCESS
+                    : CommonResult.FAILURE;
+        }
+        commentLikeEntity.setUserEmail(user.getEmail());
+        commentLikeEntity.setCreatedOn(new Date());
+        return this.bbsMapper.insertCommentLike(commentLikeEntity) > 0
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
+    }
+
+    public SaleProductEntity getSaleProduct(int index) {
+        PaymentEntity payment = this.shopMapper.selectPaymentByIndex(index);
+        return this.shopMapper.selectProductByArticleIndex(payment.getProductIndex());
+    }
+
+    public ArticleEntity getArticle(int index) {
+        return this.shopMapper.selectArticleByArticleIndex(index);
+    }
+
+    public CommentVo getComment(int index) {
+        CommentVo comment = this.bbsMapper.selectCommentByIndex(index);
+        if (comment == null) return null;
+        else {
+            CommentImageEntity[] commentImage = this.bbsMapper.selectCommentImagesByCommentIndexExceptData(comment.getIndex());
+            int[] reviewImageIndexes = Arrays.stream(commentImage).mapToInt(CommentImageEntity::getIndex).toArray();
+
+            comment.setImageIndexes(reviewImageIndexes);
+
+            return comment;
+        }
     }
 }
 

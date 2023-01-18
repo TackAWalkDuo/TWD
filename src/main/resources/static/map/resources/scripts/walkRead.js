@@ -13,8 +13,6 @@ const adminElement = window.document.getElementById("adminFlag");
 let mapObject;
 let places = [];        // db 에서 list 를 가져와서 담아줄 변수.
 
-console.log(adminElement?.value);
-
 //list 의 게시글 또는 marker 클릭 시 해당 게시글을 보여줌.
 detailContainer.show = (placeObject, placeElement) => {
     // list.querySelectorAll('[rel="item"]').forEach(x => x.remove());
@@ -77,7 +75,6 @@ detailContainer.show = (placeObject, placeElement) => {
                     case 'success' :
                         detailContainer.querySelector('[rel="view"]').innerText = responseObject['view'];
                         placeElement.querySelector('[rel="view"]').innerText = responseObject['view'];
-                        console.log(placeElement.querySelector('[rel="view"]').innerText);
                         break;
                     default:
                 }
@@ -141,7 +138,6 @@ const loadPlaces = (ne, sw) => {
         ne = bounds.getNorthEast();
         sw = bounds.getSouthWest();
     }
-    console.log(`minLat=${sw['Ma']}&minLng=${sw['La']}&maxLat=${ne['Ma']}&maxLng=${ne['La']}`);
 
     const xhr = new XMLHttpRequest();
     //                                   min = 현재 페이지의 촤측하단 위도,경도            max = 현재 페이지의 우측상단 위도, 경도
@@ -286,7 +282,7 @@ likeIcon.addEventListener('click', () => {
                             }
                             break;
                         default:
-                            alert("알 수 없는 이유로 연결에 실패했습니다.");
+                            showDialog.show("알 수 없는 이유로 연결에 실패했습니다.");
                     }
                 }
             }
@@ -331,13 +327,13 @@ reviewForm.onsubmit = e => {
 
                         break;
                     case 'not_signed':
-                        alert("로그인 해주세요");
+                        showDialog.notLogin();
                         break;
                     default:
-                        alert("알 수 없는 이유로 실패했습니다.");
+                        showDialog.show("알 수 없는 이유로 연결에 실패했습니다.");
                 }
             } else {
-                alert("알 수 없는 이유로 연결에 실패했습니다.");
+                showDialog.show("알 수 없는 이유로 연결에 실패했습니다.");
             }
         }
     };
@@ -406,7 +402,7 @@ const loadReview = (articleIndex) => {
 
                         //댓글 삭제  (댓글 작성자와 로그인 유저가 다를 경우에 오류 해결 구문)
                         if (reviewObject['userEmail'] === (loginUserEmailElement === null ?
-                            '' : loginUserEmailElement.value)) {
+                            '' : loginUserEmailElement.value) || adminElement?.value === 'true') {
                             itemElement.querySelector('[rel="actionDelete"]').addEventListener('click', () => {
                                 if (!confirm('정말로 댓글을 삭제할까요?')) {
                                     return;
@@ -426,13 +422,13 @@ const loadReview = (articleIndex) => {
                                                     loadReview(reviewForm['articleIndex'].value);
                                                     break;
                                                 case 'not_signed':
-                                                    alert("로그인해주세요.");
+                                                    showDialog.notLogin()
                                                     break;
                                                 case 'not_same':
-                                                    alert("삭제 권한이 없습니다.");
+                                                    showDialog.show("삭제 권한이 없습니다.");
                                                     break;
                                                 default:
-                                                    alert("알 수 없는 이유로 삭제에 실패했습니다.");
+                                                    showDialog.show("알 수 없는 이유로 삭제에 실패했습니다.");
                                             }
                                         }
                                     } else {
@@ -506,19 +502,21 @@ const loadReview = (articleIndex) => {
                                                 loadReview(reviewForm['articleIndex'].value);
                                                 break;
                                             case 'no_such_comment' :
-                                                alert("게시글을 찾을 수 없습니다.");
+                                                showDialog.show("게시글을 찾을 수 없습니다.");
                                                 break;
                                             case 'not_signed' :
-                                                alert("로그인 정보가 일치하지 않습니다.");
+                                                showDialog.show("로그인 정보가 일치하지 않습니다.");
+
                                                 break;
                                             case 'not_same' :
-                                                alert("작성자가 아닙니다.");
+                                                showDialog.show("작성자가 아닙니다.");
+
                                                 break;
                                             default:
-                                                alert("수정에 실패했습니다.");
+                                                showDialog.show("수정에 실패했습니다.");
                                         }
                                     } else {
-                                        alert("서버와 통신을 실패했습니다.");
+                                        showDialog.show("서버와 통신을 실패했습니다.");
                                     }
                                 }
                             };
@@ -526,6 +524,7 @@ const loadReview = (articleIndex) => {
                         });
 
 
+                        //수정하기 누를 경우 숨겨 둔 수정하기 댓글창
                         const modifyElement = itemElement.querySelector('[rel="actionModify"]');
                         modifyElement?.addEventListener('click', (e) => {
                             e.preventDefault();
@@ -569,7 +568,7 @@ const loadReview = (articleIndex) => {
 
                     }
                 } else {
-                    alert("알수없는 이유로 연결 실패..");
+                    showDialog.show("서버와 통신을 실패했습니다.");
                 }
             }
         };
@@ -608,7 +607,8 @@ if (loginUserEmailElement !== null) {
                             alert("삭제에 실패했습니다.");
                     }
                 } else {
-                    alert("서버와 통신을 실패했습니다.");
+                    showDialog.show("서버와 통신을 실패했습니다.");
+
                 }
             }
         };
@@ -631,6 +631,7 @@ foldElement.addEventListener('click', () => {
     foldChangeIcon(container.classList.contains("fold"));
 });
 
+// 산책 게시판 list 닫기
 function foldChangeIcon(flag) {
     const foldIcon = foldElement.querySelector('[rel="foldIcon"]');
     if (flag && foldIcon.classList.contains("fa-greater-than")) {

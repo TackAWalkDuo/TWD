@@ -20,11 +20,12 @@
 </head>
 <body th:if="${product != null}">
 <th:block th:replace="~{fragments/body :: header}"></th:block>
-<main th:if="${product.getQuantity() == 0}" class="--main main">
-    <i rel="isSoldOut" th:if="${product.getQuantity() == 0}" class="empty-icon fa-solid fa-circle-exclamation"
-       th:value="${product.getQuantity()}"><span>품절된 상품입니다.</span></i>
-</main>
-<main class="--main main" th:if="${product.quantity > 0}">
+
+<main class="--main main">
+    <input id="adminFlag" type="hidden" name="adminFlag" th:if="${session.user != null}"
+           th:value="${session.user.getAdmin()}">
+    <input id="userEmail" type="hidden" name="userEmail" th:if="${session.user != null}"
+           th:value="${session.user.getEmail()}">
     <div class="detail-main">
         <div>
             <img class="detail-img" alt="" th:src="|/bbs/thumbnail?index=${product.getIndex()}|">
@@ -57,14 +58,6 @@
             <form class="order-form" id="orderForm">
                 <span rel="index" name="index" hidden th:text="${product.getIndex()}"></span>
                 <span hidden th:text="${product.getQuantity()}"></span>
-                <!--                    여유가 된다면 사료 : 맛, 갯수 등등 / 옷 : 사이즈로 나눠보자-->
-                <!--                <div class="select-container">-->
-                <!--                    <select class="select" name="product-select">-->
-                <!--                        <option value="1" selected>옵션을 선택해 주세요.</option>-->
-                <!--                        <option value="2">1번</option>-->
-                <!--                        <option value="3">2번</option>-->
-                <!--                    </select>-->
-                <!--                </div>-->
                 <div class="detail-order-container">
                     <p class="order-text" th:text="${product.getTitle()}">제목</p>
                     <div class="detail-info-container">
@@ -83,14 +76,18 @@
                         <span class="charge-info">
                         총 상품 금액
                             <i class="tooltip fa-regular fa-circle-question">
-<!--                            <span class="tooltiptext tooltip-bottom">총 상품 금액에 <b>배송비는 포함되어 있지 않습니다.</b> <br> 결제시 배송비가 추가될 수 있습니다.</span>-->
+                            <span class="tooltip-text tooltip-bottom">총 상품 금액에 <b><i>배송비는 포함되어 있지 않습니다.</i></b> <br> 결제시 배송비가 추가될 수 있습니다.</span>
                             </i>
                         </span>
                         <span class="charge-quantity" rel="chargeQuantity">총 수량 1개</span>
                         <span th:text="${product.getPrice() + '원'}" class="charge-price"
                               rel="chargePrice">22,700원</span>
                     </div>
-                    <div class="product-button">
+                    <div class="product-button" th:if="${product.getQuantity() == 0}">
+                        <input disabled rel="orderButton" class="buy --object-button" value="구매하기" type="submit" style="text-decoration: line-through">
+                        <input disabled rel="addCart" class="cart --object-button" value="장바구니" type="submit" style="text-decoration: line-through">
+                    </div>
+                    <div class="product-button" th:if="${product.getQuantity() > 0}">
                         <input rel="orderButton" class="buy --object-button" value="구매하기" type="submit">
                         <input rel="addCart" class="cart --object-button" value="장바구니" type="submit">
                     </div>
@@ -108,7 +105,7 @@
     <div class="detail-content-container" id="detailContentContainer">
         <ul class="title-select">
             <li><a href="#a-content">상세정보</a></li>
-            <li><a href="#reviewTitleAnchor">리뷰(0)</a></li>
+            <li><a href="#reviewTitleAnchor" id="reviewAnchor">리뷰(0)</a></li>
             <li><a>Q&A(0)</a></li>
             <li><a href="#a-information">반품/교환정보</a></li>
         </ul>
@@ -138,12 +135,6 @@
                 <th>원산지</th>
                 <td>국산</td>
             </tr>
-            <!--            <tr>-->
-            <!--                <th>소재</th>-->
-            <!--                <td>면</td>-->
-            <!--                <th>색상계열</th>-->
-            <!--                <td>베이지</td>-->
-            <!--            </tr>-->
             </tbody>
         </table>
         <div>
@@ -201,12 +192,12 @@
             </tbody>
         </table>
         <div  id="reviewTitleAnchor"></div>
-
     </div>
-
     <div class="all-review-container">
+<!--        <input hidden id="writeUser" th:value="${product.getUserEmail()}">-->
+        <input hidden id="loginUser" th:if="${session.user != null}" th:value="${session.user.getEmail()}">
         <div id="reviewTitle"> REVIEW </div>
-        <div class="review-container" id="commentContainer">
+        <div class="review-container" id="reviewContainer">
             <div class="review-main liked mine">
                 <div class="review head">
                     <div class="speciesPicContainer">
@@ -215,7 +206,7 @@
                     <div class="head">
                         <span class="writer">리뷰남긴사람</span>
                         <span class="dt">2022-01-01 00:00:00</span>
-                        <span class="action-container"><a href="#" class="action delete">삭제</a></span>
+                        <span class="action-container"><a href="#" class="action modify">수정</a><a href="#" class="action delete">삭제</a></span>
                     </div>
                 </div>
                 <div class="body">
@@ -297,28 +288,9 @@
             </div>
         </div>
     </div>
-
-
-    <!--    <form class="search-form" id="searchForm" method="get">-->
-    <!--        <label class="label">-->
-    <!--            <span hidden>검색 기준</span>-->
-    <!--            <select class="&#45;&#45;object-input" name="criterion">-->
-    <!--                <option value="all">제목 + 내용</option>-->
-    <!--                <option value="title">제목</option>-->
-    <!--                <option value="nickname">작성자</option>-->
-    <!--            </select>-->
-    <!--        </label>-->
-    <!--        <label class="label">-->
-    <!--            <span hidden>검색어</span>-->
-    <!--            &lt;!&ndash;주소창에서 키값이 keyword인 값을 value로 넣는다&ndash;&gt;-->
-    <!--            <input class="&#45;&#45;object-input" maxlength="50" name="keyword" placeholder="검색어를 입력해 주세요." type="text">-->
-    <!--        </label>-->
-    <!--        &lt;!&ndash;검색 결과에 bid 필요해서 넣음&ndash;&gt;-->
-    <!--        <input name="bid" type="hidden">-->
-    <!--        <input class="&#45;&#45;object-button" type="submit" value="검색">-->
-    <!--    </form>-->
 </main>
 <!-- cover -->
+<th:block th:replace="~{fragments/body :: dialog}"></th:block>
 <th:block th:replace="~{fragments/body :: cover}"></th:block>
 <th:block th:replace="~{fragments/body :: footer}"></th:block>
 </body>

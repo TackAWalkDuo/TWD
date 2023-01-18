@@ -97,7 +97,6 @@ body > .--main {
     text-decoration: none;
 }
 
-/*.title--select > li > .free-select {*/
 .title--select > li .free-select {
 
     text-align: center;
@@ -106,7 +105,6 @@ body > .--main {
     display: none;
 }
 
-/*.title--select > li > .free-select.visible {*/
 .title--select > li:hover .free-select {
     display: flex;
     z-index: 3;
@@ -121,7 +119,6 @@ body > .--main {
     width: 8rem;
     color: rgb(180, 180, 188);
     background-color: rgb(255, 255, 255);
-    /*display: none;*/
 }
 
 .title--select > li > .free-select > .scroll-menu > a {
@@ -148,11 +145,11 @@ body > .--main {
 
 /*read sumNail*/
 body > .--main > .--form > .--content > .read-form .detail-img {
-    /*display: table;*/
     object-fit: cover;
     height: 5rem;
     width: 5rem;
     border-radius: 0.5rem;
+    cursor: pointer;
 }
 
 /*read 테이블*/
@@ -163,10 +160,6 @@ body > .--main > .--form > .--content > .read-form .detail-img {
     white-space: nowrap;
     width: 100%;
 }
-
-/*.read-form > div {*/
-/*    border-right: 0.3rem solid rgb(139, 145, 126);*/
-/*}*/
 
 .table {
     white-space: nowrap;

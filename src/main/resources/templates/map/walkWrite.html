@@ -24,7 +24,7 @@
 
         <form class="walk-article" id="walkArticle">
             <div class="submit-container">
-                <input type="submit" class="--object-button write" value="작성">
+                <input type="submit" class="--object-button write" value="작  성">
             </div>
             <input hidden accept="image/" name="images" type="file">
             <input hidden name="lat">
@@ -59,6 +59,7 @@
 
 
 <!-- cover -->
+<th:block th:replace="~{fragments/body :: dialog}"></th:block>
 <th:block th:replace="~{fragments/body :: cover}"></th:block>
 <th:block th:replace="~{fragments/body :: footer}"></th:block>
 </body>

@@ -22,7 +22,7 @@
         <section class="--form--second">
             <div class="article--content">
                 <a class="article-href" th:href="@{/bbs/list?(bid='free')}">Community</a>
-                <ul class="article--container" >
+                <ul class="article--container">
                     <li class="item" th:each="article : ${articles}">
                         <a class="link" th:href="@{bbs/read(aid=${article.getIndex()})}">
                             <img alt="썸네일이미지" class="image" th:src="@{bbs/thumbnail(index=${article.getIndex()})}">
@@ -38,17 +38,17 @@
             <div class="shop--content">
                 <a class="shop-href" th:href="@{/shop/main}">Shopping Mall</a>
                 <div class="shop-list">
-                <span class="pre-btn"><</span>
-                <ul class="shop--container">
-                    <li class="item shop-item" th:each="shopProduct : ${shopArticles}">
-                        <a class="link" th:href="@{/shop/detail(aid=${shopProduct.getIndex()})}">
-                            <img alt="제품1" class="image" th:src="|/bbs/thumbnail?index=${shopProduct.getIndex()}|">
-                            <span class="text" th:text="${shopProduct.getTitle()}"></span>
-                            <span class="text-content" th:text="${shopProduct.getPrice() + '원'}"></span>
-                        </a>
-                    </li>
-                </ul>
-                    <div class="next-btn">></div>
+                    <span class="pre-btn"><i class="fa-solid fa-angle-left"></i></span>
+                    <ul class="shop--container">
+                        <li class="item shop-item" th:each="shopProduct : ${shopArticles}">
+                            <a class="link" th:href="@{/shop/detail(aid=${shopProduct.getIndex()})}">
+                                <img alt="제품1" class="image" th:src="|/bbs/thumbnail?index=${shopProduct.getIndex()}|">
+                                <span class="text" th:text="${shopProduct.getTitle()}"></span>
+                                <span class="text-content" th:text="${shopProduct.getPrice() + '원'}"></span>
+                            </a>
+                        </li>
+                    </ul>
+                    <span class="next-btn"><i class="fa-solid fa-angle-right"></i></span>
                 </div>
             </div>
             <div class="map--content">

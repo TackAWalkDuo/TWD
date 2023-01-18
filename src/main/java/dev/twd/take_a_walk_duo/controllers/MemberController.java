@@ -15,13 +15,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 @Controller(value = "dev.twd.study_member_bbs.controllers.MemberController")
 @RequestMapping(value = "member")
-public class MemberController extends GeneralController{
+public class MemberController extends GeneralController {
     private final MemberService memberService;
 
     @Autowired
@@ -91,10 +92,11 @@ public class MemberController extends GeneralController{
     public ModelAndView getNaverLogin(@RequestParam(value = "code") String code,
                                       @RequestParam(value = "error", required = false) String error,
                                       @RequestParam(value = "error_description", required = false) String errorDescription,
-                                      HttpSession session) throws IOException {
-        String accessToken = this.memberService.getNaverAccessToken(code);
+                                      HttpSession session,
+                                      HttpServletRequest request) throws IOException {
+        String accessToken = this.memberService.getNaverAccessToken(code, request);
         NaverUserEntity user = this.memberService.getNaverUserInfo(accessToken);
-        if(!user.isUser()) {
+        if (!user.isUser()) {
             ModelAndView modelAndView = new ModelAndView("member/naverRegister");
             modelAndView.addObject("naverUser", this.memberService.getNaverUserInfo(accessToken));
             return modelAndView;
@@ -108,11 +110,12 @@ public class MemberController extends GeneralController{
     public ModelAndView getKakaoLogin(@RequestParam(value = "code") String code,
                                       @RequestParam(value = "error", required = false) String error,
                                       @RequestParam(value = "error_description", required = false) String errorDescription,
-                                      HttpSession session) throws IOException {
-        String accessToken = this.memberService.getKakaoAccessToken(code);
+                                      HttpSession session,
+                                      HttpServletRequest request) throws IOException {
+        String accessToken = this.memberService.getKakaoAccessToken(code, request);
         // 2번 인증코드로 토큰 전달
         KakaoUserEntity user = this.memberService.getKakaoUserInfo(accessToken);
-        if(!user.isUser()) {
+        if (!user.isUser()) {
             ModelAndView modelAndView = new ModelAndView("member/kakaoRegister");
             modelAndView.addObject("kakaoUser", this.memberService.getKakaoUserInfo(accessToken));
             return modelAndView;
@@ -134,9 +137,16 @@ public class MemberController extends GeneralController{
     @RequestMapping(value = "login",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getLogin(@SessionAttribute(value = "user", required = false) UserEntity user) {
-        if(user != null) {return new ModelAndView("redirect:/");}
+    public ModelAndView getLogin(@SessionAttribute(value = "user", required = false) UserEntity user,
+                                 HttpServletRequest request) {
+        if (user != null) {
+            return new ModelAndView("redirect:/");
+        }
         ModelAndView modelAndView = new ModelAndView("member/login");
+        modelAndView.addObject("domain", String.format("%s://%s:%d",
+                request.getScheme(),
+                request.getServerName(),
+                request.getServerPort()));
         return modelAndView;
     }
 
@@ -178,7 +188,7 @@ public class MemberController extends GeneralController{
     @RequestMapping(value = "register",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getRegister(@SessionAttribute(value = "user", required = false) UserEntity user) {
+    public ModelAndView getRegister() {
         ModelAndView modelAndView = new ModelAndView("member/register");
         return modelAndView;
     }
@@ -200,8 +210,8 @@ public class MemberController extends GeneralController{
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String postEmail(UserEntity user, EmailAuthEntity emailAuth) throws MessagingException, NoSuchAlgorithmException {
-        Enum<?> result = this.memberService.sendEmailAuth(user, emailAuth);
+    public String postEmail(UserEntity user, EmailAuthEntity emailAuth, HttpServletRequest request) throws MessagingException, NoSuchAlgorithmException {
+        Enum<?> result = this.memberService.sendEmailAuth(user, emailAuth, request);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
         if (result == CommonResult.SUCCESS) {
@@ -236,9 +246,9 @@ public class MemberController extends GeneralController{
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String postRecoverPassword(EmailAuthEntity emailAuth)
+    public String postRecoverPassword(EmailAuthEntity emailAuth, HttpServletRequest request)
             throws MessagingException {
-        Enum<?> result = this.memberService.recoverPasswordSend(emailAuth);
+        Enum<?> result = this.memberService.recoverPasswordSend(emailAuth, request);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
 

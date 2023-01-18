@@ -55,7 +55,6 @@ const loadMap = (lat, lng) => {
 
         mapObject.setCenter(latLng);         // 마커의 위치가 지도의 중심이 될수 있도록 지도이동.
 
-        console.log(latLng);
 
     });
 
@@ -84,7 +83,6 @@ const loadMap = (lat, lng) => {
 
         mapObject.setCenter(marker.getPosition());      // 마커의 위치가 지도의 중심이 될수 있도록 지도이동.
 
-        console.log(marker.getPosition());
     });
 
 }

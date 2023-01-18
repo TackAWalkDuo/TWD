@@ -1,9 +1,5 @@
 const form = window.document.getElementById('form');
-
-// const checkAll = window.document.getElementsByName('checkAll');
-const modifyButton = window.document.querySelectorAll('[rel="modifyButton"]');
 const modifyContainer = window.document.getElementById('modifyContainer');
-const modifyFrame = window.document.getElementById('modifyFrame');
 const cancelButton = window.document.querySelector('[rel="cancelButton"]');
 const modifyCancelButton = window.document.querySelector('[rel="modifyCancelButton"]');
 const orderForm = window.document.querySelector('[rel="orderForm"]');
@@ -22,32 +18,12 @@ modifyCancelButton?.addEventListener('click', () => {
     window.location.reload();
 });
 
-
-// 전체 선택 체크시 모든 항목 체크
-// selectAll = checkAll => {
-//     const checkboxes
-//         = document.getElementsByName('checkBox');
-//     checkboxes.forEach((checkbox) => {
-//         checkbox.checked = checkAll.checked;
-//     })
-// }
-
 const selectAll = window.document.querySelector('[rel="selectAll"]');
-const checkboxes
-    = document.getElementsByName('checkBox');
-// selectAll.addEventListener('click', checkAll => {
-//     alert('선택됨');
-//     alert('체크박스 갯수?' + checkboxes.length);
-//     checkboxes.forEach((checkbox) => {
-//         checkbox.checked = checkAll.checked;
-//     })
-// })
 
 // 각 tr의 주문수정 버튼 누를시 해당 td의 값들을 주문수정 창에 전달한다.
 const cartItem = window.document.querySelectorAll('[rel="cart-item"]');
 const modifyTitle = window.document.querySelector('[rel="modifyTitle"]');
 const modifyImage = window.document.querySelector('[rel="modifyImage"]');
-const modifyPrice = window.document.querySelector('[rel="modifyPrice"]');
 const productQuantity = window.document.querySelectorAll('[rel="productQuantity"]');
 const infoNumber = window.document.querySelector('[rel="infoNumber"]');
 const infoPrice = window.document.querySelector('[rel="infoPrice"]');
@@ -71,7 +47,7 @@ selectAll?.addEventListener('click', () => {
 
 deleteButton?.addEventListener('click', e => {
     e.preventDefault();
-    let selectCheck = false;    // 선택된 제품이 없는지 확인하기 위해서.
+    let selectCheck = false;    // 선택된 제품이 없는지 확인
 
     cartItem.forEach(x => {     // 상품 선택 유무를 확인하기위한 구문.
         if (x.querySelector('[rel="checkBox"]').checked) {
@@ -93,7 +69,6 @@ deleteButton?.addEventListener('click', e => {
         if (x.querySelector('[rel="checkBox"]').checked) {
             index.push(Number(x.querySelector('[rel="cartIndex"]').innerText));
             deleteCheck = true;
-            console.log(index);
         }
     })
         const xhr = new XMLHttpRequest();
@@ -135,50 +110,13 @@ cartItem.forEach(x => {
     })
 
     x.querySelector('[rel="modifyButton"]')?.addEventListener('click', () => {
-        // alert(x.querySelector('[rel="productIndex"]').innerText);
-        // alert(x.querySelector('[rel="proId"]').innerText);
         modifyTitle.innerText = x.querySelector('[rel="proId"]').innerText;
         modifyImage.setAttribute('src', `/bbs/thumbnail?index=${x.querySelector('[rel="productIndex"]').innerText}`);
         infoNumber.value = x.querySelector('[rel="productQuantity"]').innerText;
-        console.log(infoNumber.value);
-        console.log(productQuantity.value);
-        // infoNumber.value = x.querySelector('[rel="productQuantity"]').innerText;
-        alert("총 수량은?" + x.querySelector('[rel="maxQuantity"]').innerText);
         modifyFunction(x);
-
-        // modifyContainer.classList.add('visible');
-
-        // if (modifyContainer.classList.contains('visible')){
-        //     const orderForm = window.document.querySelector('[rel="orderForm"]');
-        //     const plusButton = window.document.querySelector('[rel="plusButton"]');
-        //     const infoNum = window.document.querySelector('[rel="infoNumber"]');
-        //     const quantity = window.document.querySelector('[rel="productQuantity"]').value;
-        //     const setDisabled = () => orderForm['minusButton'].setAttribute('disabled', 'disabled');
-        //     const removeDisabled = () => orderForm['minusButton'].removeAttribute('disabled');
-        //     const productPrice = window.document.querySelector('[rel="infoPrice"]').value;
-        //     const chargeQuantity = window.document.querySelector('[rel="chargeQuantity"]');
-        //
-        //     orderForm['plusButton'].onclick = () => {
-        //         infoNum.value = parseInt(infoNum.value) + 1;
-        //         orderForm['infoPrice'].value = parseInt(orderForm['infoPrice'].value) + parseInt(productPrice) + '원';
-        //         chargePrice.innerText = parseInt(infoNum.value) * parseInt(productPrice) + '원';
-        //         chargeQuantity.innerText = '총 수량 ' + infoNum.value + '개';
-        //         console.log(chargeQuantity);
-        //         // 값이 1보다 클 때 +버튼 활성화
-        //         if (infoNum.value > 1) {
-        //             removeDisabled();
-        //         }
-        //         // 주문수량이 재고량보다 많을 때 경고창 출력 및 갯수 1개로 초기화
-        //         if (parseInt(infoNum.value) > quantity) {
-        //             alert('주문 수량이 재고량을 초과했습니다.');
-        //             infoNum.value = 1;
-        //             setDisabled();
-        //         }
-        //     };
-        // }
     });
 });
-const productPrice = window.document.querySelector('[rel="infoPrice"]')?.value;
+
 const chargeQuantity = window.document.querySelector('[rel="chargeQuantity"]');
 const chargePrice = window.document.querySelector('[rel="chargePrice"]');
 const modifyConfirmButton = window.document.querySelector('[rel="modifyConfirmButton"]');
@@ -191,17 +129,7 @@ const modifyFunction = (x) => {
     }
     chargePrice.innerText = infoNumber.value * x.querySelector('[rel="eachSalePrice"]').innerText + '원';
     modifyContainer.classList.add('visible');
-    const quantity = window.document.querySelector('[rel="productQuantity"]').value;
-    const setDisabled = () => orderForm['minusButton'].setAttribute('disabled', 'disabled');
-
-
-    // const setDisabled = () => x.querySelector('[rel="minusButton"]').setAttribute('disabled', 'disabled');
-    // const removeDisabled = () => x.querySelector('[rel="minusButton"]').removeAttribute('disabled');
-
-
     infoNumber.value = x.querySelector('[rel="productQuantity"]').innerText;
-    console.log("function up");
-    console.log(x);
 
     plusButton.addEventListener('click', (e) => {
         e.preventDefault();
@@ -211,12 +139,9 @@ const modifyFunction = (x) => {
             minusButton.removeAttribute('disabled');
             // removeDisabled();
         }
-        console.log("plusButton");
         infoPrice.value = infoNumber.value * x.querySelector('[rel="eachSalePrice"]').innerText;
-        // orderForm['infoPrice'].value = x.querySelector("infoNumber") * 1000;
         chargePrice.innerText = infoNumber.value * x.querySelector('[rel="eachSalePrice"]').innerText + '원';
         chargeQuantity.innerText = '총 수량 ' + infoNumber.value + '개';
-        console.log(chargeQuantity);
 
 
         // 주문수량이 재고량보다 많을 때 경고창 출력 및 갯수 초기화
@@ -232,12 +157,7 @@ const modifyFunction = (x) => {
             chargeQuantity.innerText = '총 수량 ' + infoNumber.value + '개';
             chargePrice.innerText = infoNumber.value * x.querySelector('[rel="eachSalePrice"]').innerText + '원';
         }
-        // console.log('내부 수량' + infoNumber.value);
-        // console.log('외부수량 ' + x.querySelector('[rel="productQuantity"]').innerText);
-        // x.querySelector('[rel="productQuantity"]').innerText = infoNumber.value;
     });
-
-    console.log("function down");
 
     minusButton.addEventListener('click', () => {
         // -버튼 누를시 갯수 1씩 빼고 가격 조정
@@ -248,12 +168,10 @@ const modifyFunction = (x) => {
         // 값이 1보다 클 때 -버튼 활성화
         if (infoNumber.value > 1) {
             minusButton.removeAttribute('disabled');
-            // orderForm['minusButton'].removeAttribute('disabled');
         }
         // 값이 1일 때 -버튼 비활성화
         if (parseInt(infoNumber.value) === 1) {
             minusButton.setAttribute('disabled', 'disabled');
-            // orderForm['minusButton'].setAttribute('disabled', 'disabled');
         }
     });
 
@@ -311,10 +229,7 @@ const modifyFunction = (x) => {
     }
 
     modifyConfirmButton.addEventListener('click', e => {
-        alert('클릭함');
         e.preventDefault();
-        // x.querySelector('[rel="productQuantity"]').innerText = infoNumber.value;
-        // modifyContainer.classList.remove('visible');
         const xhr = new XMLHttpRequest();
         const formData = new FormData();
         formData.append("index", x.querySelector('[rel="cartIndex"]').innerText);
@@ -340,21 +255,8 @@ const modifyFunction = (x) => {
             }
         };
         xhr.send(formData);
-        //success->>
-        // infoNumber.value = x.querySelector('[rel="productQuantity"]').innerText;
     })
 }
-
-// modifyButton.forEach(x => {
-//     x?.addEventListener('click', e => {
-//         e.preventDefault();
-//         alert(cartText.innerText);
-//         infoTitle.innerText = cartText.item(i).innerText;
-//         i++;
-//         console.log(cartText.length);
-//         modifyContainer.classList.add('visible');
-//     });
-// });
 
 modifyCancelButton?.addEventListener('click', e => {
     e.preventDefault();
@@ -410,6 +312,7 @@ orderButton?.addEventListener('click', e => {
     };
     xhr.send(formData);
 })
+
 
 
 

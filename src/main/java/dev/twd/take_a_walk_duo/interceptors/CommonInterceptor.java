@@ -16,7 +16,6 @@ public class CommonInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         BoardEntity[] boards = this.shopService.getBoards();
         request.setAttribute("boards",boards);
-        System.out.println("게시판" + boards.length + "개 있음");
         return true;
     }
 }

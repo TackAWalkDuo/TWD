@@ -235,6 +235,7 @@ public class BbsController extends GeneralController{
         return modelAndView;
     }
 
+    //게시글 썸네일 이미지
     @GetMapping(value = "thumbnail")
     public ResponseEntity<byte[]> getReviewImage(@RequestParam(value = "index") int index) {
         ResponseEntity<byte[]> responseEntity;
@@ -247,10 +248,10 @@ public class BbsController extends GeneralController{
             headers.setContentLength(articleThumbnail.getThumbnail().length);
             responseEntity = new ResponseEntity<>(articleThumbnail.getThumbnail(), headers, HttpStatus.OK);
         }
-        System.out.println("check thumbnail" + responseEntity);
         return responseEntity;
     }
 
+    //댓글 생성
     @PostMapping(value = "comment", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postComment(@SessionAttribute(value = "user", required = false) UserEntity user,
@@ -298,11 +299,12 @@ public class BbsController extends GeneralController{
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
         if (result == CommonResult.SUCCESS) {
-            responseObject.put("url", "http://localhost:8080/shop/image?index=" + image.getIndex());
+            responseObject.put("url", "/shop/image?index=" + image.getIndex());
         }
         return responseObject.toString();
     }
 
+    //게시글 좋아요
     @RequestMapping(value = "article-liked", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postArticleLike(@SessionAttribute(value = "user", required = false) UserEntity user,
@@ -347,6 +349,7 @@ public class BbsController extends GeneralController{
         return responseEntity;
     }
 
+    //댓글 수정하기
     @PostMapping(value = "comment-modify", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postCommentModify(@SessionAttribute(value = "user") UserEntity user,
@@ -360,6 +363,7 @@ public class BbsController extends GeneralController{
         return responseObject.toString();
     }
 
+    //댓글 좋아요
     @RequestMapping(value = "comment-liked", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postCommentLike(@SessionAttribute(value = "user", required = false) UserEntity user,
@@ -377,10 +381,13 @@ public class BbsController extends GeneralController{
         return responseObject.toString();
     }
 
+    //댓글 삭제하기
     @DeleteMapping(value = "comment", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String deleteComment(@SessionAttribute(value = "user") UserEntity user,
                                 CommentEntity comment) {
+        System.out.println(comment.getUserEmail());
+        System.out.println(user.getEmail());
 
         JSONObject responseObject = new JSONObject();
         Enum<?> result = this.bbsService.deleteComment(user, comment);
