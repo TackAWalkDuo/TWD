@@ -20,10 +20,7 @@
 </head>
 <body th:if="${product != null}">
 <th:block th:replace="~{fragments/body :: header}"></th:block>
-<main th:if="${product.getQuantity() == 0}" class="--main main">
-    <i rel="isSoldOut" th:if="${product.getQuantity() == 0 && user.getAdmin() == false}" class="empty-icon fa-solid fa-circle-exclamation"
-       th:value="${product.getQuantity()}"><span>품절된 상품입니다.</span></i>
-</main>
+
 <main class="--main main">
     <input id="adminFlag" type="hidden" name="adminFlag" th:if="${session.user != null}"
            th:value="${session.user.getAdmin()}">

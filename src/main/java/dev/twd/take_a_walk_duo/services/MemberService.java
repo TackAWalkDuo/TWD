@@ -22,9 +22,11 @@ import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -322,7 +324,7 @@ public class MemberService {
 
 
     @Transactional
-    public Enum<? extends IResult> sendEmailAuth(UserEntity user, EmailAuthEntity emailAuth)
+    public Enum<? extends IResult> sendEmailAuth(UserEntity user, EmailAuthEntity emailAuth, HttpServletRequest request)
             throws NoSuchAlgorithmException, MessagingException {
         UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
         if (existingUser != null) {
@@ -358,6 +360,11 @@ public class MemberService {
         }
         Context context = new Context();
         context.setVariable("code", emailAuth.getCode());
+        context.setVariable("domain", String.format("%s://%S:%d",
+                request.getScheme(),
+                request.getServerName(),
+                request.getServerPort()));
+
 
         String text = this.templateEngine.process("member/registerEmailAuth", context);
         MimeMessage mail = this.mailSender.createMimeMessage();
@@ -425,7 +432,7 @@ public class MemberService {
     }
 
     @Transactional
-    public Enum<? extends IResult> recoverPasswordSend(EmailAuthEntity emailAuth) throws MessagingException {
+    public Enum<? extends IResult> recoverPasswordSend(EmailAuthEntity emailAuth, HttpServletRequest req) throws MessagingException {
         UserEntity existingUser = this.memberMapper.selectUserByEmail(emailAuth.getEmail());
         if (existingUser == null) {
             return CommonResult.FAILURE;
@@ -453,6 +460,10 @@ public class MemberService {
         context.setVariable("email", emailAuth.getEmail());
         context.setVariable("code", emailAuth.getCode());
         context.setVariable("salt", emailAuth.getSalt());
+        context.setVariable("domain", String.format("%s://%S:%d",
+                req.getScheme(),
+                req.getServerName(),
+                req.getServerPort()));
 
         String text = this.templateEngine.process("member/recoverPasswordEmailAuth", context);
         MimeMessage mail = this.mailSender.createMimeMessage();

@@ -73,8 +73,6 @@ form.onsubmit = (e) => {
 kakaoLoginButton?.addEventListener('click', e => {
     e.preventDefault();
     loginContainer.classList.add('visible');
-    // window.location.href = '/member/register';
-    // window.open('https://kauth.kakao.com/oauth/authorize?client_id=6da80eef1101bb3318ba1f6bde584ab1&redirect_uri=http://localhost:8080/member/kakao&response_type=code', '로그인', 'width=500; height=750');
     window.location.href = 'https://kauth.kakao.com/oauth/authorize?client_id=6da80eef1101bb3318ba1f6bde584ab1&redirect_uri=http://localhost:8080/member/kakao&response_type=code';
 
 });
@@ -83,7 +81,6 @@ kakaoLoginButton?.addEventListener('click', e => {
 NaverLoginButton?.addEventListener('click', e => {
     e.preventDefault();
     loginContainer.classList.add('visible');
-    // window.open('https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=bkuhxnOKDZAYExqHJzN1&state=STATE_STRING&redirect_uri=http://localhost:8080/member/naver', '로그인', 'width=500; height=750');
     window.location.href ='https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=bkuhxnOKDZAYExqHJzN1&state=STATE_STRING&redirect_uri=http://localhost:8080/member/naver';
 
 });

@@ -212,7 +212,7 @@ public class ShopController extends GeneralController {
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
         if (result == CommonResult.SUCCESS) {
-            responseObject.put("url", "http://localhost:8080/shop/image?index=" + image.getIndex());
+            responseObject.put("url", "/shop/image?index=" + image.getIndex());
         }
         return responseObject.toString();
     }

@@ -20,14 +20,6 @@
     display: block;
 }
 
-.empty-icon {
-    font-size: 5rem;
-    white-space: nowrap;
-}
-
-.empty-icon > span {
-    margin-left: 0.75rem;
-}
 
 body > .--main {
     display: flex;
