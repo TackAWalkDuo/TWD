@@ -9,8 +9,6 @@
     <th:block th:replace="~{fragments/head :: common}"></th:block>
     <link rel="stylesheet" th:href="@{/member/resources/stylesheets/login.css}">
     <script defer th:src="@{/member/resources/scripts/login.js}"></script>
-    <!-- Google reCAPTCHA js -->
-    <script src="https://www.google.com/recaptcha/api.js"></script>
     <script src="https://kit.fontawesome.com/12a5ab0618.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -61,16 +59,6 @@
                      <i class="icon fa-solid fa-circle-exclamation"></i>
                         <span class="warningText" name="warningText">이메일을 입력해 주세요.</span>
                     </span>
-                </td>
-            </tr>
-            <!-- reCAPTCHA 등록 -->
-            <tr>
-                <th id="recaptcha"></th>
-                <td>
-                    <label class="label recaptcha">
-                        <div class="g-recaptcha"
-                             id="g-recaptcha" data-sitekey="6Ley2n4jAAAAAJsDkqp0w-6ZmNrQv9_90d5VeglL"></div>
-                    </label>
                 </td>
             </tr>
             <!--로그인 버튼-->
