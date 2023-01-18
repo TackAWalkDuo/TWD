@@ -400,8 +400,7 @@ public class ShopController extends GeneralController {
 
     // 리뷰 수정하기
     @GetMapping(value = "modifyReview", produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getModify(@RequestParam(value = "index") int index,
-                                  @SessionAttribute(value = "user", required = false) UserEntity user) {
+    public ModelAndView getModify(@RequestParam(value = "index") int index) {
         ModelAndView modelAndView = new ModelAndView("shop/modifyReview");
         CommentVo commentVo = this.shopService.getComment(index);
 

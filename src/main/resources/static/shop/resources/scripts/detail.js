@@ -240,6 +240,7 @@ const loadReview = () => {
             reviewAnchor.innerText = "리뷰(" + responseArray.length + ")";
             for (const reviewObject of responseArray) {
                 console.log(reviewObject['index']);
+                console.log(reviewObject['userEmail']);
 
                 const itemHtml = `<div class="review-main liked mine" rel="review">
                 <div class="review head">
@@ -282,6 +283,7 @@ const loadReview = () => {
                 const likeToggleElement = dom.querySelector('[rel="likeToggle"]');
                 const likedCommentElement = dom.querySelector('[rel="likeComment"]')
                 const imageContainerElement = dom.querySelector('[rel="imageContainer"]');
+                const writeUser = reviewObject['userEmail'];
 
                 if (reviewObject['imageIndexes'].length > 0) {
                     for (const imageIndex of reviewObject['imageIndexes']) {
@@ -368,8 +370,13 @@ const loadReview = () => {
                 });
 
                 modifyFormElement?.addEventListener('click', () => {
-                    const writeUser = window.document.getElementById("writeUser").value;
+
                     const loginUser = window.document.getElementById("loginUser")?.value;
+
+                    console.log(writeUser);
+                    console.log("??????");
+                    console.log(loginUser);
+
 
                     writeUser === loginUser
                         ? window.location.href = `./modifyReview?index=${reviewObject['index']}`
