@@ -99,7 +99,7 @@ public class MemberService {
     }
 
     // 네이버 access token 발급 받는 getNaverAccessToken
-    public String getNaverAccessToken(String code) throws IOException {
+    public String getNaverAccessToken(String code, HttpServletRequest request) throws IOException {
 
         URL url = new URL("https://nid.naver.com/oauth2.0/token");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -112,14 +112,16 @@ public class MemberService {
                 requestBuilder.append("grant_type=authorization_code");
                 requestBuilder.append("&client_id=bkuhxnOKDZAYExqHJzN1");
                 requestBuilder.append("&client_secret=lHgUA8xkse");
-                requestBuilder.append("&redirect_uri=http://localhost:8080/member/naver");
+                requestBuilder.append(String.format("&redirect_uri=%s://%s:%d/member/naver",
+                        request.getScheme(),
+                        request.getServerName(),
+                        request.getServerPort()));
                 requestBuilder.append("&code=").append(code);
                 requestBuilder.append("&state=state");
                 bufferedWriter.write(requestBuilder.toString());
                 bufferedWriter.flush();
                 responseCode = connection.getResponseCode();
             }
-            System.out.println("응답 코드 : " + responseCode);
         }
         StringBuilder responseBuilder = new StringBuilder();
         try (InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream())) {
@@ -129,7 +131,6 @@ public class MemberService {
                     responseBuilder.append(line);
                 }
             }
-            System.out.println("응답 내용 : " + responseBuilder);
         }
         JSONObject responseObject = new JSONObject(responseBuilder.toString());
         return responseObject.getString("access_token");
@@ -142,7 +143,6 @@ public class MemberService {
         connection.setRequestProperty("Authorization", String.format("Bearer %s", accessToken));
         connection.setRequestMethod("GET");
         int responseCode = connection.getResponseCode();
-        System.out.println("응답 코드 : " + responseCode);
         StringBuilder responseBuilder = new StringBuilder();
         try (InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream())) {
             try (BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
@@ -152,7 +152,6 @@ public class MemberService {
                 }
             }
         }
-        System.out.println("응답 내용 : " + responseBuilder);
         JSONObject responseObject = new JSONObject(responseBuilder.toString());
         JSONObject naverObject = responseObject.getJSONObject("response");
         String id = String.valueOf(naverObject.getString("id"));
@@ -170,8 +169,7 @@ public class MemberService {
     }
 
     // 카카오 access token 발급 받는 getKakaoAccessToken
-    public String getKakaoAccessToken(String code) throws IOException {
-
+    public String getKakaoAccessToken(String code, HttpServletRequest request) throws IOException {
         URL url = new URL("https://kauth.kakao.com/oauth/token");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
@@ -182,13 +180,16 @@ public class MemberService {
                 StringBuilder requestBuilder = new StringBuilder();
                 requestBuilder.append("grant_type=authorization_code");
                 requestBuilder.append("&client_id=6da80eef1101bb3318ba1f6bde584ab1");
-                requestBuilder.append("&redirect_uri=http://localhost:8080/member/kakao");
+
+                requestBuilder.append(String.format("&redirect_uri=%s://%s:%d/member/kakao",
+                        request.getScheme(),
+                        request.getServerName(),
+                        request.getServerPort()));
                 requestBuilder.append("&code=").append(code);
                 bufferedWriter.write(requestBuilder.toString());
                 bufferedWriter.flush();
                 responseCode = connection.getResponseCode();
             }
-            System.out.println("응답 코드 : " + responseCode);
         }
         StringBuilder responseBuilder = new StringBuilder();
         try (InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream())) {
@@ -198,7 +199,6 @@ public class MemberService {
                     responseBuilder.append(line);
                 }
             }
-            System.out.println("응답 내용 : " + responseBuilder);
         }
         JSONObject responseObject = new JSONObject(responseBuilder.toString());
         return responseObject.getString("access_token");
@@ -211,7 +211,6 @@ public class MemberService {
         connection.setRequestProperty("Authorization", String.format("Bearer %s", accessToken));
         connection.setRequestMethod("GET");
         int responseCode = connection.getResponseCode();
-        System.out.println("응답 코드 : " + responseCode);
         StringBuilder responseBuilder = new StringBuilder();
         try (InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream())) {
             try (BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
@@ -221,7 +220,6 @@ public class MemberService {
                 }
             }
         }
-        System.out.println("응답 내용 : " + responseBuilder);
         JSONObject responseObject = new JSONObject(responseBuilder.toString());
         JSONObject propertyObject = responseObject.getJSONObject("properties");
         JSONObject kakaoObject = responseObject.getJSONObject("kakao_account");
@@ -360,7 +358,7 @@ public class MemberService {
         }
         Context context = new Context();
         context.setVariable("code", emailAuth.getCode());
-        context.setVariable("domain", String.format("%s://%S:%d",
+        context.setVariable("domain", String.format("%s://%s:%d",
                 request.getScheme(),
                 request.getServerName(),
                 request.getServerPort()));

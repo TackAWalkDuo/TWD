@@ -93,7 +93,7 @@
                     <div class="kakao">
                         <i class="icon fa-brands fa-kickstarter"></i>
                         <a class="kakaoButton" id="kakaoLoginButton"
-                           href="https://kauth.kakao.com/oauth/authorize?client_id=6da80eef1101bb3318ba1f6bde584ab1&redirect_uri=http://localhost:8080/member/kakao&response_type=code"
+                           th:href="@{'https://kauth.kakao.com/oauth/authorize' (client_id='6da80eef1101bb3318ba1f6bde584ab1', redirect_uri=${domain + '/member/kakao'}, response_type='code')}"
                            target="_blank" th:if="${session.user == null}">카카오로 로그인하기</a>
                         <a class="kakaoButton" id="kakaoLogoutButton" th:href="@{'./logout'}"
                            th:if="${session.user != null}">카카오 로그아웃</a>
@@ -108,7 +108,7 @@
                     <div class="naver">
                         <i class="icon fa-solid fa-n"></i>
                         <a class="naverButton" id="naverLoginButton"
-                           href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=bkuhxnOKDZAYExqHJzN1&state=STATE_STRING&redirect_uri=http://localhost:8080/member/naver"
+                           th:href="@{'https://nid.naver.com/oauth2.0/authorize' (response_type='code', client_id='bkuhxnOKDZAYExqHJzN1', state='STATE_STRING', redirect_uri=${domain + '/member/naver'})}"
                            target="_blank" th:if="${session.user == null}">네이버로 로그인하기</a>
                         <a class="naverButton" id="naverLogoutButton" th:href="@{'./logout'}"
                            th:if="${session.user != null}">네이버 로그아웃</a>

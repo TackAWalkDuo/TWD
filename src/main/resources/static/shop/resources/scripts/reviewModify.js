@@ -7,7 +7,6 @@ let initialization = true;
 let imageModifyFlag = false;
 
 if (initialization) {
-    console.log(form['basicTitle'].value);
 
     form['basicTitle'].value === 'good'
         ? form.querySelector('[rel="reviewGood"]').checked = true
@@ -15,13 +14,11 @@ if (initialization) {
             ? form.querySelector('[rel="reviewCommon"]').checked = true
             : form.querySelector('[rel="reviewBad"]').checked = true);
 
-    //TODO 사진 수정 버튼
     if (basicImageIndex.length !== 0) {
         form.querySelector('[rel="imageSelectButton"]').setAttribute('hidden', 'hidden');
         form.querySelector('[rel="noImage"]').setAttribute('hidden', 'hidden');
 
         basicImageIndex.forEach(x => {
-            console.log(x.value);
             const imageElement = document.createElement('img');
             imageElement.setAttribute('alt', '');
             imageElement.setAttribute('src', `/bbs/commentImage?index=${x.value}`);

@@ -7,7 +7,6 @@ if (!initialization) {
     //생년월일 중 월 선택.
     for(let i = 1; i < form['birthMonth'].length; i++) {
         if(form['birthMonth'][i].value === form['initBirthMonth'].value) {
-            console.log(form['birthMonth'][i].value);
             form['birthMonth'][i].selected = true;
         }
     }

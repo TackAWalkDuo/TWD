@@ -248,7 +248,6 @@ public class BbsController extends GeneralController{
             headers.setContentLength(articleThumbnail.getThumbnail().length);
             responseEntity = new ResponseEntity<>(articleThumbnail.getThumbnail(), headers, HttpStatus.OK);
         }
-        System.out.println("check thumbnail" + responseEntity);
         return responseEntity;
     }
 

@@ -92,8 +92,9 @@ public class MemberController extends GeneralController {
     public ModelAndView getNaverLogin(@RequestParam(value = "code") String code,
                                       @RequestParam(value = "error", required = false) String error,
                                       @RequestParam(value = "error_description", required = false) String errorDescription,
-                                      HttpSession session) throws IOException {
-        String accessToken = this.memberService.getNaverAccessToken(code);
+                                      HttpSession session,
+                                      HttpServletRequest request) throws IOException {
+        String accessToken = this.memberService.getNaverAccessToken(code, request);
         NaverUserEntity user = this.memberService.getNaverUserInfo(accessToken);
         if (!user.isUser()) {
             ModelAndView modelAndView = new ModelAndView("member/naverRegister");
@@ -109,8 +110,9 @@ public class MemberController extends GeneralController {
     public ModelAndView getKakaoLogin(@RequestParam(value = "code") String code,
                                       @RequestParam(value = "error", required = false) String error,
                                       @RequestParam(value = "error_description", required = false) String errorDescription,
-                                      HttpSession session) throws IOException {
-        String accessToken = this.memberService.getKakaoAccessToken(code);
+                                      HttpSession session,
+                                      HttpServletRequest request) throws IOException {
+        String accessToken = this.memberService.getKakaoAccessToken(code, request);
         // 2번 인증코드로 토큰 전달
         KakaoUserEntity user = this.memberService.getKakaoUserInfo(accessToken);
         if (!user.isUser()) {
@@ -135,11 +137,16 @@ public class MemberController extends GeneralController {
     @RequestMapping(value = "login",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getLogin(@SessionAttribute(value = "user", required = false) UserEntity user) {
+    public ModelAndView getLogin(@SessionAttribute(value = "user", required = false) UserEntity user,
+                                 HttpServletRequest request) {
         if (user != null) {
             return new ModelAndView("redirect:/");
         }
         ModelAndView modelAndView = new ModelAndView("member/login");
+        modelAndView.addObject("domain", String.format("%s://%s:%d",
+                request.getScheme(),
+                request.getServerName(),
+                request.getServerPort()));
         return modelAndView;
     }
 

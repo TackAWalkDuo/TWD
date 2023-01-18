@@ -75,7 +75,6 @@ detailContainer.show = (placeObject, placeElement) => {
                     case 'success' :
                         detailContainer.querySelector('[rel="view"]').innerText = responseObject['view'];
                         placeElement.querySelector('[rel="view"]').innerText = responseObject['view'];
-                        console.log(placeElement.querySelector('[rel="view"]').innerText);
                         break;
                     default:
                 }
@@ -139,7 +138,6 @@ const loadPlaces = (ne, sw) => {
         ne = bounds.getNorthEast();
         sw = bounds.getSouthWest();
     }
-    console.log(`minLat=${sw['Ma']}&minLng=${sw['La']}&maxLat=${ne['Ma']}&maxLng=${ne['La']}`);
 
     const xhr = new XMLHttpRequest();
     //                                   min = 현재 페이지의 촤측하단 위도,경도            max = 현재 페이지의 우측상단 위도, 경도

@@ -33,7 +33,6 @@ if (isSoldOut === null) {
         orderForm['infoPrice'].value = parseInt(orderForm['infoPrice'].value) + parseInt(productPrice) + '원';
         chargePrice.innerText = parseInt(infoNum.value) * parseInt(productPrice) + '원';
         chargeQuantity.innerText = '총 수량 ' + infoNum.value + '개';
-        console.log(chargeQuantity);
         // 값이 1보다 클 때 +버튼 활성화
         if (infoNum.value > 1) {
             removeDisabled();
@@ -222,7 +221,6 @@ if (isSoldOut === null) {
     })
 }
 
-//todo 리뷰 js
 //리뷰
 const reviewContainer = window.document.getElementById('reviewContainer');
 const adminElement = window.document.getElementById("adminFlag");
@@ -239,8 +237,7 @@ const loadReview = () => {
             const responseArray = JSON.parse(xhr.responseText);
             reviewAnchor.innerText = "리뷰(" + responseArray.length + ")";
             for (const reviewObject of responseArray) {
-                console.log(reviewObject['index']);
-                console.log(reviewObject['userEmail']);
+
 
                 const itemHtml = `<div class="review-main liked mine" rel="review">
                 <div class="review head">

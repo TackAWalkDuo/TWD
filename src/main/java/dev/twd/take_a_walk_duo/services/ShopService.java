@@ -430,7 +430,6 @@ public class ShopService {
                 : CommonResult.FAILURE;
     }
 
-    //todo comment 서비스
     public CommentVo[] getComments(int index, UserEntity user) {
         CommentVo[] comments = this.bbsMapper.selectCommentsByIndex(index, user == null ? null : user.getEmail());
         for (CommentVo comment : comments) {

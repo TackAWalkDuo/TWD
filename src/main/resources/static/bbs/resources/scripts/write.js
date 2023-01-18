@@ -102,7 +102,6 @@ const showDialog = {
         dialog.querySelector("#ok").addEventListener("click", () => {
             dialog.classList.remove('visible');
         });
-        console.log(text);
     },
     notLogin: () =>{
         const dialog = showDialog.getElement();

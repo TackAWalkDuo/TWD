@@ -29,7 +29,6 @@ payment.forEach(x => {
         const xhr = new XMLHttpRequest();
         const formData = new FormData();
         formData.append("groupIndex", x.querySelector('[rel="groupIndex"]').innerText);
-        console.log(document.querySelector('[rel="groupIndex"]').innerText);
         xhr.open('DELETE', window.location.href);
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {

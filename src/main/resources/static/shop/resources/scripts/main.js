@@ -14,19 +14,15 @@ const slideSize = document.querySelector(".shop-item");
 // 버튼 클릭할 때 마다 현재 슬라이드가 어디인지 알려주기 위한 변수
 let currSlide = 0;
 
-console.log(maxSlide);
 // 버튼 엘리먼트에 클릭 이벤트 추가하기
 nextBtn.addEventListener("click", () => {
-    console.log('넥스트버튼!');
     // 이후 버튼 누를 경우 현재 슬라이드를 변경
     currSlide++;
-    console.log("currSlide  " + currSlide);
 
     // 마지막 슬라이드 이상으로 넘어가지 않게 하기 위해서
     if (currSlide <= maxSlide) {
         // 슬라이드를 이동시키기 위한 offset 계산
         const offset = slideWidth * (currSlide / 5);  // 한 화면에 5개씩 보여주기 때문에 /5
-        console.log("offset  " + offset);
 
         // 각 슬라이드 아이템의 left에 offset 적용
         slideItems.forEach((i) => {
@@ -45,13 +41,11 @@ nextBtn.addEventListener("click", () => {
 prevBtn.addEventListener("click", () => {
     // 이전 버튼 누를 경우 현재 슬라이드를 변경
     currSlide--;
-    console.log("currSlide  " + currSlide);
 
     // 마지막 슬라이드 이상으로 넘어가지 않게 하기 위해서
     if (currSlide >= 0) {
         // 슬라이드를 이동시키기 위한 offset 계산
         const offset = slideWidth * ((currSlide) / 5);  // 한 화면에 5개씩 보여주기 때문에 /5
-        console.log("offset  " + offset);
 
         // 각 슬라이드 아이템의 left에 offset 적용
         slideItems.forEach((i) => {
