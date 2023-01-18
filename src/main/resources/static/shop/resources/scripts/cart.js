@@ -229,7 +229,6 @@ const modifyFunction = (x) => {
     }
 
     modifyConfirmButton.addEventListener('click', e => {
-        alert('클릭함');
         e.preventDefault();
         const xhr = new XMLHttpRequest();
         const formData = new FormData();
@@ -313,6 +312,7 @@ orderButton?.addEventListener('click', e => {
     };
     xhr.send(formData);
 })
+
 
 
 
