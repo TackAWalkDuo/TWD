@@ -56,7 +56,3 @@ payment.forEach(x => {
     })
 })
 
-
-
-
-

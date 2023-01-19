@@ -128,7 +128,7 @@ const loadComments = () => {
                                             showDialog.show('로그인이 되어있지 않습니다.');
                                             break;
                                         case 'success':
-                                            alert('성공');
+                                            alert('작성 성공');
                                             loadComments();
                                             break;
                                         default:
@@ -242,10 +242,10 @@ const loadComments = () => {
                                                 showDialog.notLogin();
                                                 break;
                                             default:
-                                                alert('하트 실패');
+                                                showDialog.show('하트 실패');
                                         }
                                     } else {
-                                        // console.log('좋아요 실행을 실패했습니다(서버)');
+                                        showDialog.show('좋아요 실행을 실패했습니다(서버)');
                                     }
                                 }
                             }
@@ -331,46 +331,14 @@ if (commentMinePicForm !== null) {
     }
 }
 
-//Dialog 구현
-const showDialog = {
-    getElement: () => window.document.querySelector('[rel="dialog"]'),
-    show: (text) => {
-        const dialog = showDialog.getElement();
-        dialog.querySelector('.text').innerText = text;
-        dialog.classList.add('visible');
-        // dialog.querySelector("#cancel").addEventListener("click", () => {
-        //     dialog.classList.remove('visible');
-        // });
-        dialog.querySelector("#ok").addEventListener("click", () => {
-            dialog.classList.remove('visible');
-        });
-    },
-    notLogin: () =>{
-        const dialog = showDialog.getElement();
-        dialog.querySelector('.text').innerText = "권한이 없습니다.";
-        dialog.classList.add('visible');
-        dialog.querySelector("#ok").addEventListener("click", () => {
-            dialog.classList.remove('visible');
-            window.location.href = `/member/login`;
-        });
-    }
-};
-
 form.querySelector('[rel="thumbnailImage"]').addEventListener('click', e => {
     e.preventDefault();
     imageScale.classList.add('visible');
-    // imageScale.classList.contains('visible') ?
-    //     imageScale.classList.remove('visible')
-    //     : imageScale.classList.add('visible');
-
 });
 
 window.document.getElementById('imageScale').addEventListener('click', e => {
     e.preventDefault();
     imageScale.classList.remove('visible');
-    // imageScale.classList.contains('visible') ?
-    //     imageScale.classList.remove('visible')
-    //     : imageScale.classList.add('visible');
 });
 
 
@@ -404,8 +372,7 @@ likeA.addEventListener('click', e => {
                         showDialog.show("알수없는 이유로 실패하였습니다.");
                 }
             } else {
-                // console.log('좋아요 실행을 실패했습니다(서버)');
-                console.log('좋아요 실행을 실패했습니다(서버)');
+                showDialog.show('좋아요 실행을 실패했습니다(서버)');
             }
         }
     };
@@ -440,8 +407,7 @@ deleteArticle.addEventListener('click', e => {
                         showDialog.show("알수없는 삭제하지 못하였습니다.\n 잠시후에 다시시도해 주세요.");
                 }
             } else {
-                // console.log('좋아요 실행을 실패했습니다(서버)');
-                console.log('좋아요 실행을 실패했습니다(서버)');
+                showDialog.show('좋아요 실행을 실패했습니다(서버)');
             }
         }
     };

@@ -14,6 +14,7 @@ if (bbsList) {
     }
 }
 
+
 const showDialog = {
     getElement: () => window.document.querySelector('[rel="dialog"]'),
     show: (text) => {
