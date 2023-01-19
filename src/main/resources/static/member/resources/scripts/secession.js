@@ -39,16 +39,16 @@ form.onsubmit = (e) => {
                         window.location.href = '/';
                         break;
                     case 'not_allowed':
-                        alert('권한이 없습니다.');
+                        showDialog.show('권한이 없습니다.');
                         break;
                     case 'no_such_user':
-                        alert('일치하는 회원이 존재하지 않습니다.');
+                        showDialog.show('일치하는 회원이 존재하지 않습니다.');
                         break;
                     default:
-                        alert('알 수 없는 이유로 회원탈퇴를 실패하였습니다.');
+                        showDialog.show('알 수 없는 이유로 회원탈퇴를 실패하였습니다.');
                 }
             } else {
-                alert('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                showDialog.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
             }
         }
     };

@@ -74,12 +74,12 @@ form['emailSend'].addEventListener('click', () => {
                         form.querySelector('[rel="messageRow"]').classList.add('visible');
                         break;
                     default:
-                        Warning.show('해당 이메일을 사용하는 계정을 찾을 수 없습니다.');
+                        showDialog.show('해당 이메일을 사용하는 계정을 찾을 수 없습니다.');
                         form['email'].focus();
                         form['email'].select();
                 }
             } else {
-                Warning.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                showDialog.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
             }
         }
     };
@@ -117,10 +117,10 @@ form['recover'].addEventListener('click', () => {
                         window.location.href = 'login';
                         break;
                     default:
-                        Warning.show('비밀번호를 재설정하지 못하였습니다. 세션이 만료되었을 수 도 있습니다. 잠시 후 다시 시도해 주세요.');
+                        showDialog.show('비밀번호를 재설정하지 못하였습니다. 세션이 만료되었을 수 도 있습니다. 잠시 후 다시 시도해 주세요.');
                 }
             } else {
-                Warning.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                showDialog.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
             }
         }
     };

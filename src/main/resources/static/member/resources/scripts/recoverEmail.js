@@ -19,13 +19,6 @@ window.document.getElementById('xButton').addEventListener('click', () => {
     }
 });
 
-
-//let text = form.querySelector('.text');
-// if(아이디['네임'].value === 'value'){}
-// const id = window.document.getElementById('아이디');
-// let 변수 = 아이디.querySelector('.클래스 이름');
-// .innerText = '바뀔내용';
-
 form['findButton'].addEventListener('click', () => {
     Warning.hide();
     if (form['name'].value === '') {
@@ -47,7 +40,6 @@ form['findButton'].addEventListener('click', () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status >= 200 && xhr.status < 300) {
                 const responseObject = JSON.parse(xhr.responseText);
-                // console.log(xhr.responseText);
                 switch (responseObject['result']) {
                     case 'success':
                         form['name'].setAttribute('disabled', 'disabled');
@@ -64,7 +56,7 @@ form['findButton'].addEventListener('click', () => {
                         form['name'].select();
                 }
             } else {
-                Warning.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                showDialog.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
             }
         }
     };

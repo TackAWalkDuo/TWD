@@ -331,30 +331,7 @@ if (commentMinePicForm !== null) {
     }
 }
 
-//Dialog 구현
-const showDialog = {
-    getElement: () => window.document.querySelector('[rel="dialog"]'),
-    show: (text) => {
-        const dialog = showDialog.getElement();
-        dialog.querySelector('.text').innerText = text;
-        dialog.classList.add('visible');
-        // dialog.querySelector("#cancel").addEventListener("click", () => {
-        //     dialog.classList.remove('visible');
-        // });
-        dialog.querySelector("#ok").addEventListener("click", () => {
-            dialog.classList.remove('visible');
-        });
-    },
-    notLogin: () =>{
-        const dialog = showDialog.getElement();
-        dialog.querySelector('.text').innerText = "권한이 없습니다.";
-        dialog.classList.add('visible');
-        dialog.querySelector("#ok").addEventListener("click", () => {
-            dialog.classList.remove('visible');
-            window.location.href = `/member/login`;
-        });
-    }
-};
+
 
 form.querySelector('[rel="thumbnailImage"]').addEventListener('click', e => {
     e.preventDefault();
