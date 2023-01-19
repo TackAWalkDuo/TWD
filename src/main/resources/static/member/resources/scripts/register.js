@@ -175,7 +175,9 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
         };
         xhr.send(formData);
     } else if (form.classList.contains('step3')) {
-        window.location.href = 'login';
+        window.close();
+
+        // window.location.href = 'login';
     }
 });
 

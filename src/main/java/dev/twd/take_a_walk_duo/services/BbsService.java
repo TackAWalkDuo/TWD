@@ -15,6 +15,7 @@ import dev.twd.take_a_walk_duo.vos.bbs.CommentVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -23,6 +24,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Date;
 
 @Service(value = "dev.twd.take_a_walk_duo.services.BbsService")
@@ -70,9 +72,8 @@ public class BbsService {
             }
         } else {
             byte[] imageInByte;
-            File defaultImage = new File("src/main/resources/static/resources/images/TAWD_logo.png");
-//            defaultImage.setReadable(true, false);
-
+//            File defaultImage = new File("src/main/resources/static/resources/images/TAWD_logo.png");
+            File defaultImage = ResourceUtils.getFile("classpath:static/resources/images/TAWD_logo.png");
 
             BufferedImage originalImage = ImageIO.read(defaultImage);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
