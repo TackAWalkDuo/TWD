@@ -8,7 +8,6 @@ import dev.twd.take_a_walk_duo.enums.CommonResult;
 import dev.twd.take_a_walk_duo.services.MemberService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -161,16 +160,9 @@ public class MemberController extends GeneralController {
         Enum<?> result = this.memberService.login(user);
         if (result == CommonResult.SUCCESS) {
             session.setAttribute("user", user);
-            System.out.println("아이디/비밀번호 맞음");
-        } else {
-            System.out.println("이메일/비밀버호 틀림");
         }
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
-        System.out.println("누구냐" + user.getAdmin());
-        System.out.println("누구냐" + user.getEmail());
-        System.out.println("누구냐" + user.getAddressPrimary());
-        System.out.println("누구냐" + user.getAddressSecondary());
         return responseObject.toString();
     }
 

@@ -81,7 +81,6 @@ public class BbsController extends GeneralController{
             responseObject.put("aid", article.getIndex());
         }
         responseObject.put("result", result.name().toLowerCase());
-        System.out.println("controller check" + article.getBoardId());
         return responseObject.toString();
     }
 
@@ -214,7 +213,6 @@ public class BbsController extends GeneralController{
                 System.arraycopy(hotArticles, 0, articleMerge, noticeSize, hotArticles.length);
                 System.arraycopy(articles, 0, articleMerge, noticeSize + hotArticles.length, articles.length);
                 modelAndView.addObject("articles", articleMerge);
-                System.out.println(articleMerge.length);
             } else {
                 modelAndView.addObject("articles", articles);
             }
@@ -223,13 +221,6 @@ public class BbsController extends GeneralController{
             BoardEntity[] boardTitle = this.bbsService.getBoardEntities();
             modelAndView.addObject("boardList", boardList);
             modelAndView.addObject("boardTitles", boardTitle);
-
-            System.out.printf("bbs 이동 가능한 최소 페이지 : %d\n", paging.minPage);
-            System.out.printf("bbs 이동 가능한 최대 페이지 : %d\n", paging.maxPage);
-            System.out.printf("bbs 표시 시작 페이지 : %d\n", paging.startPage);
-            System.out.printf("bbs 표시 끝 페이지 : %d\n", paging.endPage);
-            System.out.println("가지고 있는 borad의 갯수" + boardList.length);
-            System.out.println("test :::" + bid);
 
         }
         return modelAndView;
@@ -258,7 +249,6 @@ public class BbsController extends GeneralController{
                               @RequestParam(value = "images", required = false) MultipartFile[] images, CommentEntity comment) throws IOException {
         JSONObject responseObject = new JSONObject();
 
-        System.out.println("comment check");
         Enum<?> result = this.bbsService.addComment(user, comment, images);
 
         responseObject.put("result", result.name().toLowerCase());
@@ -386,8 +376,6 @@ public class BbsController extends GeneralController{
     @ResponseBody
     public String deleteComment(@SessionAttribute(value = "user") UserEntity user,
                                 CommentEntity comment) {
-        System.out.println(comment.getUserEmail());
-        System.out.println(user.getEmail());
 
         JSONObject responseObject = new JSONObject();
         Enum<?> result = this.bbsService.deleteComment(user, comment);

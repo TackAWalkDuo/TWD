@@ -1,7 +1,6 @@
 package dev.twd.take_a_walk_duo.controllers;
 
 import dev.twd.take_a_walk_duo.entities.bbs.*;
-import dev.twd.take_a_walk_duo.entities.member.EmailAuthEntity;
 import dev.twd.take_a_walk_duo.entities.shop.PaymentEntity;
 import dev.twd.take_a_walk_duo.entities.shop.ShoppingCartEntity;
 import dev.twd.take_a_walk_duo.enums.CommonResult;
@@ -141,7 +140,6 @@ public class ShopController extends GeneralController {
         responseObject.put("result", result.name().toLowerCase());
         if (result == CommonResult.SUCCESS) {
             responseObject.put("bid", product.getCategoryText());
-            System.out.println("카테" + product.getCategoryText());
         }
         return responseObject.toString();
     }
@@ -317,9 +315,7 @@ public class ShopController extends GeneralController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String deletePayment(PaymentEntity payment, @SessionAttribute(value = "user", required = false) UserEntity user) {
-        System.out.println("payment controller 결과후 " + payment.getGroupIndex());
         Enum<?> result = this.shopService.deletePayment(payment, user);
-        System.out.println("payment service 결과후 " + payment.getGroupIndex());
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
         return responseObject.toString();

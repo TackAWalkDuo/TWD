@@ -40,7 +40,6 @@ public class MapController extends GeneralController {
             throws IOException {
         Enum<?> result = this.mapService.addWalkArticle(article, location, images, user);
 
-        System.out.println("check map writesdfsdfsdfsdfsdf");
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
 
@@ -82,7 +81,6 @@ public class MapController extends GeneralController {
                                   @SessionAttribute(value = "user", required = false) UserEntity user) {
         ModelAndView modelAndView = new ModelAndView("map/walkModify");
 
-        System.out.println("modify index check = " + index);
         modelAndView.addObject("place", this.mapService.getPlace(index, user));
 
         return modelAndView;

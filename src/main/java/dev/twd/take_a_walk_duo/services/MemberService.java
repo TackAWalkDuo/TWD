@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -272,24 +271,12 @@ public class MemberService {
         NaverUserEntity existingNaverUser = this.memberMapper.selectNaverUserByEmail(
                 user.getEmail());
 
-        System.out.println(existingKakaoUser);
         if (existingKakaoUser == null && existingNaverUser == null) {
             if (existingEmailAuth == null || !existingEmailAuth.isExpired()) {
                 // || kakaoUser == null
-                System.out.println(existingEmailAuth == null);
-                System.out.println(existingEmailAuth.isExpired());
                 return RegisterResult.EMAIL_NOT_VERIFIED;
             }
         }
-
-        System.out.println(existingNaverUser);
-//        if (existingNaverUser == null) {
-//            if (existingEmailAuth == null || !existingEmailAuth.isExpired()) {
-//                System.out.println(existingEmailAuth == null);
-//                System.out.println(existingEmailAuth.isExpired());
-//                return RegisterResult.EMAIL_NOT_VERIFIED;
-//            }
-//        }
 
         // haveDog 결과가 notHave 이면 none 을 넣어준다.
         if (user.getHaveDog().equals("notHave")) {
@@ -300,8 +287,6 @@ public class MemberService {
         if (this.memberMapper.insertUser(user) == 0) {
             return CommonResult.FAILURE;
         }
-
-        // kakao email ->> isUser(ture)..
 
         if (existingKakaoUser != null) {
             existingKakaoUser.setUser(true);

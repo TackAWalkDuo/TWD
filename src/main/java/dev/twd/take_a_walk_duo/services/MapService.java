@@ -51,18 +51,17 @@ public class MapService {
                 article.setThumbnailType(image.getContentType());
             }
         } else {
-            System.out.println("check image ");
             byte[] imageInByte;
-            File defaultImage = new File("src/main/resources/static/resources/images/mococo.jpg");
+            File defaultImage = new File("src/main/resources/static/resources/images/logo-color.png");
             BufferedImage originalImage = ImageIO.read(defaultImage);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(originalImage, "jpg", baos);
+            ImageIO.write(originalImage, "png", baos);
             baos.flush();
 
             imageInByte = baos.toByteArray();
 
             article.setThumbnail(imageInByte);
-            article.setThumbnailType("image/jpg");
+            article.setThumbnailType("image/png");
             baos.close();
         }
 
@@ -134,16 +133,16 @@ public class MapService {
                 }
             } else {
                 byte[] imageInByte;
-                File defaultImage = new File("src/main/resources/static/resources/images/mococo.jpg");
+                File defaultImage = new File("src/main/resources/static/resources/images/logo-color.png");
                 BufferedImage originalImage = ImageIO.read(defaultImage);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                ImageIO.write(originalImage, "jpeg", baos);
+                ImageIO.write(originalImage, "png", baos);
                 baos.flush();
 
                 imageInByte = baos.toByteArray();
 
                 article.setThumbnail(imageInByte);
-                article.setThumbnailType("image/jpeg");
+                article.setThumbnailType("image/png");
                 baos.close();
             }
         }else { // 이미지 수정이 없었다면.
