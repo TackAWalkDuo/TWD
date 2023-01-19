@@ -8,7 +8,6 @@
     <title>Take a walk duo</title>
     <th:block th:replace="~{fragments/head}"></th:block>
     <script defer th:src="@{/shop/resources/scripts/payment.js}"></script>
-    <script defer th:src="@{/resources/scripts/common.js}"></script>
     <link rel="stylesheet" th:href="@{/shop/resources/stylesheets/payment.css}">
     <script th:if="${user == null}">
         alert('로그인 후 이용해 주세요.');
