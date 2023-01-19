@@ -111,7 +111,7 @@ public class MemberService {
                 requestBuilder.append("grant_type=authorization_code");
                 requestBuilder.append("&client_id=bkuhxnOKDZAYExqHJzN1");
                 requestBuilder.append("&client_secret=lHgUA8xkse");
-                requestBuilder.append(String.format("&redirect_uri=%s://%s:%d/member/naver",
+                requestBuilder.append(String.format("&redirect_uri=%s://%s/member/naver",
                         request.getScheme(),
                         request.getServerName()));
                 requestBuilder.append("&code=").append(code);
@@ -179,7 +179,7 @@ public class MemberService {
                 requestBuilder.append("grant_type=authorization_code");
                 requestBuilder.append("&client_id=6da80eef1101bb3318ba1f6bde584ab1");
 
-                requestBuilder.append(String.format("&redirect_uri=%s://%s:%d/member/kakao",
+                requestBuilder.append(String.format("&redirect_uri=%s://%s/member/kakao",
                         request.getScheme(),
                         request.getServerName()));
                 requestBuilder.append("&code=").append(code);
