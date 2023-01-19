@@ -48,7 +48,7 @@ public class BbsController extends GeneralController{
             UserEntity adminAccount = this.bbsService.getUser(user);
             BoardEntity board = bid == null ? null : this.bbsService.getBoard(bid);
             if (bid.equals("notice") && (!adminAccount.getAdmin())) {
-                modelAndView = new ModelAndView("/bbs/notFindArticle");
+                modelAndView = new ModelAndView("error");
             } else {
                 BoardEntity[] boardList = this.bbsService.chartBoardId(bid);
                 modelAndView = new ModelAndView("bbs/write");
@@ -95,7 +95,7 @@ public class BbsController extends GeneralController{
         ArticleReadVo article = this.bbsService.readArticle(aid, user);
         modelAndView.addObject("article", article);
         if (article.getBoardId().equals("walk") || article.getBoardId().equals("shop")) {
-            return new ModelAndView("bbs/notFindArticle");
+            return new ModelAndView("error");
         }
         if (article != null) {
             BoardEntity board = this.bbsService.getBoard(article.getBoardId());
