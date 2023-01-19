@@ -20,9 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
@@ -57,7 +55,6 @@ public class BbsService {
     }
 
 
-    //1.write boardId 값 끌고오기
     //mr.s
     public Enum<? extends IResult> RegisterArticle(ArticleEntity article, MultipartFile[] images) throws IOException {
         BoardEntity board = this.bbsMapper.selectBoardById(article.getBoardId());
@@ -73,7 +70,8 @@ public class BbsService {
         } else {
             byte[] imageInByte;
 //            File defaultImage = new File("src/main/resources/static/resources/images/TAWD_logo.png");
-            File defaultImage = ResourceUtils.getFile("classpath:static/resources/images/TAWD_logo.png");
+//            File defaultImage = ResourceUtils.getFile("classpath:static/resources/images/TAWD_logo.png");
+            InputStream defaultImage = getClass().getResourceAsStream("/static/resources/images/TAWD_logo.png");
 
             BufferedImage originalImage = ImageIO.read(defaultImage);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
