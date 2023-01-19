@@ -142,7 +142,7 @@ public class MemberController extends GeneralController {
             return new ModelAndView("redirect:/");
         }
         ModelAndView modelAndView = new ModelAndView("member/login");
-        modelAndView.addObject("domain", String.format("%s://%s:%d",
+        modelAndView.addObject("domain", String.format("%s://%s",
                 request.getScheme(),
                 request.getServerName()));
         return modelAndView;

@@ -341,7 +341,7 @@ public class MemberService {
         }
         Context context = new Context();
         context.setVariable("code", emailAuth.getCode());
-        context.setVariable("domain", String.format("%s://%s:%d",
+        context.setVariable("domain", String.format("%s://%s",
                 request.getScheme(),
                 request.getServerName()));
 
@@ -440,7 +440,7 @@ public class MemberService {
         context.setVariable("email", emailAuth.getEmail());
         context.setVariable("code", emailAuth.getCode());
         context.setVariable("salt", emailAuth.getSalt());
-        context.setVariable("domain", String.format("%s://%S:%d",
+        context.setVariable("domain", String.format("%s://%S",
                 req.getScheme(),
                 req.getServerName()));
 
