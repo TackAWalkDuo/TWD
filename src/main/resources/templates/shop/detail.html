@@ -9,6 +9,7 @@
     <th:block th:replace="~{fragments/head}"></th:block>
     <link rel="stylesheet" th:href="@{/shop/resources/stylesheets/detail.css}">
     <script defer th:src="@{/shop/resources/scripts/detail.js}"></script>
+    <script defer th:src="@{/resources/scripts/common.js}"></script>
     <script th:if="${product == null || product.getBoardId() != 'shop'}">
         alert('존재하지 않는 상품입니다.');
         if (window.history.length > 1) {

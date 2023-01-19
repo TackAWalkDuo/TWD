@@ -205,15 +205,17 @@ if (isSoldOut === null) {
                     const responseObject = JSON.parse(xhr.responseText);
                     switch (responseObject['result']) {
                         case 'success' :
-                            alert('주문 성공');
-                            window.location.href = `./payment`
+                            if (confirm('주문이 완료되었습니다. \n\n확인 : 주문내역 확인 페이지로 이동 \n취소 : 쇼핑 계속하기')) {
+                                window.location.href = `./payment`
+                            } else {
+                                window.location.href;
+                            }
                             break;
                         default :
-                            alert('실패');
+                    showDialog.show('알 수 없는 이유로 주문을 완료하지 못하였습니다. \n잠시 후 다시 시도해 주세요.');
                     }
-
                 } else {
-                    alert('연결실패');
+                    showDialog.show('서버와 통신하지 못하였습니다. \n잠시 후 다시 시도해 주세요.');
                 }
             }
         };
