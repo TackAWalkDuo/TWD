@@ -144,8 +144,7 @@ public class MemberController extends GeneralController {
         ModelAndView modelAndView = new ModelAndView("member/login");
         modelAndView.addObject("domain", String.format("%s://%s:%d",
                 request.getScheme(),
-                request.getServerName(),
-                request.getServerPort()));
+                request.getServerName()));
         return modelAndView;
     }
 

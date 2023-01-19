@@ -113,8 +113,7 @@ public class MemberService {
                 requestBuilder.append("&client_secret=lHgUA8xkse");
                 requestBuilder.append(String.format("&redirect_uri=%s://%s:%d/member/naver",
                         request.getScheme(),
-                        request.getServerName(),
-                        request.getServerPort()));
+                        request.getServerName()));
                 requestBuilder.append("&code=").append(code);
                 requestBuilder.append("&state=state");
                 bufferedWriter.write(requestBuilder.toString());
@@ -182,8 +181,7 @@ public class MemberService {
 
                 requestBuilder.append(String.format("&redirect_uri=%s://%s:%d/member/kakao",
                         request.getScheme(),
-                        request.getServerName(),
-                        request.getServerPort()));
+                        request.getServerName()));
                 requestBuilder.append("&code=").append(code);
                 bufferedWriter.write(requestBuilder.toString());
                 bufferedWriter.flush();
@@ -345,8 +343,7 @@ public class MemberService {
         context.setVariable("code", emailAuth.getCode());
         context.setVariable("domain", String.format("%s://%s:%d",
                 request.getScheme(),
-                request.getServerName(),
-                request.getServerPort()));
+                request.getServerName()));
 
 
         String text = this.templateEngine.process("member/registerEmailAuth", context);
@@ -445,8 +442,7 @@ public class MemberService {
         context.setVariable("salt", emailAuth.getSalt());
         context.setVariable("domain", String.format("%s://%S:%d",
                 req.getScheme(),
-                req.getServerName(),
-                req.getServerPort()));
+                req.getServerName()));
 
         String text = this.templateEngine.process("member/recoverPasswordEmailAuth", context);
         MimeMessage mail = this.mailSender.createMimeMessage();
