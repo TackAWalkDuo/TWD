@@ -70,11 +70,11 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
             form['name'].focus();
             return;
         }
-        // if (form['nickname'].value === '') {
-        //     Warning.show('닉네임을 입력해주세요.')
-        //     form['nickname'].focus();
-        //     return;
-        // }
+        if (form['nickname'].value === '') {
+            Warning.show('닉네임을 입력해주세요.')
+            form['nickname'].focus();
+            return;
+        }
         if (form['contact'].value === '') {
             Warning.show('연락처를 입력해주세요.')
             form['contact'].focus();
@@ -158,10 +158,10 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
                             window.location.href = "/member/login";
                             break;
                         default:
-                            Warning.show('알 수 없는 이유로 카카오 회원가입에 실패하였습니다. 잠시 후 다시 시도해 주세요.');
+                            showDialog.show('알 수 없는 이유로 카카오 회원가입에 실패하였습니다. 잠시 후 다시 시도해 주세요.');
                     }
                 } else {
-                    Warning.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                    showDialog.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
                 }
             }
         };

@@ -60,7 +60,7 @@ form.onsubmit = (e) => {
                         form['email'].select();
                 }
             } else {
-                Warning.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                showDialog.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
             }
         }
     };

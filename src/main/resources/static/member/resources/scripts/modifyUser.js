@@ -5,8 +5,8 @@ let initialization = false;
 
 if (!initialization) {
     //생년월일 중 월 선택.
-    for(let i = 1; i < form['birthMonth'].length; i++) {
-        if(form['birthMonth'][i].value === form['initBirthMonth'].value) {
+    for (let i = 1; i < form['birthMonth'].length; i++) {
+        if (form['birthMonth'][i].value === form['initBirthMonth'].value) {
             form['birthMonth'][i].selected = true;
         }
     }
@@ -79,8 +79,7 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
         form.querySelector('[rel="stepText"]').innerText = '개인정보 입력';
         form.classList.remove('step1');// step1 글씨는 사라지게 됨
         form.classList.add('step2');
-    }
-    else if (form.classList.contains('step2')) {
+    } else if (form.classList.contains('step2')) {
         if (form['name'].value === '') {
             Warning.show('이름을 입력해주세요.')
             form['name'].focus();
@@ -171,16 +170,16 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
                             form.classList.add('step3');
                             break;
                         case 'no_such_user':
-                            Warning.show('회원정보를 수정할 수 없습니다.');
+                            showDialog.show('회원정보를 수정할 수 없습니다.');
                             break;
                         case 'not_allowed':
-                            Warning.show('회원정보를 수정할 수 있는 권한이 없거나 로그아웃 되었습니다. 확인 후 다시 시도해 주세요.');
+                            showDialog.show('회원정보를 수정할 수 있는 권한이 없거나 로그아웃 되었습니다. 확인 후 다시 시도해 주세요.');
                             break;
                         default:
-                            Warning.show('알 수 없는 이유로 정보수정에 실패하였습니다. 잠시 후 다시 시도해 주세요.');
+                            showDialog.show('알 수 없는 이유로 정보수정에 실패하였습니다. 잠시 후 다시 시도해 주세요.');
                     }
                 } else {
-                    Warning.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                    showDialog.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
                 }
             }
         };

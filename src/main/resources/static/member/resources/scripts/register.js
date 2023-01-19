@@ -163,13 +163,13 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
                             form.classList.add('step3');
                             break;
                         case 'email_not_verified':
-                            Warning.show('이메일 인증이 완료되지 않았습니다.');
+                            showDialog.show('이메일 인증이 완료되지 않았습니다.');
                             break;
                         default:
-                            Warning.show('알 수 없는 이유로 회원가입에 실패하였습니다. 잠시 후 다시 시도해 주세요.');
+                            showDialog.show('알 수 없는 이유로 회원가입에 실패하였습니다. 잠시 후 다시 시도해 주세요.');
                     }
                 } else {
-                    Warning.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                    showDialog.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
                 }
             }
         };
