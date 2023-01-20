@@ -71,7 +71,7 @@ public class BbsService {
             byte[] imageInByte;
 //            File defaultImage = new File("src/main/resources/static/resources/images/TAWD_logo.png");
 //            File defaultImage = ResourceUtils.getFile("classpath:static/resources/images/TAWD_logo.png");
-            InputStream defaultImage = getClass().getResourceAsStream("/static/resources/images/TAWD_logo.png");
+            InputStream defaultImage = getClass().getResourceAsStream("/static/resources/images/logo-color.png");
 
             BufferedImage originalImage = ImageIO.read(defaultImage);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
