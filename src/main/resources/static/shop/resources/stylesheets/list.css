@@ -1,0 +1,290 @@
+@charset "UTF-8";
+
+
+body > .--main {
+    display: flex;
+    padding: 0 8rem;
+    flex-direction: column;
+    align-items: center;
+}
+
+/*중간으로 셋팅*/
+.--main > .--form {
+    display: flex;
+    justify-content: space-around;
+}
+
+.--main > .img {
+    background: url("/resources/images/dogplay.jpg") no-repeat;
+    background-position: 0 -12.5rem;
+    width: 100%;
+    height: 15rem;
+    margin: 2.5rem 2rem 0 2rem;
+}
+
+
+body > .main > .search-form {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+/*공통css 조정*/
+.--object-input {
+    border: 0.12rem solid rgb(169, 175, 126);
+    border-radius: 0.8rem;
+    color: rgb(120, 120, 128);
+    padding: 0.5rem 0.875rem;
+}
+
+.--object-input.input{
+    text-align: center;
+}
+
+.--object-button {
+    background-color: rgb(169, 175, 126);
+    box-sizing: border-box;
+    border-radius: 0.375rem;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    padding: 0.5rem 2rem;
+}
+
+.--object-button:hover {
+    background-color: rgb(139, 145, 126);
+}
+
+body > .main > .search-form > .label {
+    margin-right: 1rem;
+}
+
+.title-select {
+    list-style: none;
+
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    margin: unset;
+    padding: unset;
+}
+
+.title-select > li {
+    border: 0.0625rem solid rgb(180, 180, 188);
+    border-radius: 99rem;
+    padding: 0.625rem 1.5rem;
+    color: rgb(180, 180, 188);
+    margin: 1rem;
+}
+
+.title-select > li:hover {
+    border: 0.0625rem solid rgb(169, 175, 126);
+    color: rgb(169, 175, 126);
+    cursor: pointer;
+}
+
+.title-select > li > a {
+    text-decoration: none;
+    color: rgb(180, 180, 188);
+}
+
+.title-select > li > a:hover {
+    color: rgba(0, 0, 0, 70%);
+}
+
+#table td {
+    background-color: rgb(255, 255, 255);
+    padding: 0.5rem 1rem;
+}
+
+#table th {
+    background-color: rgb(120, 110, 110);
+    color: rgb(234, 236, 238);
+    font-weight: inherit;
+    padding: 0.1rem 1rem;
+}
+
+#table td,
+#table th {
+    white-space: nowrap;
+}
+
+#table td:nth-of-type(3),
+#table th:nth-of-type(3) {
+    width: 100%;
+    white-space: normal;
+}
+
+#table > tbody > tr:not(:last-of-type) > td {
+    border-bottom: 0.0625rem solid rgb(234, 236, 238);
+}
+
+#table > tbody > tr > td > .title {
+    color: inherit;
+    text-decoration: none;
+
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#searchForm {
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#searchForm > * + * {
+    margin-left: 0.5rem;
+}
+
+/*그리드 부분*/
+body > main > .box {
+    width: 80%;
+    padding: 0 8rem;
+    margin: 1rem 0 4rem 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+body > main > .box > .title {
+    font-size: 2.25rem;
+    font-weight: 300;
+    margin-bottom: 2rem;
+}
+
+body > main > .box > .item-container {
+    display: grid;
+    gap: 3rem 3.5rem;
+    grid-template-columns: repeat(4, 1fr);
+    list-style-type: none;
+    margin: unset;
+    padding: unset;
+}
+
+body > main > .box > .item-container.emple {
+    gap: 2.5rem 5rem;
+}
+
+body > main > .box > .item-container > .item {
+    filter: brightness(95%);
+    transition-duration: 250ms;
+    transition-property: filter, transform;
+    transition-timing-function: ease;
+}
+
+body > main > .box > .item-container > .item:hover {
+    filter: brightness(100%);
+    transform: scale(105%);
+}
+
+body > main > .box > .item-container > .item > .link {
+    align-items: stretch;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.15rem;
+    font-weight: 300;
+    justify-content: flex-start;
+    text-decoration: none;
+}
+
+body > main > .box > .item-container > .item > .link > .image {
+    width: 18rem;
+    height: 15rem;
+    margin-bottom: 0.75rem;
+    border-radius: 0.5rem;
+}
+
+body > main > .box > .item-container > .item > .link > .text {
+    width: 15rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+body > main > .box > .item-container > .item > .link > .charge-price {
+    font-size: 0.85rem;
+    margin-top: 0.325rem;
+}
+
+
+/*다른 레이아웃*/
+body > main > .box > .item-container > .item-description {
+    grid-column: 3/5;
+}
+
+body > main > .box > .item-container > .item-description > .description-header {
+    margin-bottom: 1rem;
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+
+body > main > .box > .item-container > .item-description > .description-body {
+    padding-bottom: 1rem;
+    border-bottom: 0.0625rem solid rgb(216, 218, 220);
+}
+
+body > main > .box > .item-container > .item-description > .side-image {
+    margin-top: 3.15rem;
+
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+body > main > .box > .item-container > .item-description > .side-image > .image.side {
+    width: 33.3%;
+    height: 33.3%;
+}
+
+body > main > .box > .item-container > .item-description > .side-image > .side-description {
+    padding-left: 1rem;
+}
+
+body > main > .box > .item-container > .item-description > .side-image > .side-description > .side.header {
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+body > main > .box > .item-container > .item-description > .side-image > .side-description > .side.text {
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+
+body > main > .box > .item-container > .item-description > .side-image > .side-description > .side.charge-price {
+    margin-top: 0.25rem;
+    font-size: 0.9rem;
+}
+
+/*page*/
+#pageContainer {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#pageContainer .page {
+
+    background-color: rgba(229, 232, 232, 50%);
+    padding: 0.5rem 0.75rem;
+    color: inherit;
+    text-decoration: none;
+
+}
+
+#pageContainer .page.selected,
+#pageContainer .page:hover {
+    background-color: rgba(229, 232, 232, 90%);
+}

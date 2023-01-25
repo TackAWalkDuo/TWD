@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>산책해듀오 - 탈퇴하기</title>
+    <th:block th:replace="~{fragments/head :: common}"></th:block>
+    <link rel="stylesheet" th:href="@{/member/resources/stylesheets/secession.css}">
+    <script defer th:src="@{/member/resources/scripts/secession.js}"></script>
+    <script src="https://kit.fontawesome.com/12a5ab0618.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<!-- x버튼 -->
+<div class="xButton" id="xButton">
+        <span class="xButton">
+            <i class="icon fa-solid fa-x"></i>
+        </span>
+</div>
+<main class="--main main">
+    <form name="form" id="secessionForm">
+        <div class="title">
+            <h1 class="title">탈퇴하기</h1>
+        </div>
+        <div class="secession">
+            가입된 회원정보 모두 삭제됩니다. 작성하신 게시물도 모두 삭제됩니다.
+            <br>
+            회원 탈퇴를 진행하시겠습니까?
+        </div>
+        <label class="secessionLabel">
+            <input class="secession-button" id="secession-button" name="secessionButton"
+                   type="submit" value="탈퇴하기" href="#">
+        </label>
+    </form>
+</main>
+<th:block th:replace="~{fragments/body :: dialog}"></th:block>
+</body>
+</html>

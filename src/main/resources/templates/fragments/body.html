@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<header class="--header" th:fragment="header">
+    <div class="--content -top">
+        <a class="--logo-container" th:href="@{/}">
+            TAKE A WALK <span class="duo">DUO</span>
+        </a>
+        <ul class="--menu --main" rel="selected" id="selected">
+            <li th:class="${'--item ' + board.getId()}" th:if="${board.getBoardId() == null}"
+                th:each="board : ${boards}">
+                <a class="--link small"
+                   th:text="${board.getText()}"
+                   th:if="${board.getId()} == 'walk'" th:href="@{/map/read}"></a>
+                <a class="--link small"
+                   th:text="${board.getText()}"
+                   th:if="${board.getId()} == 'shop'" th:href="@{/shop/main}">
+                </a>
+                <a class="--link small"
+                   th:text="${board.getText()}"
+                   th:if="${board.getId()} != 'walk' and ${board.getId()} != 'shop'"
+                   th:href="@{/bbs/list(bid=${board.getId()})}"></a>
+            </li>
+            <li class="--item" th:if="${session.user == null}">
+                <a class="--link border" th:href="@{/member/login}">
+                    <i class="icon fa-regular fa-user"></i>
+                    로그인
+                </a>
+            </li>
+            <li class="--item" th:if="${session.user == null}">
+                <a class="--link border" th:href="@{/member/register}">
+                    <i class="icon fa-solid fa-user-plus"></i>
+                    회원가입
+                </a>
+            </li>
+            <li class="--item" th:if="${session.user != null}">
+                <a class="--link border" th:href="@{/member/logout}">
+                    <i class="fa-solid fa-user-minus"></i>
+                </a>
+            </li>
+            <li class="--item" th:if="${session.user != null}">
+                <a class="--link border" th:href="@{/member/myPage}">
+                    <i class="icon fa-solid fa-m"></i>
+                </a>
+            </li>
+            <li class="--item" th:if="${session.user != null}">
+                <a class="--link border" th:href="@{/shop/cart}">
+                    <i class="icon fa-solid fa-cart-shopping"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+</header>
+<footer class="--footer" th:fragment="footer">
+    <div class="--content">
+        <div class="left">
+            <span class="title">
+             Take a Walk duo
+            </span>
+            <div class="content">
+                <span>
+                    산책해듀오 | Take a walk duo
+                </span>
+                <br>
+                <span>
+                    Address : 대구 중구 중앙대로 366 9층, 10층 | Contact : 053-123-1234
+                </span>
+                <br>
+                <span>
+                    ⓒ 2023 TWD All right reserved.
+                </span>
+            </div>
+        </div>
+        <div class="icon">
+            <span class="sns">
+                <i class="fa-brands fa-facebook"></i>
+                <i class="icon fa-brands fa-instagram"></i>
+                <i class="icon fa-brands fa-twitter"></i>
+                <i class="icon fa-brands fa-youtube"></i>
+            </span>
+            <br>
+            <span class="email">
+                support : twd@gmail.com
+            </span>
+        </div>
+    </div>
+</footer>
+
+
+<div class="--cover" id="cover" th:fragment="cover">
+    <img alt="" class="--icon" th:src="@{/resources/images/TAWD_logo.png}">
+    <span class="--text" rel="text">무언가를 불러오고 있습니다. 잠시만 기다려 주세요.</span>
+</div>
+<div class="dialog" rel="dialog" th:fragment="dialog">
+    <div class="dialog__inner">
+        <h1>TAKEAWALKDUO</h1>
+        <p class="text">Dialog 내용</p>
+        <div class="dialog__btn__wrap">
+            <button id="ok">OK</button>
+        </div>
+    </div>
+</div>
+
+</html>

@@ -1,0 +1,92 @@
+@charset "UTF-8";
+
+body {
+    background-color: rgb(255, 255, 255);
+    align-items: stretch;
+    display: flex;
+    justify-content: center;
+    margin: unset;
+    width: 100vw;
+    height: 100vh;
+}
+
+#errorForm {
+    background-color: rgb(255, 255, 255);
+    border: 0.00125rem solid rgb(211, 211, 211);
+    padding: 20rem 20rem;
+    width: 100%;
+    max-width: 30rem;
+    height: 6rem;
+    margin-top: 2.5rem;
+
+    border-radius: 0.5rem;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.error {
+    margin-left: 1rem;
+    padding: 1rem;
+    width: 40rem;
+    font-size: 3.5rem;
+
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.error > span {
+    font-size: 2.5rem;
+    margin-left: 1rem;
+    color: rgb(105, 105, 105);
+}
+
+/* 잘못된 페이지 입니다. */
+.warning > .errorPage {
+    font-size: 2.5rem;
+    color: rgb(105, 105, 105);
+    margin-top: 2rem;
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.icon {
+    font-size: 6.5rem;
+    margin-right: 0.5rem;
+    color: rgb(139, 145, 121);
+}
+
+/* 요청하신 페이지 처리중 */
+.errorText {
+    border-left: 1rem solid rgb(120, 110, 11);
+    border-radius: 0.3rem;
+    width: 40rem;
+    margin-top: 2rem;
+    margin-left: 10rem;
+    padding: 1rem;
+}
+
+.errorText > .errorKorean {
+    font-size: 1.2rem;
+}
+
+.errorText > .errorEnglish {
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: rgb(105, 105, 105);
+}
+
+.errorText > .goMain {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+}
+
+.errorText > .goMain > a {
+    text-decoration: none;
+    color: inherit;
+}
