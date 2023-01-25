@@ -1,0 +1,45 @@
+CREATE SCHEMA `twd_member`;
+
+CREATE TABLE `twd_member`.`user`
+(
+    `email`             VARCHAR(50)  NOT NULL,
+    `password`          VARCHAR(128) NOT NULL,
+    `nickname`          VARCHAR(10)  NOT NULL,
+    `name`              VARCHAR(10)  NOT NULL,
+    `contact`           VARCHAR(12)  NOT NULL,
+    `gender`            BOOLEAN      NOT NULL,
+    `haveDog`           BOOLEAN      NOT NULL,
+    `species`           INT          NOT NULL DEFAULT 0, # 견종 분류 0:없음 , 1 소형견, 2 중형견, 3 대형견.
+    `address_postal`    VARCHAR(6)   NOT NULL,
+    `address_primary`   VARCHAR(100) NOT NULL,
+    `address_secondary` VARCHAR(100) NOT NULL,
+    `registered_on`     DATETIME     NOT NULL DEFAULT NOW(),
+    `admin_flag`        BOOLEAN      NOT NULL DEFAULT FALSE,
+    CONSTRAINT PRIMARY KEY (`email`),
+    CONSTRAINT UNIQUE (`nickname`),
+    CONSTRAINT UNIQUE (`contact`)
+);
+
+CREATE TABLE `twd_member`.`email_auths`
+(
+    `index`        INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `email`        VARCHAR(50)  NOT NULL,
+    `code`         VARCHAR(6)   NOT NULL,
+    `salt`         VARCHAR(128) NOT NULL,
+    `created_on`   DATETIME     NOT NULL DEFAULT NOW(),
+    `expires_on`   DATETIME     NOT NULL,
+    `expired_flag` BOOLEAN      NOT NULL DEFAULT FALSE,
+    CONSTRAINT PRIMARY KEY (`index`)
+);
+
+CREATE TABLE `twd_member`.`kakao_users`
+(
+    `email`         VARCHAR(50) NOT NULL,
+    `id`            VARCHAR(10) NOT NULL,
+    `nickname`      VARCHAR(50) NOT NULL,
+    `registered_on` DATETIME    NOT NULL DEFAULT NOW(),
+    CONSTRAINT PRIMARY KEY (`id`),
+    CONSTRAINT FOREIGN KEY (`email`) REFERENCES `twd_member`.`users` (`email`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);

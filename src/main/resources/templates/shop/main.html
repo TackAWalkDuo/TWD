@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Take a walk duo</title>
+    <th:block th:replace="~{fragments/head}"></th:block>
+    <link rel="stylesheet" th:href="@{/shop/resources/stylesheets/main.css}">
+    <script defer th:src="@{/shop/resources/scripts/main.js}"></script>
+</head>
+<body>
+<th:block th:replace="~{fragments/body :: header}"></th:block>
+<main class="--main main">
+    <div class="img"></div>
+    <div>
+        <ul class="title-select">
+            <li th:if="${board.getBoardId() == 'shop'}" th:each="board : ${boards}">
+                <a th:text="${board.getText()}" th:href="@{/shop/list(bid=${board.getId()})}"></a>
+            </li>
+        </ul>
+    </div>
+    <section class="box collection">
+        <h2 class="title">New Arrivals</h2>
+        <div class="button" th:if="${user != null && user.getAdmin() == true}">
+            <a th:href="@{write}">
+                <input type="button" class="--object-button" value="상품 등록하기">
+            </a>
+        </div>
+        <ul class="item-container">
+            <li class="item" th:each="product : ${products}">
+                <a class="link" th:href="@{/shop/detail(aid=${product.getIndex()})}">
+                    <img alt="제품1" class="image" th:src="|/bbs/thumbnail?index=${product.getIndex()}|">
+                    <div>
+                        <span class="text" th:text="${product.getTitle()}"></span>
+                        <span th:if="${product.getQuantity() <= 0}" class="sold-out">품절</span>
+                    </div>
+                    <div>
+                    <span th:class="${product.getDiscount() > 0 ? 'discount' : 'charge-price'}"
+                          th:text="${product.getCost() + '원'}"></span>
+                        <span th:if="${product.getDiscount() > 0}" th:class="discount-price"
+                              th:text="${product.getPrice() + '원'}">
+                        </span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </section>
+
+    <section class="box clothes" th:if="${productClothes.length > 0}">
+        <h2 class="title">Clothes</h2>
+        <ul class="item-container emple">
+            <li class="item big">
+                <a class="link big" th:href="@{/shop/list(bid=${productClothes[0].getCategoryText()})}">
+                    <img alt="" class="image-big"
+                         th:src="|/bbs/thumbnail?index=${productClothes[0].getIndex()}|">
+                    <span class="text"></span>
+                </a>
+            </li>
+            <div class="item-description">
+                <div class="description-header">더 편안하고, 더 따뜻한 겨울을 보내기 위한 필수템!</div>
+                <span class="description-body">나날이 발전하는 반려견 아우터- 사이즈도 다양하고 스타일도 다양하게!</span>
+
+                <!--/*@thymesVar id="products" type="dev.twd.take_a_walk_duo.vos.shop.ProductVo[]"*/-->
+                <div class="side-image"
+                     th:each="i : ${#numbers.sequence(0, (productClothes.length >= 2 ? 1 : productClothes.length - 1))}"
+                     th:with="product = ${productClothes[i]}">
+                    <a th:href="@{/shop/detail(aid=${product.getIndex()})}">
+                        <img alt="제품1" class="image side"
+                             th:src="|/bbs/thumbnail?index=${product.getIndex()}|">
+                    </a>
+                    <div class="side-description">
+                        <span>
+                            <div>
+                            <span class="side header" th:text="${product.getTitle()}">Dog coat Alaska Olive  </span>
+                            <span th:if="${product.getQuantity() <= 0}" class="side-sold-out">품절</span>
+                            </div>
+                            <div class="side text" th:utext="${product.getText()}">클라우드7 Cloud7 </div>
+                            <span th:class="${product.getDiscount() > 0 ? 'discount' : 'side charge-price'}"
+                                  th:text="${product.getCost() + '원'}"></span>
+                            <span th:if="${product.getDiscount() > 0}" th:class="discount-price"
+                                  th:text="${product.getPrice() + '원'}">
+                            </span>
+                         </span>
+                    </div>
+                </div>
+            </div>
+        </ul>
+    </section>
+
+    <section class="shop--content">
+        <div class="shop-href" th:href="@{/shop/main}">Discount Products</div>
+        <div class="shop-list">
+            <ul class="shop--container">
+                <div class="pre-btn"><</div>
+                <li class="item shop-item" th:each="discountProduct : ${discountProducts}">
+                    <a class="link" th:href="@{/shop/detail(aid=${discountProduct.getIndex()})}">
+                        <img alt="제품1" class="discountImage"
+                             th:src="|/bbs/thumbnail?index=${discountProduct.getIndex()}|">
+                        <div>
+                        <span class="text" th:text="${discountProduct.getTitle()}">
+                        </span>
+                            <span th:if="${discountProduct.getQuantity() <= 0}" class="discount-sold-out">품절</span>
+                        </div>
+                        <span th:class="${discountProduct.getDiscount() > 0 ? 'discount' : 'charge-price'}"
+                              th:text="${discountProduct.getCost() + '원'}"></span>
+                        <span th:class="discount-price" th:text="${discountProduct.getPrice() + '원'}"></span>
+                    </a>
+                </li>
+                <div class="next-btn">></div>
+            </ul>
+        </div>
+    </section>
+
+</main>
+<!-- cover -->
+<th:block th:replace="~{fragments/body :: cover}"></th:block>
+<th:block th:replace="~{fragments/body :: footer}"></th:block>
+</body>
+</html>
+

@@ -1,0 +1,649 @@
+@charset "UTF-8";
+body {
+    background-color: rgb(255, 255, 255);
+}
+
+/* 나가기 버튼 */
+body > .xButton > .xButton {
+    text-decoration: none;
+}
+
+body > .xButton > .xButton:hover {
+    color: red;
+}
+
+body > .xButton > .xButton:active {
+    color: blue;
+}
+
+/* x 아이콘 */
+body > div > .xButton > .icon {
+    padding-right: 2rem;
+    padding-top: 2rem;
+
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+/* 회원정보 수정 하시겠습니까? */
+body > .--main > .--content > #form > .step > .label > .text {
+    padding: 1rem;
+    margin-top: 4rem;
+    font-size: 1.25rem;
+
+    background-color: rgb(255, 255, 255);
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* input */
+.--object-input {
+    border-style: none;
+    border-bottom: 0.0125rem solid;
+    border-radius: 0;
+    width: 30rem;
+    height: 2rem;
+    font-size: 1.0625rem;
+
+    line-height: 147.6%;
+    padding-top: 0.825rem;
+    padding-bottom: 0.5rem;
+}
+
+.--object-input.term {
+    border: 0.00000125rem solid rgb(211, 211, 211);
+    padding: 0.5rem;
+}
+
+
+/* step2 input */
+body > .main > .content > .form > .step.step2 > .table > tbody > tr > td .--object-input {
+    border-style: none;
+    border-bottom: 0.0125rem solid;
+    border-radius: 0;
+    width: 30rem;
+    height: 2rem;
+    font-size: 1.0625rem;
+
+    line-height: 147.6%;
+    padding-top: 0.825rem;
+    padding-bottom: 0.5rem;
+}
+
+body > .main > .content > .form > .step.step2 > .table > tbody > tr > td .--object-input:disabled {
+    color: rgb(171, 178, 185);
+    border-radius: 0.5rem;
+    border-bottom: none;
+}
+
+/* 생년월일 */
+td.birth > label{
+    width: 100%;
+    flex-wrap: nowrap;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+/* birth year */
+#year {
+    width: 9.4rem;
+    height: 1.6rem;
+    padding-left: 0.5rem;
+    margin-right: 0.5rem;
+    font-family: inherit;
+    border-bottom: 0.0125rem solid;
+}
+
+/* select */
+select {
+    width: 9.4rem;
+    padding: 0.8rem 0.5rem;
+    margin-right: 0.5rem;
+    font-family: inherit;
+    border-bottom:  0.0125rem solid;
+}
+
+/* birth day */
+#day {
+    width: 9.2rem;
+    height: 1.6rem;
+    padding-left: 0.5rem;
+    font-family: inherit;
+    border-bottom: 0.0125rem solid;
+}
+
+.--object-check {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    user-select: none;
+}
+
+.--object-check > input[type=checkbox] {
+    display: none;
+}
+
+.--object-check > .--checkbox {
+    width: 1.25rem;
+    height: 1.25rem;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    border: 0.0625rem solid rgb(213, 216, 220);
+    border-radius: 0.25rem;
+    color: rgb(255, 255, 255);
+    display: flex;
+    flex: 0 0 1.125rem;
+    /*flex-grow, shrink, basis = 0  == > 모바일*/
+    flex-direction: row;
+    justify-content: center;
+    margin-right: 0.75rem;
+    overflow: hidden;
+}
+
+.--object-check > input[type=checkbox]:checked ~ .--checkbox {
+    background-color: rgb(139, 145, 121);
+    border: 0.0625rem solid rgb(139, 145, 121);
+}
+
+body > .main > .content {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+}
+
+body > .main > .content > .form {
+    width: 30rem;
+    padding: 1rem 1rem;
+    max-width: 30rem;
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+body > .main > .content > .form > .title-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-bottom: 2.5rem;
+}
+
+body > .main > .content > .form > .title-container > .title {
+    flex: 1;
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+body > .main > .content > .form > .title-container > .step-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+body > .main > .content > .form > .title-container > .step-container > .step {
+    width: 2rem;
+    height: 2rem;
+    border: 0.125rem solid rgb(213, 216, 220);
+    border-radius: 50%;
+    box-sizing: border-box;
+    color: rgb(128, 139, 150);
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    user-select: none;
+}
+
+body > .main > .content > .form.step1 > .title-container > .step-container > .step.step1,
+body > .main > .content > .form.step2 > .title-container > .step-container > .step.step2,
+body > .main > .content > .form.step3 > .title-container > .step-container > .step.step3{
+    background-color: rgb(139, 145, 121);
+    border: 0.125rem solid rgb(139, 145, 121);
+    color: rgb(255, 255, 255);
+}
+
+body > .main > .content > .form.step2 > .title-container > .step-container > .step.step1,
+body > .main > .content > .form.step3 > .title-container > .step-container > .step.step1,
+body > .main > .content > .form.step3 > .title-container > .step-container > .step.step2 {
+    background-color: rgb(213, 216, 220);
+    border: 0.125rem solid rgb(213, 216, 220);
+    color: rgb(171, 178, 185);
+}
+
+body > .main > .content > .form.step2 > .title-container > .step-container > .step.step1 + .line,
+body > .main > .content > .form.step3 > .title-container > .step-container > .step.step1 + .line,
+body > .main > .content > .form.step3 > .title-container > .step-container > .step.step2 + .line {
+    background-color: rgb(213, 216, 220);
+}
+
+
+body > .main > .content > .form > .title-container > .step-container > .line {
+    width: 0.375rem;
+    height: 0.125rem;
+    background-color: rgb(171, 178, 185);
+}
+
+body > .main > .content > .form > .title-container > .step-container > .text {
+    color: rgb(86, 101, 115);
+    font-size: 0.95rem;
+    margin-right: 0.75rem;
+}
+
+body > .main > .content > .form > .step {
+    align-items: stretch;
+    display: none;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+body > .main > .content > .form.step1 > .step.step1,
+body > .main > .content > .form.step2 > .step.step2,
+body > .main > .content > .form.step3 > .step.step3 {
+    display:flex
+}
+
+
+body > .main > .content > .form > .step.step1 > .label {
+    margin-bottom: 1.5rem;
+}
+
+
+body > .main > .content > .form > .step.step1  > .label > .title {
+    font-size: 1.375rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+
+body > .main > .content > .form > .step.step1 > .label > .term {
+    padding-top: 1rem;
+    height: 20rem;
+    resize: none;
+}
+
+
+body > .main > .content > .form > .step.step2 > .table {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+body > .main > .content > .form > .step.step2 > .table > tbody > tr > th {
+    padding-right: 1rem;
+    text-align: right;
+    white-space: nowrap;
+}
+
+
+body > .main > .content > .form > .step.step2 > .table > tbody > tr:not(:last-child) > th,
+body > .main > .content > .form > .step.step2 > .table > tbody > tr:not(:last-child) > td {
+    padding-bottom: 0.75rem;
+}
+
+
+body > .main > .content > .form > .step.step2 > .table > tbody > tr > td > .label.email,
+body > .main > .content > .form > .step.step2 > .table > tbody > tr > td > .label.address {
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+body > .main > .content > .form > .step.step2 > .table > tbody > tr > td > .label.email > .input {
+    margin-right: 0.5rem;
+}
+
+body > .main > .content > .form > .step.step2 > .table > tbody > tr > td > .label {
+    display: block;
+}
+
+body > .main > .content > .form > .step.step2 > .table > tbody > tr > td > .label.email + label.email,
+body > .main > .content > .form > .step.step2 > .table > tbody > tr > td > .label.password + label.password,
+body > .main > .content > .form > .step.step2 > .table > tbody > tr > td > .label.address   + label.address {
+    margin-top: 0.375rem;
+}
+
+body > .main > .content > .form > .step.step2 > .table > tbody > tr > td > .label > input + input {
+    margin-left: 0.5rem;
+}
+
+body > .main > .content > .form > .step.step2 > .table > tbody > tr > td > .warning {
+    color:rgb(231, 76, 60);
+    display: none;
+    font-size: 90%;
+    margin-top: 0.5rem;
+}
+
+body > .main > .content > .form > .step.step2 > .table > tbody > tr > td > .warning.visible{
+    display:block;
+}
+
+body > .main > .content > .form > .step.step2 > .table > tbody > tr > td > .panel.address {
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 70%);
+    display: none;
+    position: fixed;
+}
+
+body > .main > .content > .form > .step.step2 > .table > tbody > tr > td > .panel.address.visible {
+    display: block;
+}
+
+body > .main > .content > .form > .step.step2 > .table > tbody > tr > td > .panel.address > .dialog {
+    top:50%;
+    left:50%;
+    width: 100%;
+    height: 100%;
+    max-width: 27.5rem;
+    max-height: 30rem;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    transform:translate(-50%, -50%);
+}
+
+body > .main > .content > .form > .warning {
+    border-radius: 0.375rem;
+    color: rgb(139, 145, 121);
+    font-size: 1.2rem;
+    padding: 1rem 1.25rem;
+    margin-right: 2.5rem;
+    width: 100%;
+    align-items: center;
+    display: none;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+body > .main > .content > .form > .warning > .text {
+    flex: 1;
+    margin-left: 0.875rem;
+}
+
+body > .main > .content > .form > .warning.visible {
+    display: flex;
+}
+
+
+body > .main > .content > .form > .button-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 2.5rem;
+}
+
+
+body > .main > .content > .form > .button-container > .button {
+    margin: 0.5rem;
+}
+
+
+body > .main > .content > .form > .button-container > .button {
+    background-color: rgb(128, 139, 150);
+    border-radius: 0.5rem;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    padding: 1rem 3rem;
+    user-select: unset;
+    margin-top: 1rem;
+}
+
+body > .main > .content > .form > .step.step3 {
+    align-items: center;
+    display: none;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+body > .main > .content > .form.step3 > .step.step3 {
+    display: flex;
+}
+
+body > .main > .content > .form > .step.step3 > .title {
+    font-size: 2.5rem;
+    font-weight: 500;
+    margin-bottom: 2.5rem;
+}
+
+body > .main > .content > .form > .step.step3 > .message {
+    line-height: 150%;
+    text-align: center;
+}
+
+body > .main > .content > .form > .button-container > .button:hover {
+    background-color: rgb(44, 62, 80);
+}
+
+
+body > .main > .content > .form > .button-container > .button:active {
+    background-color: rgb(86, 101, 115);
+}
+
+body > .main > .content > .form > .button-container > .button.green {
+    background-color: rgb(139, 145, 121);
+}
+
+body > .main > .content > .form > .button-container > .button.green:hover {
+    background-color: rgb(120, 110, 11);
+}
+
+body > .main > .content > .form > .button-container > .button.green:active {
+    background-color: rgb(120, 110, 11);
+}
+
+/* 성별 체크박스 */
+
+.--object-gender {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    user-select: none;
+}
+
+.--object-gender > input[type=radio] {
+    display: none;
+}
+
+.--object-gender > .--checkbox {
+    width: 1.25rem;
+    height: 1.25rem;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    border: 0.0625rem solid rgb(213, 216, 220);
+    border-radius: 0.25rem;
+    color: rgb(255, 255, 255);
+    display: flex;
+    flex: 0 0 1.125rem;
+    flex-direction: row;
+    justify-content: center;
+    margin-right: 0.75rem;
+    overflow: hidden;
+}
+
+.--object-gender > input[type=radio]:checked ~ .--checkbox {
+    background-color: rgb(139, 145, 121);
+    border: 0.0625rem solid rgb(139, 145, 121);
+}
+
+.gender{
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.gender >.--object-gender > .--checkbox {
+    width: 1.25rem;
+    height: 1.25rem;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    border: 0.0625rem solid rgb(213, 216, 220);
+    border-radius: 0.25rem;
+    color: rgb(255, 255, 255);
+    display: flex;
+    flex: 0 0 1.125rem;
+    flex-direction: row;
+    justify-content: center;
+    margin-right: 0.75rem;
+    overflow: hidden;
+}
+
+.gender .--object-gender > input[type=radio]:checked ~ .--checkbox > {
+    background-color: rgb(139, 145, 121);
+    border: 0.0625rem solid rgb(139, 145, 121);
+}
+
+/* 애완견 여/부 체크박스 */
+
+.--object-have {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    user-select: none;
+}
+
+.--object-have > input[type=radio] {
+    display: none;
+}
+
+.--object-have > .--checkbox {
+    width: 1.25rem;
+    height: 1.25rem;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    border: 0.0625rem solid rgb(213, 216, 220);
+    border-radius: 0.25rem;
+    color: rgb(255, 255, 255);
+    display: flex;
+    flex: 0 0 1.125rem;
+    flex-direction: row;
+    justify-content: center;
+    margin-right: 0.75rem;
+    overflow: hidden;
+}
+
+.--object-have > input[type=radio]:checked ~ .--checkbox {
+    background-color: rgb(139, 145, 121);
+    border: 0.0625rem solid rgb(139, 145, 121);
+}
+
+.have{
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.have >.--object-have > .--checkbox {
+    width: 1.25rem;
+    height: 1.25rem;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    border: 0.0625rem solid rgb(213, 216, 220);
+    border-radius: 0.25rem;
+    color: rgb(255, 255, 255);
+    display: flex;
+    flex: 0 0 1.125rem;
+    flex-direction: row;
+    justify-content: center;
+    margin-right: 0.75rem;
+    overflow: hidden;
+}
+
+.have .--object-have > input[type=radio]:checked ~ .--checkbox > {
+    background-color: rgb(139, 145, 121);
+    border: 0.0625rem solid rgb(139, 145, 121);
+}
+
+/* 견종선택 체크박스 */
+
+.--object-size {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    user-select: none;
+}
+
+.--object-size > input[type=radio] {
+    display: none;
+}
+
+.--object-size > .--checkbox {
+    width: 1.25rem;
+    height: 1.25rem;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    border: 0.0625rem solid rgb(213, 216, 220);
+    border-radius: 0.25rem;
+    color: rgb(255, 255, 255);
+    display: flex;
+    flex: 0 0 1.125rem;
+    flex-direction: row;
+    justify-content: center;
+    margin-right: 0.75rem;
+    overflow: hidden;
+}
+
+.--object-size > input[type=radio]:checked ~ .--checkbox {
+    background-color: rgb(139, 145, 121);
+    border: 0.0625rem solid rgb(139, 145, 121);
+}
+
+.size{
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.size >.--object-size > .--checkbox {
+    width: 1.25rem;
+    height: 1.25rem;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    border: 0.0625rem solid rgb(213, 216, 220);
+    border-radius: 0.25rem;
+    color: rgb(255, 255, 255);
+    display: flex;
+    flex: 0 0 1.125rem;
+    /*flex-grow, shrink, basis = 0  == > 모바일*/
+    flex-direction: row;
+    justify-content: center;
+    margin-right: 0.75rem;
+    overflow: hidden;
+}
+
+.size .--object-size > input[type=radio]:checked ~ .--checkbox > {
+    background-color: rgb(139, 145, 121);
+    border: 0.0625rem solid rgb(139, 145, 121);
+}
+
+#checkSpecies {
+    display: none;
+    margin-left: 1.5rem;
+}

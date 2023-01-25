@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Take a walk duo</title>
+    <th:block th:replace="~{fragments/head}"></th:block>
+    <script defer th:src="@{/shop/resources/scripts/cart.js}"></script>
+    <link rel="stylesheet" th:href="@{/shop/resources/stylesheets/cart.css}">
+    <script th:if="${user == null}">
+        alert('로그인 후 이용해 주세요.');
+        window.location.href = '/member/login';
+    </script>
+</head>
+<body th:if="${user != null}">
+<th:block th:replace="~{fragments/body :: header}"></th:block>
+<main class="--main main">
+    <i th:if="${isCart <= 0}" class="empty-icon fa-solid fa-cart-plus"><span>장바구니가 비어 있습니다.</span></i>
+    <form class="content --content" id="form" th:if="${isCart > 0}">
+        <input hidden multiple accept="image/*" name="images" type="file">
+        <h1 class="title">장바구니</h1>
+        <table class="table" id="table">
+            <tbody>
+            <tr class="imageLine">
+                <th>
+                    <input rel="selectAll" type="checkbox" name="checkAll" value="checkAll">
+                </th>
+                <th colspan="2">상품정보</th>
+                <th>수량</th>
+                <th>상품금액</th>
+                <th>합계</th>
+            </tr>
+            <tr rel="cart-item" th:each="cart : ${carts}" th:if="${board.getId() == 'shop'}">
+                <td hidden rel="productIndex" th:text="${cart.getProductIndex()}"></td>
+                <td hidden rel="maxQuantity" th:text="${cart.getMaxQuantity()}"></td>
+                <td hidden rel="cartIndex" th:text="${cart.getIndex()}"></td>
+                <td>
+                    <input rel="checkBox" type="checkbox" name="checkBox" value="checkBox">
+                </td>
+                <td class="image">
+                    <span hidden>상품 이미지</span>
+                    <div class="image-container" rel="imageContainer">
+                        <img class="product-image" alt="상품 이미지"
+                             th:src="|/bbs/thumbnail?index=${cart.getProductIndex()}|">
+                    </div>
+                </td>
+                <td class="product-info">
+                    <a rel="proId" th:text="${cart.getTitle()}">상품</a>
+                </td>
+                <td>
+                    <div>
+                        <div rel="productQuantity" th:text="${cart.getQuantity()}">1</div>
+                        <button rel="modifyButton" class="--object-button" type="button" id="modifyButton">주문수정</button>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <div rel="eachSalePrice" th:text="${cart.getSalePrice()}">1원</div>
+                    </div>
+                </td>
+                <td>
+                    <label class="label">
+                        <span hidden>합계</span>
+                        <div rel="itemPriceSum" th:text="${cart.getSalePrice() * cart.getQuantity()}">3000원</div>
+                    </label>
+                </td>
+                <form rel="orderForm">
+
+                    <div class="modify-container" id="modifyContainer">
+                        <div class="modify-frame" id="modifyFrame">
+                            <div class="modify-title">
+                                <div>주문 변경</div>
+                                <button rel="cancelButton" type="button" class="cancel-button">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                            <div class="modify-body">
+                                <div>
+                                    <img rel="modifyImage" class="detail-img" alt="" th:src="|/bbs/thumbnail?index=${205}|">
+                                </div>
+                                <div class="product-info">
+                                    <div rel="modifyTitle">상품</div>
+                                    <div rel="modifyPrice">3000</div>
+                                </div>
+                            </div>
+                            <div class="detail-order-container">
+                                <p class="order-text">수량</p>
+                                <div class="detail-info-container">
+                                    <div class="info-quantity-box">
+                                        <button disabled class="info-button" name="minusButton" rel="minusButton" type="button">-</button>
+                                        <input class="info-number" min="1" max="100" name="infoNumber" rel="infoNumber"
+                                               value="1"
+                                               type="number">
+                                        <button class="info-button" name="plusButton" rel="plusButton" type="button">+</button>
+                                        <div class="just-space"></div>
+                                        <input disabled class="info-price" rel="infoPrice" name="infoPrice"
+                                               value="1">
+                                    </div>
+                                </div>
+                                <div class="detail-charge-container">
+                                <span class="charge-info">
+                                총 상품 금액
+                                </span>
+                                    <span class="charge-quantity" rel="chargeQuantity">총 수량 1개</span>
+                                    <span class="charge-price"
+                                          rel="chargePrice">22,700원</span>
+                                </div>
+                            </div>
+                            <div class="select-button">
+                                <button rel="modifyCancelButton" class="cancel --object-button" type="button">취소</button>
+                                <button rel="modifyConfirmButton" class="confirm --object-button" type="button">확인</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </tr>
+            </tbody>
+        </table>
+        <table class="delete-container">
+            <tr>
+                <td>
+                    <button id="deleteButton" rel="deleteButton" class="--object-button" type="button">선택 삭제</button>
+                </td>
+            </tr>
+        </table>
+        <div class="info-footer">
+            <div>
+                <table>
+                    <tr class="info-container">
+                        <td colspan="6">
+                            <div class="info">
+                                <div>
+                                    <span>상품금액</span>
+                                    <div rel="salePrice">0</div>
+                                </div>
+                                <i class="fa-solid fa-plus"></i>
+                                <div>
+                                    <span>배송비</span>
+                                    <div rel="deliveryFee">3000</div>
+                                </div>
+                                <i class="fa-solid fa-equals"></i>
+                                <div>
+                                    <span>결제금액</span>
+                                    <span rel="totalPrice">6000</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <button rel="orderButton" type="button" class="--object-button">주문하기
+                    <span class="info-quantity">1</span>
+                </button>
+            </div>
+        </div>
+    </form>
+</main>
+<!-- cover -->
+<th:block th:replace="~{fragments/body :: dialog}"></th:block>
+<th:block th:replace="~{fragments/body :: cover}"></th:block>
+<th:block th:replace="~{fragments/body :: footer}"></th:block>
+</body>
+</html>
