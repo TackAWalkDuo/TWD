@@ -352,7 +352,6 @@ public class ShopController extends GeneralController {
         return responseObject.toString();
     }
 
-    //todo :리뷰 값 끌고오는 comment맵핑
     @GetMapping(value = "comment", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public CommentVo[] getComment(@Param(value = "index") int index,
@@ -360,7 +359,6 @@ public class ShopController extends GeneralController {
         return this.shopService.getComments(index, user);
     }
 
-    //todo :리뷰 이미지 끌고오는 comment맵핑
     @GetMapping(value = "commentImage")
     public ResponseEntity<byte[]> getCommentImage(@RequestParam(value = "index") int index) {
         ResponseEntity<byte[]> responseEntity;
