@@ -28,6 +28,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -201,8 +202,10 @@ public class ShopService {
             }
         } else {
             byte[] imageInByte;
-            File defaultImage = new File("src/main/resources/static/resources/images/ingImage.jpeg");
-            defaultImage.setReadable(true, false);
+//            File defaultImage = new File("src/main/resources/static/resources/images/ingImage.jpeg");
+            InputStream defaultImage = getClass().getResourceAsStream("/static/resources/images/ingImage.jpeg");
+
+//            defaultImage.setReadable(true, false);
 
             BufferedImage originalImage = ImageIO.read(defaultImage);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
