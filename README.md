@@ -12,9 +12,9 @@
 ### 총원: 4명
 :chicken: JChBeen(전찬빈/팀 리더) - DB 구축, 산책추천 페이지 ,카카오맵 API연동관리자 페이지,프로젝트 백엔드 구성 총괄
 <br>
-:snake: MasonGeon(조무건/팀원)  -  Community페이지, shop Review페이지, 대댓글 Review 파트 구축, Dialog 구축, 검색 기능 구현, Paging 구축 프로젝트 디자인 및 기획 구성 총괄
+:snake: MasonGeon(조무건/팀원)  - 자유게시판 페이지, 좋아요 기능, 대댓글 Review 파트 구축, Dialog 구축, 검색 기능 구현, Paging 구축 프로젝트 디자인 및 기획 구성 총괄
 <br>
-:pig: dev-jgk(곽재광/팀원)  -  shop페이지, 장바구니페이지, 제품 상세 페이지 및 결제 페이지, Paging 구축
+:pig: dev-jgk(곽재광/팀원)  -  shop페이지, 장바구니페이지, 제품 상세 페이지 및 결제 페이지, shop Review페이지 Paging 구축
 <br>
 :pig: rmsgh1202(고근호/팀원) - 마이페이지(회원정보 수정 파트) 구축, 회원가입, 로그인카카오 API연동관리자 페이지
 <br>
